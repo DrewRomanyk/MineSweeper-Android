@@ -1,0 +1,17 @@
+
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:minHeight="0dp"
+    android:minWidth="0dp"
+    android:gravity="center|start"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:drawablePadding="8dp"
+    android:background="?attr/selectableItemBackground"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:text="@string/nav_leaderboards"
+    android:drawableLeft="@drawable/ic_nav_leaderboards"
+    android:drawableStart="@drawable/ic_nav_leaderboards"
+    android:id="@+id/rowNavItem" />

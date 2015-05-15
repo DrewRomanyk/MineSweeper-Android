@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="nav_titles">
+        <item>Leaderboards</item>
+        <item>Achievements</item>
+        <item>Statistics</item>
+        <item>Settings</item>
+        <item>Help</item>
+        <item>About</item>
+    </string-array>
+
+    <array name="nav_icons">
+        <item>@drawable/ic_nav_leaderboards</item>
+        <item>@drawable/ic_nav_achievements</item>
+        <item>@drawable/ic_nav_stats</item>
+        <item>@drawable/ic_nav_settings</item>
+        <item>@drawable/ic_nav_help</item>
+        <item>@drawable/ic_nav_about</item>
+    </array>
+</resources>

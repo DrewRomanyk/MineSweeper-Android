@@ -1,0 +1,146 @@
+<!-- The important thing to note here is the added fitSystemWindows -->
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity"
+    android:id="@+id/my_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <!-- Your normal content view -->
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/ad_id"/>
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/toolbar"
+            android:layout_above="@id/adView"
+            android:scrollbars="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/resumeGame"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardCornerRadius="5dp">
+
+                    <TextView
+                        android:onClick="resumeGame"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="@string/game_difficulty_resume"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:textSize="24sp"/>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/customGame"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardCornerRadius="5dp">
+
+                    <TextView
+                        android:onClick="customGame"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="@string/game_difficulty_custom"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:textSize="24sp"/>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/easyGame"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardCornerRadius="5dp">
+
+                    <TextView
+                        android:onClick="easyGame"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="@string/game_difficulty_easy"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:textSize="24sp"/>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/mediumGame"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardCornerRadius="5dp">
+
+                    <TextView
+                        android:onClick="mediumGame"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="@string/game_difficulty_medium"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:textSize="24sp"/>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/expertGame"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardCornerRadius="5dp">
+
+                    <TextView
+                        android:onClick="expertGame"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:text="@string/game_difficulty_expert"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:textSize="24sp"/>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+    <!-- Your drawer view. This can be any view, LinearLayout
+     is just an example. As we have set fitSystemWindows=true
+     this will be displayed under the status bar. -->
+    <FrameLayout
+        android:layout_gravity="start"
+        android:layout_width="300dp"
+        android:layout_height="match_parent">
+        <include layout="@layout/nav_drawer_temp"/>
+    </FrameLayout>
+</android.support.v4.widget.DrawerLayout>
+

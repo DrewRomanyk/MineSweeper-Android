@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- APP -->
+    <string name="app_name">Minesweeper</string>
+    <string name="version_name">1.0.2</string>
+
+
+    <!-- NAV DRAWER -->
+    <string name="nav_header_playername_empty">SIGN IN</string>
+    <string name="nav_leaderboards">Leaderboards</string>
+    <string name="nav_achievements">Achievements</string>
+    <string name="nav_stats">Statistics</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_help">Help</string>
+    <string name="nav_about">About</string>
+
+    <!-- MENU -->
+    <string name="menu_restart">New Game</string>
+    <string name="menu_flag">Flag Mode</string>
+    <string name="menu_wipe">Wipe Statistics</string>
+
+    <!-- DIALOG -->
+    <!-- CANCELRESUME -->
+    <string name="dialog_cancelresume_title">Create a New Game?</string>
+    <string name="dialog_cancelresume_message">There is an unfinished game that could count as a loss, do you still wish to start a new game?</string>
+    <!-- HELP -->
+    <string name="dialog_help_title">Help</string>
+    <string name="dialog_help_message">"HOW TO PLAY:
+    Minesweeper is a puzzle game in which the player must uncover all the cells that aren't mines without uncovering a mine cell. Cells can either be mines or the amount of mines in the 8 neighboring cells near them. The player can deduce from the non-mine cells where the mines could be at. Players can place a flag on a cell that they think is a mine.
+    \nCONTROLS:
+Normal:
+ • Tap a cell to reveal it
+ • Tap and hold a cell to flag it
+ • Tap a numbered cell that has that many flags near it to clear near unflagged cells ( Swift Open )
+ • Tap a empty cell to change your control mode swiftly ( Swift Change )
+
+Flag:
+ • Tap a cell to flag it
+ • Tap and hold a cell to reveal it
+ • Tap a numbered cell that has that many flags near it to clear near unflagged cells ( Swift Open )
+ • Tap a empty cell to change your control mode swiftly ( Swift Change )
+    \nSCORES:
+    The scores are based on 3BV per second, which 3BV is a way to measure the difficulty of a Minesweeper board based off of the amount of clicks it would take to solve the board.
+    \nSUPPORT:
+    Please email the developer at drew.romanyk@gmail.com for any concerns or feedback."
+    </string>
+    <!-- ABOUT -->
+    <string name="dialog_about_title">About</string>
+    <string name="dialog_about_message">Minesweeper is a free app provided by Drew Romanyk. Please contact him at drew.romanyk@gmail.com if you have any feedback.</string>
+    <!-- CUSTOMGAMEERROR -->
+    <string name="dialog_customgameerror_title">Custom Game Settings Error</string>
+    <string name="dialog_customgameerror_message">The amount of bombs you selected arent valid for the amount of cells in the game.</string>
+    <!-- NEEDGOOGLE -->
+    <string name="dialog_needgoogle_title">Login to Google Games?</string>
+    <string name="dialog_needgoogle_message">To access this feature you need to login to Google Games, do you wish to login?</string>
+    <!-- TRASH STATS -->
+    <string name="dialog_trashstats_title">Wipe all statistics?</string>
+    <string name="dialog_trashstats_message">You will not be able to restore your statistics, are you sure you want to continue?</string>
+
+    <!-- GAME ACTIVITY-->
+    <!-- GAME DIFFICULTY -->
+    <string name="game_difficulty_resume">Resume</string>
+    <string name="game_difficulty_easy">Easy</string>
+    <string name="game_difficulty_medium">Medium</string>
+    <string name="game_difficulty_expert">Expert</string>
+    <string name="game_difficulty_custom">Custom</string>
+    <!-- GAME BAR -->
+    <string name="game_bar_time_title">Time: </string>
+    <string name="game_bar_score_title">Score: 0.000</string>
+    <string name="game_bar_mine_title">Mines: </string>
+
+
+    <!-- GOOGLE GAMES -->
+    <string name="signin_other_error">There was an issue with sign in.  Please try again later.</string>
+    <string name="preference_cellsize">cellSize_seek</string>
+    <string name="preference_rowcount">row_seek</string>
+    <string name="preference_columncount">column_seek</string>
+    <string name="preference_minecount">mine_seek</string>
+    <string name="preference_vibration">vibration_check</string>
+    <string name="preference_sound">sound_check</string>
+    <string name="preference_swiftopen">swiftopen_check</string>
+    <string name="preference_swiftchange">swiftchange_check</string>
+    <string name="preference_volumebutton">volumebutton_check</string>
+    <string name="preference_screenon">screenon_check</string>
+    <string name="preference_navdrawer">navdrawer_check</string>
+    <string name="preference_lightmode">lightmode_check</string>
+
+</resources>

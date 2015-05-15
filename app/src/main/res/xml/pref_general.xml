@@ -1,0 +1,92 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://robobunny.com"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto">
+
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <PreferenceCategory
+        android:title="Cell Button Settings">
+        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
+            android:key="cellSize_seek"
+            android:title="Cell Size"
+            app:min="50"
+            android:defaultValue="100"
+            android:max="150"
+            app:unitsLeft="   "
+            app:unitsRight="%"/>
+        <!--
+        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
+            android:key="longpress_seek"
+            android:title="Long Press Duration"
+            app:min="250"
+            android:defaultValue="500"
+            android:max="750"
+            app:unitsLeft="   "
+            app:unitsRight=""/>
+            -->
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Custom Game Settings">
+        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
+            android:key="row_seek"
+            android:title="Rows"
+            app:min="9"
+            android:defaultValue="9"
+            android:max="16"
+            app:unitsLeft="   "
+            app:unitsRight=""/>
+        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
+            android:key="column_seek"
+            android:title="Columns"
+            app:min="9"
+            android:defaultValue="9"
+            android:max="30"
+            app:unitsLeft="   "
+            app:unitsRight=""/>
+        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
+            android:key="mine_seek"
+            android:title="Mines"
+            app:min="10"
+            android:defaultValue="10"
+            android:max="64"
+            app:unitsLeft="   "
+            app:unitsRight=""/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Game Settings">
+        <SwitchPreference
+            android:key="lightmode_check"
+            android:title="Light UI Mode"
+            android:defaultValue="false" />
+        <SwitchPreference
+            android:key="sound_check"
+            android:title="Sound Effects"
+            android:defaultValue="true" />
+        <SwitchPreference
+            android:key="vibration_check"
+            android:title="Vibration"
+            android:defaultValue="true" />
+        <SwitchPreference
+            android:key="screenon_check"
+            android:title="Keep Screen On"
+            android:defaultValue="false" />
+        <SwitchPreference
+            android:key="volumebutton_check"
+            android:title="Volume Button Flag Mode"
+            android:defaultValue="true" />
+        <SwitchPreference
+            android:key="swiftchange_check"
+            android:title="Swift Change Mode"
+            android:defaultValue="true"/>
+        <SwitchPreference
+            android:key="swiftopen_check"
+            android:title="Swift Open"
+            android:defaultValue="true" />
+        <SwitchPreference
+            android:key="navdrawer_check"
+            android:title="Allow Navigation Drawer"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
