@@ -1,52 +1,73 @@
 package app.drewromanyk.com.minesweeper.activities;
 
-import android.content.Context;
+import android.app.ActivityManager;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.view.Gravity;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.google.example.games.basegameutils.BaseGameUtils;
+import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-
-import app.drewromanyk.com.minesweeper.models.Board;
 import app.drewromanyk.com.minesweeper.R;
-import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
-import app.drewromanyk.com.minesweeper.enums.GameStatus;
-import app.drewromanyk.com.minesweeper.enums.ImageDownloadType;
+import app.drewromanyk.com.minesweeper.fragment.PlayFragment;
+import app.drewromanyk.com.minesweeper.fragment.StatsFragment;
 import app.drewromanyk.com.minesweeper.enums.ResultCodes;
-import app.drewromanyk.com.minesweeper.network.ImageDownloader;
+import app.drewromanyk.com.minesweeper.models.YesNoDialogInfo;
+import app.drewromanyk.com.minesweeper.util.BaseGameUtils;
+import app.drewromanyk.com.minesweeper.util.DialogInfoUtils;
+import app.drewromanyk.com.minesweeper.util.Helper;
+import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Created by Drew on 1/10/2015.
+ */
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-public class MainActivity extends BaseActivity {
-    //CONSTANTS
-    private static final String TAG = "taco";
-    private final Context context = this;
-
-    //VARIABLES
-    private CardView resumeButton;
-    //GOOGLE GAMES
-    protected static GoogleApiClient googleApiClient;
+    //ADS
+    private AdView mAdView;
+    //NAV DRAWER
+    private DrawerLayout drawerLayout;
+    private NavigationView navView;
+    // GOOGLE GAMES
+    private GoogleApiClient googleApiClient;
     private boolean mResolvingConnectionFailure = false;
     private boolean mSignInClicked = false;
-    protected boolean mAutoStartSignInFlow = true;
-
+    private boolean mAutoStartSignInFlow = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mAutoStartSignInFlow = true;
-        setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        setupGoogleGames();
+        setupTaskActivityInfo();
+        setupDrawerContent((DrawerLayout) findViewById(R.id.drawer_layout), (NavigationView) findViewById(R.id.nav_view));
+        setupFragmentContent(savedInstanceState);
+        setupAds();
+    }
+
+    private void setupGoogleGames() {
+        mAutoStartSignInFlow = true;
 
         // Create the Google API Client with access to Plus and Games
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -55,81 +76,179 @@ public class MainActivity extends BaseActivity {
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        baseGoogleApiClient = googleApiClient;
+    }
 
-        //Get a Tracker (should auto-report)
-        ((MyApplication) getApplication()).getTracker(MyApplication.TrackerName.APP_TRACKER);
+    // Task for Recent Apps
+    private void setupTaskActivityInfo() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // only for LOLLIPOP and newer versions
+            ActivityManager.TaskDescription tDesc = new ActivityManager.TaskDescription(
+                    getString(R.string.app_name),
+                    BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_icon),
+                    getResources().getColor(R.color.primary_task));
+            setTaskDescription(tDesc);
+        }
+    }
 
-        resumeButton = (CardView) findViewById(R.id.resumeGame);
+    protected void setupDrawerContent(final DrawerLayout drawerLayout, NavigationView navigationView) {
+        this.drawerLayout = drawerLayout;
+        this.navView = navigationView;
+
+        navView.findViewById(R.id.nav_header).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (googleApiClient.isConnected()) {
+                    Games.signOut(googleApiClient);
+                    googleApiClient.disconnect();
+
+                    ((TextView) navView.findViewById(R.id.name)).setText(getString(R.string.nav_header_playername_empty));
+                    Picasso.with(v.getContext()).load(R.drawable.person_image_empty).into((ImageView) navView.findViewById(R.id.avatar));
+                    Picasso.with(v.getContext()).load(R.color.background_material_dark).into((ImageView) navView.findViewById(R.id.cover));
+
+                } else {
+                    mSignInClicked = true;
+                    googleApiClient.connect();
+                }
+            }
+        });
+
+        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(final MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_play:
+                                transaction.replace(R.id.content_fragment, new PlayFragment());
+                                transaction.commit();
+                                break;
+                            case R.id.nav_leaderboards:
+                                if (googleApiClient.isConnected())
+                                    startActivityForResult(Games.Leaderboards
+                                            .getAllLeaderboardsIntent(googleApiClient), ResultCodes.LEADERBOARDS.ordinal());
+                                else
+                                    showYesNoDialog(ResultCodes.NEEDGOOGLE_DIALOG.ordinal());
+                                break;
+                            case R.id.nav_achievements:
+                                if (googleApiClient.isConnected())
+                                    startActivityForResult(Games.Achievements
+                                            .getAchievementsIntent(googleApiClient), ResultCodes.ACHIEVEMENTS.ordinal());
+                                else
+                                    showYesNoDialog(ResultCodes.NEEDGOOGLE_DIALOG.ordinal());
+                                break;
+                            case R.id.nav_statistics:
+                                transaction.replace(R.id.content_fragment, new StatsFragment());
+                                transaction.commit();
+                                break;
+                            case R.id.nav_help:
+                                showYesNoDialog(ResultCodes.HELP_DIALOG.ordinal());
+                                break;
+                            case R.id.nav_about:
+                                showYesNoDialog(ResultCodes.ABOUT_DIALOG.ordinal());
+                                break;
+                            case R.id.nav_settings:
+                                startActivity(new Intent(navView.getContext(), SettingsActivity.class));
+                                break;
+                        }
+                        drawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+    }
+
+    protected void setupFragmentContent(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.content_fragment, new PlayFragment())
+                    .commit();
+        }
+    }
+
+    // AdView on bottom of screen
+    private void setupAds() {
+        mAdView = (AdView) findViewById(R.id.adView);
+        mAdView.setAdListener(new AdListener() { // no overrides
+        });
+        mAdView.loadAd(new AdRequest.Builder()
+                        .build()
+        );
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        mAdView.pause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAdView.resume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mAdView.destroy();
+        super.onDestroy();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         googleApiClient.connect();
-
-        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
-        GoogleAnalytics.getInstance(this).reportActivityStart(this);
-
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int status = preferences.getInt("STATUS", GameStatus.DEFEAT.ordinal());
-
-        if(status == GameStatus.PLAYING.ordinal()) {
-            resumeButton.setVisibility(View.VISIBLE);
-        } else {
-            resumeButton.setVisibility(View.GONE);
-        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+
         if (googleApiClient.isConnected()) {
             googleApiClient.disconnect();
         }
-        //Stop the analytics tracking
-        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
-    @Override
-    protected void initToolbar() {
-        super.initToolbar();
-        if (getSupportActionBar() != null) {
-            toolbar.setNavigationIcon(R.drawable.ic_drawer);
-        }
-    }
+    /*
+     * DIALOGS
+     */
 
-    @Override
-    protected void initDrawer() {
-        super.initDrawer();
-
-        if (getSupportActionBar() != null) {
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    navDrawerInfo.getDrawerLayout().openDrawer(Gravity.START);
-                }
-            });
-        }
-    }
-
-    @Override
-    protected void doNavDrawerActions(int position) {
-        super.doNavDrawerActions(position);
-
-        if(position == 0) {
-            if (googleApiClient.isConnected()) {
-                Games.signOut(googleApiClient);
-                googleApiClient.disconnect();
-                navDrawerInfo.getHeaderInfo().setPlayerToEmpty();
-                navDrawerInfo.getRecyclerView().getAdapter().notifyItemChanged(0);
-            } else {
-                mSignInClicked = true;
-                googleApiClient.connect();
-            }
-        }
+    public void showYesNoDialog(final int requestCode) {
+        YesNoDialogInfo dialogInfo = DialogInfoUtils.getInstance(this).getDialogInfo(requestCode);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(dialogInfo.getTitle())
+                .setMessage(dialogInfo.getDescription())
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(requestCode == ResultCodes.NEEDGOOGLE_DIALOG.ordinal()) {
+                            mSignInClicked = true;
+                            googleApiClient.connect();
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                })
+                .create();
+        dialog.show();
     }
 
     @Override
@@ -144,38 +263,28 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void doPositiveClick(int REQUEST_CODE) {
-        super.doPositiveClick(REQUEST_CODE);
-        if (REQUEST_CODE == ResultCodes.NEEDGOOGLE_DIALOG.ordinal()) {
-            mSignInClicked = true;
-            googleApiClient.connect();
-        }else if(REQUEST_CODE == ResultCodes.RESUME_DIALOG.ordinal()) {
-            loadResumeGameForStats();
-            startGameIntent();
-        }
-    }
+
 
     /*
-     * GOOGLE GAME CONNECTION
+     * GOOGLE PLAY GAMES
      */
 
     @Override
     public void onConnected(Bundle bundle) {
-        if ( isOnline() && Plus.PeopleApi.getCurrentPerson(googleApiClient) != null) {
+        if ( Helper.isOnline(this) && Plus.PeopleApi.getCurrentPerson(googleApiClient) != null) {
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient);
-            navDrawerInfo.getHeaderInfo().setName(currentPerson.getDisplayName());
-            navDrawerInfo.getHeaderInfo().setEmail(Plus.AccountApi.getAccountName(googleApiClient));
+            ((TextView) navView.findViewById(R.id.name)).setText(currentPerson.getDisplayName());
 
             String playerAvatarURL = currentPerson.getImage().getUrl();
             int index = playerAvatarURL.indexOf("?sz=");
             if (index != -1) {
                 playerAvatarURL = playerAvatarURL.substring(0, index) + "?sz=200";
             }
-            new ImageDownloader(ImageDownloadType.AVATAR).execute(playerAvatarURL);
+
+            Picasso.with(this).load(playerAvatarURL).placeholder(R.drawable.person_image_empty).into(((CircleImageView) navView.findViewById(R.id.avatar)));
             if(currentPerson.getCover() != null && currentPerson.getCover().hasCoverPhoto()) {
                 String playerCoverURL = currentPerson.getCover().getCoverPhoto().getUrl();
-                new ImageDownloader(ImageDownloadType.COVER).execute(playerCoverURL);
+                Picasso.with(this).load(playerCoverURL).placeholder(R.color.background_material_dark).into(((ImageView) navView.findViewById(R.id.cover)));
             }
         }
     }
@@ -211,94 +320,5 @@ public class MainActivity extends BaseActivity {
         }
 
         // Put code here to display the sign-in button
-
     }
-
-    /*
-         * DIFFICULTY BUTTONS CHOICES
-         */
-    public void resumeGame(View view){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int status = preferences.getInt("STATUS", GameStatus.DEFEAT.ordinal());
-
-        if(status == GameStatus.PLAYING.ordinal()) {
-            gameMode = GameDifficulty.RESUME;
-            startGame();
-        }
-    }
-    public void customGame(View view) {
-        gameMode = GameDifficulty.CUSTOM;
-        startGame();
-    }
-    public void easyGame(View view) {
-        gameMode = GameDifficulty.EASY;
-        startGame();
-    }
-    public void mediumGame(View view) {
-        gameMode = GameDifficulty.MEDIUM;
-        startGame();
-    }
-    public void expertGame(View view) {
-        gameMode = GameDifficulty.EXPERT;
-        startGame();
-    }
-
-    private void startGame() {
-        if(resumeButton.getVisibility() == View.VISIBLE) {
-            //A current game exists, ask if they want to delete
-            if(gameMode == GameDifficulty.RESUME) {
-                startGameIntent();
-            } else {
-                showYesNoDialog(ResultCodes.RESUME_DIALOG.ordinal());
-            }
-        } else {
-            //no current game exists, create new game
-            startGameIntent();
-        }
-    }
-
-    private void startGameIntent() {
-        Intent startGame = new Intent(this, GameActivity.class);
-        startActivity(startGame);
-    }
-
-    private void loadResumeGameForStats() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int rows = preferences.getInt("ROWS", 0);
-        int columns = preferences.getInt("COLUMNS", 0);
-
-        if(!(rows == 0 || columns == 0)) {
-            int difficulty = preferences.getInt("DIFFICULTY", 0);
-            long time = preferences.getLong("TIME", 0);
-            int mineCount = preferences.getInt("MINE_COUNT", 0);
-            GameStatus status = GameStatus.values()[preferences.getInt("STATUS", GameStatus.DEFEAT.ordinal())];
-            int[][] cellValues = new int[rows][columns];
-            boolean[][] cellRevealed = new boolean[rows][columns];
-            boolean[][] cellFlagged = new boolean[rows][columns];
-
-            try {
-                JSONArray cellValuesJ = new JSONArray(preferences.getString("CELL_VALUES", "[]"));
-                JSONArray cellRevealedJ = new JSONArray(preferences.getString("CELL_REVEALED", "[]"));
-                JSONArray cellFlaggedJ = new JSONArray(preferences.getString("CELL_FLAGGED", "[]"));
-
-                int counter = 0;
-                for(int r = 0; r < rows; r++) {
-                    for (int c = 0; c < columns; c++) {
-                        cellValues[r][c] = cellValuesJ.getInt(counter);
-                        cellRevealed[r][c] = cellRevealedJ.getBoolean(counter);
-                        cellFlagged[r][c] = cellFlaggedJ.getBoolean(counter);
-                        counter++;
-                    }
-                }
-
-
-                Board resumeStatBoard = new Board(mineCount, cellValues, cellRevealed, cellFlagged, status, difficulty, time, context);
-                resumeStatBoard.updateLocalStatistics();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }

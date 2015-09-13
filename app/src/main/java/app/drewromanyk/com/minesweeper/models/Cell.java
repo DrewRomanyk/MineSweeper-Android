@@ -7,8 +7,7 @@ import android.widget.ImageView;
 
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.activities.GameActivity;
-import app.drewromanyk.com.minesweeper.activities.MainActivity;
-import app.drewromanyk.com.minesweeper.util.UserPreferenceStorage;
+import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 /**
  * Created by Drew on 12/7/2014.
@@ -16,7 +15,7 @@ import app.drewromanyk.com.minesweeper.util.UserPreferenceStorage;
 
 public class Cell {
     private static final String PACKAGE_NAME = "app.drewromanyk.com.minesweeper";
-    private Context context;
+    private GameActivity gameActivity;
     //cell value
     private final static int MINE = -1;
 
@@ -31,34 +30,43 @@ public class Cell {
     public Cell() {}
 
     //context is for the creation of the image button
-    public Cell(int row, int column, Context context) {
-        this(row, column, 0, false, false, context);
+    public Cell(int row, int column, GameActivity gameActivity) {
+        this(row, column, 0, false, false, gameActivity);
 
     }
 
     //create exisiting cell for resume
-    public Cell(int row, int column, int value, boolean reveal, boolean flagged, Context context) {
+    public Cell(int row, int column, int value, boolean reveal, boolean flagged, GameActivity gameActivity) {
         this.reveal = reveal;
         this.flagged = flagged;
         this.value = value;
         this.row = row;
         this.column = column;
-        this.context = context;
+        this.gameActivity = gameActivity;
 
         createButton();
     }
 
+    //create exisiting cell for resume
+    public Cell(int row, int column, int value, boolean reveal, boolean flagged) {
+        this.reveal = reveal;
+        this.flagged = flagged;
+        this.value = value;
+        this.row = row;
+        this.column = column;
+    }
+
     // Create image button with gridlayout values, and correct image
     private void createButton() {
-        cellButton = new ImageButton(context);
+        cellButton = new ImageButton(gameActivity);
         cellButton.setLayoutParams(new GridLayout.LayoutParams());
         updateImageValue();
     }
 
     // Update size of cell based on density of screen & pinch scale & Preferences
     private void updateButtonSize() {
-        final double densityScale = context.getResources().getDisplayMetrics().density / 3;
-        int cellSize =(int) ((((1.0 * UserPreferenceStorage.getCellSize(context)) / 100) * 100) * GameActivity.pinchScale * densityScale);
+        final double densityScale = gameActivity.getResources().getDisplayMetrics().density / 3;
+        int cellSize =(int) ((((1.0 * UserPrefStorage.getCellSize(gameActivity)) / 100) * 100) * 1 * densityScale);
         cellButton.getLayoutParams().width = cellSize;
         cellButton.getLayoutParams().height = cellSize;
         cellButton.setMinimumHeight(1);
@@ -70,32 +78,33 @@ public class Cell {
 
     // Updates the cells image and size of the button
     protected void updateImageValue() {
-        int id = (UserPreferenceStorage.getLightMode(context)) ? R.drawable.ic_cell_unknown_light : R.drawable.ic_cell_unknown;
+        int id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_unknown_light : R.drawable.ic_cell_unknown;
 
         if(isUnknownFlagCell()) {
-            id = (UserPreferenceStorage.getLightMode(context)) ? R.drawable.ic_cell_unknownflag_light : R.drawable.ic_cell_unknownflag;
+            id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_unknownflag_light : R.drawable.ic_cell_unknownflag;
         } else if(isFlaggedCell()) {
-            id = (UserPreferenceStorage.getLightMode(context)) ? R.drawable.ic_cell_flag_light : R.drawable.ic_cell_flag;
+            id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_flag_light : R.drawable.ic_cell_flag;
         } else if(isRevealedNumCell()) {
-            if(UserPreferenceStorage.getLightMode(context)) {
-                id = GameActivity.activity.getResources().getIdentifier(
+            if(UserPrefStorage.getLightMode(gameActivity)) {
+                id = gameActivity.getResources().getIdentifier(
                         "ic_cell_" + getValue() + "_light", "drawable", PACKAGE_NAME);
             } else {
-                id = GameActivity.activity.getResources().getIdentifier(
+                id = gameActivity.getResources().getIdentifier(
                         "ic_cell_" + getValue(), "drawable", PACKAGE_NAME);
             }
+            if(getValue() == 0) id = android.R.color.transparent;
         } else if(isRevealedFlaggedBombCell()) {
-            id = (UserPreferenceStorage.getLightMode(context)) ? R.drawable.ic_cell_bombflagged_light : R.drawable.ic_cell_bombflagged;
+            id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_bombflagged_light : R.drawable.ic_cell_bombflagged;
         } else if(isRevealedUnflaggedBombCell()) {
-            id = (UserPreferenceStorage.getLightMode(context)) ? R.drawable.ic_cell_bomb_light : R.drawable.ic_cell_bomb;
+            id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_bomb_light : R.drawable.ic_cell_bomb;
         }
 
-        getButton().setBackgroundDrawable(context.getResources().getDrawable(id));
+        getButton().setBackgroundDrawable(gameActivity.getResources().getDrawable(id));
         updateButtonSize();
     }
 
     private boolean isUnknownFlagCell() {
-        return (!isRevealed() && !isFlagged() && GameActivity.getFlagMode());
+        return (!isRevealed() && !isFlagged() && gameActivity.getFlagMode());
     }
 
     private boolean isFlaggedCell() {
@@ -116,8 +125,8 @@ public class Cell {
 
     //returns the clicked mine cell image
     protected void updateClickedMine() {
-        int id = (UserPreferenceStorage.getLightMode(context)) ? R.drawable.ic_cell_bombpressed_light : R.drawable.ic_cell_bombpressed;
-        getButton().setBackgroundDrawable(context.getResources().getDrawable(id));
+        int id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_bombpressed_light : R.drawable.ic_cell_bombpressed;
+        getButton().setBackgroundDrawable(gameActivity.getResources().getDrawable(id));
         updateButtonSize();
     }
 

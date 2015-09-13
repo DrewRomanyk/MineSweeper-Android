@@ -2,17 +2,13 @@ package app.drewromanyk.com.minesweeper.network;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.InputStream;
 
-import app.drewromanyk.com.minesweeper.activities.BaseActivity;
+import app.drewromanyk.com.minesweeper.activities.MainActivity;
 import app.drewromanyk.com.minesweeper.enums.ImageDownloadType;
-import app.drewromanyk.com.minesweeper.models.NavDrawerInfo;
-import app.drewromanyk.com.minesweeper.models.NavDrawerInfoTemp;
 import app.drewromanyk.com.minesweeper.util.Helper;
 
 /**
@@ -41,12 +37,12 @@ public class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
     protected void onPostExecute(Bitmap result) {
         switch(imageType) {
             case AVATAR:
-                BaseActivity.navDrawerInfo.getHeaderInfo().setAvatar(result);
-                BaseActivity.navDrawerInfo.getRecyclerView().getAdapter().notifyItemChanged(0);
+//                MainActivity.navDrawerInfo.getHeaderInfo().setAvatar(result);
+//                MainActivity.navDrawerInfo.getRecyclerView().getAdapter().notifyItemChanged(0);
                 break;
             case COVER:
-                BaseActivity.navDrawerInfo.getHeaderInfo().setCover(Helper.getResizedBitmap(result, 150, 300));
-                BaseActivity.navDrawerInfo.getRecyclerView().getAdapter().notifyItemChanged(0);
+//                MainActivity.navDrawerInfo.getHeaderInfo().setCover(Helper.getResizedBitmap(result, 150, 300));
+//                MainActivity.navDrawerInfo.getRecyclerView().getAdapter().notifyItemChanged(0);
                 break;
         }
     }

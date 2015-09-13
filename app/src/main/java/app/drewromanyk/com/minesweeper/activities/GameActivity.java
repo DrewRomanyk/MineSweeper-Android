@@ -1,25 +1,27 @@
 package app.drewromanyk.com.minesweeper.activities;
 
-import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Chronometer;
@@ -28,70 +30,82 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
-import com.google.example.games.basegameutils.BaseGameUtils;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+import app.drewromanyk.com.minesweeper.enums.GameSoundType;
 import app.drewromanyk.com.minesweeper.models.Board;
 import app.drewromanyk.com.minesweeper.R;
-import app.drewromanyk.com.minesweeper.fragment.YesNoDialog;
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
 import app.drewromanyk.com.minesweeper.enums.GameStatus;
-import app.drewromanyk.com.minesweeper.enums.ImageDownloadType;
 import app.drewromanyk.com.minesweeper.enums.ResultCodes;
-import app.drewromanyk.com.minesweeper.network.ImageDownloader;
-import app.drewromanyk.com.minesweeper.util.UserPreferenceStorage;
+import app.drewromanyk.com.minesweeper.models.YesNoDialogInfo;
+import app.drewromanyk.com.minesweeper.util.BaseGameUtils;
+import app.drewromanyk.com.minesweeper.util.DialogInfoUtils;
+import app.drewromanyk.com.minesweeper.util.Helper;
+import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 
-public class GameActivity extends BaseActivity {
+public class GameActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private String TAG = "tacotaco";
+    private static final String TAG = "GameActivity";
 
     private Board minesweeperBoard;
-    //GENERAL
-    public static Context context;
-    public static Activity activity;
-    private static Menu menu;
-    private static FragmentManager fragManager;
-    //Sound
-    public static SoundPool soundEffects;
-    public static ArrayList<Integer> soundIDs;
-    //UI ELEMENTS
+    private AdView mAdView;
+    // SOUNDS
+    private SoundPool soundEffects;
+    private ArrayList<Integer> soundIDs;
+    // UI ELEMENTS
     private ScrollView vScroll;
-    private HorizontalScrollView hScroll;
     private ImageView boardBackground;
-    public static TextView mineKeeperView;
-    public static TextView scoreKeeperView;
-    public static MenuItem refreshButton;
-    public static Chronometer chronometer;
-    public static long lastStopTime;
-    //GAME STATUS
-    public static boolean gamePlaying = false;
+    public TextView mineKeeperView;
+    public TextView scoreKeeperView;
+    public MenuItem refreshButton;
+    public MenuItem flagButton;
+    public Chronometer chronometer;
+    private long lastStopTime;
     //SETTING
-    public static double pinchScale;
-    private static boolean flagMode;
+    private boolean flagMode;
+    public boolean gamePlaying = false;
     //GOOGLE
     //GOOGLE GAMES
-    public static GoogleApiClient googleApiClient;
+    public GoogleApiClient googleApiClient;
     private boolean mResolvingConnectionFailure = false;
     private boolean mSignInClicked = false;
-    protected boolean mAutoStartSignInFlow = false;
+    private boolean mAutoStartSignInFlow = false;
     private boolean mStarted = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mAutoStartSignInFlow = false;
-        setContentView(R.layout.activity_game);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+
+        flagMode = false;
+
+        setupGoogleGames();
+        setupToolbar((Toolbar) findViewById(R.id.toolbar));
+        setupTaskActivityInfo();
+        setupAds();
+        setupBiDirectionalScrolling();
+        setupSoundEffects();
+        setupBoardInfoLayout();
+        setupBoard(savedInstanceState == null);
+        applySettings();
+    }
+
+    private void setupGoogleGames() {
+        mAutoStartSignInFlow = true;
 
         // Create the Google API Client with access to Plus and Games
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -100,34 +114,73 @@ public class GameActivity extends BaseActivity {
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        baseGoogleApiClient = googleApiClient;
+    }
 
-        //Get a Tracker (should auto-report)
-        ((MyApplication) getApplication()).getTracker(MyApplication.TrackerName.APP_TRACKER);
+    private void setupToolbar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
 
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setTitle(R.string.title_activity_settings);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
-        context = this;
-        activity = this;
-        flagMode = false;
-        fragManager = getSupportFragmentManager();
-        pinchScale = 1;
+        toolbar.inflateMenu(R.menu.menu_game);
+        flagButton = toolbar.getMenu().findItem(R.id.action_flag);
+        refreshButton = toolbar.getMenu().findItem(R.id.action_refresh);
+    }
 
-        setupBiDirectionalScrolling();
-        // Sound Effects
+    private void setupTaskActivityInfo() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // only for LOLLIPOP and newer versions
+            getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
+            ActivityManager.TaskDescription tDesc = new ActivityManager.TaskDescription(
+                    getString(R.string.app_name),
+                    BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_icon),
+                    getResources().getColor(R.color.primary_task));
+            setTaskDescription(tDesc);
+        }
+    }
+
+    // AdView on bottom of screen
+    private void setupAds() {
+        mAdView = (AdView) findViewById(R.id.adView);
+        mAdView.setAdListener(new AdListener() { // no overrides
+        });
+        mAdView.loadAd(new AdRequest.Builder()
+                        .build()
+        );
+    }
+
+    private void setupSoundEffects() {
         soundEffects = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         soundIDs = new ArrayList<>();
         soundIDs.add(soundEffects.load(this, R.raw.click_short, 1));
         soundIDs.add(soundEffects.load(this, R.raw.click_long, 1));
         soundIDs.add(soundEffects.load(this, R.raw.effect_win, 1));
         soundIDs.add(soundEffects.load(this, R.raw.effect_lose, 1));
+    }
+
+    private void setupBoardInfoLayout() {
         mineKeeperView = (TextView) findViewById(R.id.mineKeeper);
         scoreKeeperView = (TextView) findViewById(R.id.scoreKeeper);
         boardBackground = (ImageView) findViewById(R.id.boardBackground);
+        boardBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(minesweeperBoard != null && minesweeperBoard.getGameStatus() == GameStatus.PLAYING && UserPrefStorage.getSwiftChange(v.getContext())) {
+                    changeFlagMode(minesweeperBoard);
+                }
+            }
+        });
         chronometer = (Chronometer) findViewById(R.id.timeKeeper);
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
-                if(minesweeperBoard != null) {
+                if (minesweeperBoard != null) {
                     scoreKeeperView.setText("Score: " + minesweeperBoard.getGameScore());
                 } else {
                     scoreKeeperView.setText("Score: 0.000");
@@ -135,57 +188,34 @@ public class GameActivity extends BaseActivity {
 
             }
         });
-        setupBoard(savedInstanceState == null);
+    }
 
-        if(UserPreferenceStorage.getScreenOn(this)) {
+    private void applySettings() {
+        minesweeperBoard.updateCellSize();
+
+        if(UserPrefStorage.getScreenOn(this)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
         // Theme Changing Background
-        if(UserPreferenceStorage.getLightMode(this)) {
+        if(UserPrefStorage.getLightMode(this)) {
             boardBackground.setBackgroundColor(getResources().getColor(R.color.light_background));
             minesweeperBoard.updateCellSize();
         } else {
             boardBackground.setBackgroundColor(Color.parseColor("#424242"));
             minesweeperBoard.updateCellSize();
         }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == ResultCodes.SIGN_IN.ordinal()) {
-            mSignInClicked = false;
-            mResolvingConnectionFailure = false;
-            if (resultCode == RESULT_OK) {
-                googleApiClient.connect();
-            }
-        } else if(requestCode == ResultCodes.SETTINGS.ordinal()) {
-            minesweeperBoard.updateCellSize();
-            // Theme Changing Background
-            if(UserPreferenceStorage.getLightMode(this)) {
-                boardBackground.setBackgroundColor(getResources().getColor(R.color.light_background));
-            } else {
-                boardBackground.setBackgroundColor(Color.parseColor("#424242"));
-            }
-//            if(!UserPreferenceStorage.getNavDrawer(this))
-//                navDrawerInfo.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         googleApiClient.connect();
-
-        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
-        GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     @Override
     protected void onPause() {
+        mAdView.pause();
         super.onPause();
         gamePlaying = (minesweeperBoard.getGameStatus() == GameStatus.PLAYING);
         stopChronometer();
@@ -196,25 +226,34 @@ public class GameActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
+        mAdView.resume();
         if(minesweeperBoard != null && !minesweeperBoard.getFirstRound())
             startChronometer();
+
+        Helper.getGoogAnalyticsTracker(this).setScreenName("Screen~" + "Game");
+        Helper.getGoogAnalyticsTracker(this).send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    protected void onDestroy() {
+        mAdView.destroy();
+        super.onDestroy();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+
         if (googleApiClient.isConnected()) {
             googleApiClient.disconnect();
         }
-        //Stop the analytics tracking
-        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_game, menu);
-        this.menu = menu;
+        flagButton = menu.findItem(R.id.action_flag);
         refreshButton = menu.findItem(R.id.action_refresh);
 
         return true;
@@ -222,16 +261,27 @@ public class GameActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_refresh :
                 if(minesweeperBoard.getGameStatus() == GameStatus.PLAYING) {
-                    showYesNoDialog(ResultCodes.RESTART_DIALOG.ordinal());
+                    YesNoDialogInfo dialogInfo = DialogInfoUtils.getInstance(this).getDialogInfo(ResultCodes.RESTART_DIALOG.ordinal());
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                            .setTitle(dialogInfo.getTitle())
+                            .setMessage(dialogInfo.getDescription())
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    minesweeperBoard.gameOverByRestart();
+                                    setupBoard(true);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {}
+                            })
+                            .create();
+                    dialog.show();
                 } else {
                     setupBoard(true);
                 }
@@ -240,7 +290,7 @@ public class GameActivity extends BaseActivity {
                 changeFlagMode(minesweeperBoard);
                 return true;
             case android.R.id.home :
-                NavUtils.navigateUpFromSameTask(activity);
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
 
@@ -248,12 +298,11 @@ public class GameActivity extends BaseActivity {
     }
 
     @Override
-    //use volume buttons to change flag mode
     public boolean dispatchKeyEvent(KeyEvent event) {
         int action = event.getAction();
         int keyCode = event.getKeyCode();
 
-        if(UserPreferenceStorage.getVolumeButton(this)) {
+        if(UserPrefStorage.getVolumeButton(this)) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_VOLUME_UP:
                     if (action == KeyEvent.ACTION_DOWN) {
@@ -273,147 +322,46 @@ public class GameActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void initToolbar() {
-        super.initToolbar();
-
-        if (toolbar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-        }
-
-        // Inflate a menu to be displayed in the toolbar
-        toolbar.inflateMenu(R.menu.menu_game);
-        refreshButton = toolbar.getMenu().findItem(R.id.action_refresh);
-    }
-
-    @Override
-    protected void initDrawer() {
-        super.initDrawer();
-
-        if(!UserPreferenceStorage.getNavDrawer(this))
-            navDrawerInfo.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-    }
-
-    @Override
-    protected void doNavDrawerActions(int position) {
-        super.doNavDrawerActions(position);
-
-        if(position == 0) {
-            if (googleApiClient.isConnected()) {
-                Games.signOut(googleApiClient);
-                googleApiClient.disconnect();
-                navDrawerInfo.getHeaderInfo().setPlayerToEmpty();
-                navDrawerInfo.getRecyclerView().getAdapter().notifyItemChanged(0);
-            } else {
-                mSignInClicked = true;
-                googleApiClient.connect();
-            }
-        }
-    }
-
-    @Override
     public void doPositiveClick(int REQUEST_CODE) {
-        super.doPositiveClick(REQUEST_CODE);
-        if (REQUEST_CODE == ResultCodes.NEEDGOOGLE_DIALOG.ordinal()) {
-            mSignInClicked = true;
-            googleApiClient.connect();
-        }else if(REQUEST_CODE == ResultCodes.RESTART_DIALOG.ordinal()) {
+        if(REQUEST_CODE == ResultCodes.RESTART_DIALOG.ordinal()) {
             minesweeperBoard.gameOverByRestart();
             setupBoard(true);
-        }else if(REQUEST_CODE == ResultCodes.GAMEOVER_DIALOG.ordinal()) {
+        } else if(REQUEST_CODE == ResultCodes.GAMEOVER_DIALOG.ordinal()) {
             setupBoard(true);
         }
     }
 
     /*
-     * GOOGLE GAME CONNECTION
+     * USER FEEDBACK
      */
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        if ( isOnline() && Plus.PeopleApi.getCurrentPerson(googleApiClient) != null) {
-            Person currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient);
-            navDrawerInfo.getHeaderInfo().setName(currentPerson.getDisplayName());
-            navDrawerInfo.getHeaderInfo().setEmail(Plus.AccountApi.getAccountName(googleApiClient));
-
-            String playerAvatarURL = currentPerson.getImage().getUrl();
-            int index = playerAvatarURL.indexOf("?sz=");
-            if (index != -1) {
-                playerAvatarURL = playerAvatarURL.substring(0, index) + "?sz=200";
-            }
-            new ImageDownloader(ImageDownloadType.AVATAR).execute(playerAvatarURL);
-            if(currentPerson.getCover() != null && currentPerson.getCover().hasCoverPhoto()) {
-                String playerCoverURL = currentPerson.getCover().getCoverPhoto().getUrl();
-                new ImageDownloader(ImageDownloadType.COVER).execute(playerCoverURL);
-            }
+    public void playSoundEffects(GameSoundType type) {
+        if (UserPrefStorage.getSound(this)) {
+            soundEffects.play(soundIDs.get(type.ordinal()), 1, 1, 1, 0, 1.0f);
         }
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-        googleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        if (mResolvingConnectionFailure) {
-            // Already resolving
-            return;
+    public void vibrate() {
+        if (UserPrefStorage.getVibrate(this)) {
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(100);
         }
-
-        // If the sign in button was clicked or if auto sign-in is enabled,
-        // launch the sign-in flow
-        if (mSignInClicked || mAutoStartSignInFlow) {
-            mAutoStartSignInFlow = false;
-            mSignInClicked = false;
-            mResolvingConnectionFailure = true;
-
-            // Attempt to resolve the connection failure using BaseGameUtils.
-            // The R.string.signin_other_error value should reference a generic
-            // error string in your strings.xml file, such as "There was
-            // an issue with sign in, please try again later."
-            if (!BaseGameUtils.resolveConnectionFailure(this,
-                    googleApiClient, connectionResult,
-                    ResultCodes.SIGN_IN.ordinal(), getString(R.string.signin_other_error))) {
-                mResolvingConnectionFailure = false;
-            }
-        }
-
-        // Put code here to display the sign-in button
-
     }
 
-    /*
-     *
-     */
-    public static void showGameOverDialog(GameStatus gameStatus, String message) {
-        DialogFragment dialog = new YesNoDialog();
-        Bundle args = new Bundle();
-        String title = (gameStatus == GameStatus.VICTORY) ? "Victory!" : "Defeat!";
-
-        args.putString("title", title);
-        args.putString("message", message);
-
-        dialog.setArguments(args);
-        dialog.setTargetFragment(dialog, ResultCodes.GAMEOVER_DIALOG.ordinal());
-        dialog.show(fragManager, "tag");
-
-
+    public int getPinchScale() {
+        return 1;
     }
-
-
 
     /*
      * FLAG MODE
      */
 
-    public static boolean getFlagMode() { return flagMode; }
+    public boolean getFlagMode() { return flagMode; }
 
-    public static void changeFlagMode(Board board) {
+    public void changeFlagMode(Board board) {
         flagMode = !flagMode;
         int icon = (flagMode) ? R.drawable.ic_action_flag : R.drawable.ic_action_notflag;
-        menu.getItem(1).setIcon(icon);
+        flagButton.setIcon(icon);
         board.updateCellSize();
 
     }
@@ -422,13 +370,13 @@ public class GameActivity extends BaseActivity {
     /*
      * CHRONOMETER
      */
-    public static void startChronometer() {
+    public void startChronometer() {
         // on first start
         if ( lastStopTime == 0 ) {
             chronometer.setBase(SystemClock.elapsedRealtime());
         } else {
             long intervalOnPause = (SystemClock.elapsedRealtime() - lastStopTime);
-            chronometer.setBase( chronometer.getBase() + intervalOnPause + 500);
+            chronometer.setBase( chronometer.getBase() + intervalOnPause);
         }
         if(gamePlaying) {
             chronometer.start();
@@ -437,7 +385,7 @@ public class GameActivity extends BaseActivity {
         }
     }
 
-    public static void stopChronometer() {
+    public void stopChronometer() {
         lastStopTime = SystemClock.elapsedRealtime();
         chronometer.stop();
     }
@@ -447,28 +395,29 @@ public class GameActivity extends BaseActivity {
      */
 
     private void setupBoard(boolean savedStateIsEmpty) {
+        GameDifficulty gameDifficulty = GameDifficulty.valueOf(getIntent().getStringExtra("gameDifficulty"));
         stopChronometer();
-        if(gameMode == GameDifficulty.RESUME || !savedStateIsEmpty) {
+        if(gameDifficulty == GameDifficulty.RESUME || !savedStateIsEmpty) {
             loadDataForResume();
             return;
         }
 
-        int columns = UserPreferenceStorage.getColumnCount(this);
-        int rows = UserPreferenceStorage.getRowCount(this);
-        int mineCount = UserPreferenceStorage.getMineCount(this);
+        int columns = UserPrefStorage.getColumnCount(this);
+        int rows = UserPrefStorage.getRowCount(this);
+        int mineCount = UserPrefStorage.getMineCount(this);
 
         getSupportActionBar().setTitle(getString(R.string.game_difficulty_custom));
-        if (gameMode == GameDifficulty.EASY) {
+        if (gameDifficulty == GameDifficulty.EASY) {
             columns = 9;
             rows = 9;
             mineCount = 10;
             getSupportActionBar().setTitle(getString(R.string.game_difficulty_easy));
-        } else if (gameMode == GameDifficulty.MEDIUM) {
+        } else if (gameDifficulty == GameDifficulty.MEDIUM) {
             columns = 16;
             rows = 16;
             mineCount = 40;
             getSupportActionBar().setTitle(getString(R.string.game_difficulty_medium));
-        } else if (gameMode == GameDifficulty.EXPERT) {
+        } else if (gameDifficulty == GameDifficulty.EXPERT) {
             columns = 30;
             rows = 16;
             mineCount = 99;
@@ -480,33 +429,33 @@ public class GameActivity extends BaseActivity {
         lastStopTime = 0;
         chronometer.setBase(SystemClock.elapsedRealtime());
 
-        minesweeperBoard = new Board(rows, columns, mineCount, this);
+        minesweeperBoard = new Board(rows, columns, mineCount, gameDifficulty, this);
         gamePlaying = (minesweeperBoard.getGameStatus() == GameStatus.PLAYING);
+
         addBoardToLayout();
     }
 
-    private void setupResumeBoard(int mineCount, GameDifficulty difficulty, GameStatus status, long time,
+    private void setupResumeBoard(int mineCount, GameDifficulty gameDifficulty, GameStatus status, long time,
                                   int[][] cellValues, boolean[][] cellRevealed, boolean[][] cellFlagged) {
-        gameMode = difficulty;
-        lastStopTime = SystemClock.elapsedRealtime() + ((time + 1) * (1000/2));
+        lastStopTime = SystemClock.elapsedRealtime() + (time * 500) + 1000;
 
         getSupportActionBar().setTitle(getString(R.string.game_difficulty_custom));
-        if (gameMode == GameDifficulty.EASY) {
+        if (gameDifficulty == GameDifficulty.EASY) {
             getSupportActionBar().setTitle(getString(R.string.game_difficulty_easy));
-        } else if (gameMode == GameDifficulty.MEDIUM) {
+        } else if (gameDifficulty == GameDifficulty.MEDIUM) {
             getSupportActionBar().setTitle(getString(R.string.game_difficulty_medium));
-        } else if (gameMode == GameDifficulty.EXPERT) {
+        } else if (gameDifficulty == GameDifficulty.EXPERT) {
             getSupportActionBar().setTitle(getString(R.string.game_difficulty_expert));
         }
 
-        minesweeperBoard = new Board(mineCount, cellValues, cellRevealed, cellFlagged, status, this);
+        minesweeperBoard = new Board(mineCount, cellValues, cellRevealed, cellFlagged, gameDifficulty, status, this);
         gamePlaying = (minesweeperBoard.getGameStatus() == GameStatus.PLAYING);
         addBoardToLayout();
     }
 
     private void setupBiDirectionalScrolling() {
 
-        hScroll = (HorizontalScrollView) findViewById(R.id.scrollHorizontal);
+        final HorizontalScrollView hScroll = (HorizontalScrollView) findViewById(R.id.scrollHorizontal);
         vScroll = (ScrollView) findViewById(R.id.scrollVertical);
         // Method One ( IT WORKS )
         vScroll.setOnTouchListener(new View.OnTouchListener() { //inner scroll listener
@@ -562,7 +511,7 @@ public class GameActivity extends BaseActivity {
         editor.putInt("ROWS", minesweeperBoard.getRows());
         editor.putInt("COLUMNS", minesweeperBoard.getColumns());
         editor.putInt("MINE_COUNT", minesweeperBoard.getMineCount());
-        editor.putInt("DIFFICULTY", gameMode.ordinal());
+        editor.putInt("DIFFICULTY", minesweeperBoard.getGameDifficulty().ordinal());
         editor.putInt("STATUS", minesweeperBoard.getGameStatus().ordinal());
         editor.putLong("TIME", minesweeperBoard.getGameSeconds());
 
@@ -589,6 +538,7 @@ public class GameActivity extends BaseActivity {
         int rows = preferences.getInt("ROWS", 0);
         int columns = preferences.getInt("COLUMNS", 0);
 
+
         if(!(rows == 0 || columns == 0)) {
             GameDifficulty difficulty = GameDifficulty.values()[preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal())];
             long time = preferences.getLong("TIME", 0);
@@ -602,7 +552,6 @@ public class GameActivity extends BaseActivity {
                 JSONArray cellValuesJ = new JSONArray(preferences.getString("CELL_VALUES", "[]"));
                 JSONArray cellRevealedJ = new JSONArray(preferences.getString("CELL_REVEALED", "[]"));
                 JSONArray cellFlaggedJ = new JSONArray(preferences.getString("CELL_FLAGGED", "[]"));
-
                 int counter = 0;
                 for(int r = 0; r < rows; r++) {
                     for (int c = 0; c < columns; c++) {
@@ -619,5 +568,61 @@ public class GameActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    /*
+     * GOOGLE GAME CONNECTION
+     */
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ResultCodes.SIGN_IN.ordinal()) {
+            mSignInClicked = false;
+            mResolvingConnectionFailure = false;
+            if (resultCode == RESULT_OK) {
+                googleApiClient.connect();
+            }
+        } else if(requestCode == ResultCodes.SETTINGS.ordinal()) {
+            applySettings();
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        googleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        if (mResolvingConnectionFailure) {
+            // Already resolving
+            return;
+        }
+
+        // If the sign in button was clicked or if auto sign-in is enabled,
+        // launch the sign-in flow
+        if (mSignInClicked || mAutoStartSignInFlow) {
+            mAutoStartSignInFlow = false;
+            mSignInClicked = false;
+            mResolvingConnectionFailure = true;
+
+            // Attempt to resolve the connection failure using BaseGameUtils.
+            // The R.string.signin_other_error value should reference a generic
+            // error string in your strings.xml file, such as "There was
+            // an issue with sign in, please try again later."
+            if (!BaseGameUtils.resolveConnectionFailure(this,
+                    googleApiClient, connectionResult,
+                    ResultCodes.SIGN_IN.ordinal(), getString(R.string.signin_other_error))) {
+                mResolvingConnectionFailure = false;
+            }
+        }
+
+        // Put code here to display the sign-in button
+
     }
 }

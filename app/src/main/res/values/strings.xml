@@ -2,7 +2,7 @@
 <resources>
     <!-- APP -->
     <string name="app_name">Minesweeper</string>
-    <string name="version_name">1.0.2</string>
+    <string name="version_name">1.1.0</string>
 
 
     <!-- NAV DRAWER -->
@@ -72,6 +72,10 @@ Flag:
 
     <!-- GOOGLE GAMES -->
     <string name="signin_other_error">There was an issue with sign in.  Please try again later.</string>
+    <string name="sign_in_failed">Failed to sign in. Please check your network connection and try again.</string>
+    <string name="app_misconfigured">The application is incorrectly configured. Check that the package name and signing certificate match the client ID created in Developer Console. Also, if the application is not yet published, check that the account you are trying to sign in with is listed as a tester account. See logs for more information.</string>
+    <string name="license_failed">License check failed.</string>
+    <string name="unknown_error">Unknown error.</string>
     <string name="preference_cellsize">cellSize_seek</string>
     <string name="preference_rowcount">row_seek</string>
     <string name="preference_columncount">column_seek</string>
@@ -84,5 +88,6 @@ Flag:
     <string name="preference_screenon">screenon_check</string>
     <string name="preference_navdrawer">navdrawer_check</string>
     <string name="preference_lightmode">lightmode_check</string>
+    <string name="game_status">STATUS</string>
 
 </resources>

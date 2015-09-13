@@ -25,8 +25,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="26sp"
                 android:textColor="@color/primary_text_default_material_dark"
-                tools:text="Title"
-                style="@style/textTitle"/>
+                tools:text="Title" />
+                <!--style="@style/textTitle"/>-->
             <LinearLayout
                 android:id="@+id/card_main_list"
                 android:layout_below="@id/card_main_title"

@@ -16,5 +16,6 @@
     <color name="divider">#B6B6B6</color>
     <color name="primary_task">#3949AB</color>
 
+    <color name="window_background">#FFF5F5F5</color>
     <color name="light_background">#eeeeee</color>
 </resources>

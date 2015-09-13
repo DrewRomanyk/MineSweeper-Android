@@ -58,7 +58,7 @@
         <SwitchPreference
             android:key="lightmode_check"
             android:title="Light UI Mode"
-            android:defaultValue="false" />
+            android:defaultValue="true" />
         <SwitchPreference
             android:key="sound_check"
             android:title="Sound Effects"
@@ -82,10 +82,6 @@
         <SwitchPreference
             android:key="swiftopen_check"
             android:title="Swift Open"
-            android:defaultValue="true" />
-        <SwitchPreference
-            android:key="navdrawer_check"
-            android:title="Allow Navigation Drawer"
             android:defaultValue="true" />
     </PreferenceCategory>
 

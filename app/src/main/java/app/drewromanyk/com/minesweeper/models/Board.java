@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,20 +18,20 @@ import android.widget.Toast;
 
 import com.google.android.gms.games.Games;
 
+import app.drewromanyk.com.minesweeper.BuildConfig;
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.activities.GameActivity;
-import app.drewromanyk.com.minesweeper.activities.MainActivity;
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
 import app.drewromanyk.com.minesweeper.enums.GameSoundType;
 import app.drewromanyk.com.minesweeper.enums.GameStatus;
 import app.drewromanyk.com.minesweeper.util.Helper;
-import app.drewromanyk.com.minesweeper.util.UserPreferenceStorage;
-import app.drewromanyk.com.minesweeper.views.layout.ZoomableGridLayout;
+import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 
 public class Board {
-    private String TAG = "tacotaco";
-    private static Context context;
+    private String TAG = "Board";
+    //private static Context context;
+    private GameActivity gameActivity;
 
     //game diff
     private final int RESUME = -1;
@@ -47,16 +48,14 @@ public class Board {
     private int columns;
     private int rows;
     private GameStatus gameStatus;
+    private GameDifficulty gameDifficulty;
     private int mineCount;
     private int flaggedMines;
     private int flaggedCells;
     private int cellsInGame;
     private int revealedCells;
     private boolean firstRound;
-    //private ZDGridLayout board;
     private GridLayout board;
-    //private ZoomableGridLayout board;
-    //private GridView boardView;
     private boolean tappedOnRevealedCell = false;
     private ThreeBV score3BV;
     private boolean loadingForStats = false;
@@ -67,26 +66,28 @@ public class Board {
      */
     //columns and rows to set how many there will be
     //mineCount to set the amount of bombs for the game
-    public Board(int rows, int columns, int mineCount, Context context) {
+    public Board(int rows, int columns, int mineCount, GameDifficulty gameDifficulty, GameActivity gameActivity) {
         this.columns = columns;
         this.rows = rows;
         this.mineCount = mineCount;
-        this.context = context;
+        this.gameDifficulty = gameDifficulty;
+        this.gameActivity = gameActivity;
 
         gameStatus = GameStatus.NOT_STARTED;
         firstRound = true;
         cellsInGame = rows * columns;
         //board = new GridLayout(context);
-        board = new GridLayout(context);
+        board = new GridLayout(gameActivity);
 
         createCells();
         drawBoard();
     }
 
     //RESUME GAME
-    public Board(int mineCount, int[][] values, boolean[][] revealed, boolean[][] flagged, GameStatus status, Context context) {
+    public Board(int mineCount, int[][] values, boolean[][] revealed, boolean[][] flagged, GameDifficulty gameDifficulty, GameStatus status, GameActivity gameActivity) {
         this.mineCount = mineCount;
-        this.context = context;
+        this.gameDifficulty = gameDifficulty;
+        this.gameActivity = gameActivity;
         rows = values.length;
         columns = values[0].length;
 
@@ -100,7 +101,7 @@ public class Board {
         cell = new Cell[rows][columns];
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                cell[r][c] = new Cell(r, c, values[r][c], revealed[r][c], flagged[r][c], context);
+                cell[r][c] = new Cell(r, c, values[r][c], revealed[r][c], flagged[r][c], gameActivity);
                 if(cell[r][c].isRevealed()) {
                     revealedCells++;
                     if(cell[r][c].isFlagged()) {
@@ -117,7 +118,7 @@ public class Board {
         }
 
         if(!firstRound) {
-            GameActivity.startChronometer();
+            gameActivity.startChronometer();
             findNeighborCells();
             score3BV = new ThreeBV(cell, rows, columns);
             score3BV.calculate3BV();
@@ -131,21 +132,22 @@ public class Board {
             }
 
         } else {
-            GameActivity.stopChronometer();
+            gameActivity.stopChronometer();
         }
-        GameActivity.mineKeeperView.setText("Mines: " + (mineCount - flaggedCells));
-        GameActivity.scoreKeeperView.setText("Score: " + getGameScore());
+
+        gameActivity.mineKeeperView.setText("Mines: " + (mineCount - flaggedCells));
+        gameActivity.scoreKeeperView.setText("Score: " + getGameScore());
         //board = new GridLayout(context);
-        board = new GridLayout(context);
+        board = new GridLayout(gameActivity);
         drawBoard();
     }
 
     //MAIN RESUME FOR STATS
-    public Board(int mineCount, int[][] values, boolean[][] revealed, boolean[][] flagged, GameStatus status, int difficulty, long time, Context context) {
+    public Board(int mineCount, int[][] values, boolean[][] revealed, boolean[][] flagged, GameStatus status, GameDifficulty gameDifficulty, long time) {
         loadingForStats = true;
         loadedGameTime = (int) time;
         this.mineCount = mineCount;
-        this.context = context;
+        this.gameDifficulty = gameDifficulty;
         rows = values.length;
         columns = values[0].length;
 
@@ -159,7 +161,7 @@ public class Board {
         cell = new Cell[rows][columns];
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                cell[r][c] = new Cell(r, c, values[r][c], revealed[r][c], flagged[r][c], context);
+                cell[r][c] = new Cell(r, c, values[r][c], revealed[r][c], flagged[r][c]);
                 if(cell[r][c].isRevealed()) {
                     revealedCells++;
                     if(cell[r][c].isFlagged()) {
@@ -184,7 +186,7 @@ public class Board {
         cell = new Cell[rows][columns];
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                cell[r][c] = new Cell(r, c, context);
+                cell[r][c] = new Cell(r, c, gameActivity);
             }
         }
     }
@@ -201,7 +203,7 @@ public class Board {
      */
     //creates the board for the grid layout
     private void drawBoard() {
-        GameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_playing);
+        gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_playing);
         board.setColumnCount(columns);
         board.setRowCount(rows);
 
@@ -235,7 +237,7 @@ public class Board {
             @Override
             public boolean onLongClick(View v) {
                 updateBoardByTap(currentCell, false);
-                vibrate();
+                gameActivity.vibrate();
                 return true;
             }
         });
@@ -243,10 +245,10 @@ public class Board {
         currentCell.getButton().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
-                if(arg1.getAction() == MotionEvent.ACTION_DOWN) {
-                    GameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_tap);
+                if (arg1.getAction() == MotionEvent.ACTION_DOWN) {
+                    gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_tap);
                 } else {
-                    GameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_playing);
+                    gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_playing);
                 }
 
                 return false;
@@ -273,37 +275,37 @@ public class Board {
         boolean longTap = !shortTap;
 
         if (isQuickChangeTap(shortTap, clickedCell)) {
-            GameActivity.changeFlagMode(this);
+            gameActivity.changeFlagMode(this);
         } else if(isRevealTap(shortTap, clickedCell)) {
             revealCell(clickedCell);
         } else if (isFlagTap(shortTap)) {
             flagCell(clickedCell);
             if(longTap && !clickedCell.isRevealed()) {
                 //new PuffInAnimation(clickedCell.getButton()).animate();
-                clickedCell.getButton().startAnimation(AnimationUtils.loadAnimation(GameActivity.context, R.anim.puff_in));
+                clickedCell.getButton().startAnimation(AnimationUtils.loadAnimation(gameActivity, R.anim.puff_in));
             }
         }
         checkIfVictorious();
 
         if(shortTap && gameStatus == GameStatus.PLAYING) {
-            soundEffects(GameSoundType.TAP);
+            gameActivity.playSoundEffects(GameSoundType.TAP);
         } else if (gameStatus == GameStatus.PLAYING) {
-            soundEffects(GameSoundType.LONGPRESS);
+            gameActivity.playSoundEffects(GameSoundType.LONGPRESS);
         }
     }
 
     private boolean isRevealTap(boolean shortTap, Cell clickedCell) {
         boolean longTap = !shortTap;
-        return (shortTap && (!GameActivity.getFlagMode() || clickedCell.isRevealed())) || (longTap && GameActivity.getFlagMode());
+        return (shortTap && (!gameActivity.getFlagMode() || clickedCell.isRevealed())) || (longTap && gameActivity.getFlagMode());
     }
 
     private boolean isFlagTap(boolean shortTap) {
         boolean longTap = !shortTap;
-        return (shortTap && GameActivity.getFlagMode()) || (longTap && !GameActivity.getFlagMode());
+        return (shortTap && gameActivity.getFlagMode()) || (longTap && !gameActivity.getFlagMode());
     }
 
     private boolean isQuickChangeTap(boolean shortTap, Cell clickedCell) {
-        return shortTap && UserPreferenceStorage.getSwiftChange(context) && clickedCell.getValue() == 0 && clickedCell.isRevealed();
+        return shortTap && UserPrefStorage.getSwiftChange(gameActivity) && clickedCell.getValue() == 0 && clickedCell.isRevealed();
     }
 
     /*
@@ -312,8 +314,8 @@ public class Board {
     private void setupAfterFirstRound(Cell tgtCell) {
         firstRound = false;
         gameStatus = GameStatus.PLAYING;
-        GameActivity.gamePlaying = true;
-        GameActivity.startChronometer();
+        gameActivity.gamePlaying = true;
+        gameActivity.startChronometer();
         createMines(tgtCell);
         findNeighborCells();
         setAllNeighborValues();
@@ -384,7 +386,7 @@ public class Board {
             flaggedCells = (tgtCell.isFlagged()) ? flaggedCells + 1 : flaggedCells - 1;
             updateNeighborsOfFlagCell(tgtCell);
             tgtCell.updateImageValue();
-            GameActivity.mineKeeperView.setText("Mines: " + (mineCount - flaggedCells));
+            gameActivity.mineKeeperView.setText("Mines: " + (mineCount - flaggedCells));
         }
     }
 
@@ -453,7 +455,7 @@ public class Board {
 
     //Condition to reveal neighbors of revealed cell with flagged neighbor cells that match its value
     private boolean revealRevealedNeighbors(Cell tgtCell) {
-        return UserPreferenceStorage.getSwiftOpen(context) && !tappedOnRevealedCell && (tgtCell.getValue() != 0)
+        return UserPrefStorage.getSwiftOpen(gameActivity) && !tappedOnRevealedCell && (tgtCell.getValue() != 0)
                 && !tgtCell.isFlagged() && tgtCell.isRevealed() && flaggedNeighborEqualsValue(tgtCell);
     }
 
@@ -483,14 +485,14 @@ public class Board {
     private void gameOver(GameStatus gameStatus, Cell clickedCell) {
         this.gameStatus = gameStatus;
         //play sound
-        soundEffects((gameStatus == GameStatus.VICTORY) ? GameSoundType.WIN : GameSoundType.LOSE);
+        gameActivity.playSoundEffects((gameStatus == GameStatus.VICTORY) ? GameSoundType.WIN : GameSoundType.LOSE);
         //Update stats/leaderboard/achievements
-        if(MainActivity.gameMode != GameDifficulty.CUSTOM) {
-            updateLocalStatistics();
+        if(gameDifficulty != GameDifficulty.CUSTOM) {
+            updateLocalStatistics(gameActivity);
             updateGoogleGame();
         }
         //update UI
-        int refreshButton = (gameStatus == GameStatus.VICTORY) ?
+        int refreshIcon = (gameStatus == GameStatus.VICTORY) ?
                 R.drawable.ic_action_refresh_win : R.drawable.ic_action_refresh_lose;
         updateMineImage(gameStatus);
         if(gameStatus == GameStatus.DEFEAT) {
@@ -498,27 +500,28 @@ public class Board {
         }
 
         removeCellListeners();
-        GameActivity.stopChronometer();
-        GameActivity.refreshButton.setIcon(refreshButton);
-        String message = (gameStatus == GameStatus.VICTORY) ? "Score: " + getGameScore() + "\nTime: " + Helper.getSecondsFromTime(GameActivity.chronometer.getText().toString()) + "\n\n" : "";
+        gameActivity.stopChronometer();
+        gameActivity.refreshButton.setIcon(refreshIcon);
+        String message = (gameStatus == GameStatus.VICTORY) ? "Score: " + getGameScore() + "\nTime: " +
+                Helper.getSecondsFromTime(gameActivity.chronometer.getText().toString()) + "\n\n" : "";
         message += "Press Ok to create a new game!";
-        GameActivity.showGameOverDialog(gameStatus, message);
-        vibrate();
+        //GameActivity.showGameOverDialog(gameStatus, message);
+        gameActivity.vibrate();
     }
 
     public void gameOverByRestart() {
         gameStatus = GameStatus.DEFEAT;
         //Update stats
-        if(MainActivity.gameMode != GameDifficulty.CUSTOM) {
-            updateLocalStatistics();
-            soundEffects(GameSoundType.LOSE);
+        if(gameDifficulty != GameDifficulty.CUSTOM) {
+            updateLocalStatistics(gameActivity);
+            gameActivity.playSoundEffects(GameSoundType.LOSE);
         }
     }
 
     public double getGameScore() {
         if(score3BV == null) return 0;
 
-        double scoreTemp = (score3BV.getThreeBV() / Helper.getSecondsFromTime(GameActivity.chronometer.getText().toString()));
+        double scoreTemp = (score3BV.getThreeBV() / Helper.getSecondsFromTime(gameActivity.chronometer.getText().toString()));
         return ((double)((int) (scoreTemp * 1000)) / 1000.0);
     }
 
@@ -538,14 +541,14 @@ public class Board {
         }
     }
 
-    public void updateLocalStatistics() {
+    public void updateLocalStatistics(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPrefs.edit();
 
         String prefix = "";
         boolean newBestTime = false;
         boolean newBestScore = false;
-        switch (MainActivity.gameMode) {
+        switch (gameDifficulty) {
             case EASY:
                 prefix = "EASY_";
                 break;
@@ -654,92 +657,70 @@ public class Board {
     }
 
     private void updateGoogleGame() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int seconds = Helper.getSecondsFromTime(GameActivity.chronometer.getText().toString());
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(gameActivity);
+        int seconds = Helper.getSecondsFromTime(gameActivity.chronometer.getText().toString());
         long score = (long) ((score3BV.getThreeBV() / seconds) * 1000);
 
         if(gameStatus == GameStatus.VICTORY) {
-            if(GameActivity.googleApiClient.isConnected()) {
+            if(gameActivity.googleApiClient.isConnected()) {
                 //EASY MODE STUFF
-                if(MainActivity.gameMode == GameDifficulty.EASY) {
-                    Games.Achievements.unlock(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.achievement_easy));
+                if(gameDifficulty == GameDifficulty.EASY) {
+                    Games.Achievements.unlock(gameActivity.googleApiClient, "" + BuildConfig.ACHIEVEMENT_EASY);
                     if(seconds < 20) {
-                        Games.Achievements.unlock(GameActivity.googleApiClient,
-                                GameActivity.context.getString(R.string.achievement_fast));
+                        Games.Achievements.unlock(gameActivity.googleApiClient, "" + BuildConfig.ACHIEVEMENT_FAST);
                     }
 
-                    Games.Leaderboards.submitScore(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.leaderboard_easy_best_scores),
+                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
+                            "" + BuildConfig.LEADERBOARD_EASY_BEST_SCORES,
                             score);
-                    Games.Leaderboards.submitScore(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.leaderboard_easy_best_times),
+                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
+                            "" + BuildConfig.LEADERBOARD_EASY_BEST_TIMES,
                             seconds);
-                    Games.Leaderboards.submitScore(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.leaderboard_easy_best_streak),
+                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
+                            "" + BuildConfig.LEADERBOARD_EASY_BEST_STREAK,
                             sharedPrefs.getInt("EASY_CURRENTWIN_STREAK", 0));
                 }
                 //MEDIUM MODE STUFF
-                else if(MainActivity.gameMode == GameDifficulty.MEDIUM) {
-                    Games.Achievements.unlock(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.achievement_medium));
+                else if(gameDifficulty == GameDifficulty.MEDIUM) {
+                    Games.Achievements.unlock(gameActivity.googleApiClient, "" + BuildConfig.ACHIEVEMENT_MEDIUM);
                     if(seconds < 60) {
-                        Games.Achievements.unlock(GameActivity.googleApiClient,
-                                GameActivity.context.getString(R.string.achievement_quick));
+                        Games.Achievements.unlock(gameActivity.googleApiClient, "" + BuildConfig.ACHIEVEMENT_QUICK);
                     }
 
-                    Games.Leaderboards.submitScore(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.leaderboard_medium_best_scores),
+                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
+                            "" + BuildConfig.LEADERBOARD_MEDIUM_BEST_SCORES,
                             score);
-                    Games.Leaderboards.submitScore(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.leaderboard_medium_best_times),
+                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
+                            "" + BuildConfig.LEADERBOARD_MEDIUM_BEST_TIMES,
                             seconds);
-                    Games.Leaderboards.submitScore(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.leaderboard_easy_best_streak),
+                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
+                            "" + BuildConfig.LEADERBOARD_MEDIUM_BEST_STREAKs,
                             sharedPrefs.getInt("MEDIUM_CURRENTWIN_STREAK", 0));
                 }
                 //EXPERT MODE STUFF
-                else if(MainActivity.gameMode == GameDifficulty.EXPERT) {
-                    Games.Achievements.unlock(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.achievement_expert));
+                else if(gameDifficulty == GameDifficulty.EXPERT) {
+                    Games.Achievements.unlock(gameActivity.googleApiClient,
+                            "" + BuildConfig.ACHIEVEMENT_EXPERT);
                     if(seconds < 150) {
-                        Games.Achievements.unlock(GameActivity.googleApiClient,
-                                GameActivity.context.getString(R.string.achievement_swift));
+                        Games.Achievements.unlock(gameActivity.googleApiClient,
+                                "" + BuildConfig.ACHIEVEMENT_SWIFT);
                     }
 
-                    Games.Leaderboards.submitScore(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.leaderboard_expert_best_scores),
+                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
+                            "" + BuildConfig.LEADERBOARD_EXPERT_BEST_SCORES,
                             score);
-                    Games.Leaderboards.submitScore(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.leaderboard_expert_best_times),
+                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
+                            "" + BuildConfig.LEADERBOARD_EXPERT_BEST_TIMES,
                             seconds);
-                    Games.Leaderboards.submitScore(GameActivity.googleApiClient,
-                            GameActivity.context.getString(R.string.leaderboard_easy_best_streak),
+                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
+                            "" + BuildConfig.LEADERBOARD_EXPERT_BEST_STREAKs,
                             sharedPrefs.getInt("EXPERT_CURRENTWIN_STREAK", 0));
                 }
                 //CUSTOM MODE STUFF
-                else if(MainActivity.gameMode == GameDifficulty.CUSTOM) {
+                else if(gameDifficulty == GameDifficulty.CUSTOM) {
 
                 }
             }
-        }
-    }
-
-    /*
-     * FEEDBACK TO USER
-     */
-    //depending on the setting, will vibrate
-    private static void vibrate() {
-        if (UserPreferenceStorage.getVibrate(context)) {
-            Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-            v.vibrate(100);
-        }
-    }
-
-    //depending on the setting, will make a sound
-    private static void soundEffects(GameSoundType type) {
-        if (UserPreferenceStorage.getSound(context)) {
-            GameActivity.soundEffects.play(GameActivity.soundIDs.get(type.ordinal()), 1, 1, 1, 0, 1.0f);
         }
     }
 
@@ -751,9 +732,9 @@ public class Board {
         return (0 <= row && row < rows && 0 <= column && column < columns);
     }
 
-    //public GridLayout getLayout() { return board; }
     public GridLayout getLayout() { return board; }
     public GameStatus getGameStatus() { return gameStatus; }
+    public GameDifficulty getGameDifficulty() { return gameDifficulty; }
     public int getRows() { return rows; }
     public int getColumns() { return columns; }
     public int getMineCount() { return mineCount; }
@@ -765,7 +746,7 @@ public class Board {
         if(loadingForStats) {
             return loadedGameTime;
         } else {
-            return Helper.getSecondsFromTime(GameActivity.chronometer.getText().toString());
+            return Helper.getSecondsFromTime(gameActivity.chronometer.getText().toString());
         }
     }
 }
