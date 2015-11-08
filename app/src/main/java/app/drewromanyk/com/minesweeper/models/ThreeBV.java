@@ -1,7 +1,7 @@
 package app.drewromanyk.com.minesweeper.models;
 
 /**
- * Created by drewi_000 on 12/14/2014.
+ * Created by Drew on 12/14/2014.
  */
 public class ThreeBV {
 
@@ -19,11 +19,11 @@ public class ThreeBV {
 
     public double getThreeBV() { return score3BV; }
 
-    //calculates the difficulty rating for the game
+    // Calculates the difficulty rating for the game
     public void calculate3BV() {
         boolean[][] marked = new boolean[rows][columns];
 
-        //for each empty 0 cell
+        // For each empty 0 cell
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
                 if (!marked[r][c] && cell[r][c].getValue() == 0) {
@@ -35,7 +35,7 @@ public class ThreeBV {
             }
         }
 
-        //for each unmarked cell that isnt a bomb
+        // For each unmarked cell that isnt a bomb
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
                 if (!marked[r][c] && !cell[r][c].isMine()) {
@@ -44,10 +44,9 @@ public class ThreeBV {
                 }
             }
         }
-
     }
 
-    //finds all the empty cells to not count for the difficulty rating
+    // Finds all the empty cells to not count for the difficulty rating
     private void floodFillMark(boolean[][] marked, int markRow, int markColumn) {
         for (int r = markRow - 1; r <= markRow + 1; r++) {
             for (int c = markColumn - 1; c <= markColumn + 1; c++) {
@@ -61,7 +60,7 @@ public class ThreeBV {
         }
     }
 
-    //checks if the cell being called is inbounds
+    // Checks if the cell being called is inbounds
     private boolean inbounds(int row, int column) {
         return (0 <= row && row < rows && 0 <= column && column < columns);
     }

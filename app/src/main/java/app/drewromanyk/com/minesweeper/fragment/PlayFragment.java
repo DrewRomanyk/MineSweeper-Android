@@ -1,5 +1,6 @@
 package app.drewromanyk.com.minesweeper.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +48,6 @@ public class PlayFragment extends BaseFragment {
 
         setupToolbar((Toolbar) root.findViewById(R.id.toolbar), "Play");
         setupPlayButtons(root);
-
 
         return root;
     }
@@ -128,7 +129,8 @@ public class PlayFragment extends BaseFragment {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                loadResumeGameForStats();
+                                Board statsBoard = UserPrefStorage.loadSavedBoard(getActivity(), true);
+                                statsBoard.updateLocalStatistics(getActivity());
                                 startGameIntent(savedDifficulity);
                             }
                         })
@@ -149,44 +151,5 @@ public class PlayFragment extends BaseFragment {
         Intent startGame = new Intent(getActivity(), GameActivity.class);
         startGame.putExtra("gameDifficulty", difficulty.name());
         startActivity(startGame);
-    }
-
-    private void loadResumeGameForStats() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int rows = preferences.getInt("ROWS", 0);
-        int columns = preferences.getInt("COLUMNS", 0);
-
-        if(!(rows == 0 || columns == 0)) {
-            GameDifficulty gameDifficulty = GameDifficulty.values()[preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal())];
-            long time = preferences.getLong("TIME", 0);
-            int mineCount = preferences.getInt("MINE_COUNT", 0);
-            GameStatus status = GameStatus.values()[preferences.getInt("STATUS", GameStatus.DEFEAT.ordinal())];
-            int[][] cellValues = new int[rows][columns];
-            boolean[][] cellRevealed = new boolean[rows][columns];
-            boolean[][] cellFlagged = new boolean[rows][columns];
-
-            try {
-                JSONArray cellValuesJ = new JSONArray(preferences.getString("CELL_VALUES", "[]"));
-                JSONArray cellRevealedJ = new JSONArray(preferences.getString("CELL_REVEALED", "[]"));
-                JSONArray cellFlaggedJ = new JSONArray(preferences.getString("CELL_FLAGGED", "[]"));
-
-                int counter = 0;
-                for(int r = 0; r < rows; r++) {
-                    for (int c = 0; c < columns; c++) {
-                        cellValues[r][c] = cellValuesJ.getInt(counter);
-                        cellRevealed[r][c] = cellRevealedJ.getBoolean(counter);
-                        cellFlagged[r][c] = cellFlaggedJ.getBoolean(counter);
-                        counter++;
-                    }
-                }
-
-
-                Board resumeStatBoard = new Board(mineCount, cellValues, cellRevealed, cellFlagged, status, gameDifficulty, time);
-                resumeStatBoard.updateLocalStatistics(getActivity());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

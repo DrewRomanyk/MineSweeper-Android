@@ -28,7 +28,7 @@ public class DialogInfoUtils {
         yesNoDialogMap = new HashMap<>();
 
         yesNoDialogMap.put(ResultCodes.ABOUT_DIALOG.ordinal(), new YesNoDialogInfo(context.getString(R.string.dialog_about_title),
-                context.getString(R.string.dialog_about_message) + "\n\nVersion: " + context.getString(R.string.version_name)));
+                context.getString(R.string.dialog_about_message) + context.getString(R.string.version_name)));
 
         yesNoDialogMap.put(ResultCodes.HELP_DIALOG.ordinal(), new YesNoDialogInfo(context.getString(R.string.dialog_help_title),
                 context.getString(R.string.dialog_help_message)));

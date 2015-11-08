@@ -9,7 +9,7 @@
         android:layout_below="@+id/toolbar"
         android:layout_above="@+id/frame"
         android:id="@+id/boardFrame">
-        <ImageView
+        <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/boardBackground"/>

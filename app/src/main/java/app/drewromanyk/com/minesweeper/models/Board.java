@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -16,6 +17,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.GridLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 
 import app.drewromanyk.com.minesweeper.BuildConfig;
@@ -30,18 +32,8 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 public class Board {
     private String TAG = "Board";
-    //private static Context context;
+
     private GameActivity gameActivity;
-
-    //game diff
-    private final int RESUME = -1;
-    private final int CUSTOM = 0;
-    private final int EASY = 1;
-    private final int MEDIUM = 2;
-    private final int EXPERT = 3;
-
-    //cell value
-    private final static int MINE = -1;
 
     private Cell[][] cell;
     private CellNeighbors[][] cellNeighbors;
@@ -76,7 +68,6 @@ public class Board {
         gameStatus = GameStatus.NOT_STARTED;
         firstRound = true;
         cellsInGame = rows * columns;
-        //board = new GridLayout(context);
         board = new GridLayout(gameActivity);
 
         createCells();
@@ -118,7 +109,7 @@ public class Board {
         }
 
         if(!firstRound) {
-            gameActivity.startChronometer();
+            gameActivity.boardInfoView.startChronometer(gameActivity.gamePlaying);
             findNeighborCells();
             score3BV = new ThreeBV(cell, rows, columns);
             score3BV.calculate3BV();
@@ -132,12 +123,11 @@ public class Board {
             }
 
         } else {
-            gameActivity.stopChronometer();
+            gameActivity.boardInfoView.stopChronometer();
         }
 
-        gameActivity.mineKeeperView.setText("Mines: " + (mineCount - flaggedCells));
-        gameActivity.scoreKeeperView.setText("Score: " + getGameScore());
-        //board = new GridLayout(context);
+        gameActivity.boardInfoView.setMineKeeperText(mineCount - flaggedCells);
+        gameActivity.boardInfoView.setScoreKeeperText(getGameScore());
         board = new GridLayout(gameActivity);
         drawBoard();
     }
@@ -224,15 +214,14 @@ public class Board {
     private void setCellTapListeners(Cell tgtCell) {
         final Cell currentCell = tgtCell;
 
-        //single tap
+        // Single tap
         currentCell.getButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateBoardByTap(currentCell, true);
-                //longClickHandler.removeCallbacks(longClick);
             }
         });
-        //long tap
+        // Long tap
         currentCell.getButton().setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -241,7 +230,7 @@ public class Board {
                 return true;
             }
         });
-        //touch
+        // Touch
         currentCell.getButton().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
@@ -281,7 +270,6 @@ public class Board {
         } else if (isFlagTap(shortTap)) {
             flagCell(clickedCell);
             if(longTap && !clickedCell.isRevealed()) {
-                //new PuffInAnimation(clickedCell.getButton()).animate();
                 clickedCell.getButton().startAnimation(AnimationUtils.loadAnimation(gameActivity, R.anim.puff_in));
             }
         }
@@ -315,7 +303,7 @@ public class Board {
         firstRound = false;
         gameStatus = GameStatus.PLAYING;
         gameActivity.gamePlaying = true;
-        gameActivity.startChronometer();
+        gameActivity.boardInfoView.startChronometer(gameActivity.gamePlaying);
         createMines(tgtCell);
         findNeighborCells();
         setAllNeighborValues();
@@ -343,7 +331,7 @@ public class Board {
 
             if (validSpot && !cell[randomR][randomC].isMine()) {
                 placedMines++;
-                cell[randomR][randomC].setValue(MINE);
+                cell[randomR][randomC].setValue(Cell.MINE);
             }
 
         }
@@ -351,11 +339,10 @@ public class Board {
 
     //finds all the cells that are neighbors to a cell
     private void findNeighborCells() {
-        cellNeighbors =  new CellNeighbors[rows][columns];
-
+        cellNeighbors = new CellNeighbors[cell.length][cell[0].length];
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                cellNeighbors[r][c] = new CellNeighbors(cell, cell[r][c], rows, columns);
+                cellNeighbors[r][c] = new CellNeighbors(cell, cell[r][c]);
             }
         }
     }
@@ -386,7 +373,7 @@ public class Board {
             flaggedCells = (tgtCell.isFlagged()) ? flaggedCells + 1 : flaggedCells - 1;
             updateNeighborsOfFlagCell(tgtCell);
             tgtCell.updateImageValue();
-            gameActivity.mineKeeperView.setText("Mines: " + (mineCount - flaggedCells));
+            gameActivity.boardInfoView.setMineKeeperText((mineCount - flaggedCells));
         }
     }
 
@@ -500,12 +487,8 @@ public class Board {
         }
 
         removeCellListeners();
-        gameActivity.stopChronometer();
+        gameActivity.boardInfoView.stopChronometer();
         gameActivity.refreshButton.setIcon(refreshIcon);
-        String message = (gameStatus == GameStatus.VICTORY) ? "Score: " + getGameScore() + "\nTime: " +
-                Helper.getSecondsFromTime(gameActivity.chronometer.getText().toString()) + "\n\n" : "";
-        message += "Press Ok to create a new game!";
-        //GameActivity.showGameOverDialog(gameStatus, message);
         gameActivity.vibrate();
     }
 
@@ -521,7 +504,7 @@ public class Board {
     public double getGameScore() {
         if(score3BV == null) return 0;
 
-        double scoreTemp = (score3BV.getThreeBV() / Helper.getSecondsFromTime(gameActivity.chronometer.getText().toString()));
+        double scoreTemp = (score3BV.getThreeBV() / getGameSeconds());
         return ((double)((int) (scoreTemp * 1000)) / 1000.0);
     }
 
@@ -542,69 +525,50 @@ public class Board {
     }
 
     public void updateLocalStatistics(Context context) {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPrefs.edit();
 
-        String prefix = "";
         boolean newBestTime = false;
         boolean newBestScore = false;
-        switch (gameDifficulty) {
-            case EASY:
-                prefix = "EASY_";
-                break;
-            case MEDIUM:
-                prefix = "MEDIUM_";
-                break;
-            case EXPERT:
-                prefix = "EXPERT_";
-                break;
-        }
 
-        String winsKey = prefix + "WINS";
-        String losesKey = prefix + "LOSES";
-        String bestTimeKey = prefix + "BEST_TIME";
-        String avgTimeKey = prefix + "AVG_TIME";
-        String explorPerctKey = prefix + "EXPLOR_PERCT";
-        String winStreakKey = prefix + "WIN_STREAK";
-        String losesStreakKey = prefix + "LOSES_STREAK";
-        String currentWinStreakKey = prefix + "CURRENTWIN_STREAK";
-        String currentLosesStreakKey = prefix + "CURRENTLOSES_STREAK";
-        String bestScoreKey = prefix + "BEST_SCORE";
-        String avgScoreKey = prefix + "AVG_SCORE";
+        // skip the resume/custom modes
+        if(gameDifficulty == GameDifficulty.RESUME || gameDifficulty == GameDifficulty.CUSTOM) return;
 
         //initial data
-        int wins = sharedPrefs.getInt(winsKey, 0);
-        int loses = sharedPrefs.getInt(losesKey, 0);
-        int bestTime = sharedPrefs.getInt(bestTimeKey, 0);
-        float avgTime = sharedPrefs.getFloat(avgTimeKey, 0);
-        float explorPerct = sharedPrefs.getFloat(explorPerctKey, 0);
-        int winStreak = sharedPrefs.getInt(winStreakKey, 0);
-        int losesStreak = sharedPrefs.getInt(losesStreakKey, 0);
-        int currentWinStreak = sharedPrefs.getInt(currentWinStreakKey, 0);
-        int currentLosesStreak = sharedPrefs.getInt(currentLosesStreakKey, 0);
-        int bestScore = sharedPrefs.getInt(bestScoreKey, 0);
-        float avgScore = sharedPrefs.getFloat(avgScoreKey, 0);
+        int wins = UserPrefStorage.getWinsForDifficulty(context, gameDifficulty);
+        int loses = UserPrefStorage.getLosesForDifficulty(context, gameDifficulty);
+        int bestTime = UserPrefStorage.getBestTimeForDifficulty(context, gameDifficulty);
+        float avgTime = UserPrefStorage.getAvgTimeForDifficulty(context, gameDifficulty);
+        float explorPerct = UserPrefStorage.getExplorPercentForDifficulty(context, gameDifficulty);
+        int winStreak = UserPrefStorage.getWinStreakForDifficulty(context, gameDifficulty);
+        int losesStreak = UserPrefStorage.getLoseStreakForDifficulty(context, gameDifficulty);
+        int currentWinStreak = UserPrefStorage.getCurWinStreakForDifficulty(context, gameDifficulty);
+        int currentLosesStreak = UserPrefStorage.getCurLoseStreakForDifficulty(context, gameDifficulty);
+        int bestScore = UserPrefStorage.getBestScoreForDifficulty(context, gameDifficulty);
+        float avgScore = UserPrefStorage.getAvgScoreForDifficulty(context, gameDifficulty);
 
-        //update wins/losses/total
+        // Update wins/losses/total
         if(gameStatus == GameStatus.VICTORY) {
             wins++;
         } else {
             loses++;
         }
         int total_games = wins + loses;
-        //update best time and avg time
+
+        // Update best time and avg time
         int currentTime = getGameSeconds();
         if(gameStatus == GameStatus.VICTORY) {
+            // Smaller currentTime is better than bestTime
             if(bestTime > currentTime || bestTime == 0) {
                 newBestTime = true;
                 bestTime = currentTime;
             }
             avgTime += ((float) currentTime - avgTime)/(wins);
         }
-        //update exploration percentage
+
+        // Update exploration percentage
         float currentExplorPerct = ((float) revealedCells)/(cellsInGame - mineCount) * 100;
         explorPerct += (currentExplorPerct - explorPerct)/(total_games);
-        //update streaks
+
+        // Update streaks
         if(gameStatus == GameStatus.VICTORY) {
             currentWinStreak++;
             currentLosesStreak = 0;
@@ -616,110 +580,63 @@ public class Board {
             winStreak = currentWinStreak;
         if(currentLosesStreak > losesStreak)
             losesStreak = currentLosesStreak;
-        //update best score & avg score
+
+        // Update best score & avg score
         int currentScore = (int) ((score3BV.getThreeBV() / currentTime) * 1000);
         if(gameStatus == GameStatus.VICTORY) {
-            if(bestScore > currentScore || bestScore == 0) {
+            // Bigger currentScore is better than bestScore
+            if(bestScore < currentScore || bestScore == 0) {
                 newBestScore = true;
                 bestScore = currentScore;
             }
             avgScore += ((float) currentScore - avgScore)/(wins);
         }
 
-        //save the new values
-        editor.putInt(winsKey, wins);
-        editor.putInt(losesKey, loses);
-        editor.putInt(bestTimeKey, bestTime);
-        editor.putFloat(avgTimeKey, avgTime);
-        editor.putFloat(explorPerctKey, explorPerct);
-        editor.putInt(winStreakKey, winStreak);
-        editor.putInt(losesStreakKey, losesStreak);
-        editor.putInt(currentWinStreakKey, currentWinStreak);
-        editor.putInt(currentLosesStreakKey, currentLosesStreak);
-        editor.putInt(bestScoreKey, bestScore);
-        editor.putFloat(avgScoreKey, avgScore);
-        editor.commit();
+        UserPrefStorage.updateStats(context, gameDifficulty, wins, loses, bestTime, avgTime,
+                explorPerct, winStreak, losesStreak, currentWinStreak, currentLosesStreak,
+                bestScore, avgScore);
 
-        //display to user
-        if(newBestTime) {
-            Toast.makeText(context, "NEW BEST TIME!", Toast.LENGTH_SHORT).show();
-        }
+        // Display new bests
+        if(newBestTime)
+            Toast.makeText(context, R.string.game_best_time, Toast.LENGTH_SHORT).show();
+
         if(newBestScore)
-            Toast.makeText(context, "NEW BEST SCORE!", Toast.LENGTH_SHORT).show();
-       /*String message = "Wins: " + wins + " Played: " + total_games +
-                " Best Time: " + bestTime + " Avg Time: " + avgTime +
-                " Expl: " + explorPerct + "%" +
-                " currentWS: " + currentWinStreak + " currentLS: " + currentLosesStreak +
-                " WS: " + winStreak + " LS: " + losesStreak +
-                " Best Score: " + bestScore + " Avg Score: " + avgScore;
-        Toast.makeText(GameActivity.context, message, Toast.LENGTH_LONG).show();*/
-
+            Toast.makeText(context, R.string.game_best_score, Toast.LENGTH_SHORT).show();
     }
 
     private void updateGoogleGame() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(gameActivity);
-        int seconds = Helper.getSecondsFromTime(gameActivity.chronometer.getText().toString());
+        int seconds = getGameSeconds();
         long score = (long) ((score3BV.getThreeBV() / seconds) * 1000);
+        GoogleApiClient googleApiClient = gameActivity.getGoogleApiClient();
+
+        int[] achievementSeconds = {20,60,150};
+        String[] achievementWin = {BuildConfig.ACHIEVEMENT_EASY, BuildConfig.ACHIEVEMENT_MEDIUM, BuildConfig.ACHIEVEMENT_EXPERT};
+        String[] achievementSpeed = {BuildConfig.ACHIEVEMENT_FAST, BuildConfig.ACHIEVEMENT_QUICK, BuildConfig.ACHIEVEMENT_SWIFT};
+        String[] leaderboardScores = {BuildConfig.LEADERBOARD_EASY_BEST_SCORES, BuildConfig.LEADERBOARD_MEDIUM_BEST_SCORES, BuildConfig.LEADERBOARD_EXPERT_BEST_SCORES};
+        String[] leaderboardTimes = {BuildConfig.LEADERBOARD_EASY_BEST_TIMES, BuildConfig.LEADERBOARD_MEDIUM_BEST_TIMES, BuildConfig.LEADERBOARD_EXPERT_BEST_TIMES};
+        String[] leaderboardStreaks = {BuildConfig.LEADERBOARD_EASY_BEST_STREAK, BuildConfig.LEADERBOARD_MEDIUM_BEST_STREAKs, BuildConfig.LEADERBOARD_EXPERT_BEST_STREAKs};
 
         if(gameStatus == GameStatus.VICTORY) {
-            if(gameActivity.googleApiClient.isConnected()) {
-                //EASY MODE STUFF
-                if(gameDifficulty == GameDifficulty.EASY) {
-                    Games.Achievements.unlock(gameActivity.googleApiClient, "" + BuildConfig.ACHIEVEMENT_EASY);
-                    if(seconds < 20) {
-                        Games.Achievements.unlock(gameActivity.googleApiClient, "" + BuildConfig.ACHIEVEMENT_FAST);
-                    }
+            if(googleApiClient.isConnected()) {
+                // Skip non ranked difficulty
+                if(gameDifficulty == GameDifficulty.CUSTOM || gameDifficulty == GameDifficulty.RESUME) return;
 
-                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
-                            "" + BuildConfig.LEADERBOARD_EASY_BEST_SCORES,
-                            score);
-                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
-                            "" + BuildConfig.LEADERBOARD_EASY_BEST_TIMES,
-                            seconds);
-                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
-                            "" + BuildConfig.LEADERBOARD_EASY_BEST_STREAK,
-                            sharedPrefs.getInt("EASY_CURRENTWIN_STREAK", 0));
+                // Offset is 2 for RESUME and CUSTOM
+                int gameDiffIndex = gameDifficulty.ordinal() - 2;
+                Games.Achievements.unlock(googleApiClient, "" + achievementWin[gameDiffIndex]);
+                if(seconds < achievementSeconds[gameDiffIndex]) {
+                    Games.Achievements.unlock(googleApiClient, "" + achievementSpeed[gameDiffIndex]);
                 }
-                //MEDIUM MODE STUFF
-                else if(gameDifficulty == GameDifficulty.MEDIUM) {
-                    Games.Achievements.unlock(gameActivity.googleApiClient, "" + BuildConfig.ACHIEVEMENT_MEDIUM);
-                    if(seconds < 60) {
-                        Games.Achievements.unlock(gameActivity.googleApiClient, "" + BuildConfig.ACHIEVEMENT_QUICK);
-                    }
 
-                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
-                            "" + BuildConfig.LEADERBOARD_MEDIUM_BEST_SCORES,
-                            score);
-                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
-                            "" + BuildConfig.LEADERBOARD_MEDIUM_BEST_TIMES,
-                            seconds);
-                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
-                            "" + BuildConfig.LEADERBOARD_MEDIUM_BEST_STREAKs,
-                            sharedPrefs.getInt("MEDIUM_CURRENTWIN_STREAK", 0));
-                }
-                //EXPERT MODE STUFF
-                else if(gameDifficulty == GameDifficulty.EXPERT) {
-                    Games.Achievements.unlock(gameActivity.googleApiClient,
-                            "" + BuildConfig.ACHIEVEMENT_EXPERT);
-                    if(seconds < 150) {
-                        Games.Achievements.unlock(gameActivity.googleApiClient,
-                                "" + BuildConfig.ACHIEVEMENT_SWIFT);
-                    }
-
-                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
-                            "" + BuildConfig.LEADERBOARD_EXPERT_BEST_SCORES,
-                            score);
-                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
-                            "" + BuildConfig.LEADERBOARD_EXPERT_BEST_TIMES,
-                            seconds);
-                    Games.Leaderboards.submitScore(gameActivity.googleApiClient,
-                            "" + BuildConfig.LEADERBOARD_EXPERT_BEST_STREAKs,
-                            sharedPrefs.getInt("EXPERT_CURRENTWIN_STREAK", 0));
-                }
-                //CUSTOM MODE STUFF
-                else if(gameDifficulty == GameDifficulty.CUSTOM) {
-
-                }
+                Games.Leaderboards.submitScore(googleApiClient,
+                        "" + leaderboardScores[gameDiffIndex],
+                        score);
+                Games.Leaderboards.submitScore(googleApiClient,
+                        "" + leaderboardTimes[gameDiffIndex],
+                        seconds);
+                Games.Leaderboards.submitScore(googleApiClient,
+                        "" + leaderboardStreaks[gameDiffIndex],
+                        UserPrefStorage.getCurWinStreakForDifficulty(gameActivity, gameDifficulty));
             }
         }
     }
@@ -727,7 +644,7 @@ public class Board {
     /*
      * HELPER METHODS
      */
-    //checks if the cell being called is inbounds
+    // Checks if the cell being called is inbounds
     private boolean inbounds(int row, int column) {
         return (0 <= row && row < rows && 0 <= column && column < columns);
     }
@@ -746,7 +663,7 @@ public class Board {
         if(loadingForStats) {
             return loadedGameTime;
         } else {
-            return Helper.getSecondsFromTime(gameActivity.chronometer.getText().toString());
+            return gameActivity.boardInfoView.getChronometerSeconds();
         }
     }
 }

@@ -31,8 +31,8 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
  */
 public class StatsFragment extends BaseFragment {
 
-    private TextView[] titleTextView = new TextView[4];
-    private TextView[] contentTextView = new TextView[4];
+    private TextView[] titleTextView = new TextView[3];
+    private TextView[] contentTextView = new TextView[3];
 
     @Nullable
     @Override
@@ -87,21 +87,22 @@ public class StatsFragment extends BaseFragment {
     }
 
     private void setupStatView(ViewGroup root) {
-        titleTextView[1] = (TextView) root.findViewById(R.id.easyStatsTitle);
-        titleTextView[2] = (TextView) root.findViewById(R.id.mediumStatsTitle);
-        titleTextView[3] = (TextView) root.findViewById(R.id.expertStatsTitle);
-        contentTextView[1] = (TextView) root.findViewById(R.id.easyStatsContent);
-        contentTextView[2] = (TextView) root.findViewById(R.id.mediumStatsContent);
-        contentTextView[3] = (TextView) root.findViewById(R.id.expertStatsContent);
+        titleTextView[0] = (TextView) root.findViewById(R.id.easyStatsTitle);
+        titleTextView[1] = (TextView) root.findViewById(R.id.mediumStatsTitle);
+        titleTextView[2] = (TextView) root.findViewById(R.id.expertStatsTitle);
+        contentTextView[0] = (TextView) root.findViewById(R.id.easyStatsContent);
+        contentTextView[1] = (TextView) root.findViewById(R.id.mediumStatsContent);
+        contentTextView[2] = (TextView) root.findViewById(R.id.expertStatsContent);
 
         updateStatTextViews();
     }
 
     private void updateStatTextViews() {
-        for(int mode = GameDifficulty.EASY.ordinal() - 1; mode <= GameDifficulty.EXPERT.ordinal() - 1; mode++) {
-            TextView modeText = contentTextView[mode];
-            TextView modeTitle = titleTextView[mode];
-            GameDifficulty difficulty = GameDifficulty.values()[mode + 1];
+        for(int mode = GameDifficulty.EASY.ordinal(); mode <= GameDifficulty.EXPERT.ordinal(); mode++) {
+            // Offset is 2 due to RESUME && CUSTOM
+            TextView modeText = contentTextView[mode - 2];
+            TextView modeTitle = titleTextView[mode - 2];
+            GameDifficulty difficulty = GameDifficulty.values()[mode];
 
             String title = "";
             switch (difficulty) {
@@ -147,52 +148,10 @@ public class StatsFragment extends BaseFragment {
     }
 
     private void deleteLocalStats() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-
         for(int mode = GameDifficulty.EASY.ordinal(); mode <= GameDifficulty.EXPERT.ordinal(); mode++) {
-            //prefix
-            String prefix = "";
-            switch (GameDifficulty.values()[mode]) {
-                case EASY :
-                    prefix = "EASY_";
-                    break;
-                case MEDIUM :
-                    prefix = "MEDIUM_";
-                    break;
-                case EXPERT :
-                    prefix = "EXPERT_";
-                    break;
-            }
-            //get data
-            String winsKey = prefix + "WINS";
-            String losesKey = prefix + "LOSES";
-            String bestTimeKey = prefix + "BEST_TIME";
-            String avgTimeKey = prefix + "AVG_TIME";
-            String explorPerctKey = prefix + "EXPLOR_PERCT";
-            String winStreakKey = prefix + "WIN_STREAK";
-            String losesStreakKey = prefix + "LOSES_STREAK";
-            String currentWinStreakKey = prefix + "CURRENTWIN_STREAK";
-            String currentLosesStreakKey = prefix + "CURRENTLOSES_STREAK";
-            String bestScoreKey = prefix + "BEST_SCORE";
-            String avgScoreKey = prefix + "AVG_SCORE";
-
-            //wipe data
-            editor.putInt(winsKey, 0);
-            editor.putInt(losesKey, 0);
-            editor.putInt(bestTimeKey, 0);
-            editor.putFloat(avgTimeKey, 0);
-            editor.putFloat(explorPerctKey, 0);
-            editor.putInt(winStreakKey, 0);
-            editor.putInt(losesStreakKey, 0);
-            editor.putInt(currentWinStreakKey, 0);
-            editor.putInt(currentLosesStreakKey, 0);
-            editor.putInt(bestScoreKey, 0);
-            editor.putFloat(avgScoreKey, 0);
-            editor.commit();
+            UserPrefStorage.updateStats(getActivity(), GameDifficulty.values()[mode], 0,0,0,0,0,0,0,0,0,0,0);
         }
 
         updateStatTextViews();
     }
-
 }

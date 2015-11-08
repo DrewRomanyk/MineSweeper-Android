@@ -1,7 +1,7 @@
 package app.drewromanyk.com.minesweeper.application;
 
 /**
- * Created by drewi_000 on 1/13/2015.
+ * Created by Drew on 1/13/2015.
  */
 
 import android.app.Application;
@@ -19,6 +19,7 @@ import app.drewromanyk.com.minesweeper.R;
 
 public class MinesweeperApp extends Application {
     private Tracker mTracker;
+    private int isPremium = -1;
 
     public MinesweeperApp() {
         super();
@@ -32,6 +33,14 @@ public class MinesweeperApp extends Application {
         try {
             Class.forName("android.os.AsyncTask");
         } catch(Throwable ignore){}
+    }
+
+    public int getIsPremium() {
+        return isPremium;
+    }
+
+    public void setIsPremium(int isPremium) {
+        this.isPremium = isPremium;
     }
 
     /**

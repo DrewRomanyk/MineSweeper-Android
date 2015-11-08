@@ -18,6 +18,9 @@ public class Helper {
     // Expects a string in the form MM:SS or HH:MM:SS
     public static int getSecondsFromTime(String value) {
         String[] parts = value.split(":");
+        for (int i = 0; i < parts.length; i++) {
+            parts[i] = parts[i].replaceAll("\\D", "");
+        }
 
         // Wrong format, no value for you.
         if (parts.length < 2 || parts.length > 3)

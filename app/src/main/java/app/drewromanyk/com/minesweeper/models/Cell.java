@@ -14,10 +14,10 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
  */
 
 public class Cell {
+    public final static int MINE = -1;
     private static final String PACKAGE_NAME = "app.drewromanyk.com.minesweeper";
+
     private GameActivity gameActivity;
-    //cell value
-    private final static int MINE = -1;
 
     private boolean reveal;
     private int value; // -1 is bomb, then the rest is the amount of neighbors

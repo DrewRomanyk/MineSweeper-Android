@@ -1,7 +1,7 @@
 package app.drewromanyk.com.minesweeper.views;
 
 /**
- * Created by drewi_000 on 12/15/2014.
+ * Created by Drew on 12/15/2014.
  */
 import android.content.Context;
 import android.content.res.TypedArray;

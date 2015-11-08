@@ -18,4 +18,5 @@
 
     <color name="window_background">#FFF5F5F5</color>
     <color name="light_background">#eeeeee</color>
+    <color name="dark_background">#424242</color>
 </resources>

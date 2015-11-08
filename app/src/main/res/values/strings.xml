@@ -2,7 +2,9 @@
 <resources>
     <!-- APP -->
     <string name="app_name">Minesweeper</string>
-    <string name="version_name">1.1.0</string>
+    <string name="version_name">1.1.2</string>
+
+    <!-- -->
 
 
     <!-- NAV DRAWER -->
@@ -46,7 +48,7 @@ Flag:
     </string>
     <!-- ABOUT -->
     <string name="dialog_about_title">About</string>
-    <string name="dialog_about_message">Minesweeper is a free app provided by Drew Romanyk. Please contact him at drew.romanyk@gmail.com if you have any feedback.</string>
+    <string name="dialog_about_message">Minesweeper is a free app provided by Drew Romanyk. Please contact him at drew.romanyk@gmail.com if you have any feedback.\n\nVersion: </string>
     <!-- CUSTOMGAMEERROR -->
     <string name="dialog_customgameerror_title">Custom Game Settings Error</string>
     <string name="dialog_customgameerror_message">The amount of bombs you selected arent valid for the amount of cells in the game.</string>
@@ -65,9 +67,11 @@ Flag:
     <string name="game_difficulty_expert">Expert</string>
     <string name="game_difficulty_custom">Custom</string>
     <!-- GAME BAR -->
-    <string name="game_bar_time_title">Time: </string>
-    <string name="game_bar_score_title">Score: 0.000</string>
-    <string name="game_bar_mine_title">Mines: </string>
+    <string name="game_bar_time_title">Time:</string>
+    <string name="game_bar_score_title">Score:\u0020</string>
+    <string name="game_bar_mine_title">Mines:\u0020</string>
+    <string name="game_best_time">NEW BEST TIME!</string>
+    <string name="game_best_score">NEW BEST SCORE!</string>
 
 
     <!-- GOOGLE GAMES -->
@@ -88,6 +92,7 @@ Flag:
     <string name="preference_screenon">screenon_check</string>
     <string name="preference_navdrawer">navdrawer_check</string>
     <string name="preference_lightmode">lightmode_check</string>
+
     <string name="game_status">STATUS</string>
 
 </resources>
