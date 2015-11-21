@@ -33,8 +33,10 @@ import app.drewromanyk.com.minesweeper.util.billing.Purchase;
 
 /**
  * Created by Drew on 11/6/15.
+ * This is a Base Activity for all activities in order to unify In-app purchases and Google Games
  */
-public abstract class BaseActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public abstract class BaseActivity extends AppCompatActivity
+        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     // ADS
     private AdView mAdView;
 
@@ -55,7 +57,6 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
                     preference.setEnabled(true);
                     updateAds(0);
                 } else if (purchase.getSku().equals(BuildConfig.PREMIUM_SKU)) {
-                    Log.d("BaseActivity", "something should go here");
                     updateAds(1);
                 }
 
@@ -75,7 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
 
     private void setupTaskActivityInfo() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // only for LOLLIPOP and newer versions
+            // Only for LOLLIPOP and newer versions
             if(!(this instanceof MainActivity))
                 getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
 
@@ -94,11 +95,10 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
            IabHelper.OnIabSetupFinishedListener() {
                public void onIabSetupFinished(IabResult result) {
                    if (!result.isSuccess()) {
-                       Log.d("BaseActivity", "In-app Billing setup failed: " +
-                               result);
+                       //Log.d("BaseActivity", "In-app Billing setup failed: " + result);
 
                    } else {
-                       Log.d("BaseActivity", "In-app Billing is set up OK");
+                       //Log.d("BaseActivity", "In-app Billing is set up OK");
                        mHelper.enableDebugLogging(true, "IN_APP_PURCH");
                        if(((MinesweeperApp) getApplication()).getIsPremium() == -1) {
                            new premiumAsyncTask().execute();
@@ -150,7 +150,6 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
 
         @Override
         protected Integer doInBackground(Void... params) {
-            Log.v("premiumAsyncTask", "checking bruh.....");
             try {
                 Inventory inv = mHelper.queryInventory(false, null, null);
                 if(inv.hasPurchase(BuildConfig.PREMIUM_SKU)) {
@@ -174,7 +173,6 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.v("premiumAsyncTask", "checking bruh.....");
                 try {
                     Inventory inv = mHelper.queryInventory(false, null, null);
                     if(inv.hasPurchase(BuildConfig.PREMIUM_SKU)) {

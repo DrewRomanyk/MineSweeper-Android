@@ -12,6 +12,7 @@ import app.drewromanyk.com.minesweeper.util.Helper;
 
 /**
  * Created by Drew on 11/7/15.
+ * View for displaying statisitcal information to the user and also controlling the chronometer
  */
 public class BoardInfoView {
 
@@ -41,12 +42,18 @@ public class BoardInfoView {
         Context context = mineKeeperView.getContext();
         scoreKeeperView.setText(context.getString(R.string.game_bar_score_title) + String.format( "%.4f", value ));
     }
-    public void setChronometerTime(long curDuration) { lastStopTime = SystemClock.elapsedRealtime() + (curDuration * 500) + 1000; }
-    public void setChronometerTickListener(Chronometer.OnChronometerTickListener listener) { chronometer.setOnChronometerTickListener(listener); }
 
     /*
      * CHRONOMETER
      */
+    public void setChronometerTime(long curDuration) {
+        lastStopTime = SystemClock.elapsedRealtime() + (curDuration * 500) + 1000;
+    }
+
+    public void setChronometerTickListener(Chronometer.OnChronometerTickListener listener) {
+        chronometer.setOnChronometerTickListener(listener);
+    }
+
     public void startChronometer(boolean gamePlaying) {
         // on first start
         if ( lastStopTime == 0 ) {

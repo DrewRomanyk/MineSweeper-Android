@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -57,7 +58,9 @@ public class MainActivity extends BaseActivity {
         headerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.v("MainActivity", "header clicked");
                 if (getGoogleApiClient().isConnected()) {
+                    Log.v("MainActivity", "header clicked -- signout");
                     Games.signOut(getGoogleApiClient());
                     getGoogleApiClient().disconnect();
 
@@ -66,6 +69,7 @@ public class MainActivity extends BaseActivity {
                     Picasso.with(v.getContext()).load(R.color.background_material_dark).into((ImageView) navView.findViewById(R.id.cover));
 
                 } else {
+                    Log.v("MainActivity", "header clicked -- signin");
                     setSignInClicked(true);
                     getGoogleApiClient().connect();
                 }

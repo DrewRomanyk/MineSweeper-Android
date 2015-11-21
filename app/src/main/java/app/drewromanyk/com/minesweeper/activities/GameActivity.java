@@ -281,6 +281,9 @@ public class GameActivity extends BaseActivity {
 
     private void setupBoard(boolean savedStateIsEmpty) {
         GameDifficulty gameDifficulty = GameDifficulty.valueOf(getIntent().getStringExtra("gameDifficulty"));
+        if(gamePlaying) {
+            gameDifficulty = minesweeperBoard.getGameDifficulty();
+        }
         boardInfoView.stopChronometer();
 
         // Create or load a new board
