@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +20,10 @@ import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 
+import java.util.ArrayList;
+
 import app.drewromanyk.com.minesweeper.R;
+import app.drewromanyk.com.minesweeper.adapters.StatsGameDifficultyAdapter;
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
 import app.drewromanyk.com.minesweeper.enums.ResultCodes;
 import app.drewromanyk.com.minesweeper.models.YesNoDialogInfo;
@@ -31,8 +36,7 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
  */
 public class StatsFragment extends BaseFragment {
 
-    private TextView[] titleTextView = new TextView[3];
-    private TextView[] contentTextView = new TextView[3];
+    StatsGameDifficultyAdapter adapter;
 
     @Nullable
     @Override
@@ -87,21 +91,27 @@ public class StatsFragment extends BaseFragment {
     }
 
     private void setupStatView(ViewGroup root) {
-        titleTextView[0] = (TextView) root.findViewById(R.id.easyStatsTitle);
-        titleTextView[1] = (TextView) root.findViewById(R.id.mediumStatsTitle);
-        titleTextView[2] = (TextView) root.findViewById(R.id.expertStatsTitle);
-        contentTextView[0] = (TextView) root.findViewById(R.id.easyStatsContent);
-        contentTextView[1] = (TextView) root.findViewById(R.id.mediumStatsContent);
-        contentTextView[2] = (TextView) root.findViewById(R.id.expertStatsContent);
+        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.statsRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new StatsGameDifficultyAdapter();
+        recyclerView.setAdapter(adapter);
 
-        updateStatTextViews();
+        updateStatsData();
     }
 
-    private void updateStatTextViews() {
+    private void updateStatsData() {
+        ArrayList<GameDifficulty> difficulties = new ArrayList<>();
+        difficulties.add(GameDifficulty.EASY);
+        difficulties.add(GameDifficulty.MEDIUM);
+        difficulties.add(GameDifficulty.EXPERT);
+        adapter.setGameDifficultyList(difficulties);
+    }
+
+    private void updateStatTextViews1() {
         for(int mode = GameDifficulty.EASY.ordinal(); mode <= GameDifficulty.EXPERT.ordinal(); mode++) {
             // Offset is 2 due to RESUME && CUSTOM
-            TextView modeText = contentTextView[mode - 2];
-            TextView modeTitle = titleTextView[mode - 2];
+//            TextView modeText = contentTextView[mode - 2];
+//            TextView modeTitle = titleTextView[mode - 2];
             GameDifficulty difficulty = GameDifficulty.values()[mode];
 
             String title = "";
@@ -133,17 +143,17 @@ public class StatsFragment extends BaseFragment {
             int totalGames = wins + loses;
 
             // Show data
-            modeTitle.setText(title);
-            modeText.setText(
-                    "Best score: " + ((double) bestScore/1000) + "\nAverage score: " + ((double) avgScore/1000) +
-                            "\nBest time: " + bestTime + "\nAverage time: " + avgTime +
-                            "\nGames won: " + wins + "\nGames played: " + totalGames +
-                            "\nWin percentage: " + ((totalGames != 0) ? ((((double) wins/totalGames)) * 100) : 0) + "%" +
-                            "\nExploration percentage: " + explorPerct + "%" +
-                            "\nLongest winning streak: " + winStreak +
-                            "\nLongest losing streak: " + losesStreak +
-                            "\nCurrent streak: " + ((currentWinStreak == 0) ? currentLosesStreak : currentWinStreak) +
-                            "\n");
+//            modeTitle.setText(title);
+//            modeText.setText(
+//                    "Best score: " + ((double) bestScore/1000) + "\nAverage score: " + ((double) avgScore/1000) +
+//                            "\nBest time: " + bestTime + "\nAverage time: " + avgTime +
+//                            "\nGames won: " + wins + "\nGames played: " + totalGames +
+//                            "\nWin percentage: " + ((totalGames != 0) ? ((((double) wins/totalGames)) * 100) : 0) + "%" +
+//                            "\nExploration percentage: " + explorPerct + "%" +
+//                            "\nLongest winning streak: " + winStreak +
+//                            "\nLongest losing streak: " + losesStreak +
+//                            "\nCurrent streak: " + ((currentWinStreak == 0) ? currentLosesStreak : currentWinStreak) +
+//                            "\n");
         }
     }
 
@@ -152,6 +162,6 @@ public class StatsFragment extends BaseFragment {
             UserPrefStorage.updateStats(getActivity(), GameDifficulty.values()[mode], 0,0,0,0,0,0,0,0,0,0,0);
         }
 
-        updateStatTextViews();
+        updateStatsData();
     }
 }

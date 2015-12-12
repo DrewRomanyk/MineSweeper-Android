@@ -8,5 +8,5 @@
 
     <item android:id="@+id/action_flag" android:title="@string/menu_flag"
         android:orderInCategory="90" app:showAsAction="always"
-        android:icon="@drawable/ic_action_notflag"/>
+        android:icon="@drawable/ic_action_flag"/>
 </menu>

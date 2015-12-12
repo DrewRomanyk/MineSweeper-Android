@@ -5,6 +5,7 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import app.drewromanyk.com.minesweeper.BuildConfig;
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.activities.GameActivity;
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
@@ -21,6 +22,8 @@ public class Cell {
 
     private boolean reveal;
     private int value; // -1 is bomb, then the rest is the amount of neighbors
+    private int flaggedNeighbors;
+    private int mineNeighbors;
     private boolean flagged;
     private int row;
     private int column;
@@ -152,4 +155,10 @@ public class Cell {
 
     //is the cell a bomb?
     public boolean isMine() { return (value == MINE); }
+
+    public int getFlaggedNeighbors() { return flaggedNeighbors; }
+    public void setFlaggedNeighbors(int flaggedNeighbors) { this.flaggedNeighbors = flaggedNeighbors; }
+
+    public int getMineNeighbors() { return mineNeighbors; }
+    public void setMineNeighbors(int mineNeighbors) { this.mineNeighbors = mineNeighbors; }
 }

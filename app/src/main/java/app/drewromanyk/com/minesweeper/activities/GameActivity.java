@@ -269,8 +269,8 @@ public class GameActivity extends BaseActivity {
 
     public void changeFlagMode(Board board) {
         flagMode = !flagMode;
-        int icon = (flagMode) ? R.drawable.ic_action_flag : R.drawable.ic_action_notflag;
-        flagButton.setIcon(icon);
+//        int icon = (flagMode) ? R.drawable.ic_action_flag : R.drawable.ic_action_notflag;
+//        flagButton.setIcon(icon);
         board.updateCellSize();
 
     }

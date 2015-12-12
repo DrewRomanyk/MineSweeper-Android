@@ -124,66 +124,48 @@ public class UserPrefStorage {
      * STATS
      */
 
-    private static String getPrefixForStats(GameDifficulty difficulty) {
-        String prefix = "";
-
-        switch (difficulty) {
-            case EASY :
-                prefix = "EASY_";
-                break;
-            case MEDIUM :
-                prefix = "MEDIUM_";
-                break;
-            case EXPERT :
-                prefix = "EXPERT_";
-                break;
-        }
-
-        return prefix;
-    }
-
     public static int getWinsForDifficulty(Context context, GameDifficulty difficulty) {
-        return getPrefs(context).getInt(getPrefixForStats(difficulty) + "WINS", 0);
+        return getPrefs(context).getInt(difficulty.getStoragePrefix() + "WINS", 0);
     }
 
     public static int getLosesForDifficulty(Context context, GameDifficulty difficulty) {
-        return getPrefs(context).getInt(getPrefixForStats(difficulty) + "LOSES", 0);
+        return getPrefs(context).getInt(difficulty.getStoragePrefix() + "LOSES", 0);
     }
 
     public static int getBestTimeForDifficulty(Context context, GameDifficulty difficulty) {
-        return getPrefs(context).getInt(getPrefixForStats(difficulty) + "BEST_TIME", 0);
+        return getPrefs(context).getInt(difficulty.getStoragePrefix() + "BEST_TIME", 0);
     }
 
     public static float getAvgTimeForDifficulty(Context context, GameDifficulty difficulty) {
-        return getPrefs(context).getFloat(getPrefixForStats(difficulty) + "AVG_TIME", 0);
+        return getPrefs(context).getFloat(difficulty.getStoragePrefix() + "AVG_TIME", 0);
     }
 
     public static float getExplorPercentForDifficulty(Context context, GameDifficulty difficulty) {
-        return getPrefs(context).getFloat(getPrefixForStats(difficulty) + "EXPLOR_PERCT", 0);
+        return getPrefs(context).getFloat(difficulty.getStoragePrefix() + "EXPLOR_PERCT", 0);
     }
 
     public static int getWinStreakForDifficulty(Context context, GameDifficulty difficulty) {
-        return getPrefs(context).getInt(getPrefixForStats(difficulty) + "WIN_STREAK", 0);
+        return getPrefs(context).getInt(difficulty.getStoragePrefix() + "WIN_STREAK", 0);
     }
 
     public static int getLoseStreakForDifficulty(Context context, GameDifficulty difficulty) {
-        return getPrefs(context).getInt(getPrefixForStats(difficulty) + "LOSES_STREAK", 0);
+        return getPrefs(context).getInt(difficulty.getStoragePrefix() + "LOSES_STREAK", 0);
     }
 
     public static int getCurWinStreakForDifficulty(Context context, GameDifficulty difficulty) {
-        return getPrefs(context).getInt(getPrefixForStats(difficulty) + "CURRENTWIN_STREAK", 0);
+        return getPrefs(context).getInt(difficulty.getStoragePrefix() + "CURRENTWIN_STREAK", 0);
     }
 
     public static int getCurLoseStreakForDifficulty(Context context, GameDifficulty difficulty) {
-        return getPrefs(context).getInt(getPrefixForStats(difficulty) + "CURRENTLOSES_STREAK", 0);
+        return getPrefs(context).getInt(difficulty.getStoragePrefix() + "CURRENTLOSES_STREAK", 0);
     }
 
     public static int getBestScoreForDifficulty(Context context, GameDifficulty difficulty) {
-        return getPrefs(context).getInt(getPrefixForStats(difficulty) + "BEST_SCORE", 0);
+        return getPrefs(context).getInt(difficulty.getStoragePrefix() + "BEST_SCORE", 0);
     }
 
     public static float getAvgScoreForDifficulty(Context context, GameDifficulty difficulty) {
-        return getPrefs(context).getFloat(getPrefixForStats(difficulty) + "AVG_SCORE", 0);
+        return getPrefs(context).getFloat(difficulty.getStoragePrefix() + "AVG_SCORE", 0);
     }
 
     public static void updateStats(Context context, GameDifficulty difficulty, int wins, int loses,
@@ -191,8 +173,8 @@ public class UserPrefStorage {
                                    int losesStreak, int currentWinStreak, int currentLosesStreak,
                                    int bestScore, float avgScore) {
         SharedPreferences.Editor editor = getPrefs(context).edit();
-        String prefix = getPrefixForStats(difficulty);
-        //get data
+        String prefix = difficulty.getStoragePrefix();
+        // Get key info
         String winsKey = prefix + "WINS";
         String losesKey = prefix + "LOSES";
         String bestTimeKey = prefix + "BEST_TIME";
@@ -205,7 +187,7 @@ public class UserPrefStorage {
         String bestScoreKey = prefix + "BEST_SCORE";
         String avgScoreKey = prefix + "AVG_SCORE";
 
-        //wipe data
+        // Put data into storage
         editor.putInt(winsKey, wins);
         editor.putInt(losesKey, loses);
         editor.putInt(bestTimeKey, bestTime);

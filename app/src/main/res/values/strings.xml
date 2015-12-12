@@ -62,16 +62,36 @@ Flag:
     <!-- GAME ACTIVITY-->
     <!-- GAME DIFFICULTY -->
     <string name="game_difficulty_resume">Resume</string>
+    <string name="game_difficulty_resume_details">Continue previous game</string>
     <string name="game_difficulty_easy">Easy</string>
+    <string name="game_difficulty_easy_details">9 x 9\n10 Mines</string>
     <string name="game_difficulty_medium">Medium</string>
+    <string name="game_difficulty_medium_details">16 x 16\n40 Mines</string>
     <string name="game_difficulty_expert">Expert</string>
+    <string name="game_difficulty_expert_details">30 x 16\n99 Mines</string>
     <string name="game_difficulty_custom">Custom</string>
+    <string name="game_difficulty_custom_details">Custom Settings</string>
     <!-- GAME BAR -->
     <string name="game_bar_time_title">Time:</string>
     <string name="game_bar_score_title">Score:\u0020</string>
     <string name="game_bar_mine_title">Mines:\u0020</string>
     <string name="game_best_time">NEW BEST TIME!</string>
     <string name="game_best_score">NEW BEST SCORE!</string>
+
+
+    <!-- STATS FRAGMENT -->
+    <string name="stats_title_best_score">Best Score:\u0020</string>
+    <string name="stats_title_best_time">Best Time:\u0020</string>
+    <string name="stats_title_avg_score">Average Score:\u0020</string>
+    <string name="stats_title_avg_time">Average Score:\u0020</string>
+    <string name="stats_title_games_won">Games Won:\u0020</string>
+    <string name="stats_title_games_played">Games Played:\u0020</string>
+    <string name="stats_title_win_percent">Win Percent:\u0020</string>
+    <string name="stats_title_explore_percent">Explore Percent:\u0020</string>
+    <string name="stats_title_win_streak">Win Streak:\u0020</string>
+    <string name="stats_title_lose_streak">Lose Streak:\u0020</string>
+    <string name="stats_title_current_streak">Current Streak:\u0020</string>
+
 
 
     <!-- GOOGLE GAMES -->

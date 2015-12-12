@@ -231,18 +231,18 @@ public class Board {
             }
         });
         // Touch
-        currentCell.getButton().setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View arg0, MotionEvent arg1) {
-                if (arg1.getAction() == MotionEvent.ACTION_DOWN) {
-                    gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_tap);
-                } else {
-                    gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_playing);
-                }
-
-                return false;
-            }
-        });
+//        currentCell.getButton().setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View arg0, MotionEvent arg1) {
+//                if (arg1.getAction() == MotionEvent.ACTION_DOWN) {
+//                    gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_tap);
+//                } else {
+//                    gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_playing);
+//                }
+//
+//                return false;
+//            }
+//        });
     }
 
     //removes the button listeners to make it more efficient

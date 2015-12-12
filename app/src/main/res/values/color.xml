@@ -19,4 +19,10 @@
     <color name="window_background">#FFF5F5F5</color>
     <color name="light_background">#eeeeee</color>
     <color name="dark_background">#424242</color>
+
+    <color name="resume_difficulty">#009688</color>
+    <color name="custom_difficulty">#E91E63</color>
+    <color name="easy_difficulty">#4CAF50</color>
+    <color name="medium_difficulty">#2196F3</color>
+    <color name="expert_difficulty">#9C27B0</color>
 </resources>
