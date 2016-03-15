@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.plus.Plus;
@@ -89,23 +92,25 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     private void setupInAppPurchases() {
-        mHelper = new IabHelper(this, BuildConfig.LICENSE_KEY);
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        int code = api.isGooglePlayServicesAvailable(this);
+        if (code == ConnectionResult.SUCCESS) {
+            mHelper = new IabHelper(this, BuildConfig.LICENSE_KEY);
 
-        mHelper.startSetup(new
-           IabHelper.OnIabSetupFinishedListener() {
-               public void onIabSetupFinished(IabResult result) {
-                   if (!result.isSuccess()) {
+            mHelper.startSetup(new
+            IabHelper.OnIabSetupFinishedListener() {
+                public void onIabSetupFinished(IabResult result) {
+                    if (!result.isSuccess()) {
                        //Log.d("BaseActivity", "In-app Billing setup failed: " + result);
 
-                   } else {
-                       //Log.d("BaseActivity", "In-app Billing is set up OK");
-                       mHelper.enableDebugLogging(true, "IN_APP_PURCH");
-                       if(((MinesweeperApp) getApplication()).getIsPremium() == -1) {
-                           new premiumAsyncTask().execute();
-                       }
-                   }
-               }
-       });
+                    } else {
+                        if(((MinesweeperApp) getApplication()).getIsPremium() == -1) {
+                            new premiumAsyncTask().execute();
+                        }
+                    }
+                }
+            });
+        }
     }
 
     protected void setupGoogleGames() {

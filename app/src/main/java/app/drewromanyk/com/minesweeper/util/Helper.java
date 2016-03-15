@@ -15,31 +15,6 @@ import app.drewromanyk.com.minesweeper.application.MinesweeperApp;
  */
 public class Helper {
 
-    // Expects a string in the form MM:SS or HH:MM:SS
-    public static int getSecondsFromTime(String value) {
-        String[] parts = value.split(":");
-        for (int i = 0; i < parts.length; i++) {
-            parts[i] = parts[i].replaceAll("\\D", "");
-        }
-
-        // Wrong format, no value for you.
-        if (parts.length < 2 || parts.length > 3)
-            return 0;
-
-        int seconds = 0, minutes = 0, hours = 0;
-
-        if (parts.length == 2) {
-            seconds = Integer.parseInt(parts[1]);
-            minutes = Integer.parseInt(parts[0]);
-        } else if (parts.length == 3) {
-            seconds = Integer.parseInt(parts[2]);
-            minutes = Integer.parseInt(parts[1]);
-            hours = Integer.parseInt(parts[1]);
-        }
-
-        return seconds + (minutes * 60) + (hours * 3600);
-    }
-
     // resizes a bitmap to new dimensions
     public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
         int width = bm.getWidth();

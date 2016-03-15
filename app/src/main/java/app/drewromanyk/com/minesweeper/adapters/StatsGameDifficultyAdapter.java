@@ -100,8 +100,8 @@ public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDi
 
         double winPerct = ((totalGames != 0) ? ((((double) wins/totalGames)) * 100) : 0);
 
-        holder.bestScore.setText(boldString(context.getString(R.string.stats_title_best_score), "" + bestScore));
-        holder.avgScore.setText(boldString(context.getString(R.string.stats_title_avg_score), String.format("%.2f", avgScore)));
+        holder.bestScore.setText(boldString(context.getString(R.string.stats_title_best_score), "" + String.format("%.2f", (double) bestScore / 1000)));
+        holder.avgScore.setText(boldString(context.getString(R.string.stats_title_avg_score), String.format("%.2f", (double) avgScore / 1000)));
         holder.bestTime.setText(boldString(context.getString(R.string.stats_title_best_time), "" + bestTime));
         holder.avgTime.setText(boldString(context.getString(R.string.stats_title_avg_time), String.format("%.2f", avgTime)));
         holder.gamesWon.setText(boldString(context.getString(R.string.stats_title_games_won), "" + wins));

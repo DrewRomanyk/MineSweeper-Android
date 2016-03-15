@@ -75,7 +75,10 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
         updatePlaySelectButtons();
     }
 
-    private boolean hasResumeGame() { return UserPrefStorage.getLastGameStatus(getActivity()) == GameStatus.PLAYING.ordinal(); }
+    private boolean hasResumeGame() {
+        return UserPrefStorage.getLastGameStatus(getActivity()) == GameStatus.PLAYING.ordinal()
+                && UserPrefStorage.isCurrentSavedDataVersion(getActivity());
+    }
 
     private void updatePlaySelectButtons() {
         ArrayList<GameDifficulty> gameDifficulties = new ArrayList<>();

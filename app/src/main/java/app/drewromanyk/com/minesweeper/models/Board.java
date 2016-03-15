@@ -6,6 +6,7 @@ package app.drewromanyk.com.minesweeper.models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.nearby.messages.Message;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import app.drewromanyk.com.minesweeper.BuildConfig;
 import app.drewromanyk.com.minesweeper.R;
@@ -50,8 +55,9 @@ public class Board {
     private GridLayout board;
     private boolean tappedOnRevealedCell = false;
     private ThreeBV score3BV;
-    private boolean loadingForStats = false;
-    private int loadedGameTime;
+    private long gameTime;
+    private boolean isGameTimerOn = false;
+    private Timer timer;
 
     /*
      * SETUP BOARD
@@ -64,6 +70,7 @@ public class Board {
         this.mineCount = mineCount;
         this.gameDifficulty = gameDifficulty;
         this.gameActivity = gameActivity;
+        this.gameTime = 1;
 
         gameStatus = GameStatus.NOT_STARTED;
         firstRound = true;
@@ -75,10 +82,11 @@ public class Board {
     }
 
     //RESUME GAME
-    public Board(int mineCount, int[][] values, boolean[][] revealed, boolean[][] flagged, GameDifficulty gameDifficulty, GameStatus status, GameActivity gameActivity) {
+    public Board(int mineCount, int[][] values, boolean[][] revealed, boolean[][] flagged, GameDifficulty gameDifficulty, GameStatus status, GameActivity gameActivity, long gameTime) {
         this.mineCount = mineCount;
         this.gameDifficulty = gameDifficulty;
         this.gameActivity = gameActivity;
+        this.gameTime = gameTime;
         rows = values.length;
         columns = values[0].length;
 
@@ -109,11 +117,11 @@ public class Board {
         }
 
         if(!firstRound) {
-            gameActivity.boardInfoView.startChronometer(gameActivity.gamePlaying);
+            startGameTime();
             findNeighborCells();
             score3BV = new ThreeBV(cell, rows, columns);
             score3BV.calculate3BV();
-            //Gack code to fix flag issue
+            // Gack code to fix flag issue
             for (int r = 0; r < rows; r++) {
                 for (int c = 0; c < columns; c++) {
                     if(cell[r][c].isFlagged()) {
@@ -122,8 +130,6 @@ public class Board {
                 }
             }
 
-        } else {
-            gameActivity.boardInfoView.stopChronometer();
         }
 
         gameActivity.boardInfoView.setMineKeeperText(mineCount - flaggedCells);
@@ -133,9 +139,8 @@ public class Board {
     }
 
     //MAIN RESUME FOR STATS
-    public Board(int mineCount, int[][] values, boolean[][] revealed, boolean[][] flagged, GameStatus status, GameDifficulty gameDifficulty, long time) {
-        loadingForStats = true;
-        loadedGameTime = (int) time;
+    public Board(int mineCount, int[][] values, boolean[][] revealed, boolean[][] flagged, GameStatus status, GameDifficulty gameDifficulty, long gameTime) {
+        this.gameTime = gameTime;
         this.mineCount = mineCount;
         this.gameDifficulty = gameDifficulty;
         rows = values.length;
@@ -171,7 +176,7 @@ public class Board {
         score3BV.calculate3BV();
     }
 
-    //generates the cells for the Board, they are all empty cells
+    // Generates the cells for the Board, they are all empty cells
     private void createCells() {
         cell = new Cell[rows][columns];
         for (int r = 0; r < rows; r++) {
@@ -191,7 +196,7 @@ public class Board {
     /*
      * UI & LISTENERS
      */
-    //creates the board for the grid layout
+    // Creates the board for the grid layout
     private void drawBoard() {
         gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_playing);
         board.setColumnCount(columns);
@@ -266,19 +271,22 @@ public class Board {
         if (isQuickChangeTap(shortTap, clickedCell)) {
             gameActivity.changeFlagMode(this);
         } else if(isRevealTap(shortTap, clickedCell)) {
+            gameActivity.playSoundEffects(GameSoundType.TAP);
             revealCell(clickedCell);
         } else if (isFlagTap(shortTap)) {
             flagCell(clickedCell);
             if(longTap && !clickedCell.isRevealed()) {
+                gameActivity.playSoundEffects(GameSoundType.LONGPRESS);
                 clickedCell.getButton().startAnimation(AnimationUtils.loadAnimation(gameActivity, R.anim.puff_in));
+            } else {
+                gameActivity.playSoundEffects(GameSoundType.TAP);
             }
         }
         checkIfVictorious();
 
         if(shortTap && gameStatus == GameStatus.PLAYING) {
-            gameActivity.playSoundEffects(GameSoundType.TAP);
+//            gameActivity.playSoundEffects(GameSoundType.TAP);
         } else if (gameStatus == GameStatus.PLAYING) {
-            gameActivity.playSoundEffects(GameSoundType.LONGPRESS);
         }
     }
 
@@ -303,12 +311,28 @@ public class Board {
         firstRound = false;
         gameStatus = GameStatus.PLAYING;
         gameActivity.gamePlaying = true;
-        gameActivity.boardInfoView.startChronometer(gameActivity.gamePlaying);
-        createMines(tgtCell);
-        findNeighborCells();
-        setAllNeighborValues();
-        score3BV = new ThreeBV(cell, rows, columns);
-        score3BV.calculate3BV();
+        startGameTime();
+
+        boolean validBoard = false;
+
+        while (!validBoard) {
+            wipeBoard();
+            createMines(tgtCell);
+            findNeighborCells();
+            setAllNeighborValues();
+            score3BV = new ThreeBV(cell, rows, columns);
+            score3BV.calculate3BV();
+
+            validBoard = score3BV.getThreeBV() > 1;
+        }
+    }
+
+    private void wipeBoard() {
+        for (int r = 0; r < cell.length; r++) {
+            for (int c = 0; c < cell[0].length; c++) {
+                cell[r][c].setValue(0);
+            }
+        }
     }
 
     //creates which cells ( not the firstRound cell) are bombs
@@ -333,7 +357,6 @@ public class Board {
                 placedMines++;
                 cell[randomR][randomC].setValue(Cell.MINE);
             }
-
         }
     }
 
@@ -487,7 +510,7 @@ public class Board {
         }
 
         removeCellListeners();
-        gameActivity.boardInfoView.stopChronometer();
+        stopGameTime();
         gameActivity.refreshButton.setIcon(refreshIcon);
         gameActivity.vibrate();
     }
@@ -503,9 +526,10 @@ public class Board {
 
     public double getGameScore() {
         if(score3BV == null) return 0;
+        long time = getGameTime();
 
-        double scoreTemp = (score3BV.getThreeBV() / getGameSeconds());
-        return ((double)((int) (scoreTemp * 1000)) / 1000.0);
+        double scoreTemp = (score3BV.getThreeBV() / time);
+        return (scoreTemp * 1000.0);
     }
 
     //reveals the board when you lose
@@ -554,14 +578,14 @@ public class Board {
         int total_games = wins + loses;
 
         // Update best time and avg time
-        int currentTime = getGameSeconds();
+        int currentTime = (int) (getGameTime() / 1000);
         if(gameStatus == GameStatus.VICTORY) {
             // Smaller currentTime is better than bestTime
             if(bestTime > currentTime || bestTime == 0) {
                 newBestTime = true;
                 bestTime = currentTime;
             }
-            avgTime += ((float) currentTime - avgTime)/(wins);
+            avgTime += (currentTime - avgTime)/(wins);
         }
 
         // Update exploration percentage
@@ -582,7 +606,7 @@ public class Board {
             losesStreak = currentLosesStreak;
 
         // Update best score & avg score
-        int currentScore = (int) ((score3BV.getThreeBV() / currentTime) * 1000);
+        int currentScore = (int) (getGameScore() * 1000);
         if(gameStatus == GameStatus.VICTORY) {
             // Bigger currentScore is better than bestScore
             if(bestScore < currentScore || bestScore == 0) {
@@ -605,11 +629,11 @@ public class Board {
     }
 
     private void updateGoogleGame() {
-        int seconds = getGameSeconds();
-        long score = (long) ((score3BV.getThreeBV() / seconds) * 1000);
+        long millis = getGameTime();
+        long score = (long) (getGameScore() * 1000);
         GoogleApiClient googleApiClient = gameActivity.getGoogleApiClient();
 
-        int[] achievementSeconds = {20,60,150};
+        long[] achievementSeconds = {20000,60000,150000};
         String[] achievementWin = {BuildConfig.ACHIEVEMENT_EASY, BuildConfig.ACHIEVEMENT_MEDIUM, BuildConfig.ACHIEVEMENT_EXPERT};
         String[] achievementSpeed = {BuildConfig.ACHIEVEMENT_FAST, BuildConfig.ACHIEVEMENT_QUICK, BuildConfig.ACHIEVEMENT_SWIFT};
         String[] leaderboardScores = {BuildConfig.LEADERBOARD_EASY_BEST_SCORES, BuildConfig.LEADERBOARD_MEDIUM_BEST_SCORES, BuildConfig.LEADERBOARD_EXPERT_BEST_SCORES};
@@ -624,13 +648,14 @@ public class Board {
                 // Offset is 2 for RESUME and CUSTOM
                 int gameDiffIndex = gameDifficulty.ordinal() - 2;
                 Games.Achievements.unlock(googleApiClient, "" + achievementWin[gameDiffIndex]);
-                if(seconds < achievementSeconds[gameDiffIndex]) {
+                if(millis < achievementSeconds[gameDiffIndex]) {
                     Games.Achievements.unlock(googleApiClient, "" + achievementSpeed[gameDiffIndex]);
                 }
 
                 Games.Leaderboards.submitScore(googleApiClient,
                         "" + leaderboardScores[gameDiffIndex],
                         score);
+                int seconds = (int) Math.ceil(millis / 1000.0);
                 Games.Leaderboards.submitScore(googleApiClient,
                         "" + leaderboardTimes[gameDiffIndex],
                         seconds);
@@ -639,6 +664,40 @@ public class Board {
                         UserPrefStorage.getCurWinStreakForDifficulty(gameActivity, gameDifficulty));
             }
         }
+    }
+
+    /*
+     * GAME TIME FUNCTIONS
+     */
+
+    public void startGameTime() {
+        isGameTimerOn = true;
+        if(timer != null)
+            timer.cancel();
+        timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            public void run() {
+                gameActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        gameTime += 1000; //increase every sec
+                        gameTime -= gameTime % 1000;
+                        if (isGameTimerOn) {
+                            gameActivity.boardInfoView.setTimeKeeperText(gameTime);
+                            gameActivity.boardInfoView.setScoreKeeperText(getGameScore());
+                        }
+                    }
+                });
+            }
+        };
+
+        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+    }
+
+    public void stopGameTime() {
+        isGameTimerOn = false;
+        if(timer != null)
+            timer.cancel();
     }
 
     /*
@@ -659,11 +718,7 @@ public class Board {
     public boolean getCellReveal(int r, int c) { return cell[r][c].isRevealed(); }
     public boolean getCellFlag(int r, int c) { return cell[r][c].isFlagged(); }
     public boolean getFirstRound() { return firstRound; }
-    public int getGameSeconds() {
-        if(loadingForStats) {
-            return loadedGameTime;
-        } else {
-            return gameActivity.boardInfoView.getChronometerSeconds();
-        }
+    public long getGameTime() {
+        return (gameTime == 0) ? 1 : gameTime;
     }
 }

@@ -38,13 +38,21 @@ public class UserPrefStorage {
     /*
      * SAVED GAME INFO
      */
-    
+
+    public static String getSavedDataVersion(Context context) {
+        return getPrefs(context).getString("SAVED_VERSION", "");
+    }
+
+    public static boolean isCurrentSavedDataVersion(Context context) {
+        return getSavedDataVersion(context).equals(context.getString(R.string.preference_saved_current_version));
+    }
+
     public static int getLastGameStatus(Context context) {
-        return getPrefs(context).getInt(context.getString(R.string.game_status), GameStatus.DEFEAT.ordinal());
+        return getPrefs(context).getInt("STATUS", GameStatus.DEFEAT.ordinal());
     }
 
     public static long getGameDuration(Context context) {
-        return getPrefs(context).getLong("TIME", 0);
+        return getPrefs(context).getLong("TIME_MILLIS", 0);
     }
 
     public static Board loadSavedBoard(Context context, boolean statisticsLoad) {
@@ -54,7 +62,6 @@ public class UserPrefStorage {
 
         int rows = preferences.getInt("ROWS", 0);
         int columns = preferences.getInt("COLUMNS", 0);
-
 
         if(!(rows == 0 || columns == 0)) {
             GameDifficulty difficulty = GameDifficulty.values()[preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal())];
@@ -81,7 +88,7 @@ public class UserPrefStorage {
                 if(statisticsLoad) {
                     result = new Board(mineCount, cellValues, cellRevealed, cellFlagged, status, difficulty, getGameDuration(context));
                 } else {
-                    result = new Board(mineCount, cellValues, cellRevealed, cellFlagged, difficulty, status, (GameActivity) context);
+                    result = new Board(mineCount, cellValues, cellRevealed, cellFlagged, difficulty, status, (GameActivity) context, getGameDuration(context));
                 }
 
             } catch (Exception e) {
@@ -93,14 +100,16 @@ public class UserPrefStorage {
     }
 
     public static void saveBoardInfo(Context context, Board minesweeperBoard) {
+        long gameTime = minesweeperBoard.getGameTime();
         SharedPreferences.Editor editor = getPrefs(context).edit();
 
+        editor.putString("SAVED_VERSION", context.getString(R.string.preference_saved_current_version));
         editor.putInt("ROWS", minesweeperBoard.getRows());
         editor.putInt("COLUMNS", minesweeperBoard.getColumns());
         editor.putInt("MINE_COUNT", minesweeperBoard.getMineCount());
         editor.putInt("DIFFICULTY", minesweeperBoard.getGameDifficulty().ordinal());
         editor.putInt("STATUS", minesweeperBoard.getGameStatus().ordinal());
-        editor.putLong("TIME", minesweeperBoard.getGameSeconds());
+        editor.putLong("TIME_MILLIS", gameTime);
 
         JSONArray cellValues = new JSONArray();
         JSONArray cellRevealed = new JSONArray();

@@ -2,7 +2,7 @@
 <resources>
     <!-- APP -->
     <string name="app_name">Minesweeper</string>
-    <string name="version_name">1.1.2</string>
+    <string name="version_name">1.2.0</string>
 
     <!-- -->
 
@@ -72,7 +72,7 @@ Flag:
     <string name="game_difficulty_custom">Custom</string>
     <string name="game_difficulty_custom_details">Custom Settings</string>
     <!-- GAME BAR -->
-    <string name="game_bar_time_title">Time:</string>
+    <string name="game_bar_time_title">Time:\u0020</string>
     <string name="game_bar_score_title">Score:\u0020</string>
     <string name="game_bar_mine_title">Mines:\u0020</string>
     <string name="game_best_time">NEW BEST TIME!</string>
@@ -83,7 +83,7 @@ Flag:
     <string name="stats_title_best_score">Best Score:\u0020</string>
     <string name="stats_title_best_time">Best Time:\u0020</string>
     <string name="stats_title_avg_score">Average Score:\u0020</string>
-    <string name="stats_title_avg_time">Average Score:\u0020</string>
+    <string name="stats_title_avg_time">Average Time:\u0020</string>
     <string name="stats_title_games_won">Games Won:\u0020</string>
     <string name="stats_title_games_played">Games Played:\u0020</string>
     <string name="stats_title_win_percent">Win Percent:\u0020</string>
@@ -113,6 +113,6 @@ Flag:
     <string name="preference_navdrawer">navdrawer_check</string>
     <string name="preference_lightmode">lightmode_check</string>
 
-    <string name="game_status">STATUS</string>
+    <string name="preference_saved_current_version">1</string>
 
 </resources>

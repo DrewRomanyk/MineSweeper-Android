@@ -33,6 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Drew on 1/10/2015.
  */
 public class MainActivity extends BaseActivity {
+    private static final String TAG = "MainActivity";
 
     //NAV DRAWER
     private DrawerLayout drawerLayout;
@@ -58,9 +59,7 @@ public class MainActivity extends BaseActivity {
         headerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("MainActivity", "header clicked");
                 if (getGoogleApiClient().isConnected()) {
-                    Log.v("MainActivity", "header clicked -- signout");
                     Games.signOut(getGoogleApiClient());
                     getGoogleApiClient().disconnect();
 
@@ -69,7 +68,6 @@ public class MainActivity extends BaseActivity {
                     Picasso.with(v.getContext()).load(R.color.background_material_dark).into((ImageView) navView.findViewById(R.id.cover));
 
                 } else {
-                    Log.v("MainActivity", "header clicked -- signin");
                     setSignInClicked(true);
                     getGoogleApiClient().connect();
                 }

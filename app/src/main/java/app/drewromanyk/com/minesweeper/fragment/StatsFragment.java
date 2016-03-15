@@ -107,56 +107,6 @@ public class StatsFragment extends BaseFragment {
         adapter.setGameDifficultyList(difficulties);
     }
 
-    private void updateStatTextViews1() {
-        for(int mode = GameDifficulty.EASY.ordinal(); mode <= GameDifficulty.EXPERT.ordinal(); mode++) {
-            // Offset is 2 due to RESUME && CUSTOM
-//            TextView modeText = contentTextView[mode - 2];
-//            TextView modeTitle = titleTextView[mode - 2];
-            GameDifficulty difficulty = GameDifficulty.values()[mode];
-
-            String title = "";
-            switch (difficulty) {
-                case EASY :
-                    title = "Easy";
-                    break;
-                case MEDIUM :
-                    title = "Medium";
-                    break;
-                case EXPERT :
-                    title = "Expert";
-                    break;
-            }
-
-            // Get data
-            int wins = UserPrefStorage.getWinsForDifficulty(getActivity(), difficulty);
-            int loses = UserPrefStorage.getLosesForDifficulty(getActivity(), difficulty);
-            int bestTime = UserPrefStorage.getBestTimeForDifficulty(getActivity(), difficulty);
-            float avgTime = UserPrefStorage.getAvgTimeForDifficulty(getActivity(), difficulty);
-            float explorPerct = UserPrefStorage.getExplorPercentForDifficulty(getActivity(), difficulty);
-            int winStreak = UserPrefStorage.getWinStreakForDifficulty(getActivity(), difficulty);
-            int losesStreak = UserPrefStorage.getLoseStreakForDifficulty(getActivity(), difficulty);
-            int currentWinStreak = UserPrefStorage.getCurWinStreakForDifficulty(getActivity(), difficulty);
-            int currentLosesStreak = UserPrefStorage.getCurLoseStreakForDifficulty(getActivity(), difficulty);
-            int bestScore = UserPrefStorage.getBestScoreForDifficulty(getActivity(), difficulty);
-            float avgScore = UserPrefStorage.getAvgScoreForDifficulty(getActivity(), difficulty);
-
-            int totalGames = wins + loses;
-
-            // Show data
-//            modeTitle.setText(title);
-//            modeText.setText(
-//                    "Best score: " + ((double) bestScore/1000) + "\nAverage score: " + ((double) avgScore/1000) +
-//                            "\nBest time: " + bestTime + "\nAverage time: " + avgTime +
-//                            "\nGames won: " + wins + "\nGames played: " + totalGames +
-//                            "\nWin percentage: " + ((totalGames != 0) ? ((((double) wins/totalGames)) * 100) : 0) + "%" +
-//                            "\nExploration percentage: " + explorPerct + "%" +
-//                            "\nLongest winning streak: " + winStreak +
-//                            "\nLongest losing streak: " + losesStreak +
-//                            "\nCurrent streak: " + ((currentWinStreak == 0) ? currentLosesStreak : currentWinStreak) +
-//                            "\n");
-        }
-    }
-
     private void deleteLocalStats() {
         for(int mode = GameDifficulty.EASY.ordinal(); mode <= GameDifficulty.EXPERT.ordinal(); mode++) {
             UserPrefStorage.updateStats(getActivity(), GameDifficulty.values()[mode], 0,0,0,0,0,0,0,0,0,0,0);

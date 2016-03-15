@@ -10,7 +10,6 @@ import android.support.v4.app.NavUtils;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +23,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
+
+import org.w3c.dom.Text;
 
 import app.drewromanyk.com.minesweeper.enums.GameSoundType;
 import app.drewromanyk.com.minesweeper.models.Board;
@@ -100,19 +101,9 @@ public class GameActivity extends BaseActivity {
 
     private void setupBoardInfoLayout() {
         boardInfoView = new BoardInfoView(
+                (TextView) findViewById(R.id.timeKeeper),
                 (TextView) findViewById(R.id.mineKeeper),
-                (TextView) findViewById(R.id.scoreKeeper),
-                (Chronometer) findViewById(R.id.timeKeeper));
-        boardInfoView.setChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                if (minesweeperBoard != null) {
-                    boardInfoView.setScoreKeeperText(minesweeperBoard.getGameScore());
-                } else {
-                    boardInfoView.setScoreKeeperText(0);
-                }
-            }
-        });
+                (TextView) findViewById(R.id.scoreKeeper));
     }
 
     private void setupBoardLayout(Bundle savedInstanceState) {
@@ -159,7 +150,8 @@ public class GameActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         gamePlaying = (minesweeperBoard.getGameStatus() == GameStatus.PLAYING);
-        boardInfoView.stopChronometer();
+        if(minesweeperBoard != null)
+            minesweeperBoard.stopGameTime();
 
         UserPrefStorage.saveBoardInfo(this, minesweeperBoard);
     }
@@ -168,7 +160,7 @@ public class GameActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         if(minesweeperBoard != null && !minesweeperBoard.getFirstRound() && gamePlaying)
-            boardInfoView.startChronometer(gamePlaying);
+            minesweeperBoard.startGameTime();
 
         Helper.getGoogAnalyticsTracker(this).setScreenName("Screen~" + "Game");
         Helper.getGoogAnalyticsTracker(this).send(new HitBuilders.ScreenViewBuilder().build());
@@ -269,8 +261,8 @@ public class GameActivity extends BaseActivity {
 
     public void changeFlagMode(Board board) {
         flagMode = !flagMode;
-//        int icon = (flagMode) ? R.drawable.ic_action_flag : R.drawable.ic_action_notflag;
-//        flagButton.setIcon(icon);
+        int icon = (flagMode) ? R.drawable.ic_action_flag : R.drawable.ic_action_notflag;
+        flagButton.setIcon(icon);
         board.updateCellSize();
 
     }
@@ -284,11 +276,11 @@ public class GameActivity extends BaseActivity {
         if(gamePlaying) {
             gameDifficulty = minesweeperBoard.getGameDifficulty();
         }
-        boardInfoView.stopChronometer();
+        if(minesweeperBoard != null)
+            minesweeperBoard.stopGameTime();
 
         // Create or load a new board
         if((gameDifficulty == GameDifficulty.RESUME && minesweeperBoard == null) || !savedStateIsEmpty) {
-            boardInfoView.setChronometerTime(UserPrefStorage.getGameDuration(this));
             minesweeperBoard = UserPrefStorage.loadSavedBoard(this, false);
         } else {
             // Set to custom game defaults
@@ -339,6 +331,8 @@ public class GameActivity extends BaseActivity {
     private void setupBiDirectionalScrolling() {
 
         final HorizontalScrollView hScroll = (HorizontalScrollView) findViewById(R.id.scrollHorizontal);
+        if(hScroll == null) return;
+
         vScroll = (ScrollView) findViewById(R.id.scrollVertical);
 
         vScroll.setOnTouchListener(new View.OnTouchListener() { //inner scroll listener

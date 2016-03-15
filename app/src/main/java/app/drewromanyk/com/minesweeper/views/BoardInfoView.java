@@ -6,32 +6,47 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.models.Board;
 import app.drewromanyk.com.minesweeper.util.Helper;
 
 /**
  * Created by Drew on 11/7/15.
- * View for displaying statisitcal information to the user and also controlling the chronometer
+ * View for displaying statistical information to the user and also controlling the chronometer
  */
 public class BoardInfoView {
 
+    private TextView timeKeeperView;
     private TextView mineKeeperView;
     private TextView scoreKeeperView;
-    private Chronometer chronometer;
-    private long lastStopTime;
 
-    public BoardInfoView(TextView mineKeeperView, TextView scoreKeeperView, Chronometer chronometer) {
+    public BoardInfoView(TextView timeKeeperView, TextView mineKeeperView, TextView scoreKeeperView) {
+        this.timeKeeperView = timeKeeperView;
         this.mineKeeperView = mineKeeperView;
         this.scoreKeeperView = scoreKeeperView;
-        this.chronometer = chronometer;
     }
 
     public void resetInfo(int mineCount) {
+        setTimeKeeperText(0);
         setMineKeeperText(mineCount);
         setScoreKeeperText(0);
-        lastStopTime = 0;
-        chronometer.setBase(SystemClock.elapsedRealtime());
+    }
+
+    public void setTimeKeeperText(long value) {
+        Context context = timeKeeperView.getContext();
+        timeKeeperView.setText(context.getString(R.string.game_bar_time_title) + getTimeString(value));
+    }
+
+    private String getTimeString(long millis) {
+        //hh:mm:ss
+        return String.format("%02d:%02d:%02d",
+                TimeUnit.MILLISECONDS.toHours(millis),
+                TimeUnit.MILLISECONDS.toMinutes(millis) -
+                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                TimeUnit.MILLISECONDS.toSeconds(millis) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
     }
 
     public void setMineKeeperText(int value) {
@@ -40,41 +55,6 @@ public class BoardInfoView {
     }
     public void setScoreKeeperText(double value) {
         Context context = mineKeeperView.getContext();
-        scoreKeeperView.setText(context.getString(R.string.game_bar_score_title) + String.format( "%.4f", value ));
-    }
-
-    /*
-     * CHRONOMETER
-     */
-    public void setChronometerTime(long curDuration) {
-        lastStopTime = SystemClock.elapsedRealtime() + (curDuration * 500) + 1000;
-    }
-
-    public void setChronometerTickListener(Chronometer.OnChronometerTickListener listener) {
-        chronometer.setOnChronometerTickListener(listener);
-    }
-
-    public void startChronometer(boolean gamePlaying) {
-        // on first start
-        if ( lastStopTime == 0 ) {
-            chronometer.setBase(SystemClock.elapsedRealtime());
-        } else {
-            long intervalOnPause = (SystemClock.elapsedRealtime() - lastStopTime);
-            chronometer.setBase(chronometer.getBase() + intervalOnPause);
-        }
-        if(gamePlaying) {
-            chronometer.start();
-        } else {
-            chronometer.stop();
-        }
-    }
-
-    public void stopChronometer() {
-        lastStopTime = SystemClock.elapsedRealtime();
-        chronometer.stop();
-    }
-
-    public int getChronometerSeconds() {
-        return Helper.getSecondsFromTime(chronometer.getText().toString());
+        scoreKeeperView.setText(context.getString(R.string.game_bar_score_title) + String.format( "%.3f", value ));
     }
 }
