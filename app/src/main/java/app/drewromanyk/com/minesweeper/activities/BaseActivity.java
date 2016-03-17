@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.Preference;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,7 @@ import app.drewromanyk.com.minesweeper.util.billing.Purchase;
  */
 public abstract class BaseActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    private static final String TAG = "BaseActivity";
     // ADS
     private AdView mAdView;
 
@@ -128,16 +130,18 @@ public abstract class BaseActivity extends AppCompatActivity
 
     protected void setupAds(AdView adView) {
         mAdView = adView;
-        mAdView.setAdListener(new AdListener() { // no overrides
-        });
-        mAdView.loadAd(new AdRequest.Builder()
-                        .build()
-        );
 
-        if(((MinesweeperApp) getApplication()).getIsPremium() == 1) {
-            mAdView.pause();
-            mAdView.setVisibility(View.GONE);
-        }
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mAdView.loadAd(new AdRequest.Builder().build());
+                if(((MinesweeperApp) getApplication()).getIsPremium() == 1) {
+                    mAdView.pause();
+                    mAdView.setVisibility(View.GONE);
+                }
+            }
+        }, 1000);
     }
 
     private void updateAds(int isPremium) {
