@@ -6,6 +6,14 @@
         android:orderInCategory="80" app:showAsAction="always"
         android:icon="@drawable/ic_action_refresh_playing"/>
 
+    <item android:id="@+id/action_zoomin" android:title="@string/menu_zoomin"
+        android:orderInCategory="81" app:showAsAction="always"
+        android:icon="@drawable/ic_action_zoom_in"/>
+
+    <item android:id="@+id/action_zoomout" android:title="@string/menu_zoomout"
+        android:orderInCategory="82" app:showAsAction="always"
+        android:icon="@drawable/ic_action_zoom_out"/>
+
     <item android:id="@+id/action_flag" android:title="@string/menu_flag"
         android:orderInCategory="90" app:showAsAction="always"
         android:icon="@drawable/ic_action_notflag"/>

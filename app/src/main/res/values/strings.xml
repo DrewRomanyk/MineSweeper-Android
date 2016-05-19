@@ -20,6 +20,8 @@
     <string name="menu_restart">New Game</string>
     <string name="menu_flag">Flag Mode</string>
     <string name="menu_wipe">Wipe Statistics</string>
+    <string name="menu_zoomin">Zoom In</string>
+    <string name="menu_zoomout">Zoom Out</string>
 
     <!-- DIALOG -->
     <!-- CANCELRESUME -->

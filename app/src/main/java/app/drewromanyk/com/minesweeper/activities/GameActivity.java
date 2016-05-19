@@ -226,6 +226,16 @@ public class GameActivity extends BaseActivity {
             case R.id.action_flag :
                 changeFlagMode(minesweeperBoard);
                 return true;
+            case R.id.action_zoomin:
+                if(minesweeperBoard != null) {
+                    minesweeperBoard.zoomIn();
+                }
+                return true;
+            case R.id.action_zoomout:
+                if(minesweeperBoard != null) {
+                    minesweeperBoard.zoomOut();
+                }
+                return true;
             case android.R.id.home :
                 NavUtils.navigateUpFromSameTask(this);
                 return true;

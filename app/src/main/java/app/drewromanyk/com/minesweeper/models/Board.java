@@ -48,6 +48,7 @@ public class Board {
     private long gameTime;
     private boolean isGameTimerOn = false;
     private Timer timer;
+    private double gameCellScale = 1;
 
     /*
      * SETUP BOARD
@@ -684,6 +685,31 @@ public class Board {
         isGameTimerOn = false;
         if(timer != null)
             timer.cancel();
+    }
+
+    /*
+     * ZOOM METHODS
+     */
+
+    public void zoomIn() {
+        gameCellScale += .2;
+        if(gameCellScale > 1.6) gameCellScale = 1.6;
+        updateCellsZoom();
+    }
+
+    public void zoomOut() {
+        gameCellScale -= .2;
+        if(gameCellScale < .4) gameCellScale = .4;
+        updateCellsZoom();
+    }
+
+    private void updateCellsZoom() {
+        for (int r = 0; r < cell.length; r++) {
+            for (int c = 0; c < cell[0].length; c++) {
+                cell[r][c].setGameCellScale(gameCellScale);
+                cell[r][c].updateImageValue();
+            }
+        }
     }
 
     /*

@@ -28,6 +28,7 @@ public class Cell {
     private int row;
     private int column;
     private ImageView cellButton;
+    private double gameCellScale = 1;
 
     // empty constructor for null cells
     public Cell() {}
@@ -69,7 +70,7 @@ public class Cell {
     // Update size of cell based on density of screen & pinch scale & Preferences
     private void updateButtonSize() {
         final double densityScale = gameActivity.getResources().getDisplayMetrics().density / 3;
-        int cellSize =(int) ((((1.0 * UserPrefStorage.getCellSize(gameActivity)) / 100) * 100) * 1 * densityScale);
+        int cellSize =(int) ((((1.0 * UserPrefStorage.getCellSize(gameActivity)) / 100) * 100) * gameCellScale * densityScale);
         cellButton.getLayoutParams().width = cellSize;
         cellButton.getLayoutParams().height = cellSize;
         cellButton.setMinimumHeight(1);
@@ -161,4 +162,6 @@ public class Cell {
 
     public int getMineNeighbors() { return mineNeighbors; }
     public void setMineNeighbors(int mineNeighbors) { this.mineNeighbors = mineNeighbors; }
+
+    public void setGameCellScale(double gameCellScale) { this.gameCellScale = gameCellScale; }
 }
