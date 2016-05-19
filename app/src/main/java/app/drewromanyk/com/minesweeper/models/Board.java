@@ -5,14 +5,6 @@ package app.drewromanyk.com.minesweeper.models;
  */
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Vibrator;
-import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.GridLayout;
@@ -20,7 +12,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
-import com.google.android.gms.nearby.messages.Message;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,7 +22,6 @@ import app.drewromanyk.com.minesweeper.activities.GameActivity;
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
 import app.drewromanyk.com.minesweeper.enums.GameSoundType;
 import app.drewromanyk.com.minesweeper.enums.GameStatus;
-import app.drewromanyk.com.minesweeper.util.Helper;
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 

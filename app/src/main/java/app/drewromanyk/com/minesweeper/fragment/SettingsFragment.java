@@ -1,8 +1,11 @@
 package app.drewromanyk.com.minesweeper.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.design.widget.Snackbar;
+import android.widget.Toast;
 
 import app.drewromanyk.com.minesweeper.BuildConfig;
 import app.drewromanyk.com.minesweeper.R;
@@ -43,6 +46,24 @@ public class SettingsFragment extends PreferenceFragment {
                         ResultCodes.IN_APP_PREMIUM.ordinal(),
                         ((BaseActivity) getActivity()).getPurchaseFinishedListener(preference),
                         BuildConfig.PREMIUM_SKU);
+                return true;
+            }
+        });
+
+        Preference send_feedback = findPreference("send_feedback");
+        send_feedback.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"drew.romanyk@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "Minesweeper: Feedback");
+                i.putExtra(Intent.EXTRA_TEXT   , "");
+                try {
+                    startActivity(Intent.createChooser(i, "Send feedback email..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
         });

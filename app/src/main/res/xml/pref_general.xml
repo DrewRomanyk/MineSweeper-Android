@@ -97,5 +97,11 @@
             android:title="Swift Open"
             android:defaultValue="true" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Support">
+        <Preference
+            android:key="send_feedback"
+            android:title="Send Feedback"/>
+    </PreferenceCategory>
 
 </PreferenceScreen>
