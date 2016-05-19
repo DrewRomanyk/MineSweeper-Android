@@ -106,9 +106,7 @@ public abstract class BaseActivity extends AppCompatActivity
                        //Log.d("BaseActivity", "In-app Billing setup failed: " + result);
 
                     } else {
-                        if(((MinesweeperApp) getApplication()).getIsPremium() == -1) {
-                            new premiumAsyncTask().execute();
-                        }
+                        new premiumAsyncTask().execute();
                     }
                 }
             });
