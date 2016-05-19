@@ -2,7 +2,7 @@
 <resources>
     <!-- APP -->
     <string name="app_name">Minesweeper</string>
-    <string name="version_name">1.2.0</string>
+    <string name="version_name">1.2.1</string>
 
     <!-- -->
 
