@@ -22,8 +22,6 @@
             android:layout_height="wrap_content">
             <ScrollView
                 android:id="@+id/scrollVertical"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">

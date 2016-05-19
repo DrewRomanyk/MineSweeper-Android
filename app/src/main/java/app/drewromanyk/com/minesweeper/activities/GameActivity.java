@@ -3,6 +3,7 @@ package app.drewromanyk.com.minesweeper.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Vibrator;
@@ -14,17 +15,15 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Chronometer;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
-
-import org.w3c.dom.Text;
 
 import app.drewromanyk.com.minesweeper.enums.GameSoundType;
 import app.drewromanyk.com.minesweeper.models.Board;
@@ -126,6 +125,27 @@ public class GameActivity extends BaseActivity {
 
         if(UserPrefStorage.getScreenOn(this)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
+        if(UserPrefStorage.getLockRotate(this)) {
+            int orientation;
+            int rotation = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+            switch (rotation) {
+                case Surface.ROTATION_0:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                    break;
+                case Surface.ROTATION_90:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                    break;
+                case Surface.ROTATION_180:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+                    break;
+                default:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+                    break;
+            }
+
+            setRequestedOrientation(orientation);
         }
 
         // Theme Changing Background

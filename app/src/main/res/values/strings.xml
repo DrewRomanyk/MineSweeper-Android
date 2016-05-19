@@ -100,6 +100,8 @@ Flag:
     <string name="app_misconfigured">The application is incorrectly configured. Check that the package name and signing certificate match the client ID created in Developer Console. Also, if the application is not yet published, check that the account you are trying to sign in with is listed as a tester account. See logs for more information.</string>
     <string name="license_failed">License check failed.</string>
     <string name="unknown_error">Unknown error.</string>
+
+    <!-- PREFERENCES -->
     <string name="preference_cellsize">cellSize_seek</string>
     <string name="preference_rowcount">row_seek</string>
     <string name="preference_columncount">column_seek</string>
@@ -110,6 +112,7 @@ Flag:
     <string name="preference_swiftchange">swiftchange_check</string>
     <string name="preference_volumebutton">volumebutton_check</string>
     <string name="preference_screenon">screenon_check</string>
+    <string name="preference_lockrotate">lockrotate_check</string>
     <string name="preference_navdrawer">navdrawer_check</string>
     <string name="preference_lightmode">lightmode_check</string>
 

@@ -81,6 +81,10 @@
             android:title="Keep Screen On"
             android:defaultValue="false" />
         <SwitchPreference
+            android:key="lockrotate_check"
+            android:title="Lock Rotation"
+            android:defaultValue="false" />
+        <SwitchPreference
             android:key="volumebutton_check"
             android:title="Volume Button Flag Mode"
             android:defaultValue="true" />

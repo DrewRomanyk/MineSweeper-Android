@@ -210,10 +210,6 @@ public class Board {
                 }
             }
         }
-
-        GridLayout.LayoutParams LP = new GridLayout.LayoutParams(board.spec(0), board.spec(0));
-        LP.setGravity(Gravity.CENTER);
-        board.setLayoutParams(LP);
     }
 
     private void setCellTapListeners(Cell tgtCell) {

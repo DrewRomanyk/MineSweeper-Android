@@ -255,6 +255,10 @@ public class UserPrefStorage {
         return getPrefs(context).getBoolean(context.getString(R.string.preference_screenon), false);
     }
 
+    public static boolean getLockRotate(Context context) {
+        return getPrefs(context).getBoolean(context.getString(R.string.preference_lockrotate), false);
+    }
+
     public static boolean getLightMode(Context context) {
         return getPrefs(context).getBoolean(context.getString(R.string.preference_lightmode), true);
     }
