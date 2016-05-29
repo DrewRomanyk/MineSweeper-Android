@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- APP -->
+    <string name="app_name">Buscaminas</string>
+
+    <!-- NAV DRAWER -->
+    <string name="nav_header_playername_empty">REGISTRARSE</string>
+    <string name="nav_play">Jugar</string>
+    <string name="nav_leaderboards">Tabla de Posiciones</string>
+    <string name="nav_achievements">Logros</string>
+    <string name="nav_stats">Estadísticas</string>
+    <string name="nav_settings">Configuraciones</string>
+    <string name="nav_help">Ayuda</string>
+    <string name="nav_about">Acerca De</string>
+
+    <!-- MENU -->
+    <string name="menu_restart">Juego Nuevo</string>
+    <string name="menu_flag">Modo Banderas</string>
+    <string name="menu_wipe">Borrar Estadísticas</string>
+    <string name="menu_zoomin">Ampliar</string>
+    <string name="menu_zoomout">Reducir</string>
+
+    <!-- DIALOG -->
+    <!-- CANCELRESUME -->
+    <string name="dialog_cancelresume_title">¿Crear un juego nuevo?</string>
+    <string name="dialog_cancelresume_message">Hay un juego sin terminar que podría contar como perdido, aun así ¿quiere iniciar un juego nuevo?</string>
+    <!-- HELP -->
+    <string name="dialog_help_title">Ayuda</string>
+    <string name="dialog_help_message">"CÓMO JUGAR:
+    Buscaminas es un juego tipo acertijo en el que el jugador debe descubrir todas las celdas que no son minas sin descubrir una celda con mina. Las celdas pueden ser ya sea minas o la cantidad de minas en las 8 celdas vecinas cercanas. El jugador puede deducir de las celdas sin minas, dónde podrían estar las minas. Los jugadores pueden poner una bandera en una celda en la que creen que hay una mina.
+    \nCONTROLES:
+Normal:
+ • Toca una celda para revelarla.
+ • Toca y sostén una celda para ponerle bandera.
+ •Toca una celda numerada que tiene varias banderas cerca suyo para despejar las celdas cercanas sin banderas (Swift Open).
+ • Toca una celda vacía para cambiar el modo de control rápidamente (Swift Change).
+
+Bandera:
+ • Toca una celda para ponerle bandera.
+ • Toca y sostén una celda para revelarla.
+ • Toca una celda numerada que tiene varias banderas cerca para despejar las celdas cercanas sin bandera (Swift Open).
+ • Toca una celda vacía para cambiar el modo de control rápidamente (Swift Change).
+    \nPUNTUACIÓN:
+    La puntuación está basada en 3BV por segundo, donde 3BV es una forma de medir la dificultad de un tablero de Buscaminas basado en la cantidad de clicks que tome resolver el tablero.
+    \nSOPORTE:
+    Por favor, envíe un correo electrónico al desarrollador a drew.romanyk@gmail.com por cualquier comentario o retroalimentación."
+    </string>
+    <!-- ABOUT -->
+    <string name="dialog_about_title">Acerca De</string>
+    <string name="dialog_about_message">El clásico juego de Buscaminas está aquí para Android. Usa estrategia y pensamiento crítico para ganar. El objetivo es revelar todas las celdas que no son minas. Buscaminas también es conocido como Minas.\n\nVersión: </string>
+    <!-- CUSTOMGAMEERROR -->
+    <string name="dialog_customgameerror_title">Error de Configuración de Personalización del Juego</string>
+    <string name="dialog_customgameerror_message">La cantidad de bombas que seleccionaste no es válida para la cantidad de celdas en el juego.</string>
+    <!-- NEEDGOOGLE -->
+    <string name="dialog_needgoogle_title">¿Entrar con Google Games?</string>
+    <string name="dialog_needgoogle_message">Para accesar a esta característica necesitas iniciar sesión en Google Games ¿quieres iniciar sesión?</string>
+    <!-- TRASH STATS -->
+    <string name="dialog_trashstats_title">¿Borrar todas las estadísticas?</string>
+    <string name="dialog_trashstats_message">No será capaz de restaurar sus estadísticas, ¿está seguro de que quiere continuar?</string>
+
+    <!-- GAME ACTIVITY-->
+    <!-- GAME DIFFICULTY -->
+    <string name="game_difficulty_resume">Reanudar</string>
+    <string name="game_difficulty_resume_details">Continuar juego previo</string>
+    <string name="game_difficulty_easy">Fácil</string>
+    <string name="game_difficulty_easy_details">9 x 9\n10 Minas</string>
+    <string name="game_difficulty_medium">Medio</string>
+    <string name="game_difficulty_medium_details">16 x 16\n40 Minas</string>
+    <string name="game_difficulty_expert">Experto</string>
+    <string name="game_difficulty_expert_details">30 x 16\n99 Minas</string>
+    <string name="game_difficulty_custom">Personalizado</string>
+    <string name="game_difficulty_custom_details">Configuraciones Personalizadas</string>
+    <!-- GAME BAR -->
+    <string name="game_bar_time_title">Tiempo:\u0020</string>
+    <string name="game_bar_score_title">Puntuación:\u0020</string>
+    <string name="game_bar_mine_title">Minas:\u0020</string>
+    <string name="game_best_time">¡NUEVO MEJOR TIEMPO!</string>
+    <string name="game_best_score">¡NUEVA MEJOR PUNTUACIÓN!</string>
+
+
+    <!-- STATS FRAGMENT -->
+    <string name="stats_title_best_score">Mejor Puntuación:\u0020</string>
+    <string name="stats_title_best_time">Mejor Tiempo:\u0020</string>
+    <string name="stats_title_avg_score">Puntuación Promedio:\u0020</string>
+    <string name="stats_title_avg_time">Tiempo Promedio:\u0020</string>
+    <string name="stats_title_games_won">Juegos Ganados:\u0020</string>
+    <string name="stats_title_games_played">Juegos Jugados:\u0020</string>
+    <string name="stats_title_win_percent">Porcentaje De Victorias:\u0020</string>
+    <string name="stats_title_explore_percent">Porcentaje De Exploración:\u0020</string>
+    <string name="stats_title_win_streak">Racha Ganadora:\u0020</string>
+    <string name="stats_title_lose_streak">Racha Perdedora:\u0020</string>
+    <string name="stats_title_current_streak">Racha en Curso:\u0020</string>
+
+    <!-- GOOGLE GAMES -->
+    <string name="signin_other_error">Hubo un problema con el inicio de sesión. Por favor inténtelo de nuevo más tarde.</string>
+    <string name="sign_in_failed">Falló el inicio de sesión. Por favor revise su conexión de red y vuélvalo a intentar.</string>
+    <string name="app_misconfigured">Esta aplicación no está correctamente configurada.</string>
+    <string name="license_failed">Revisión de licencia fallida.</string>
+    <string name="unknown_error">Error desconocido.</string>
+    <string name="google_play_error">Google Play error de servicio.</string>
+
+    <!-- SETTINGS -->
+    <string name="settings_inapp">Compras en la Aplicación</string>
+    <string name="settings_inapp_ads">Remover Anuncios</string>
+    <string name="settings_cell">Configuración de Botón de Celda</string>
+    <string name="settings_cell_size">Tamaño de Celda</string>
+    <string name="settings_custom">Configuraciones de Juego Personalizadas</string>
+    <string name="settings_custom_rows">Filas</string>
+    <string name="settings_custom_columns">Columnas</string>
+    <string name="settings_custom_mines">Minas</string>
+    <string name="settings_game">Configuración de Juego</string>
+    <string name="settings_game_light">Modo Light UI</string>
+    <string name="settings_game_sound">Efectos de Sonido</string>
+    <string name="settings_game_vibration">Vibración</string>
+    <string name="settings_game_screenon">Mantener la Pantalla Encendida</string>
+    <string name="settings_game_rotate">Bloquear Rotación</string>
+    <string name="settings_game_volumeflag">Botón de Volumen Modo Bandera</string>
+    <string name="settings_game_swiftchange">Cambio Rápido</string>
+    <string name="settings_game_swiftopen">Apertura Rápida</string>
+    <string name="settings_support">Soporte</string>
+    <string name="settings_support_feedback">Enviar Retroalimentación</string>
+    <string name="settings_feedback_subject">Buscaminas: Retroalimentación</string>
+    <string name="settings_feedback_chooser">Enviar Retroalimentación por Correo Electrónico...</string>
+    <string name="settings_feedback_error">No hay proveedor de correo electrónico instalado.</string>
+
+    <!-- IN APP RATING -->
+    <string name="inapp_rating_enjoy">¿Disfrutando Buscaminas?</string>
+    <string name="inapp_rating_enjoy_no">No realmente</string>
+    <string name="inapp_rating_enjoy_yes">¡Si!</string>
+    <string name="inapp_rating_feedback">¿Te molestaría darnos una Retroalimentación?</string>
+    <string name="inapp_rating_rating">¿Qué tal una Puntuación en Play Store, entonces?</string>
+    <string name="inapp_rating_secondary_no">No, gracias</string>
+    <string name="inapp_rating_secondary_yes">Ok, seguro</string>
+</resources>
