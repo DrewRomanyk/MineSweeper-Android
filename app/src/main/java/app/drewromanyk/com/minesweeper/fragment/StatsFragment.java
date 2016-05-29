@@ -43,7 +43,7 @@ public class StatsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_stats, container, false);
 
-        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), "Statistics");
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), getString(R.string.nav_stats));
         setHasOptionsMenu(true);
         setupStatView(root);
 

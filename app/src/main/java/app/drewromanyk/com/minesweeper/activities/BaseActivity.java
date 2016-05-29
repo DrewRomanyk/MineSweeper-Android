@@ -104,7 +104,7 @@ public abstract class BaseActivity extends AppCompatActivity
                 public void onIabSetupFinished(IabResult result) {
                     if (!result.isSuccess()) {
                        //Log.d("BaseActivity", "In-app Billing setup failed: " + result);
-
+                        mHelper = null;
                     } else {
                         new premiumAsyncTask().execute();
                     }
@@ -239,13 +239,13 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!mHelper.handleActivityResult(requestCode,
+        if (mHelper != null && !mHelper.handleActivityResult(requestCode,
                 resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
             if(requestCode == ResultCodes.SIGN_IN.ordinal()) {
                 mSignInClicked = false;
                 mResolvingConnectionFailure = false;
-                if (resultCode == RESULT_OK) {
+                if (googleApiClient != null && resultCode == RESULT_OK) {
                     googleApiClient.connect();
                 }
             }

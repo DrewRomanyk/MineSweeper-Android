@@ -73,8 +73,10 @@ public class Cell {
         int cellSize =(int) ((((1.0 * UserPrefStorage.getCellSize(gameActivity)) / 100) * 100) * gameCellScale * densityScale);
         cellButton.getLayoutParams().width = cellSize;
         cellButton.getLayoutParams().height = cellSize;
-        cellButton.setMinimumHeight(1);
-        cellButton.setMinimumWidth(1);
+        cellButton.setMaxWidth(cellSize);
+        cellButton.setMinimumWidth(cellSize);
+        cellButton.setMaxHeight(cellSize);
+        cellButton.setMinimumHeight(cellSize);
     }
 
     //returns the image button for the cell

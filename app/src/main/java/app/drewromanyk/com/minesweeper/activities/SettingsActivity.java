@@ -32,7 +32,7 @@ public class SettingsActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        getSupportActionBar().setTitle(R.string.title_activity_settings);
+        getSupportActionBar().setTitle(R.string.nav_settings);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

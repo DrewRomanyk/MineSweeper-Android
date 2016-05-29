@@ -48,7 +48,7 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_play, container, false);
 
-        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), "Play");
+        setupToolbar((Toolbar) root.findViewById(R.id.toolbar), getString(R.string.nav_play));
         setupPlayButtons(root);
 
         return root;
@@ -71,7 +71,7 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
         adapter = new PlayGameDifficultyAdapter(this);
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.playGameDifficultyRV);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updatePlaySelectButtons();
     }
 

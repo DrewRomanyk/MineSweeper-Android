@@ -39,13 +39,15 @@ public class SettingsFragment extends PreferenceFragment {
         in_app_ads.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                preference.setEnabled(false);
-                ((BaseActivity) getActivity()).mHelper.launchPurchaseFlow(
-                        getActivity(),
-                        BuildConfig.PREMIUM_SKU,
-                        ResultCodes.IN_APP_PREMIUM.ordinal(),
-                        ((BaseActivity) getActivity()).getPurchaseFinishedListener(preference),
-                        BuildConfig.PREMIUM_SKU);
+                if(((BaseActivity) getActivity()).mHelper != null) {
+                    preference.setEnabled(false);
+                    ((BaseActivity) getActivity()).mHelper.launchPurchaseFlow(
+                            getActivity(),
+                            BuildConfig.PREMIUM_SKU,
+                            ResultCodes.IN_APP_PREMIUM.ordinal(),
+                            ((BaseActivity) getActivity()).getPurchaseFinishedListener(preference),
+                            BuildConfig.PREMIUM_SKU);
+                }
                 return true;
             }
         });

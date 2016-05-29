@@ -50,11 +50,11 @@ public class MainActivity extends BaseActivity {
         setupGoogleGames();
     }
 
-    protected void setupDrawerContent(final DrawerLayout drawerLayout, NavigationView navigationView) {
+    protected void setupDrawerContent(final DrawerLayout drawerLayout, final NavigationView navView) {
         this.drawerLayout = drawerLayout;
-        this.navView = navigationView;
+        this.navView = navView;
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header);
+        View headerLayout = navView.inflateHeaderView(R.layout.nav_header);
 
         headerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
                     getGoogleApiClient().disconnect();
 
                     ((TextView) navView.findViewById(R.id.name)).setText(getString(R.string.nav_header_playername_empty));
-                    Picasso.with(v.getContext()).load(R.drawable.person_image_empty).into((ImageView) navView.findViewById(R.id.avatar));
+                    Picasso.with(v.getContext()).load(R.drawable.common_google_signin_btn_icon_dark_pressed).into((ImageView) navView.findViewById(R.id.avatar));
                     Picasso.with(v.getContext()).load(R.color.background_material_dark).into((ImageView) navView.findViewById(R.id.cover));
 
                 } else {
@@ -74,8 +74,8 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        navigationView.getMenu().getItem(0).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(
+        navView.getMenu().getItem(0).setChecked(true);
+        navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(final MenuItem menuItem) {
@@ -176,7 +176,13 @@ public class MainActivity extends BaseActivity {
     public void onConnected(Bundle bundle) {
         if ( Helper.isOnline(this) && Plus.PeopleApi.getCurrentPerson(getGoogleApiClient()) != null) {
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(getGoogleApiClient());
-            ((TextView) navView.findViewById(R.id.name)).setText(currentPerson.getDisplayName());
+            TextView nameDisplay = (TextView) navView.findViewById(R.id.name);
+            CircleImageView avatar = (CircleImageView) navView.findViewById(R.id.avatar);
+            ImageView cover = (ImageView) navView.findViewById(R.id.cover);
+
+            if(nameDisplay != null) {
+                nameDisplay.setText(currentPerson.getDisplayName());
+            }
 
             String playerAvatarURL = currentPerson.getImage().getUrl();
             int index = playerAvatarURL.indexOf("?sz=");
@@ -184,10 +190,13 @@ public class MainActivity extends BaseActivity {
                 playerAvatarURL = playerAvatarURL.substring(0, index) + "?sz=200";
             }
 
-            Picasso.with(this).load(playerAvatarURL).placeholder(R.drawable.person_image_empty).into(((CircleImageView) navView.findViewById(R.id.avatar)));
-            if(currentPerson.getCover() != null && currentPerson.getCover().hasCoverPhoto()) {
+            if(avatar != null) {
+                Picasso.with(this).load(playerAvatarURL).placeholder(R.drawable.person_image_empty).into(avatar);
+            }
+
+            if(cover != null && currentPerson.getCover() != null && currentPerson.getCover().hasCoverPhoto()) {
                 String playerCoverURL = currentPerson.getCover().getCoverPhoto().getUrl();
-                Picasso.with(this).load(playerCoverURL).placeholder(R.color.background_material_dark).into(((ImageView) navView.findViewById(R.id.cover)));
+                Picasso.with(this).load(playerCoverURL).placeholder(R.color.background_material_dark).into(cover);
             }
         }
     }

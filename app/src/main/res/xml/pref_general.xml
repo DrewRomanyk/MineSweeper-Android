@@ -6,19 +6,19 @@
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
     <PreferenceCategory
-        android:title="In-app Purchases">
+        android:title="@string/settings_inapp">
         <Preference
             android:key="purchase_remove_ads"
-            android:title="Remove Ads"/>
+            android:title="@string/settings_inapp_ads"/>
         <!--<Preference-->
-            <!--android:key="purchase_clear"-->
-            <!--android:title="Clear Purchases"/>-->
+        <!--android:key="purchase_clear"-->
+        <!--android:title="Clear Purchases"/>-->
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="Cell Button Settings">
+        android:title="@string/settings_cell">
         <app.drewromanyk.com.minesweeper.views.SeekBarPreference
             android:key="cellSize_seek"
-            android:title="Cell Size"
+            android:title="@string/settings_cell_size"
             app:min="50"
             android:defaultValue="100"
             android:max="150"
@@ -36,10 +36,10 @@
             -->
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="Custom Game Settings">
+        android:title="@string/settings_custom">
         <app.drewromanyk.com.minesweeper.views.SeekBarPreference
             android:key="row_seek"
-            android:title="Rows"
+            android:title="@string/settings_custom_rows"
             app:min="9"
             android:defaultValue="9"
             android:max="16"
@@ -47,7 +47,7 @@
             app:unitsRight=""/>
         <app.drewromanyk.com.minesweeper.views.SeekBarPreference
             android:key="column_seek"
-            android:title="Columns"
+            android:title="@string/settings_custom_columns"
             app:min="9"
             android:defaultValue="9"
             android:max="30"
@@ -55,7 +55,7 @@
             app:unitsRight=""/>
         <app.drewromanyk.com.minesweeper.views.SeekBarPreference
             android:key="mine_seek"
-            android:title="Mines"
+            android:title="@string/settings_custom_mines"
             app:min="10"
             android:defaultValue="10"
             android:max="64"
@@ -63,45 +63,45 @@
             app:unitsRight=""/>
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="Game Settings">
+        android:title="@string/settings_game">
         <SwitchPreference
             android:key="lightmode_check"
-            android:title="Light UI Mode"
+            android:title="@string/settings_game_light"
             android:defaultValue="true" />
         <SwitchPreference
             android:key="sound_check"
-            android:title="Sound Effects"
+            android:title="@string/settings_game_sound"
             android:defaultValue="true" />
         <SwitchPreference
             android:key="vibration_check"
-            android:title="Vibration"
+            android:title="@string/settings_game_vibration"
             android:defaultValue="true" />
         <SwitchPreference
             android:key="screenon_check"
-            android:title="Keep Screen On"
+            android:title="@string/settings_game_screenon"
             android:defaultValue="false" />
         <SwitchPreference
             android:key="lockrotate_check"
-            android:title="Lock Rotation"
+            android:title="@string/settings_game_rotate"
             android:defaultValue="false" />
         <SwitchPreference
             android:key="volumebutton_check"
-            android:title="Volume Button Flag Mode"
+            android:title="@string/settings_game_volumeflag"
             android:defaultValue="true" />
         <SwitchPreference
             android:key="swiftchange_check"
-            android:title="Swift Change Mode"
+            android:title="@string/settings_game_swiftchange"
             android:defaultValue="true"/>
         <SwitchPreference
             android:key="swiftopen_check"
-            android:title="Swift Open"
+            android:title="@string/settings_game_swiftopen"
             android:defaultValue="true" />
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="Support">
+        android:title="@string/settings_support">
         <Preference
             android:key="send_feedback"
-            android:title="Send Feedback"/>
+            android:title="@string/settings_support_feedback"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

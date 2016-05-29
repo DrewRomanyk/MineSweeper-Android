@@ -2,13 +2,11 @@
 <resources>
     <!-- APP -->
     <string name="app_name">Minesweeper</string>
-    <string name="version_name">1.2.1</string>
-
-    <!-- -->
-
+    <string name="version_name" translatable="false">1.2.1</string>
 
     <!-- NAV DRAWER -->
     <string name="nav_header_playername_empty">SIGN IN</string>
+    <string name="nav_play">Play</string>
     <string name="nav_leaderboards">Leaderboards</string>
     <string name="nav_achievements">Achievements</string>
     <string name="nav_stats">Statistics</string>
@@ -30,7 +28,7 @@
     <!-- HELP -->
     <string name="dialog_help_title">Help</string>
     <string name="dialog_help_message">"HOW TO PLAY:
-    Minesweeper is a puzzle game in which the player must uncover all the cells that aren't mines without uncovering a mine cell. Cells can either be mines or the amount of mines in the 8 neighboring cells near them. The player can deduce from the non-mine cells where the mines could be at. Players can place a flag on a cell that they think is a mine.
+    Minesweeper is a puzzle game in which the player must uncover all the cells that aren\'t mines without uncovering a mine cell. Cells can either be mines or the amount of mines in the 8 neighboring cells near them. The player can deduce from the non-mine cells where the mines could be at. Players can place a flag on a cell that they think is a mine.
     \nCONTROLS:
 Normal:
  • Tap a cell to reveal it
@@ -50,7 +48,7 @@ Flag:
     </string>
     <!-- ABOUT -->
     <string name="dialog_about_title">About</string>
-    <string name="dialog_about_message">Minesweeper is a free app provided by Drew Romanyk. Please contact him at drew.romanyk@gmail.com if you have any feedback.\n\nVersion: </string>
+    <string name="dialog_about_message">The classic game of Minesweeper is here for Android. Use strategy and critical thinking to win. The goal is to reveal all cells that aren\'t mines. Minesweeper is also known as Mines.\n\nVersion: </string>
     <!-- CUSTOMGAMEERROR -->
     <string name="dialog_customgameerror_title">Custom Game Settings Error</string>
     <string name="dialog_customgameerror_message">The amount of bombs you selected arent valid for the amount of cells in the game.</string>
@@ -80,7 +78,6 @@ Flag:
     <string name="game_best_time">NEW BEST TIME!</string>
     <string name="game_best_score">NEW BEST SCORE!</string>
 
-
     <!-- STATS FRAGMENT -->
     <string name="stats_title_best_score">Best Score:\u0020</string>
     <string name="stats_title_best_time">Best Time:\u0020</string>
@@ -94,30 +91,61 @@ Flag:
     <string name="stats_title_lose_streak">Lose Streak:\u0020</string>
     <string name="stats_title_current_streak">Current Streak:\u0020</string>
 
-
-
     <!-- GOOGLE GAMES -->
-    <string name="signin_other_error">There was an issue with sign in.  Please try again later.</string>
+    <string name="signin_other_error">There was an issue with sign in. Please try again later.</string>
     <string name="sign_in_failed">Failed to sign in. Please check your network connection and try again.</string>
-    <string name="app_misconfigured">The application is incorrectly configured. Check that the package name and signing certificate match the client ID created in Developer Console. Also, if the application is not yet published, check that the account you are trying to sign in with is listed as a tester account. See logs for more information.</string>
+    <string name="app_misconfigured">The application is incorrectly configured.</string>
     <string name="license_failed">License check failed.</string>
     <string name="unknown_error">Unknown error.</string>
+    <string name="google_play_error">Google Play service error.</string>
 
     <!-- PREFERENCES -->
-    <string name="preference_cellsize">cellSize_seek</string>
-    <string name="preference_rowcount">row_seek</string>
-    <string name="preference_columncount">column_seek</string>
-    <string name="preference_minecount">mine_seek</string>
-    <string name="preference_vibration">vibration_check</string>
-    <string name="preference_sound">sound_check</string>
-    <string name="preference_swiftopen">swiftopen_check</string>
-    <string name="preference_swiftchange">swiftchange_check</string>
-    <string name="preference_volumebutton">volumebutton_check</string>
-    <string name="preference_screenon">screenon_check</string>
-    <string name="preference_lockrotate">lockrotate_check</string>
-    <string name="preference_navdrawer">navdrawer_check</string>
-    <string name="preference_lightmode">lightmode_check</string>
+    <string name="preference_cellsize" translatable="false">cellSize_seek</string>
+    <string name="preference_rowcount" translatable="false">row_seek</string>
+    <string name="preference_columncount" translatable="false">column_seek</string>
+    <string name="preference_minecount" translatable="false">mine_seek</string>
+    <string name="preference_vibration" translatable="false">vibration_check</string>
+    <string name="preference_sound" translatable="false">sound_check</string>
+    <string name="preference_swiftopen" translatable="false">swiftopen_check</string>
+    <string name="preference_swiftchange" translatable="false">swiftchange_check</string>
+    <string name="preference_volumebutton" translatable="false">volumebutton_check</string>
+    <string name="preference_screenon" translatable="false">screenon_check</string>
+    <string name="preference_lockrotate" translatable="false">lockrotate_check</string>
+    <string name="preference_navdrawer" translatable="false">navdrawer_check</string>
+    <string name="preference_lightmode" translatable="false">lightmode_check</string>
+    <string name="preference_saved_current_version" translatable="false">1</string>
 
-    <string name="preference_saved_current_version">1</string>
+    <!-- SETTINGS -->
+    <string name="settings_inapp">In-app Purchases</string>
+    <string name="settings_inapp_ads">Remove Ads</string>
+    <string name="settings_cell">Cell Button Settings</string>
+    <string name="settings_cell_size">Cell Size</string>
+    <string name="settings_custom">Custom Game Settings</string>
+    <string name="settings_custom_rows">Rows</string>
+    <string name="settings_custom_columns">Columns</string>
+    <string name="settings_custom_mines">Mines</string>
+    <string name="settings_game">Game Settings</string>
+    <string name="settings_game_light">Light UI Mode</string>
+    <string name="settings_game_sound">Sound Effects</string>
+    <string name="settings_game_vibration">Vibration</string>
+    <string name="settings_game_screenon">Keep Screen On</string>
+    <string name="settings_game_rotate">Lock Rotation</string>
+    <string name="settings_game_volumeflag">Volume Button Flag Mode</string>
+    <string name="settings_game_swiftchange">Swift Change</string>
+    <string name="settings_game_swiftopen">Swift Open</string>
+    <string name="settings_support">Support</string>
+    <string name="settings_support_feedback">Send Feedback</string>
+    <string name="settings_feedback_subject">Minesweeper: Feedback</string>
+    <string name="settings_feedback_chooser">Send feedback email...</string>
+    <string name="settings_feedback_error">There are no email clients installed.</string>
+
+    <!-- IN APP RATING -->
+    <string name="inapp_rating_enjoy">Enjoying Minesweeper?</string>
+    <string name="inapp_rating_enjoy_no">Not really</string>
+    <string name="inapp_rating_enjoy_yes">Yes!</string>
+    <string name="inapp_rating_feedback">Would you mind giving us some feedback?</string>
+    <string name="inapp_rating_rating">How about a rating on the Play Store, then?</string>
+    <string name="inapp_rating_secondary_no">No, thanks</string>
+    <string name="inapp_rating_secondary_yes">Ok, sure</string>
 
 </resources>
