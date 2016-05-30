@@ -5,6 +5,7 @@ package app.drewromanyk.com.minesweeper.models;
  */
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.GridLayout;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 
+import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -112,6 +114,7 @@ public class Board {
             findNeighborCells();
             score3BV = new ThreeBV(cell, rows, columns);
             score3BV.calculate3BV();
+
             // Gack code to fix flag issue
             for (int r = 0; r < rows; r++) {
                 for (int c = 0; c < columns; c++) {
@@ -409,38 +412,42 @@ public class Board {
     //if revealed & matched value, then reveal neighbors
     //if cell is bomb, then DEFEAT
     private void revealCell(Cell tgtCell) {
-        if (firstRound && !tgtCell.isFlagged()) {
-            setupAfterFirstRound(tgtCell);
-            updateRevealedCell(tgtCell);
-        } else if (revealNonBombCell(tgtCell)) {
-            updateRevealedCell(tgtCell);
-        } else if (revealRevealedNeighbors(tgtCell)) {
-            tappedOnRevealedCell = true;
-            revealNeighborCells(tgtCell);
-            tappedOnRevealedCell = false;
-        } else if (defeatConditions(tgtCell)) {
-            gameOver(GameStatus.DEFEAT, tgtCell);
+        LinkedList<Cell> cellQueue = new LinkedList<>();
+        cellQueue.add(tgtCell);
+
+        while(!cellQueue.isEmpty()) {
+            Cell currCell = cellQueue.poll();
+
+            if (firstRound && !currCell.isFlagged()) {
+                setupAfterFirstRound(currCell);
+                updateRevealedCell(cellQueue, currCell);
+            } else if (revealNonBombCell(currCell)) {
+                updateRevealedCell(cellQueue, currCell);
+            } else if (revealRevealedNeighbors(currCell)) {
+                tappedOnRevealedCell = true;
+                addNeighborCellsToQueue(cellQueue, currCell);
+                tappedOnRevealedCell = false;
+            } else if (defeatConditions(currCell)) {
+                gameOver(GameStatus.DEFEAT, currCell);
+            }
         }
     }
 
-    //updates the image and vars for the cell
-    private void updateRevealedCell(Cell tgtCell) {
+    private void updateRevealedCell(LinkedList<Cell> cellQueue, Cell currCell) {
         revealedCells++;
-        tgtCell.setRevealed(true);
-        tgtCell.updateImageValue();
+        currCell.setRevealed(true);
+        currCell.updateImageValue();
 
-        if (tgtCell.getValue() == 0) {
-            revealNeighborCells(tgtCell);
+        if(currCell.getValue() == 0) {
+            addNeighborCellsToQueue(cellQueue, currCell);
         }
     }
 
-    //reveals neighbor cells around a cell
-    //This is QUICK OPEN
-    private void revealNeighborCells(Cell tgtCell) {
-        for (int r = tgtCell.getRow() - 1; r <= tgtCell.getRow() + 1; r++) {
-            for (int c = tgtCell.getColumn() - 1; c <= tgtCell.getColumn() + 1; c++) {
-                if (inbounds(r, c) && !(tgtCell.getRow() == r && tgtCell.getColumn() == c)) {
-                    revealCell(cell[r][c]);
+    private void addNeighborCellsToQueue(LinkedList<Cell> cellQueue, Cell currCell) {
+        for (int r = currCell.getRow() - 1; r <= currCell.getRow() + 1; r++) {
+            for (int c = currCell.getColumn() - 1; c <= currCell.getColumn() + 1; c++) {
+                if (inbounds(r, c) && !cell[r][c].isRevealed() && !(currCell.getRow() == r && currCell.getColumn() == c)) {
+                    cellQueue.add(cell[r][c]);
                 }
             }
         }

@@ -1,5 +1,7 @@
 package app.drewromanyk.com.minesweeper.models;
 
+import java.util.LinkedList;
+
 /**
  * Created by Drew on 12/14/2014.
  */
@@ -46,14 +48,30 @@ public class ThreeBV {
         }
     }
 
+    protected class Coordinates {
+        int row;
+        int col;
+
+        public Coordinates(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
+    }
+
     // Finds all the empty cells to not count for the difficulty rating
     private void floodFillMark(boolean[][] marked, int markRow, int markColumn) {
-        for (int r = markRow - 1; r <= markRow + 1; r++) {
-            for (int c = markColumn - 1; c <= markColumn + 1; c++) {
-                if (inbounds(r, c) && !marked[r][c] && !(markColumn == c && markRow == r)) {
-                    marked[r][c] = true;
-                    if (cell[r][c].getValue() == 0) {
-                        floodFillMark(marked, r, c);
+        LinkedList<Coordinates> coordQueue = new LinkedList<>();
+        coordQueue.add(new Coordinates(markRow, markColumn));
+
+        while(!coordQueue.isEmpty()) {
+            Coordinates currCords = coordQueue.poll();
+            for (int r = currCords.row - 1; r <= currCords.row + 1; r++) {
+                for (int c = currCords.col - 1; c <= currCords.col + 1; c++) {
+                    if (inbounds(r, c) && !marked[r][c] && !(currCords.col == c && currCords.row == r)) {
+                        marked[r][c] = true;
+                        if (cell[r][c].getValue() == 0) {
+                            coordQueue.add(new Coordinates(r, c));
+                        }
                     }
                 }
             }
