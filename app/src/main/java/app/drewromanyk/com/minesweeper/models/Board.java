@@ -192,6 +192,7 @@ public class Board {
         gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_playing);
         board.setColumnCount(columns);
         board.setRowCount(rows);
+        board.setPadding(20,20,20,20);
 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
