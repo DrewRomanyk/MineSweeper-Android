@@ -111,7 +111,6 @@ Flag:
     <string name="preference_volumebutton" translatable="false">volumebutton_check</string>
     <string name="preference_screenon" translatable="false">screenon_check</string>
     <string name="preference_lockrotate" translatable="false">lockrotate_check</string>
-    <string name="preference_navdrawer" translatable="false">navdrawer_check</string>
     <string name="preference_lightmode" translatable="false">lightmode_check</string>
     <string name="preference_saved_current_version" translatable="false">1</string>
 

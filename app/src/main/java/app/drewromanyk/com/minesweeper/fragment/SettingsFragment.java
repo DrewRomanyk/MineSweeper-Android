@@ -56,33 +56,27 @@ public class SettingsFragment extends PreferenceFragment {
         send_feedback.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("message/rfc822");
-                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"drew.romanyk@gmail.com"});
-                i.putExtra(Intent.EXTRA_SUBJECT, "Minesweeper: Feedback");
-                i.putExtra(Intent.EXTRA_TEXT   , "");
-                try {
-                    startActivity(Intent.createChooser(i, "Send feedback email..."));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                }
+                sendFeedback();
                 return true;
             }
         });
 
-//        Preference clear_purchases = findPreference("purchase_clear");
-//        clear_purchases.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-//            @Override
-//            public boolean onPreferenceClick(Preference preference) {
-//                ((BaseActivity) getActivity()).clearPurchases();
-//                return true;
-//            }
-//        });
-//        clear_purchases.setEnabled(false);
-
         if(((MinesweeperApp) getActivity().getApplication()).getIsPremium() == 1) {
             in_app_ads.setEnabled(false);
 //            clear_purchases.setEnabled(true);
+        }
+    }
+
+    private void sendFeedback() {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"drew.romanyk@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.settings_feedback_subject));
+        i.putExtra(Intent.EXTRA_TEXT   , "");
+        try {
+            startActivity(Intent.createChooser(i, getString(R.string.settings_feedback_chooser)));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getActivity(), getString(R.string.settings_feedback_error), Toast.LENGTH_SHORT).show();
         }
     }
 }
