@@ -5,17 +5,12 @@ package app.drewromanyk.com.minesweeper.application;
  */
 
 import android.app.Application;
-import android.os.StrictMode;
-import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
 
-import java.util.HashMap;
-
 import app.drewromanyk.com.minesweeper.BuildConfig;
-import app.drewromanyk.com.minesweeper.R;
+import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 public class MinesweeperApp extends Application {
     private Tracker mTracker;
@@ -29,6 +24,7 @@ public class MinesweeperApp extends Application {
     public void onCreate() {
         super.onCreate();
 
+        UserPrefStorage.increaseAppOpenCount(getApplicationContext());
         //fix crash for lower API devices
         try {
             Class.forName("android.os.AsyncTask");

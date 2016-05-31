@@ -3,6 +3,7 @@ package app.drewromanyk.com.minesweeper.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.json.JSONArray;
 
@@ -36,6 +37,36 @@ public class UserPrefStorage {
     }
 
     /*
+     * RATING IN-APP
+     */
+
+    public static boolean canShowRatingDialog(Context context) {
+        boolean hasFinishedRatingDialog = getPrefs(context).getBoolean("FINISHED_RATING", false);
+        boolean hasOpenedApp5times = getPrefs(context).getInt("APP_OPEN_COUNT", 0) >= 5;
+        boolean hasWonGame = false;
+        for(GameDifficulty difficulty : GameDifficulty.values()) {
+            hasWonGame = getWinsForDifficulty(context, difficulty) > 0;
+            if(hasWonGame) break;
+        }
+
+        return !hasFinishedRatingDialog && hasOpenedApp5times && hasWonGame;
+    }
+
+    public static void setHasFinishedRatingDialog(Context context) {
+        SharedPreferences.Editor editor = getPrefs(context).edit();
+        editor.putBoolean("FINISHED_RATING", true);
+        editor.commit();
+    }
+
+    public static void increaseAppOpenCount(Context context) {
+        int appOpenCount = getPrefs(context).getInt("APP_OPEN_COUNT", 0);
+
+        SharedPreferences.Editor editor = getPrefs(context).edit();
+        editor.putInt("APP_OPEN_COUNT", appOpenCount + 1);
+        editor.commit();
+    }
+
+    /*
      * SAVED GAME INFO
      */
 
@@ -64,9 +95,11 @@ public class UserPrefStorage {
         int columns = preferences.getInt("COLUMNS", 0);
 
         if(!(rows == 0 || columns == 0)) {
-            GameDifficulty difficulty = GameDifficulty.values()[preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal())];
+            GameDifficulty difficulty = GameDifficulty.values()
+                    [preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal())];
             int mineCount = preferences.getInt("MINE_COUNT", 0);
-            GameStatus status = GameStatus.values()[preferences.getInt("STATUS", GameStatus.DEFEAT.ordinal())];
+            GameStatus status = GameStatus.values()[preferences.getInt("STATUS",
+                    GameStatus.DEFEAT.ordinal())];
             int[][] cellValues = new int[rows][columns];
             boolean[][] cellRevealed = new boolean[rows][columns];
             boolean[][] cellFlagged = new boolean[rows][columns];
@@ -86,9 +119,11 @@ public class UserPrefStorage {
                 }
 
                 if(statisticsLoad) {
-                    result = new Board(mineCount, cellValues, cellRevealed, cellFlagged, status, difficulty, getGameDuration(context));
+                    result = new Board(mineCount, cellValues, cellRevealed, cellFlagged,
+                            status, difficulty, getGameDuration(context));
                 } else {
-                    result = new Board(mineCount, cellValues, cellRevealed, cellFlagged, difficulty, status, (GameActivity) context, getGameDuration(context));
+                    result = new Board(mineCount, cellValues, cellRevealed, cellFlagged, difficulty,
+                            status, (GameActivity) context, getGameDuration(context));
                 }
 
             } catch (Exception e) {

@@ -1,13 +1,17 @@
 package app.drewromanyk.com.minesweeper.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.Tracker;
 
+import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.application.MinesweeperApp;
 
 /**
@@ -41,5 +45,18 @@ public class Helper {
     public static Tracker getGoogAnalyticsTracker(Context context) {
         MinesweeperApp application = (MinesweeperApp) context.getApplicationContext();
         return application.getDefaultTracker();
+    }
+
+    public static  void sendFeedback(Activity activity) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"drew.romanyk@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, activity.getString(R.string.settings_feedback_subject));
+        i.putExtra(Intent.EXTRA_TEXT   , "");
+        try {
+            activity.startActivity(Intent.createChooser(i, activity.getString(R.string.settings_feedback_chooser)));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(activity, activity.getString(R.string.settings_feedback_error), Toast.LENGTH_SHORT).show();
+        }
     }
 }

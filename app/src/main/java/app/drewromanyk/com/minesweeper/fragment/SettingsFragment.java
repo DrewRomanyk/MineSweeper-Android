@@ -12,6 +12,7 @@ import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.activities.BaseActivity;
 import app.drewromanyk.com.minesweeper.application.MinesweeperApp;
 import app.drewromanyk.com.minesweeper.enums.ResultCodes;
+import app.drewromanyk.com.minesweeper.util.Helper;
 import app.drewromanyk.com.minesweeper.views.SeekBarPreference;
 
 /**
@@ -56,7 +57,7 @@ public class SettingsFragment extends PreferenceFragment {
         send_feedback.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                sendFeedback();
+                Helper.sendFeedback(getActivity());
                 return true;
             }
         });
@@ -64,19 +65,6 @@ public class SettingsFragment extends PreferenceFragment {
         if(((MinesweeperApp) getActivity().getApplication()).getIsPremium() == 1) {
             in_app_ads.setEnabled(false);
 //            clear_purchases.setEnabled(true);
-        }
-    }
-
-    private void sendFeedback() {
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"drew.romanyk@gmail.com"});
-        i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.settings_feedback_subject));
-        i.putExtra(Intent.EXTRA_TEXT   , "");
-        try {
-            startActivity(Intent.createChooser(i, getString(R.string.settings_feedback_chooser)));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(getActivity(), getString(R.string.settings_feedback_error), Toast.LENGTH_SHORT).show();
         }
     }
 }
