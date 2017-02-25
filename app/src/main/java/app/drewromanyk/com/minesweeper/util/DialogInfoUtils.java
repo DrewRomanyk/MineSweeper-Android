@@ -47,6 +47,9 @@ public class DialogInfoUtils {
 
         yesNoDialogMap.put(ResultCodes.NEEDGOOGLE_DIALOG.ordinal(), new YesNoDialogInfo(context.getString(R.string.dialog_needgoogle_title),
                 context.getString(R.string.dialog_needgoogle_message)));
+
+        yesNoDialogMap.put(ResultCodes.CUSTOM_SETTING_CHANGE.ordinal(), new YesNoDialogInfo(context.getString(R.string.dialog_custom_settings_change_title),
+                context.getString(R.string.dialog_custom_settings_change_message)));
     }
 
     public YesNoDialogInfo getDialogInfo(int requestCode) {

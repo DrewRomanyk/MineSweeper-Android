@@ -57,6 +57,9 @@ Bandera:
     <!-- TRASH STATS -->
     <string name="dialog_trashstats_title">¿Borrar todas las estadísticas?</string>
     <string name="dialog_trashstats_message">No será capaz de restaurar sus estadísticas, ¿está seguro de que quiere continuar?</string>
+    <!-- CUSTOM GAME SETTINGS-->
+    <string name="dialog_custom_settings_change_title">¿Cambiar la configuración de juego personalizado?</string>
+    <string name="dialog_custom_settings_change_message">Quieres cambiar la configuración de juego personalizada?</string>
 
     <!-- GAME ACTIVITY-->
     <!-- GAME DIFFICULTY -->

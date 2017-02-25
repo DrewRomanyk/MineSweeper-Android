@@ -57,10 +57,11 @@ public class Board {
      */
     //columns and rows to set how many there will be
     //mineCount to set the amount of bombs for the game
-    public Board(int rows, int columns, int mineCount, GameDifficulty gameDifficulty, GameActivity gameActivity) {
+    public Board(int rows, int columns, int mineCount, double gameCellScale, GameDifficulty gameDifficulty, GameActivity gameActivity) {
         this.columns = columns;
         this.rows = rows;
         this.mineCount = mineCount;
+        this.gameCellScale = gameCellScale;
         this.gameDifficulty = gameDifficulty;
         this.gameActivity = gameActivity;
         this.gameTime = 1;
@@ -75,8 +76,9 @@ public class Board {
     }
 
     //RESUME GAME
-    public Board(int mineCount, int[][] values, boolean[][] revealed, boolean[][] flagged, GameDifficulty gameDifficulty, GameStatus status, GameActivity gameActivity, long gameTime) {
+    public Board(int mineCount, double gameCellScale, int[][] values, boolean[][] revealed, boolean[][] flagged, GameDifficulty gameDifficulty, GameStatus status, GameActivity gameActivity, long gameTime) {
         this.mineCount = mineCount;
+        this.gameCellScale = gameCellScale;
         this.gameDifficulty = gameDifficulty;
         this.gameActivity = gameActivity;
         this.gameTime = gameTime;
@@ -93,7 +95,7 @@ public class Board {
         cell = new Cell[rows][columns];
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                cell[r][c] = new Cell(r, c, values[r][c], revealed[r][c], flagged[r][c], gameActivity);
+                cell[r][c] = new Cell(r, c, values[r][c], revealed[r][c], flagged[r][c], gameCellScale, gameActivity);
                 if (cell[r][c].isRevealed()) {
                     revealedCells++;
                     if (cell[r][c].isFlagged()) {
@@ -150,7 +152,7 @@ public class Board {
         cell = new Cell[rows][columns];
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                cell[r][c] = new Cell(r, c, values[r][c], revealed[r][c], flagged[r][c]);
+                cell[r][c] = new Cell(r, c, values[r][c], revealed[r][c], flagged[r][c], gameCellScale);
                 if (cell[r][c].isRevealed()) {
                     revealedCells++;
                     if (cell[r][c].isFlagged()) {
@@ -175,7 +177,7 @@ public class Board {
         cell = new Cell[rows][columns];
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                cell[r][c] = new Cell(r, c, gameActivity);
+                cell[r][c] = new Cell(r, c, gameCellScale, gameActivity);
             }
         }
     }
@@ -711,13 +713,23 @@ public class Board {
 
     public void zoomIn() {
         gameCellScale += .2;
-        if (gameCellScale > 1.6) gameCellScale = 1.6;
+        if (gameCellScale > 2.0) gameCellScale = 2.0;
+        updateCellsZoom();
+    }
+
+    public void zoomInFully() {
+        gameCellScale = 2.0;
         updateCellsZoom();
     }
 
     public void zoomOut() {
         gameCellScale -= .2;
         if (gameCellScale < .4) gameCellScale = .4;
+        updateCellsZoom();
+    }
+
+    public void zoomOutFully() {
+        gameCellScale = .4;
         updateCellsZoom();
     }
 
@@ -780,5 +792,9 @@ public class Board {
 
     public long getGameTime() {
         return (gameTime == 0) ? 1 : gameTime;
+    }
+
+    public double getGameCellScale() {
+        return gameCellScale;
     }
 }

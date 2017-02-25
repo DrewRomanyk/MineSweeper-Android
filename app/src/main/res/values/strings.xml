@@ -58,6 +58,9 @@ Flag:
     <!-- TRASH STATS -->
     <string name="dialog_trashstats_title">Wipe all statistics?</string>
     <string name="dialog_trashstats_message">You will not be able to restore your statistics, are you sure you want to continue?</string>
+    <!-- CUSTOM GAME SETTINGS-->
+    <string name="dialog_custom_settings_change_title">Change your custom game settings?</string>
+    <string name="dialog_custom_settings_change_message">Do you want to change your custom game settings?</string>
 
     <!-- GAME ACTIVITY-->
     <!-- GAME DIFFICULTY -->

@@ -56,6 +56,9 @@
     <!-- TRASH STATS -->
     <string name="dialog_trashstats_title">Удалить всю статистику?</string>
     <string name="dialog_trashstats_message">Вы не сможете восстановить Вашу статистику. Вы уверены, что хотите продолжить?</string>
+    <!-- CUSTOM GAME SETTINGS-->
+    <string name="dialog_custom_settings_change_title">Измените пользовательские настройки игры?</string>
+    <string name="dialog_custom_settings_change_message">Вы хотите, чтобы изменить пользовательские настройки игры?</string>
 
     <!-- GAME ACTIVITY-->
     <!-- GAME DIFFICULTY -->

@@ -57,6 +57,9 @@ S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com 
     <!-- TRASH STATS -->
     <string name="dialog_trashstats_title">Effacez toutes les statistiques?</string>
     <string name="dialog_trashstats_message">Vous ne serez pas en mesure de restaurer vos statistiques, êtes-vous sûr de vouloir continuer?</string>
+    <!-- CUSTOM GAME SETTINGS-->
+    <string name="dialog_custom_settings_change_title">Modifier vos paramètres de jeu personnalisés?</string>
+    <string name="dialog_custom_settings_change_message">Voulez-vous modifier vos paramètres de jeu personnalisés?</string>
 
     <!-- GAME ACTIVITY-->
     <!-- GAME DIFFICULTY -->

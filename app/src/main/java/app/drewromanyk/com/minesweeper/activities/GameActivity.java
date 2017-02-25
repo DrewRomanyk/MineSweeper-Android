@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.NavUtils;
 import android.os.Bundle;
@@ -193,6 +194,31 @@ public class GameActivity extends BaseActivity {
         flagButton = menu.findItem(R.id.action_flag);
         refreshButton = menu.findItem(R.id.action_refresh);
 
+        View action_zoomin = findViewById(R.id.action_zoomin);
+        if (action_zoomin != null) action_zoomin.setOnLongClickListener(
+                new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if (minesweeperBoard != null) {
+                            minesweeperBoard.zoomInFully();
+                        }
+                        return true;
+                    }
+                }
+        );
+        View action_zoomout = findViewById(R.id.action_zoomout);
+        if (action_zoomout != null) action_zoomout.setOnLongClickListener(
+                new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if (minesweeperBoard != null) {
+                            minesweeperBoard.zoomOutFully();
+                        }
+                        return true;
+                    }
+                }
+        );
+
         return true;
     }
 
@@ -309,8 +335,9 @@ public class GameActivity extends BaseActivity {
         if (gamePlaying) {
             gameDifficulty = minesweeperBoard.getGameDifficulty();
         }
-        if (minesweeperBoard != null)
+        if (minesweeperBoard != null) {
             minesweeperBoard.stopGameTime();
+        }
 
         // Create or load a new board
         if ((gameDifficulty == GameDifficulty.RESUME && minesweeperBoard == null) || !savedStateIsEmpty) {
@@ -336,7 +363,8 @@ public class GameActivity extends BaseActivity {
             }
 
             boardInfoView.resetInfo(mineCount);
-            minesweeperBoard = new Board(rows, columns, mineCount, gameDifficulty, this);
+            double gameCellScale = (minesweeperBoard != null) ? minesweeperBoard.getGameCellScale() : 1;
+            minesweeperBoard = new Board(rows, columns, mineCount, gameCellScale, gameDifficulty, this);
         }
 
         assert minesweeperBoard != null;

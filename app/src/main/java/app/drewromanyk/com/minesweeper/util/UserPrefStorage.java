@@ -97,6 +97,7 @@ public class UserPrefStorage {
         if (!(rows == 0 || columns == 0)) {
             GameDifficulty difficulty = GameDifficulty.values()
                     [preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal())];
+            double gameCellScale = (double) preferences.getFloat("GAME_CELL_SCALE", 1);
             int mineCount = preferences.getInt("MINE_COUNT", 0);
             GameStatus status = GameStatus.values()[preferences.getInt("STATUS",
                     GameStatus.DEFEAT.ordinal())];
@@ -122,7 +123,7 @@ public class UserPrefStorage {
                     result = new Board(mineCount, cellValues, cellRevealed, cellFlagged,
                             status, difficulty, getGameDuration(context));
                 } else {
-                    result = new Board(mineCount, cellValues, cellRevealed, cellFlagged, difficulty,
+                    result = new Board(mineCount, gameCellScale, cellValues, cellRevealed, cellFlagged, difficulty,
                             status, (GameActivity) context, getGameDuration(context));
                 }
 
@@ -142,6 +143,7 @@ public class UserPrefStorage {
         editor.putInt("ROWS", minesweeperBoard.getRows());
         editor.putInt("COLUMNS", minesweeperBoard.getColumns());
         editor.putInt("MINE_COUNT", minesweeperBoard.getMineCount());
+        editor.putFloat("GAME_CELL_SCALE", (float) minesweeperBoard.getGameCellScale());
         editor.putInt("DIFFICULTY", minesweeperBoard.getGameDifficulty().ordinal());
         editor.putInt("STATUS", minesweeperBoard.getGameStatus().ordinal());
         editor.putLong("TIME_MILLIS", gameTime);

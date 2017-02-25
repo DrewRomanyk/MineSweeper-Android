@@ -35,30 +35,32 @@ public class Cell {
     }
 
     //context is for the creation of the image button
-    public Cell(int row, int column, GameActivity gameActivity) {
-        this(row, column, 0, false, false, gameActivity);
+    public Cell(int row, int column, double gameCellScale, GameActivity gameActivity) {
+        this(row, column, 0, false, false, gameCellScale, gameActivity);
 
     }
 
     //create exisiting cell for resume
-    public Cell(int row, int column, int value, boolean reveal, boolean flagged, GameActivity gameActivity) {
+    public Cell(int row, int column, int value, boolean reveal, boolean flagged, double gameCellScale, GameActivity gameActivity) {
         this.reveal = reveal;
         this.flagged = flagged;
         this.value = value;
         this.row = row;
         this.column = column;
         this.gameActivity = gameActivity;
+        this.gameCellScale = gameCellScale;
 
         createButton();
     }
 
     //create exisiting cell for resume
-    public Cell(int row, int column, int value, boolean reveal, boolean flagged) {
+    public Cell(int row, int column, int value, boolean reveal, boolean flagged, double gameCellScale) {
         this.reveal = reveal;
         this.flagged = flagged;
         this.value = value;
         this.row = row;
         this.column = column;
+        this.gameCellScale = gameCellScale;
     }
 
     // Create image button with gridlayout values, and correct image

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.activities.GameActivity;
 import app.drewromanyk.com.minesweeper.activities.MainActivity;
+import app.drewromanyk.com.minesweeper.activities.SettingsActivity;
 import app.drewromanyk.com.minesweeper.adapters.PlayGameDifficultyAdapter;
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
 import app.drewromanyk.com.minesweeper.enums.GameStatus;
@@ -121,8 +122,32 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
                     .create();
             dialog.show();
         } else {
-            // No current game exists, create new game
-            startGameIntent(difficulty);
+            if (difficulty == GameDifficulty.CUSTOM) {
+                // Ask if they want to change their custom settings
+                YesNoDialogInfo dialogInfo = DialogInfoUtils.getInstance(getActivity()).getDialogInfo(ResultCodes.CUSTOM_SETTING_CHANGE.ordinal());
+                AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle(dialogInfo.getTitle())
+                        .setMessage(dialogInfo.getDescription())
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Change settings
+                                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                            }
+                        })
+                        .setNegativeButton(R.string.nav_play, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // No current game exists, create new game
+                                startGameIntent(difficulty);
+                            }
+                        })
+                        .create();
+                dialog.show();
+            } else {
+                // No current game exists, create new game
+                startGameIntent(difficulty);
+            }
         }
     }
 
