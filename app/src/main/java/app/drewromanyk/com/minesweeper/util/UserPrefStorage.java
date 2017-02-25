@@ -44,9 +44,9 @@ public class UserPrefStorage {
         boolean hasFinishedRatingDialog = getPrefs(context).getBoolean("FINISHED_RATING", false);
         boolean hasOpenedApp5times = getPrefs(context).getInt("APP_OPEN_COUNT", 0) >= 5;
         boolean hasWonGame = false;
-        for(GameDifficulty difficulty : GameDifficulty.values()) {
+        for (GameDifficulty difficulty : GameDifficulty.values()) {
             hasWonGame = getWinsForDifficulty(context, difficulty) > 0;
-            if(hasWonGame) break;
+            if (hasWonGame) break;
         }
 
         return !hasFinishedRatingDialog && hasOpenedApp5times && hasWonGame;
@@ -94,7 +94,7 @@ public class UserPrefStorage {
         int rows = preferences.getInt("ROWS", 0);
         int columns = preferences.getInt("COLUMNS", 0);
 
-        if(!(rows == 0 || columns == 0)) {
+        if (!(rows == 0 || columns == 0)) {
             GameDifficulty difficulty = GameDifficulty.values()
                     [preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal())];
             int mineCount = preferences.getInt("MINE_COUNT", 0);
@@ -109,7 +109,7 @@ public class UserPrefStorage {
                 JSONArray cellRevealedJ = new JSONArray(preferences.getString("CELL_REVEALED", "[]"));
                 JSONArray cellFlaggedJ = new JSONArray(preferences.getString("CELL_FLAGGED", "[]"));
                 int counter = 0;
-                for(int r = 0; r < rows; r++) {
+                for (int r = 0; r < rows; r++) {
                     for (int c = 0; c < columns; c++) {
                         cellValues[r][c] = cellValuesJ.getInt(counter);
                         cellRevealed[r][c] = cellRevealedJ.getBoolean(counter);
@@ -118,7 +118,7 @@ public class UserPrefStorage {
                     }
                 }
 
-                if(statisticsLoad) {
+                if (statisticsLoad) {
                     result = new Board(mineCount, cellValues, cellRevealed, cellFlagged,
                             status, difficulty, getGameDuration(context));
                 } else {
@@ -149,9 +149,9 @@ public class UserPrefStorage {
         JSONArray cellValues = new JSONArray();
         JSONArray cellRevealed = new JSONArray();
         JSONArray cellFlagged = new JSONArray();
-        for(int r = 0; r < minesweeperBoard.getRows(); r++) {
-            for(int c = 0; c < minesweeperBoard.getColumns(); c++) {
-                cellValues.put(minesweeperBoard.getCellValue(r,c));
+        for (int r = 0; r < minesweeperBoard.getRows(); r++) {
+            for (int c = 0; c < minesweeperBoard.getColumns(); c++) {
+                cellValues.put(minesweeperBoard.getCellValue(r, c));
                 cellRevealed.put(minesweeperBoard.getCellReveal(r, c));
                 cellFlagged.put(minesweeperBoard.getCellFlag(r, c));
             }

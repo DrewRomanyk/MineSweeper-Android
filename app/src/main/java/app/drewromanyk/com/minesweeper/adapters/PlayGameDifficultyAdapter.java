@@ -82,7 +82,7 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
 
     @Override
     public int getItemViewType(int position) {
-        if(canShowRating && position == FIRST_ITEM) {
+        if (canShowRating && position == FIRST_ITEM) {
             return RATING_TYPE;
         } else {
             return DIFFICULTY_TYPE;
@@ -91,7 +91,7 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
 
     @Override
     public PlayViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType == RATING_TYPE) {
+        if (viewType == RATING_TYPE) {
             return new PlayViewHolder(View.inflate(parent.getContext(), R.layout.card_play_feedback, null), viewType);
         } else {
             return new PlayViewHolder(View.inflate(parent.getContext(), R.layout.card_play_difficulty, null), viewType);
@@ -100,7 +100,7 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
 
     @Override
     public void onBindViewHolder(final PlayViewHolder holder, int position) {
-        if(getItemViewType(position) == RATING_TYPE) {
+        if (getItemViewType(position) == RATING_TYPE) {
             holder.ratingYes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

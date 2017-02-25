@@ -53,8 +53,9 @@ public class BoardInfoView {
         Context context = mineKeeperView.getContext();
         mineKeeperView.setText(context.getString(R.string.game_bar_mine_title) + value);
     }
+
     public void setScoreKeeperText(double value) {
         Context context = mineKeeperView.getContext();
-        scoreKeeperView.setText(context.getString(R.string.game_bar_score_title) + String.format( "%.3f", value ));
+        scoreKeeperView.setText(context.getString(R.string.game_bar_score_title) + String.format("%.3f", value));
     }
 }

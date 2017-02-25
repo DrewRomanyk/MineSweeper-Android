@@ -61,7 +61,7 @@ public class StatsFragment extends BaseFragment {
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_trash :
+            case R.id.action_trash:
                 YesNoDialogInfo dialogInfo = DialogInfoUtils.getInstance(getActivity()).getDialogInfo(ResultCodes.TRASH_STATS_DIALOG.ordinal());
                 AlertDialog dialog = new AlertDialog.Builder(getActivity())
                         .setTitle(dialogInfo.getTitle())
@@ -74,7 +74,8 @@ public class StatsFragment extends BaseFragment {
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {}
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
                         })
                         .create();
                 dialog.show();
@@ -108,8 +109,8 @@ public class StatsFragment extends BaseFragment {
     }
 
     private void deleteLocalStats() {
-        for(int mode = GameDifficulty.EASY.ordinal(); mode <= GameDifficulty.EXPERT.ordinal(); mode++) {
-            UserPrefStorage.updateStats(getActivity(), GameDifficulty.values()[mode], 0,0,0,0,0,0,0,0,0,0,0);
+        for (int mode = GameDifficulty.EASY.ordinal(); mode <= GameDifficulty.EXPERT.ordinal(); mode++) {
+            UserPrefStorage.updateStats(getActivity(), GameDifficulty.values()[mode], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
         updateStatsData();

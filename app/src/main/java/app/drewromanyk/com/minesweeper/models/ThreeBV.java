@@ -12,14 +12,16 @@ public class ThreeBV {
     private double score3BV;
     private Cell[][] cell;
 
-    public ThreeBV (Cell[][] cell, int rows, int columns) {
+    public ThreeBV(Cell[][] cell, int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
         this.cell = cell;
         score3BV = 0;
     }
 
-    public double getThreeBV() { return score3BV; }
+    public double getThreeBV() {
+        return score3BV;
+    }
 
     // Calculates the difficulty rating for the game
     public void calculate3BV() {
@@ -63,7 +65,7 @@ public class ThreeBV {
         LinkedList<Coordinates> coordQueue = new LinkedList<>();
         coordQueue.add(new Coordinates(markRow, markColumn));
 
-        while(!coordQueue.isEmpty()) {
+        while (!coordQueue.isEmpty()) {
             Coordinates currCords = coordQueue.poll();
             for (int r = currCords.row - 1; r <= currCords.row + 1; r++) {
                 for (int c = currCords.col - 1; c <= currCords.col + 1; c++) {

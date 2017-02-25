@@ -40,7 +40,7 @@ public class SettingsFragment extends PreferenceFragment {
         in_app_ads.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                if(((BaseActivity) getActivity()).mHelper != null) {
+                if (((BaseActivity) getActivity()).mHelper != null) {
                     preference.setEnabled(false);
                     ((BaseActivity) getActivity()).mHelper.launchPurchaseFlow(
                             getActivity(),
@@ -62,7 +62,7 @@ public class SettingsFragment extends PreferenceFragment {
             }
         });
 
-        if(((MinesweeperApp) getActivity().getApplication()).getIsPremium() == 1) {
+        if (((MinesweeperApp) getActivity().getApplication()).getIsPremium() == 1) {
             in_app_ads.setEnabled(false);
 //            clear_purchases.setEnabled(true);
         }

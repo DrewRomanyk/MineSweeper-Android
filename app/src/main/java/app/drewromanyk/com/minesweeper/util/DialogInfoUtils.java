@@ -18,7 +18,7 @@ public class DialogInfoUtils {
     private static DialogInfoUtils instance = null;
 
     public static DialogInfoUtils getInstance(Context context) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new DialogInfoUtils(context);
         }
         return instance;

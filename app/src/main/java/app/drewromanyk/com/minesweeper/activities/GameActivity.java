@@ -123,11 +123,11 @@ public class GameActivity extends BaseActivity {
     private void applySettings() {
         minesweeperBoard.updateCellSize();
 
-        if(UserPrefStorage.getScreenOn(this)) {
+        if (UserPrefStorage.getScreenOn(this)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
-        if(UserPrefStorage.getLockRotate(this)) {
+        if (UserPrefStorage.getLockRotate(this)) {
             int orientation;
             int rotation = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
             switch (rotation) {
@@ -149,7 +149,7 @@ public class GameActivity extends BaseActivity {
         }
 
         // Theme Changing Background
-        if(UserPrefStorage.getLightMode(this)) {
+        if (UserPrefStorage.getLightMode(this)) {
             boardBackground.setBackgroundColor(getResources().getColor(R.color.light_background));
             minesweeperBoard.updateCellSize();
         } else {
@@ -161,7 +161,7 @@ public class GameActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == ResultCodes.SETTINGS.ordinal()) {
+        if (requestCode == ResultCodes.SETTINGS.ordinal()) {
             applySettings();
         }
     }
@@ -170,7 +170,7 @@ public class GameActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         gamePlaying = (minesweeperBoard.getGameStatus() == GameStatus.PLAYING);
-        if(minesweeperBoard != null)
+        if (minesweeperBoard != null)
             minesweeperBoard.stopGameTime();
 
         UserPrefStorage.saveBoardInfo(this, minesweeperBoard);
@@ -179,7 +179,7 @@ public class GameActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if(minesweeperBoard != null && !minesweeperBoard.getFirstRound() && gamePlaying)
+        if (minesweeperBoard != null && !minesweeperBoard.getFirstRound() && gamePlaying)
             minesweeperBoard.startGameTime();
 
         Helper.getGoogAnalyticsTracker(this).setScreenName("Screen~" + "Game");
@@ -200,8 +200,8 @@ public class GameActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_refresh :
-                if(minesweeperBoard.getGameStatus() == GameStatus.PLAYING) {
+            case R.id.action_refresh:
+                if (minesweeperBoard.getGameStatus() == GameStatus.PLAYING) {
                     YesNoDialogInfo dialogInfo = DialogInfoUtils.getInstance(this).getDialogInfo(ResultCodes.RESTART_DIALOG.ordinal());
                     AlertDialog dialog = new AlertDialog.Builder(this)
                             .setTitle(dialogInfo.getTitle())
@@ -215,7 +215,8 @@ public class GameActivity extends BaseActivity {
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {}
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
                             })
                             .create();
                     dialog.show();
@@ -223,20 +224,20 @@ public class GameActivity extends BaseActivity {
                     setupBoard(true);
                 }
                 return true;
-            case R.id.action_flag :
+            case R.id.action_flag:
                 changeFlagMode(minesweeperBoard);
                 return true;
             case R.id.action_zoomin:
-                if(minesweeperBoard != null) {
+                if (minesweeperBoard != null) {
                     minesweeperBoard.zoomIn();
                 }
                 return true;
             case R.id.action_zoomout:
-                if(minesweeperBoard != null) {
+                if (minesweeperBoard != null) {
                     minesweeperBoard.zoomOut();
                 }
                 return true;
-            case android.R.id.home :
+            case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
@@ -249,7 +250,7 @@ public class GameActivity extends BaseActivity {
         int action = event.getAction();
         int keyCode = event.getKeyCode();
 
-        if(UserPrefStorage.getVolumeButton(this)) {
+        if (UserPrefStorage.getVolumeButton(this)) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_VOLUME_UP:
                     if (action == KeyEvent.ACTION_DOWN) {
@@ -287,7 +288,9 @@ public class GameActivity extends BaseActivity {
      * FLAG MODE
      */
 
-    public boolean getFlagMode() { return flagMode; }
+    public boolean getFlagMode() {
+        return flagMode;
+    }
 
     public void changeFlagMode(Board board) {
         flagMode = !flagMode;
@@ -303,14 +306,14 @@ public class GameActivity extends BaseActivity {
 
     private void setupBoard(boolean savedStateIsEmpty) {
         GameDifficulty gameDifficulty = GameDifficulty.valueOf(getIntent().getStringExtra("gameDifficulty"));
-        if(gamePlaying) {
+        if (gamePlaying) {
             gameDifficulty = minesweeperBoard.getGameDifficulty();
         }
-        if(minesweeperBoard != null)
+        if (minesweeperBoard != null)
             minesweeperBoard.stopGameTime();
 
         // Create or load a new board
-        if((gameDifficulty == GameDifficulty.RESUME && minesweeperBoard == null) || !savedStateIsEmpty) {
+        if ((gameDifficulty == GameDifficulty.RESUME && minesweeperBoard == null) || !savedStateIsEmpty) {
             minesweeperBoard = UserPrefStorage.loadSavedBoard(this, false);
         } else {
             // Set to custom game defaults
@@ -361,7 +364,7 @@ public class GameActivity extends BaseActivity {
     private void setupBiDirectionalScrolling() {
 
         final HorizontalScrollView hScroll = (HorizontalScrollView) findViewById(R.id.scrollHorizontal);
-        if(hScroll == null) return;
+        if (hScroll == null) return;
 
         vScroll = (ScrollView) findViewById(R.id.scrollVertical);
 

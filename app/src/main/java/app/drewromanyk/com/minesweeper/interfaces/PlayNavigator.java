@@ -7,6 +7,8 @@ import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
  */
 public interface PlayNavigator {
     void startGame(final GameDifficulty difficulty);
+
     void startPlayStore();
+
     void sendFeedback();
 }

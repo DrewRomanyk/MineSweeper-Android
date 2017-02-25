@@ -69,8 +69,13 @@ public abstract class BaseActivity extends AppCompatActivity
         };
     }
 
-    public GoogleApiClient getGoogleApiClient() { return googleApiClient; }
-    protected void setSignInClicked(boolean value) { mSignInClicked = value; }
+    public GoogleApiClient getGoogleApiClient() {
+        return googleApiClient;
+    }
+
+    protected void setSignInClicked(boolean value) {
+        mSignInClicked = value;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +87,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private void setupTaskActivityInfo() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // Only for LOLLIPOP and newer versions
-            if(!(this instanceof MainActivity))
+            if (!(this instanceof MainActivity))
                 getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
 
             ActivityManager.TaskDescription tDesc = new ActivityManager.TaskDescription(
@@ -100,16 +105,16 @@ public abstract class BaseActivity extends AppCompatActivity
             mHelper = new IabHelper(this, BuildConfig.LICENSE_KEY);
 
             mHelper.startSetup(new
-            IabHelper.OnIabSetupFinishedListener() {
-                public void onIabSetupFinished(IabResult result) {
-                    if (!result.isSuccess()) {
-                       //Log.d("BaseActivity", "In-app Billing setup failed: " + result);
-                        mHelper = null;
-                    } else {
-                        new premiumAsyncTask().execute();
-                    }
-                }
-            });
+                                       IabHelper.OnIabSetupFinishedListener() {
+                                           public void onIabSetupFinished(IabResult result) {
+                                               if (!result.isSuccess()) {
+                                                   //Log.d("BaseActivity", "In-app Billing setup failed: " + result);
+                                                   mHelper = null;
+                                               } else {
+                                                   new premiumAsyncTask().execute();
+                                               }
+                                           }
+                                       });
         }
     }
 
@@ -134,7 +139,7 @@ public abstract class BaseActivity extends AppCompatActivity
             @Override
             public void run() {
                 mAdView.loadAd(new AdRequest.Builder().build());
-                if(((MinesweeperApp) getApplication()).getIsPremium() == 1) {
+                if (((MinesweeperApp) getApplication()).getIsPremium() == 1) {
                     mAdView.pause();
                     mAdView.setVisibility(View.GONE);
                 }
@@ -144,7 +149,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     private void updateAds(int isPremium) {
         ((MinesweeperApp) getApplication()).setIsPremium(isPremium);
-        if(isPremium == 1) {
+        if (isPremium == 1) {
             mAdView.pause();
             mAdView.setVisibility(View.GONE);
         } else {
@@ -159,7 +164,7 @@ public abstract class BaseActivity extends AppCompatActivity
         protected Integer doInBackground(Void... params) {
             try {
                 Inventory inv = mHelper.queryInventory(false, null, null);
-                if(inv.hasPurchase(BuildConfig.PREMIUM_SKU)) {
+                if (inv.hasPurchase(BuildConfig.PREMIUM_SKU)) {
                     return 1;
                 } else {
                     return 0;
@@ -182,7 +187,7 @@ public abstract class BaseActivity extends AppCompatActivity
             public void run() {
                 try {
                     Inventory inv = mHelper.queryInventory(false, null, null);
-                    if(inv.hasPurchase(BuildConfig.PREMIUM_SKU)) {
+                    if (inv.hasPurchase(BuildConfig.PREMIUM_SKU)) {
                         mHelper.consumeAsync(inv.getPurchase(BuildConfig.PREMIUM_SKU), null);
                     }
                 } catch (IabException e) {
@@ -201,7 +206,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if(((MinesweeperApp) getApplication()).getIsPremium() != 1) {
+        if (((MinesweeperApp) getApplication()).getIsPremium() != 1) {
             mAdView.resume();
             mAdView.setVisibility(View.VISIBLE);
         } else {
@@ -228,7 +233,7 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
 
-        if(googleApiClient.isConnected()) {
+        if (googleApiClient.isConnected()) {
             googleApiClient.disconnect();
         }
     }
@@ -242,7 +247,7 @@ public abstract class BaseActivity extends AppCompatActivity
         if (mHelper != null && !mHelper.handleActivityResult(requestCode,
                 resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
-            if(requestCode == ResultCodes.SIGN_IN.ordinal()) {
+            if (requestCode == ResultCodes.SIGN_IN.ordinal()) {
                 mSignInClicked = false;
                 mResolvingConnectionFailure = false;
                 if (googleApiClient != null && resultCode == RESULT_OK) {

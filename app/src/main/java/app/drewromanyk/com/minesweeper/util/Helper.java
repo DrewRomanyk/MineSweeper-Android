@@ -47,12 +47,12 @@ public class Helper {
         return application.getDefaultTracker();
     }
 
-    public static  void sendFeedback(Activity activity) {
+    public static void sendFeedback(Activity activity) {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"drew.romanyk@gmail.com"});
+        i.putExtra(Intent.EXTRA_EMAIL, new String[]{"drew.romanyk@gmail.com"});
         i.putExtra(Intent.EXTRA_SUBJECT, activity.getString(R.string.settings_feedback_subject));
-        i.putExtra(Intent.EXTRA_TEXT   , "");
+        i.putExtra(Intent.EXTRA_TEXT, "");
         try {
             activity.startActivity(Intent.createChooser(i, activity.getString(R.string.settings_feedback_chooser)));
         } catch (android.content.ActivityNotFoundException ex) {

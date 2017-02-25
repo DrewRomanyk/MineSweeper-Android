@@ -84,7 +84,7 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
 
     private void updatePlaySelectButtons() {
         ArrayList<GameDifficulty> gameDifficulties = new ArrayList<>();
-        if(hasResumeGame()) {
+        if (hasResumeGame()) {
             gameDifficulties.add(GameDifficulty.RESUME);
         }
         gameDifficulties.add(GameDifficulty.CUSTOM);
@@ -99,7 +99,7 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
 
     @Override
     public void startGame(final GameDifficulty difficulty) {
-        if(hasResumeGame() &&  difficulty != GameDifficulty.RESUME) {
+        if (hasResumeGame() && difficulty != GameDifficulty.RESUME) {
             // A current game exists, ask if they want to delete
             YesNoDialogInfo dialogInfo = DialogInfoUtils.getInstance(getActivity()).getDialogInfo(ResultCodes.RESUME_DIALOG.ordinal());
             AlertDialog dialog = new AlertDialog.Builder(getActivity())
@@ -115,7 +115,8 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {}
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
                     })
                     .create();
             dialog.show();

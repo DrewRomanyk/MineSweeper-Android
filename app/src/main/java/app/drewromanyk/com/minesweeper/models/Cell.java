@@ -31,7 +31,8 @@ public class Cell {
     private double gameCellScale = 1;
 
     // empty constructor for null cells
-    public Cell() {}
+    public Cell() {
+    }
 
     //context is for the creation of the image button
     public Cell(int row, int column, GameActivity gameActivity) {
@@ -70,7 +71,7 @@ public class Cell {
     // Update size of cell based on density of screen & pinch scale & Preferences
     private void updateButtonSize() {
         final double densityScale = gameActivity.getResources().getDisplayMetrics().density / 3;
-        int cellSize =(int) ((((1.0 * UserPrefStorage.getCellSize(gameActivity)) / 100) * 100) * gameCellScale * densityScale);
+        int cellSize = (int) ((((1.0 * UserPrefStorage.getCellSize(gameActivity)) / 100) * 100) * gameCellScale * densityScale);
         cellButton.getLayoutParams().width = cellSize;
         cellButton.getLayoutParams().height = cellSize;
         cellButton.setMaxWidth(cellSize);
@@ -80,28 +81,30 @@ public class Cell {
     }
 
     //returns the image button for the cell
-    public ImageView getButton() { return cellButton; }
+    public ImageView getButton() {
+        return cellButton;
+    }
 
     // Updates the cells image and size of the button
     protected void updateImageValue() {
         int id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_unknown_light : R.drawable.ic_cell_unknown;
 
-        if(isUnknownFlagCell()) {
+        if (isUnknownFlagCell()) {
             id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_unknownflag_light : R.drawable.ic_cell_unknownflag;
-        } else if(isFlaggedCell()) {
+        } else if (isFlaggedCell()) {
             id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_flag_light : R.drawable.ic_cell_flag;
-        } else if(isRevealedNumCell()) {
-            if(UserPrefStorage.getLightMode(gameActivity)) {
+        } else if (isRevealedNumCell()) {
+            if (UserPrefStorage.getLightMode(gameActivity)) {
                 id = gameActivity.getResources().getIdentifier(
                         "ic_cell_" + getValue() + "_light", "drawable", PACKAGE_NAME);
             } else {
                 id = gameActivity.getResources().getIdentifier(
                         "ic_cell_" + getValue(), "drawable", PACKAGE_NAME);
             }
-            if(getValue() == 0) id = android.R.color.transparent;
-        } else if(isRevealedFlaggedBombCell()) {
+            if (getValue() == 0) id = android.R.color.transparent;
+        } else if (isRevealedFlaggedBombCell()) {
             id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_bombflagged_light : R.drawable.ic_cell_bombflagged;
-        } else if(isRevealedUnflaggedBombCell()) {
+        } else if (isRevealedUnflaggedBombCell()) {
             id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_bomb_light : R.drawable.ic_cell_bomb;
         }
 
@@ -137,33 +140,63 @@ public class Cell {
     }
 
     //revealed is when it is viewable by the user
-    public boolean isRevealed() { return reveal; }
+    public boolean isRevealed() {
+        return reveal;
+    }
 
-    public void setRevealed(boolean reveal) { this.reveal = reveal; }
+    public void setRevealed(boolean reveal) {
+        this.reveal = reveal;
+    }
 
     //flagged is when the user has it flagged as a bomb
-    public boolean isFlagged() { return flagged; }
+    public boolean isFlagged() {
+        return flagged;
+    }
 
-    public void setFlagged(boolean flagged) { this.flagged = flagged; }
+    public void setFlagged(boolean flagged) {
+        this.flagged = flagged;
+    }
 
     //value is what the cell is, either a bomb or how many neighboring bombs near that cell
-    public int getValue() { return value; }
+    public int getValue() {
+        return value;
+    }
 
-    public void setValue(int value) { this.value = value; }
+    public void setValue(int value) {
+        this.value = value;
+    }
 
     //row and column of the cell for the board
-    public int getRow() { return row; }
+    public int getRow() {
+        return row;
+    }
 
-    public int getColumn() { return column; }
+    public int getColumn() {
+        return column;
+    }
 
     //is the cell a bomb?
-    public boolean isMine() { return (value == MINE); }
+    public boolean isMine() {
+        return (value == MINE);
+    }
 
-    public int getFlaggedNeighbors() { return flaggedNeighbors; }
-    public void setFlaggedNeighbors(int flaggedNeighbors) { this.flaggedNeighbors = flaggedNeighbors; }
+    public int getFlaggedNeighbors() {
+        return flaggedNeighbors;
+    }
 
-    public int getMineNeighbors() { return mineNeighbors; }
-    public void setMineNeighbors(int mineNeighbors) { this.mineNeighbors = mineNeighbors; }
+    public void setFlaggedNeighbors(int flaggedNeighbors) {
+        this.flaggedNeighbors = flaggedNeighbors;
+    }
 
-    public void setGameCellScale(double gameCellScale) { this.gameCellScale = gameCellScale; }
+    public int getMineNeighbors() {
+        return mineNeighbors;
+    }
+
+    public void setMineNeighbors(int mineNeighbors) {
+        this.mineNeighbors = mineNeighbors;
+    }
+
+    public void setGameCellScale(double gameCellScale) {
+        this.gameCellScale = gameCellScale;
+    }
 }

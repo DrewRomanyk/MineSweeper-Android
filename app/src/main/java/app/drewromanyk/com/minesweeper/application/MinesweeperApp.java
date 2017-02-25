@@ -28,7 +28,8 @@ public class MinesweeperApp extends Application {
         //fix crash for lower API devices
         try {
             Class.forName("android.os.AsyncTask");
-        } catch(Throwable ignore){}
+        } catch (Throwable ignore) {
+        }
     }
 
     public int getIsPremium() {
@@ -41,6 +42,7 @@ public class MinesweeperApp extends Application {
 
     /**
      * Gets the default {@link Tracker} for this {@link Application}.
+     *
      * @return tracker
      */
     synchronized public Tracker getDefaultTracker() {

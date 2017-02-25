@@ -94,22 +94,22 @@ public class Board {
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
                 cell[r][c] = new Cell(r, c, values[r][c], revealed[r][c], flagged[r][c], gameActivity);
-                if(cell[r][c].isRevealed()) {
+                if (cell[r][c].isRevealed()) {
                     revealedCells++;
-                    if(cell[r][c].isFlagged()) {
+                    if (cell[r][c].isFlagged()) {
                         flaggedCells++;
                     }
                     firstRound = false;
-                } else if(cell[r][c].isFlagged()) {
+                } else if (cell[r][c].isFlagged()) {
                     flaggedCells++;
-                    if(cell[r][c].isMine()) {
+                    if (cell[r][c].isMine()) {
                         flaggedMines++;
                     }
                 }
             }
         }
 
-        if(!firstRound) {
+        if (!firstRound) {
             startGameTime();
             findNeighborCells();
             score3BV = new ThreeBV(cell, rows, columns);
@@ -118,7 +118,7 @@ public class Board {
             // Gack code to fix flag issue
             for (int r = 0; r < rows; r++) {
                 for (int c = 0; c < columns; c++) {
-                    if(cell[r][c].isFlagged()) {
+                    if (cell[r][c].isFlagged()) {
                         updateNeighborsOfFlagCell(cell[r][c]);
                     }
                 }
@@ -151,15 +151,15 @@ public class Board {
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
                 cell[r][c] = new Cell(r, c, values[r][c], revealed[r][c], flagged[r][c]);
-                if(cell[r][c].isRevealed()) {
+                if (cell[r][c].isRevealed()) {
                     revealedCells++;
-                    if(cell[r][c].isFlagged()) {
+                    if (cell[r][c].isFlagged()) {
                         flaggedCells++;
                     }
                     firstRound = false;
-                } else if(cell[r][c].isFlagged()) {
+                } else if (cell[r][c].isFlagged()) {
                     flaggedCells++;
-                    if(cell[r][c].isMine()) {
+                    if (cell[r][c].isMine()) {
                         flaggedMines++;
                     }
                 }
@@ -187,6 +187,7 @@ public class Board {
             }
         }
     }
+
     /*
      * UI & LISTENERS
      */
@@ -195,12 +196,12 @@ public class Board {
         gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_playing);
         board.setColumnCount(columns);
         board.setRowCount(rows);
-        board.setPadding(20,20,20,20);
+        board.setPadding(20, 20, 20, 20);
 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
                 board.addView(cell[r][c].getButton());
-                if(gameStatus == GameStatus.PLAYING || gameStatus == GameStatus.NOT_STARTED) {
+                if (gameStatus == GameStatus.PLAYING || gameStatus == GameStatus.NOT_STARTED) {
                     setCellTapListeners(cell[r][c]);
                 }
             }
@@ -261,12 +262,12 @@ public class Board {
 
         if (isQuickChangeTap(shortTap, clickedCell)) {
             gameActivity.changeFlagMode(this);
-        } else if(isRevealTap(shortTap, clickedCell)) {
+        } else if (isRevealTap(shortTap, clickedCell)) {
             gameActivity.playSoundEffects(GameSoundType.TAP);
             revealCell(clickedCell);
         } else if (isFlagTap(shortTap)) {
             flagCell(clickedCell);
-            if(longTap && !clickedCell.isRevealed()) {
+            if (longTap && !clickedCell.isRevealed()) {
                 gameActivity.playSoundEffects(GameSoundType.LONGPRESS);
                 clickedCell.getButton().startAnimation(AnimationUtils.loadAnimation(gameActivity, R.anim.puff_in));
             } else {
@@ -275,7 +276,7 @@ public class Board {
         }
         checkIfVictorious();
 
-        if(shortTap && gameStatus == GameStatus.PLAYING) {
+        if (shortTap && gameStatus == GameStatus.PLAYING) {
 //            gameActivity.playSoundEffects(GameSoundType.TAP);
         } else if (gameStatus == GameStatus.PLAYING) {
         }
@@ -366,7 +367,7 @@ public class Board {
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
                 //setNeighborValue(cell[r][c]);
-                if(!cell[r][c].isMine()) {
+                if (!cell[r][c].isMine()) {
                     cell[r][c].setValue(cellNeighbors[r][c].getNumMines());
                 }
             }
@@ -381,7 +382,7 @@ public class Board {
         if (!tgtCell.isRevealed()) {
             tgtCell.setFlagged(!tgtCell.isFlagged());
 
-            if(tgtCell.isMine()) {
+            if (tgtCell.isMine()) {
                 flaggedMines = (tgtCell.isFlagged()) ? flaggedMines + 1 : flaggedMines - 1;
             }
             flaggedCells = (tgtCell.isFlagged()) ? flaggedCells + 1 : flaggedCells - 1;
@@ -403,6 +404,7 @@ public class Board {
             }
         }
     }
+
     /*
      * REVEAL MODE
      */
@@ -415,7 +417,7 @@ public class Board {
         LinkedList<Cell> cellQueue = new LinkedList<>();
         cellQueue.add(tgtCell);
 
-        while(!cellQueue.isEmpty()) {
+        while (!cellQueue.isEmpty()) {
             Cell currCell = cellQueue.poll();
 
             if (firstRound && !currCell.isFlagged()) {
@@ -438,7 +440,7 @@ public class Board {
         currCell.setRevealed(true);
         currCell.updateImageValue();
 
-        if(currCell.getValue() == 0) {
+        if (currCell.getValue() == 0) {
             addNeighborCellsToQueue(cellQueue, currCell);
         }
     }
@@ -476,9 +478,14 @@ public class Board {
      * GAME OVER
      */
     //CONDITIONS TO WIN OR LOSE
-    private boolean victoryConditions() { return (flaggedMines == mineCount && cellsInGame == (flaggedMines + revealedCells))
-                                                    || (cellsInGame == (mineCount + revealedCells)); }
-    private boolean defeatConditions(Cell tgtCell) { return tgtCell.isMine() && !tgtCell.isFlagged(); }
+    private boolean victoryConditions() {
+        return (flaggedMines == mineCount && cellsInGame == (flaggedMines + revealedCells))
+                || (cellsInGame == (mineCount + revealedCells));
+    }
+
+    private boolean defeatConditions(Cell tgtCell) {
+        return tgtCell.isMine() && !tgtCell.isFlagged();
+    }
 
     //if the player wins do the actions
     private void checkIfVictorious() {
@@ -486,13 +493,14 @@ public class Board {
             gameOver(GameStatus.VICTORY, null);
         }
     }
+
     //game over actions
     private void gameOver(GameStatus gameStatus, Cell clickedCell) {
         this.gameStatus = gameStatus;
         //play sound
         gameActivity.playSoundEffects((gameStatus == GameStatus.VICTORY) ? GameSoundType.WIN : GameSoundType.LOSE);
         //Update stats/leaderboard/achievements
-        if(gameDifficulty != GameDifficulty.CUSTOM) {
+        if (gameDifficulty != GameDifficulty.CUSTOM) {
             updateLocalStatistics(gameActivity);
             updateGoogleGame();
         }
@@ -500,7 +508,7 @@ public class Board {
         int refreshIcon = (gameStatus == GameStatus.VICTORY) ?
                 R.drawable.ic_action_refresh_win : R.drawable.ic_action_refresh_lose;
         updateMineImage(gameStatus);
-        if(gameStatus == GameStatus.DEFEAT) {
+        if (gameStatus == GameStatus.DEFEAT) {
             clickedCell.updateClickedMine();
         }
 
@@ -513,14 +521,14 @@ public class Board {
     public void gameOverByRestart() {
         gameStatus = GameStatus.DEFEAT;
         //Update stats
-        if(gameDifficulty != GameDifficulty.CUSTOM) {
+        if (gameDifficulty != GameDifficulty.CUSTOM) {
             updateLocalStatistics(gameActivity);
             gameActivity.playSoundEffects(GameSoundType.LOSE);
         }
     }
 
     public double getGameScore() {
-        if(score3BV == null) return 0;
+        if (score3BV == null) return 0;
         long time = getGameTime();
 
         double scoreTemp = (score3BV.getThreeBV() / time);
@@ -531,7 +539,7 @@ public class Board {
     private void updateMineImage(GameStatus gameStatus) {
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
-                if(cell[r][c].isMine()) {
+                if (cell[r][c].isMine()) {
                     if (gameStatus == GameStatus.VICTORY) {
                         cell[r][c].setFlagged(true);
                     } else {
@@ -549,7 +557,8 @@ public class Board {
         boolean newBestScore = false;
 
         // skip the resume/custom modes
-        if(gameDifficulty == GameDifficulty.RESUME || gameDifficulty == GameDifficulty.CUSTOM) return;
+        if (gameDifficulty == GameDifficulty.RESUME || gameDifficulty == GameDifficulty.CUSTOM)
+            return;
 
         //initial data
         int wins = UserPrefStorage.getWinsForDifficulty(context, gameDifficulty);
@@ -565,7 +574,7 @@ public class Board {
         float avgScore = UserPrefStorage.getAvgScoreForDifficulty(context, gameDifficulty);
 
         // Update wins/losses/total
-        if(gameStatus == GameStatus.VICTORY) {
+        if (gameStatus == GameStatus.VICTORY) {
             wins++;
         } else {
             loses++;
@@ -574,41 +583,41 @@ public class Board {
 
         // Update best time and avg time
         int currentTime = (int) (getGameTime() / 1000);
-        if(gameStatus == GameStatus.VICTORY) {
+        if (gameStatus == GameStatus.VICTORY) {
             // Smaller currentTime is better than bestTime
-            if(bestTime > currentTime || bestTime == 0) {
+            if (bestTime > currentTime || bestTime == 0) {
                 newBestTime = true;
                 bestTime = currentTime;
             }
-            avgTime += (currentTime - avgTime)/(wins);
+            avgTime += (currentTime - avgTime) / (wins);
         }
 
         // Update exploration percentage
-        float currentExplorPerct = ((float) revealedCells)/(cellsInGame - mineCount) * 100;
-        explorPerct += (currentExplorPerct - explorPerct)/(total_games);
+        float currentExplorPerct = ((float) revealedCells) / (cellsInGame - mineCount) * 100;
+        explorPerct += (currentExplorPerct - explorPerct) / (total_games);
 
         // Update streaks
-        if(gameStatus == GameStatus.VICTORY) {
+        if (gameStatus == GameStatus.VICTORY) {
             currentWinStreak++;
             currentLosesStreak = 0;
         } else {
             currentWinStreak = 0;
             currentLosesStreak++;
         }
-        if(currentWinStreak > winStreak)
+        if (currentWinStreak > winStreak)
             winStreak = currentWinStreak;
-        if(currentLosesStreak > losesStreak)
+        if (currentLosesStreak > losesStreak)
             losesStreak = currentLosesStreak;
 
         // Update best score & avg score
         int currentScore = (int) (getGameScore() * 1000);
-        if(gameStatus == GameStatus.VICTORY) {
+        if (gameStatus == GameStatus.VICTORY) {
             // Bigger currentScore is better than bestScore
-            if(bestScore < currentScore || bestScore == 0) {
+            if (bestScore < currentScore || bestScore == 0) {
                 newBestScore = true;
                 bestScore = currentScore;
             }
-            avgScore += ((float) currentScore - avgScore)/(wins);
+            avgScore += ((float) currentScore - avgScore) / (wins);
         }
 
         UserPrefStorage.updateStats(context, gameDifficulty, wins, loses, bestTime, avgTime,
@@ -616,10 +625,10 @@ public class Board {
                 bestScore, avgScore);
 
         // Display new bests
-        if(newBestTime)
+        if (newBestTime)
             Toast.makeText(context, R.string.game_best_time, Toast.LENGTH_SHORT).show();
 
-        if(newBestScore)
+        if (newBestScore)
             Toast.makeText(context, R.string.game_best_score, Toast.LENGTH_SHORT).show();
     }
 
@@ -628,22 +637,23 @@ public class Board {
         long score = (long) (getGameScore() * 1000);
         GoogleApiClient googleApiClient = gameActivity.getGoogleApiClient();
 
-        long[] achievementSeconds = {20000,60000,150000};
+        long[] achievementSeconds = {20000, 60000, 150000};
         String[] achievementWin = {BuildConfig.ACHIEVEMENT_EASY, BuildConfig.ACHIEVEMENT_MEDIUM, BuildConfig.ACHIEVEMENT_EXPERT};
         String[] achievementSpeed = {BuildConfig.ACHIEVEMENT_FAST, BuildConfig.ACHIEVEMENT_QUICK, BuildConfig.ACHIEVEMENT_SWIFT};
         String[] leaderboardScores = {BuildConfig.LEADERBOARD_EASY_BEST_SCORES, BuildConfig.LEADERBOARD_MEDIUM_BEST_SCORES, BuildConfig.LEADERBOARD_EXPERT_BEST_SCORES};
         String[] leaderboardTimes = {BuildConfig.LEADERBOARD_EASY_BEST_TIMES, BuildConfig.LEADERBOARD_MEDIUM_BEST_TIMES, BuildConfig.LEADERBOARD_EXPERT_BEST_TIMES};
         String[] leaderboardStreaks = {BuildConfig.LEADERBOARD_EASY_BEST_STREAK, BuildConfig.LEADERBOARD_MEDIUM_BEST_STREAKs, BuildConfig.LEADERBOARD_EXPERT_BEST_STREAKs};
 
-        if(gameStatus == GameStatus.VICTORY) {
-            if(googleApiClient.isConnected()) {
+        if (gameStatus == GameStatus.VICTORY) {
+            if (googleApiClient.isConnected()) {
                 // Skip non ranked difficulty
-                if(gameDifficulty == GameDifficulty.CUSTOM || gameDifficulty == GameDifficulty.RESUME) return;
+                if (gameDifficulty == GameDifficulty.CUSTOM || gameDifficulty == GameDifficulty.RESUME)
+                    return;
 
                 // Offset is 2 for RESUME and CUSTOM
                 int gameDiffIndex = gameDifficulty.ordinal() - 2;
                 Games.Achievements.unlock(googleApiClient, "" + achievementWin[gameDiffIndex]);
-                if(millis < achievementSeconds[gameDiffIndex]) {
+                if (millis < achievementSeconds[gameDiffIndex]) {
                     Games.Achievements.unlock(googleApiClient, "" + achievementSpeed[gameDiffIndex]);
                 }
 
@@ -667,7 +677,7 @@ public class Board {
 
     public void startGameTime() {
         isGameTimerOn = true;
-        if(timer != null)
+        if (timer != null)
             timer.cancel();
         timer = new Timer();
         TimerTask timerTask = new TimerTask() {
@@ -691,7 +701,7 @@ public class Board {
 
     public void stopGameTime() {
         isGameTimerOn = false;
-        if(timer != null)
+        if (timer != null)
             timer.cancel();
     }
 
@@ -701,13 +711,13 @@ public class Board {
 
     public void zoomIn() {
         gameCellScale += .2;
-        if(gameCellScale > 1.6) gameCellScale = 1.6;
+        if (gameCellScale > 1.6) gameCellScale = 1.6;
         updateCellsZoom();
     }
 
     public void zoomOut() {
         gameCellScale -= .2;
-        if(gameCellScale < .4) gameCellScale = .4;
+        if (gameCellScale < .4) gameCellScale = .4;
         updateCellsZoom();
     }
 
@@ -728,16 +738,46 @@ public class Board {
         return (0 <= row && row < rows && 0 <= column && column < columns);
     }
 
-    public GridLayout getLayout() { return board; }
-    public GameStatus getGameStatus() { return gameStatus; }
-    public GameDifficulty getGameDifficulty() { return gameDifficulty; }
-    public int getRows() { return rows; }
-    public int getColumns() { return columns; }
-    public int getMineCount() { return mineCount; }
-    public int getCellValue(int r, int c) { return cell[r][c].getValue(); }
-    public boolean getCellReveal(int r, int c) { return cell[r][c].isRevealed(); }
-    public boolean getCellFlag(int r, int c) { return cell[r][c].isFlagged(); }
-    public boolean getFirstRound() { return firstRound; }
+    public GridLayout getLayout() {
+        return board;
+    }
+
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
+
+    public GameDifficulty getGameDifficulty() {
+        return gameDifficulty;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public int getMineCount() {
+        return mineCount;
+    }
+
+    public int getCellValue(int r, int c) {
+        return cell[r][c].getValue();
+    }
+
+    public boolean getCellReveal(int r, int c) {
+        return cell[r][c].isRevealed();
+    }
+
+    public boolean getCellFlag(int r, int c) {
+        return cell[r][c].isFlagged();
+    }
+
+    public boolean getFirstRound() {
+        return firstRound;
+    }
+
     public long getGameTime() {
         return (gameTime == 0) ? 1 : gameTime;
     }

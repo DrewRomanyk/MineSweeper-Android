@@ -12,7 +12,6 @@ public class CellNeighbors {
     private int numFlags;
 
 
-
     public CellNeighbors(Cell[][] cell, Cell tgtCell) {
         rows = cell.length;
         columns = cell[0].length;
@@ -24,23 +23,31 @@ public class CellNeighbors {
         findNeighboringCells(cell, tgtCell);
     }
 
-    public Cell[][] getNeighboringCells() { return neighboringCells; }
+    public Cell[][] getNeighboringCells() {
+        return neighboringCells;
+    }
 
-    public int getNumMines() { return numMines; }
+    public int getNumMines() {
+        return numMines;
+    }
 
-    public void setNumFlags(int numFlags) { this.numFlags = numFlags; }
+    public void setNumFlags(int numFlags) {
+        this.numFlags = numFlags;
+    }
 
-    public int getNumFlags() { return numFlags; }
+    public int getNumFlags() {
+        return numFlags;
+    }
 
     //sets the valid neighboring cells to the class
     private void findNeighboringCells(Cell[][] cell, Cell tgtCell) {
         for (int r = tgtCell.getRow() - 1; r <= tgtCell.getRow() + 1; r++) {
             for (int c = tgtCell.getColumn() - 1; c <= tgtCell.getColumn() + 1; c++) {
-                if (inbounds(r, c) &&  !isCell(tgtCell, r, c)) {
+                if (inbounds(r, c) && !isCell(tgtCell, r, c)) {
                     neighboringCells[r - (tgtCell.getRow() - 1)][c - (tgtCell.getColumn() - 1)] = cell[r][c];
-                    if(cell[r][c].isMine()) {
+                    if (cell[r][c].isMine()) {
                         numMines++;
-                    } else if(cell[r][c].isFlagged()) {
+                    } else if (cell[r][c].isFlagged()) {
                         numFlags++;
                     }
                 }

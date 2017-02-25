@@ -98,7 +98,7 @@ public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDi
 
         int totalGames = wins + loses;
 
-        double winPerct = ((totalGames != 0) ? ((((double) wins/totalGames)) * 100) : 0);
+        double winPerct = ((totalGames != 0) ? ((((double) wins / totalGames)) * 100) : 0);
 
         holder.bestScore.setText(boldString(context.getString(R.string.stats_title_best_score), "" + String.format("%.2f", (double) bestScore / 1000)));
         holder.avgScore.setText(boldString(context.getString(R.string.stats_title_avg_score), String.format("%.2f", (double) avgScore / 1000)));
@@ -118,7 +118,7 @@ public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDi
     public int getItemCount() {
         return gameDifficultyList.size();
     }
-    
+
     private Spanned boldString(String phrase, String otherPhrase) {
         return Html.fromHtml("<b>" + phrase + "</b>" + otherPhrase);
     }
