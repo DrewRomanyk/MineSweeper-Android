@@ -16,6 +16,7 @@ import android.view.View;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -64,7 +65,6 @@ public abstract class BaseActivity extends AppCompatActivity
                 } else if (purchase.getSku().equals(BuildConfig.PREMIUM_SKU)) {
                     updateAds(1);
                 }
-
             }
         };
     }
@@ -138,6 +138,7 @@ public abstract class BaseActivity extends AppCompatActivity
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
                 mAdView.loadAd(new AdRequest.Builder().build());
                 if (((MinesweeperApp) getApplication()).getIsPremium() == 1) {
                     mAdView.pause();

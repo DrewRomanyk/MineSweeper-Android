@@ -76,7 +76,7 @@ public class GameActivity extends BaseActivity {
     private void setupToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
 
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setTitle(R.string.nav_play);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

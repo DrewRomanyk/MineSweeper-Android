@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +19,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 
 import app.drewromanyk.com.minesweeper.R;
@@ -53,8 +55,7 @@ public class MainActivity extends BaseActivity {
     protected void setupDrawerContent(final DrawerLayout drawerLayout, final NavigationView navView) {
         this.drawerLayout = drawerLayout;
         this.navView = navView;
-
-        View headerLayout = navView.inflateHeaderView(R.layout.nav_header);
+        View headerLayout = navView.getHeaderView(0);
 
         headerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +65,7 @@ public class MainActivity extends BaseActivity {
                     getGoogleApiClient().disconnect();
 
                     ((TextView) navView.findViewById(R.id.name)).setText(getString(R.string.nav_header_playername_empty));
-                    Picasso.with(v.getContext()).load(R.drawable.common_google_signin_btn_icon_dark_pressed).into((ImageView) navView.findViewById(R.id.avatar));
+                    Picasso.with(v.getContext()).load(R.drawable.common_google_signin_btn_icon_dark).into((ImageView) navView.findViewById(R.id.avatar));
                     Picasso.with(v.getContext()).load(R.color.background_material_dark).into((ImageView) navView.findViewById(R.id.cover));
 
                 } else {
@@ -154,7 +155,7 @@ public class MainActivity extends BaseActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(requestCode == ResultCodes.NEEDGOOGLE_DIALOG.ordinal()) {
+                        if (requestCode == ResultCodes.NEEDGOOGLE_DIALOG.ordinal()) {
                             setSignInClicked(true);
                             getGoogleApiClient().connect();
                         }
@@ -162,7 +163,8 @@ public class MainActivity extends BaseActivity {
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {}
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
                 })
                 .create();
         dialog.show();
@@ -174,13 +176,13 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onConnected(Bundle bundle) {
-        if ( Helper.isOnline(this) && Plus.PeopleApi.getCurrentPerson(getGoogleApiClient()) != null) {
+        if (Helper.isOnline(this) && Plus.PeopleApi.getCurrentPerson(getGoogleApiClient()) != null) {
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(getGoogleApiClient());
             TextView nameDisplay = (TextView) navView.findViewById(R.id.name);
             CircleImageView avatar = (CircleImageView) navView.findViewById(R.id.avatar);
             ImageView cover = (ImageView) navView.findViewById(R.id.cover);
 
-            if(nameDisplay != null) {
+            if (nameDisplay != null) {
                 nameDisplay.setText(currentPerson.getDisplayName());
             }
 
@@ -190,11 +192,11 @@ public class MainActivity extends BaseActivity {
                 playerAvatarURL = playerAvatarURL.substring(0, index) + "?sz=200";
             }
 
-            if(avatar != null) {
+            if (avatar != null) {
                 Picasso.with(this).load(playerAvatarURL).placeholder(R.drawable.person_image_empty).into(avatar);
             }
 
-            if(cover != null && currentPerson.getCover() != null && currentPerson.getCover().hasCoverPhoto()) {
+            if (cover != null && currentPerson.getCover() != null && currentPerson.getCover().hasCoverPhoto()) {
                 String playerCoverURL = currentPerson.getCover().getCoverPhoto().getUrl();
                 Picasso.with(this).load(playerCoverURL).placeholder(R.color.background_material_dark).into(cover);
             }
