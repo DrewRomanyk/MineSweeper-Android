@@ -19,6 +19,7 @@
     <color name="window_background">#FFF5F5F5</color>
     <color name="light_background">#eeeeee</color>
     <color name="dark_background">#424242</color>
+    <color name="amoled_background">#000000</color>
 
     <color name="resume_difficulty">#009688</color>
     <color name="custom_difficulty">#E91E63</color>

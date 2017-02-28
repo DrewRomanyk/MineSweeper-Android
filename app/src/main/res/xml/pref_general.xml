@@ -64,10 +64,12 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/settings_game">
-        <SwitchPreference
-            android:key="lightmode_check"
-            android:title="@string/settings_game_light"
-            android:defaultValue="true" />
+        <ListPreference
+            android:key="ui_theme_mode"
+            android:title="@string/settings_game_ui_theme"
+            android:entries="@array/ui_theme_keys"
+            android:entryValues="@array/ui_theme_values"
+            android:defaultValue="light"/>
         <SwitchPreference
             android:key="sound_check"
             android:title="@string/settings_game_sound"

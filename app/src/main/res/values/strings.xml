@@ -114,7 +114,7 @@ Flag:
     <string name="preference_volumebutton" translatable="false">volumebutton_check</string>
     <string name="preference_screenon" translatable="false">screenon_check</string>
     <string name="preference_lockrotate" translatable="false">lockrotate_check</string>
-    <string name="preference_lightmode" translatable="false">lightmode_check</string>
+    <string name="preference_ui_theme_mode" translatable="false">ui_theme_mode</string>
     <string name="preference_saved_current_version" translatable="false">1</string>
 
     <!-- SETTINGS -->
@@ -127,7 +127,7 @@ Flag:
     <string name="settings_custom_columns">Columns</string>
     <string name="settings_custom_mines">Mines</string>
     <string name="settings_game">Game Settings</string>
-    <string name="settings_game_light">Light UI Mode</string>
+    <string name="settings_game_ui_theme">UI Theme Mode</string>
     <string name="settings_game_sound">Sound Effects</string>
     <string name="settings_game_vibration">Vibration</string>
     <string name="settings_game_screenon">Keep Screen On</string>

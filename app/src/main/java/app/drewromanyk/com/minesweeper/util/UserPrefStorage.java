@@ -11,6 +11,7 @@ import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.activities.GameActivity;
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
 import app.drewromanyk.com.minesweeper.enums.GameStatus;
+import app.drewromanyk.com.minesweeper.enums.UiThemeModeEnum;
 import app.drewromanyk.com.minesweeper.models.Board;
 
 /**
@@ -296,7 +297,7 @@ public class UserPrefStorage {
         return getPrefs(context).getBoolean(context.getString(R.string.preference_lockrotate), false);
     }
 
-    public static boolean getLightMode(Context context) {
-        return getPrefs(context).getBoolean(context.getString(R.string.preference_lightmode), true);
+    public static UiThemeModeEnum getUiThemeMode(Context context) {
+        return UiThemeModeEnum.valueOf(getPrefs(context).getString(context.getString(R.string.preference_ui_theme_mode), "LIGHT"));
     }
 }

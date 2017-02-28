@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import app.drewromanyk.com.minesweeper.BuildConfig;
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.activities.GameActivity;
+import app.drewromanyk.com.minesweeper.enums.UiThemeModeEnum;
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 /**
@@ -89,14 +90,27 @@ public class Cell {
 
     // Updates the cells image and size of the button
     protected void updateImageValue() {
-        int id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_unknown_light : R.drawable.ic_cell_unknown;
+        UiThemeModeEnum uiThemeMode = UserPrefStorage.getUiThemeMode(gameActivity);
+        boolean light_mode = false;
+        switch (uiThemeMode) {
+            case LIGHT:
+                light_mode = true;
+                break;
+            case DARK:
+                light_mode = false;
+                break;
+            case AMOLED:
+                light_mode = false;
+                break;
+        }
+        int id = (light_mode) ? R.drawable.ic_cell_unknown_light : R.drawable.ic_cell_unknown;
 
         if (isUnknownFlagCell()) {
-            id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_unknownflag_light : R.drawable.ic_cell_unknownflag;
+            id = (light_mode) ? R.drawable.ic_cell_unknownflag_light : R.drawable.ic_cell_unknownflag;
         } else if (isFlaggedCell()) {
-            id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_flag_light : R.drawable.ic_cell_flag;
+            id = (light_mode) ? R.drawable.ic_cell_flag_light : R.drawable.ic_cell_flag;
         } else if (isRevealedNumCell()) {
-            if (UserPrefStorage.getLightMode(gameActivity)) {
+            if (light_mode) {
                 id = gameActivity.getResources().getIdentifier(
                         "ic_cell_" + getValue() + "_light", "drawable", PACKAGE_NAME);
             } else {
@@ -105,9 +119,9 @@ public class Cell {
             }
             if (getValue() == 0) id = android.R.color.transparent;
         } else if (isRevealedFlaggedBombCell()) {
-            id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_bombflagged_light : R.drawable.ic_cell_bombflagged;
+            id = (light_mode) ? R.drawable.ic_cell_bombflagged_light : R.drawable.ic_cell_bombflagged;
         } else if (isRevealedUnflaggedBombCell()) {
-            id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_bomb_light : R.drawable.ic_cell_bomb;
+            id = (light_mode) ? R.drawable.ic_cell_bomb_light : R.drawable.ic_cell_bomb;
         }
 
         getButton().setBackgroundDrawable(gameActivity.getResources().getDrawable(id));
@@ -136,7 +150,20 @@ public class Cell {
 
     //returns the clicked mine cell image
     protected void updateClickedMine() {
-        int id = (UserPrefStorage.getLightMode(gameActivity)) ? R.drawable.ic_cell_bombpressed_light : R.drawable.ic_cell_bombpressed;
+        UiThemeModeEnum uiThemeMode = UserPrefStorage.getUiThemeMode(gameActivity);
+        boolean light_mode = false;
+        switch (uiThemeMode) {
+            case LIGHT:
+                light_mode = true;
+                break;
+            case DARK:
+                light_mode = false;
+                break;
+            case AMOLED:
+                light_mode = false;
+                break;
+        }
+        int id = (light_mode) ? R.drawable.ic_cell_bombpressed_light : R.drawable.ic_cell_bombpressed;
         getButton().setBackgroundDrawable(gameActivity.getResources().getDrawable(id));
         updateButtonSize();
     }

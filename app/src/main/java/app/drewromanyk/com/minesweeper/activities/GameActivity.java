@@ -27,6 +27,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 
 import app.drewromanyk.com.minesweeper.enums.GameSoundType;
+import app.drewromanyk.com.minesweeper.enums.UiThemeModeEnum;
 import app.drewromanyk.com.minesweeper.models.Board;
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
@@ -150,13 +151,19 @@ public class GameActivity extends BaseActivity {
         }
 
         // Theme Changing Background
-        if (UserPrefStorage.getLightMode(this)) {
-            boardBackground.setBackgroundColor(getResources().getColor(R.color.light_background));
-            minesweeperBoard.updateCellSize();
-        } else {
-            boardBackground.setBackgroundColor(getResources().getColor(R.color.dark_background));
-            minesweeperBoard.updateCellSize();
+        UiThemeModeEnum uiThemeMode = UserPrefStorage.getUiThemeMode(this);
+        switch (uiThemeMode) {
+            case LIGHT:
+                boardBackground.setBackgroundColor(getResources().getColor(R.color.light_background));
+                break;
+            case DARK:
+                boardBackground.setBackgroundColor(getResources().getColor(R.color.dark_background));
+                break;
+            case AMOLED:
+                boardBackground.setBackgroundColor(getResources().getColor(R.color.amoled_background));
+                break;
         }
+        minesweeperBoard.updateCellSize();
     }
 
     @Override
@@ -437,5 +444,8 @@ public class GameActivity extends BaseActivity {
     private void addBoardToLayout() {
         vScroll.removeAllViews();
         vScroll.addView(minesweeperBoard.getLayout());
+        if (flagMode) {
+            changeFlagMode(minesweeperBoard);
+        }
     }
 }
