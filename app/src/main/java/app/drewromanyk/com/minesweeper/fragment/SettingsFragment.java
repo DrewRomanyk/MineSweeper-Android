@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.anjlab.android.iab.v3.BillingProcessor;
 
 import app.drewromanyk.com.minesweeper.BuildConfig;
 import app.drewromanyk.com.minesweeper.R;
@@ -40,18 +43,33 @@ public class SettingsFragment extends PreferenceFragment {
         in_app_ads.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                if (((BaseActivity) getActivity()).mHelper != null) {
-                    preference.setEnabled(false);
-                    ((BaseActivity) getActivity()).mHelper.launchPurchaseFlow(
-                            getActivity(),
-                            BuildConfig.PREMIUM_SKU,
-                            ResultCodes.IN_APP_PREMIUM.ordinal(),
-                            ((BaseActivity) getActivity()).getPurchaseFinishedListener(preference),
-                            BuildConfig.PREMIUM_SKU);
+                BillingProcessor bp = ((BaseActivity) getActivity()).bp;
+                if (bp != null) {
+                    boolean isOneTimePurchaseSupported = bp.isOneTimePurchaseSupported();
+                    if (isOneTimePurchaseSupported) {
+                        Log.i("SettingsFrag", "onPreferenceClick: purchase");
+                        bp.purchase(getActivity(), BuildConfig.PREMIUM_SKU);
+                    }
                 }
                 return true;
             }
         });
+
+//        Preference clear_purchases = findPreference("purchase_clear");
+//        clear_purchases.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference) {
+//                BillingProcessor bp = ((BaseActivity) getActivity()).bp;
+//                if (bp != null) {
+//                    boolean isOneTimePurchaseSupported = bp.isOneTimePurchaseSupported();
+//                    if (isOneTimePurchaseSupported) {
+//                        Log.i("SettingsFrag", "onPreferenceClick: consume");
+//                        bp.consumePurchase(BuildConfig.PREMIUM_SKU);
+//                    }
+//                }
+//                return true;
+//            }
+//        });
 
         Preference send_feedback = findPreference("send_feedback");
         send_feedback.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

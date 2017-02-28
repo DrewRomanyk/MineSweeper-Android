@@ -5,25 +5,23 @@
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-    <PreferenceCategory
-        android:title="@string/settings_inapp">
+    <PreferenceCategory android:title="@string/settings_inapp">
         <Preference
             android:key="purchase_remove_ads"
-            android:title="@string/settings_inapp_ads"/>
+            android:title="@string/settings_inapp_ads" />
         <!--<Preference-->
         <!--android:key="purchase_clear"-->
-        <!--android:title="Clear Purchases"/>-->
+        <!--android:title="Clear Purchases" />-->
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/settings_cell">
+    <PreferenceCategory android:title="@string/settings_cell">
         <app.drewromanyk.com.minesweeper.views.SeekBarPreference
+            android:defaultValue="100"
             android:key="cellSize_seek"
+            android:max="150"
             android:title="@string/settings_cell_size"
             app:min="50"
-            android:defaultValue="100"
-            android:max="150"
             app:unitsLeft="   "
-            app:unitsRight="%"/>
+            app:unitsRight="%" />
         <!--
         <app.drewromanyk.com.minesweeper.views.SeekBarPreference
             android:key="longpress_seek"
@@ -35,75 +33,72 @@
             app:unitsRight=""/>
             -->
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/settings_custom">
+    <PreferenceCategory android:title="@string/settings_custom">
         <app.drewromanyk.com.minesweeper.views.SeekBarPreference
+            android:defaultValue="9"
             android:key="row_seek"
+            android:max="16"
             android:title="@string/settings_custom_rows"
             app:min="9"
-            android:defaultValue="9"
-            android:max="16"
             app:unitsLeft="   "
-            app:unitsRight=""/>
+            app:unitsRight="" />
         <app.drewromanyk.com.minesweeper.views.SeekBarPreference
+            android:defaultValue="9"
             android:key="column_seek"
+            android:max="30"
             android:title="@string/settings_custom_columns"
             app:min="9"
-            android:defaultValue="9"
-            android:max="30"
             app:unitsLeft="   "
-            app:unitsRight=""/>
+            app:unitsRight="" />
         <app.drewromanyk.com.minesweeper.views.SeekBarPreference
+            android:defaultValue="10"
             android:key="mine_seek"
+            android:max="64"
             android:title="@string/settings_custom_mines"
             app:min="10"
-            android:defaultValue="10"
-            android:max="64"
             app:unitsLeft="   "
-            app:unitsRight=""/>
+            app:unitsRight="" />
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/settings_game">
+    <PreferenceCategory android:title="@string/settings_game">
         <ListPreference
-            android:key="ui_theme_mode"
-            android:title="@string/settings_game_ui_theme"
+            android:defaultValue="LIGHT"
             android:entries="@array/ui_theme_keys"
             android:entryValues="@array/ui_theme_values"
-            android:defaultValue="LIGHT"/>
+            android:key="ui_theme_mode"
+            android:title="@string/settings_game_ui_theme" />
         <SwitchPreference
+            android:defaultValue="true"
             android:key="sound_check"
-            android:title="@string/settings_game_sound"
-            android:defaultValue="true" />
+            android:title="@string/settings_game_sound" />
         <SwitchPreference
+            android:defaultValue="true"
             android:key="vibration_check"
-            android:title="@string/settings_game_vibration"
-            android:defaultValue="true" />
+            android:title="@string/settings_game_vibration" />
         <SwitchPreference
+            android:defaultValue="false"
             android:key="screenon_check"
-            android:title="@string/settings_game_screenon"
-            android:defaultValue="false" />
+            android:title="@string/settings_game_screenon" />
         <SwitchPreference
+            android:defaultValue="false"
             android:key="lockrotate_check"
-            android:title="@string/settings_game_rotate"
-            android:defaultValue="false" />
+            android:title="@string/settings_game_rotate" />
         <SwitchPreference
+            android:defaultValue="true"
             android:key="volumebutton_check"
-            android:title="@string/settings_game_volumeflag"
-            android:defaultValue="true" />
+            android:title="@string/settings_game_volumeflag" />
         <SwitchPreference
+            android:defaultValue="true"
             android:key="swiftchange_check"
-            android:title="@string/settings_game_swiftchange"
-            android:defaultValue="true"/>
+            android:title="@string/settings_game_swiftchange" />
         <SwitchPreference
+            android:defaultValue="true"
             android:key="swiftopen_check"
-            android:title="@string/settings_game_swiftopen"
-            android:defaultValue="true" />
+            android:title="@string/settings_game_swiftopen" />
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/settings_support">
+    <PreferenceCategory android:title="@string/settings_support">
         <Preference
             android:key="send_feedback"
-            android:title="@string/settings_support_feedback"/>
+            android:title="@string/settings_support_feedback" />
     </PreferenceCategory>
 
 </PreferenceScreen>

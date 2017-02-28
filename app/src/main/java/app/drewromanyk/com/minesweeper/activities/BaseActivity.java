@@ -3,23 +3,20 @@ package app.drewromanyk.com.minesweeper.activities;
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.Preference;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
+import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.TransactionDetails;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.plus.Plus;
@@ -30,18 +27,14 @@ import app.drewromanyk.com.minesweeper.application.MinesweeperApp;
 import app.drewromanyk.com.minesweeper.enums.ResultCodes;
 import app.drewromanyk.com.minesweeper.util.BaseGameUtils;
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
-import app.drewromanyk.com.minesweeper.util.billing.IabException;
-import app.drewromanyk.com.minesweeper.util.billing.IabHelper;
-import app.drewromanyk.com.minesweeper.util.billing.IabResult;
-import app.drewromanyk.com.minesweeper.util.billing.Inventory;
-import app.drewromanyk.com.minesweeper.util.billing.Purchase;
 
 /**
  * Created by Drew on 11/6/15.
  * This is a Base Activity for all activities in order to unify In-app purchases and Google Games
  */
 public abstract class BaseActivity extends AppCompatActivity
-        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        BillingProcessor.IBillingHandler {
     private static final String TAG = "BaseActivity";
     // ADS
     private AdView mAdView;
@@ -53,20 +46,48 @@ public abstract class BaseActivity extends AppCompatActivity
     private boolean mAutoStartSignInFlow = true;
 
     // IN APP PURCHASES
-    public IabHelper mHelper;
+    public BillingProcessor bp;
 
-    public IabHelper.OnIabPurchaseFinishedListener getPurchaseFinishedListener(final Preference preference) {
-        return new IabHelper.OnIabPurchaseFinishedListener() {
-            public void onIabPurchaseFinished(IabResult result,
-                                              Purchase purchase) {
-                if (result.isFailure()) {
-                    preference.setEnabled(true);
-                    updateAds(0);
-                } else if (purchase.getSku().equals(BuildConfig.PREMIUM_SKU)) {
-                    updateAds(1);
-                }
-            }
-        };
+    @Override
+    public void onBillingInitialized() {
+        /*
+         * Called when BillingProcessor was initialized and it's ready to purchase
+         */
+        TransactionDetails td = bp.getPurchaseTransactionDetails(BuildConfig.PREMIUM_SKU);
+        if (td != null && td.purchaseInfo.purchaseData.productId.equals(BuildConfig.PREMIUM_SKU)) {
+            updateAds(1);
+        } else {
+            updateAds(0);
+        }
+    }
+
+    @Override
+    public void onProductPurchased(String productId, TransactionDetails details) {
+        /*
+         * Called when requested PRODUCT ID was successfully purchased
+         */
+        if (details.purchaseInfo.purchaseData.productId.equals(BuildConfig.PREMIUM_SKU)) {
+            updateAds(1);
+        }
+    }
+
+    @Override
+    public void onBillingError(int errorCode, Throwable error) {
+        /*
+         * Called when some error occurred. See Constants class for more details
+         *
+         * Note - this includes handling the case where the user canceled the buy dialog:
+         * errorCode = Constants.BILLING_RESPONSE_RESULT_USER_CANCELED
+         */
+        updateAds(0);
+    }
+
+    @Override
+    public void onPurchaseHistoryRestored() {
+        /*
+         * Called when purchase history was restored and the list of all owned PRODUCT ID's
+         * was loaded from Google Play
+         */
     }
 
     public GoogleApiClient getGoogleApiClient() {
@@ -81,7 +102,8 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupTaskActivityInfo();
-        setupInAppPurchases();
+
+        bp = new BillingProcessor(this, BuildConfig.LICENSE_KEY, this);
     }
 
     private void setupTaskActivityInfo() {
@@ -95,26 +117,6 @@ public abstract class BaseActivity extends AppCompatActivity
                     BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_icon),
                     getResources().getColor(R.color.primary_task));
             setTaskDescription(tDesc);
-        }
-    }
-
-    private void setupInAppPurchases() {
-        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
-        int code = api.isGooglePlayServicesAvailable(this);
-        if (code == ConnectionResult.SUCCESS) {
-            mHelper = new IabHelper(this, BuildConfig.LICENSE_KEY);
-
-            mHelper.startSetup(new
-                                       IabHelper.OnIabSetupFinishedListener() {
-                                           public void onIabSetupFinished(IabResult result) {
-                                               if (!result.isSuccess()) {
-                                                   //Log.d("BaseActivity", "In-app Billing setup failed: " + result);
-                                                   mHelper = null;
-                                               } else {
-                                                   new premiumAsyncTask().execute();
-                                               }
-                                           }
-                                       });
         }
     }
 
@@ -159,45 +161,6 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
-    private class premiumAsyncTask extends AsyncTask<Void, Void, Integer> {
-
-        @Override
-        protected Integer doInBackground(Void... params) {
-            try {
-                Inventory inv = mHelper.queryInventory(false, null, null);
-                if (inv.hasPurchase(BuildConfig.PREMIUM_SKU)) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            } catch (IabException e) {
-                e.printStackTrace();
-                return -1;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            updateAds(result);
-        }
-    }
-
-    public void clearPurchases() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Inventory inv = mHelper.queryInventory(false, null, null);
-                    if (inv.hasPurchase(BuildConfig.PREMIUM_SKU)) {
-                        mHelper.consumeAsync(inv.getPurchase(BuildConfig.PREMIUM_SKU), null);
-                    }
-                } catch (IabException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -219,9 +182,8 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mAdView.destroy();
-        if (mHelper != null) mHelper.dispose();
-        mHelper = null;
+        if (mAdView != null) mAdView.destroy();
+        if (bp != null) bp.release();
     }
 
     @Override
@@ -245,8 +207,8 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mHelper != null && !mHelper.handleActivityResult(requestCode,
-                resultCode, data)) {
+
+        if (!bp.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
             if (requestCode == ResultCodes.SIGN_IN.ordinal()) {
                 mSignInClicked = false;

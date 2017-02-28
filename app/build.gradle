@@ -19,8 +19,8 @@ android {
         applicationId "app.drewromanyk.com.minesweeper"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 17
-        versionName "1.4.1"
+        versionCode 24
+        versionName "1.4.2"
 
         resValue "string", "ad_id", retrieveProp('AD_ID')
         resValue "string", "ad_app_id", retrieveProp('AD_APP_ID')
@@ -76,6 +76,7 @@ dependencies {
     compile 'com.google.firebase:firebase-ads:10.2.0'
     compile 'com.google.firebase:firebase-crash:10.2.0'
 
+    compile 'com.anjlab.android.iab.v3:library:1.0.+'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'de.hdodenhof:circleimageview:1.2.1'
 }
