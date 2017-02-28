@@ -2,7 +2,7 @@
 <resources>
     <!-- APP -->
     <string name="app_name">Minesweeper</string>
-    <string name="version_name" translatable="false">1.4.0</string>
+    <string name="version_name" translatable="false">1.4.1</string>
 
     <!-- NAV DRAWER -->
     <string name="nav_header_playername_empty">SIGN IN</string>

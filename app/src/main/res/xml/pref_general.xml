@@ -69,7 +69,7 @@
             android:title="@string/settings_game_ui_theme"
             android:entries="@array/ui_theme_keys"
             android:entryValues="@array/ui_theme_values"
-            android:defaultValue="light"/>
+            android:defaultValue="LIGHT"/>
         <SwitchPreference
             android:key="sound_check"
             android:title="@string/settings_game_sound"
