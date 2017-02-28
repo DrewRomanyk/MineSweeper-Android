@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ui_theme_keys">
+        <item>Material Luz</item>
+        <item>Material Oscuro</item>
+        <item>Material AMOLED</item>
+        <item>Clásico</item>
+    </string-array>
+</resources>

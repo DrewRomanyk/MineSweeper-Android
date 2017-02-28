@@ -92,6 +92,7 @@ public class Cell {
     protected void updateImageValue() {
         UiThemeModeEnum uiThemeMode = UserPrefStorage.getUiThemeMode(gameActivity);
         boolean light_mode = false;
+        boolean material_mode = true;
         switch (uiThemeMode) {
             case LIGHT:
                 light_mode = true;
@@ -102,26 +103,47 @@ public class Cell {
             case AMOLED:
                 light_mode = false;
                 break;
+            case CLASSICAL:
+                light_mode = true;
+                material_mode = false;
+                break;
         }
-        int id = (light_mode) ? R.drawable.ic_cell_unknown_light : R.drawable.ic_cell_unknown;
+        int id = (material_mode) ?
+                (light_mode) ? R.drawable.ic_cell_unknown_light : R.drawable.ic_cell_unknown
+                : R.drawable.ic_cell_unknown_classical;
 
         if (isUnknownFlagCell()) {
-            id = (light_mode) ? R.drawable.ic_cell_unknownflag_light : R.drawable.ic_cell_unknownflag;
+            id = (material_mode) ?
+                    (light_mode) ? R.drawable.ic_cell_unknownflag_light : R.drawable.ic_cell_unknownflag
+                    : R.drawable.ic_cell_unknown_classical;
         } else if (isFlaggedCell()) {
-            id = (light_mode) ? R.drawable.ic_cell_flag_light : R.drawable.ic_cell_flag;
+            id = (material_mode) ?
+                    (light_mode) ? R.drawable.ic_cell_flag_light : R.drawable.ic_cell_flag
+                    : R.drawable.ic_cell_unknownflag_classical;
         } else if (isRevealedNumCell()) {
-            if (light_mode) {
+            if (!material_mode) {
+                id = gameActivity.getResources().getIdentifier(
+                        "ic_cell_" + getValue() + "_classical", "drawable", PACKAGE_NAME);
+            } else if (light_mode) {
                 id = gameActivity.getResources().getIdentifier(
                         "ic_cell_" + getValue() + "_light", "drawable", PACKAGE_NAME);
             } else {
                 id = gameActivity.getResources().getIdentifier(
                         "ic_cell_" + getValue(), "drawable", PACKAGE_NAME);
             }
-            if (getValue() == 0) id = android.R.color.transparent;
+            if (getValue() == 0) {
+                id = (material_mode) ?
+                        android.R.color.transparent
+                        : R.drawable.ic_cell_0_classical;
+            }
         } else if (isRevealedFlaggedBombCell()) {
-            id = (light_mode) ? R.drawable.ic_cell_bombflagged_light : R.drawable.ic_cell_bombflagged;
+            id = (material_mode) ?
+                    (light_mode) ? R.drawable.ic_cell_bombflagged_light : R.drawable.ic_cell_bombflagged
+                    : R.drawable.ic_cell_bombflagged_classical;
         } else if (isRevealedUnflaggedBombCell()) {
-            id = (light_mode) ? R.drawable.ic_cell_bomb_light : R.drawable.ic_cell_bomb;
+            id = (material_mode) ?
+                    (light_mode) ? R.drawable.ic_cell_bomb_light : R.drawable.ic_cell_bomb
+                    : R.drawable.ic_cell_bomb_classical;
         }
 
         getButton().setBackgroundDrawable(gameActivity.getResources().getDrawable(id));
@@ -152,6 +174,7 @@ public class Cell {
     protected void updateClickedMine() {
         UiThemeModeEnum uiThemeMode = UserPrefStorage.getUiThemeMode(gameActivity);
         boolean light_mode = false;
+        boolean material_mode = true;
         switch (uiThemeMode) {
             case LIGHT:
                 light_mode = true;
@@ -162,8 +185,14 @@ public class Cell {
             case AMOLED:
                 light_mode = false;
                 break;
+            case CLASSICAL:
+                light_mode = true;
+                material_mode = false;
+                break;
         }
-        int id = (light_mode) ? R.drawable.ic_cell_bombpressed_light : R.drawable.ic_cell_bombpressed;
+        int id = (material_mode) ?
+                (light_mode) ? R.drawable.ic_cell_bombpressed_light : R.drawable.ic_cell_bombpressed
+                : R.drawable.ic_cell_bombpressed_classical;
         getButton().setBackgroundDrawable(gameActivity.getResources().getDrawable(id));
         updateButtonSize();
     }

@@ -7,7 +7,8 @@ package app.drewromanyk.com.minesweeper.enums;
 public enum UiThemeModeEnum {
     LIGHT("LIGHT"),
     DARK("DARK"),
-    AMOLED("AMOLED");
+    AMOLED("AMOLED"),
+    CLASSICAL("CLASSICAL");
 
     private String ui_theme_mode;
 

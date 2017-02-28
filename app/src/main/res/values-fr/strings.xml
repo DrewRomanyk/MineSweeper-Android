@@ -115,6 +115,7 @@ S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com 
     <string name="settings_custom_mines">Mines</string>
 
     <string name="settings_game">Paramètres de jeu</string>
+    <string name="settings_game_ui_theme">Mode thème UI</string>
     <string name="settings_game_light">Mode UI Lumière</string>
     <string name="settings_game_sound">Effets sonores</string>
     <string name="settings_game_vibration">Vibration</string>

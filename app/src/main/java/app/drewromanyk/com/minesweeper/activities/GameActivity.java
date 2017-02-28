@@ -162,6 +162,9 @@ public class GameActivity extends BaseActivity {
             case AMOLED:
                 boardBackground.setBackgroundColor(getResources().getColor(R.color.amoled_background));
                 break;
+            case CLASSICAL:
+                boardBackground.setBackgroundColor(getResources().getColor(R.color.light_background));
+                break;
         }
         minesweeperBoard.updateCellSize();
     }

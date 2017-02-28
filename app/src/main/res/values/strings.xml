@@ -126,6 +126,7 @@ Flag:
     <string name="settings_custom_rows">Rows</string>
     <string name="settings_custom_columns">Columns</string>
     <string name="settings_custom_mines">Mines</string>
+
     <string name="settings_game">Game Settings</string>
     <string name="settings_game_ui_theme">UI Theme Mode</string>
     <string name="settings_game_sound">Sound Effects</string>

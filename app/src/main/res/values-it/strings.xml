@@ -110,7 +110,9 @@ Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per
     <string name="settings_custom_rows">Righe</string>
     <string name="settings_custom_columns">Colonne</string>
     <string name="settings_custom_mines">Mines</string>
+
     <string name="settings_game">Impostazioni Partita</string>
+    <string name="settings_game_ui_theme">Modalità Tema UI</string>
     <string name="settings_game_light">Modalità interfaccia grafica luminosa</string>
     <string name="settings_game_sound">Effetti sonori</string>
     <string name="settings_game_vibration">Vibrazione</string>
