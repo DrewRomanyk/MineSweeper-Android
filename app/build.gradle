@@ -20,7 +20,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 16
-        versionName "1.3.0"
+        versionName "1.4.0"
 
         resValue "string", "ad_id", retrieveProp('AD_ID')
         resValue "string", "ad_app_id", retrieveProp('AD_APP_ID')

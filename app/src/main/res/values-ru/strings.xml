@@ -112,7 +112,6 @@
 
     <string name="settings_game">Настройки Игры</string>
     <string name="settings_game_ui_theme">тема Режим UI</string>
-    <string name="settings_game_light">Управление светом UI</string>
     <string name="settings_game_sound">Звуковые Эффекты</string>
     <string name="settings_game_vibration">Вибрация</string>
     <string name="settings_game_screenon">Поддержка Экрана в Включенном Состоянии</string>

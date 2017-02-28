@@ -114,7 +114,6 @@ Bandera:
 
     <string name="settings_game">Configuración de Juego</string>
     <string name="settings_game_ui_theme">Modo de tema UI</string>
-    <string name="settings_game_light">Modo Light UI</string>
     <string name="settings_game_sound">Efectos de Sonido</string>
     <string name="settings_game_vibration">Vibración</string>
     <string name="settings_game_screenon">Mantener la Pantalla Encendida</string>
