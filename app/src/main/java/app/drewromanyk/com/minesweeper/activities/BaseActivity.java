@@ -19,6 +19,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.games.GamesActivityResultCodes;
 import com.google.android.gms.plus.Plus;
 
 import app.drewromanyk.com.minesweeper.BuildConfig;
@@ -215,6 +216,8 @@ public abstract class BaseActivity extends AppCompatActivity
                 mResolvingConnectionFailure = false;
                 if (googleApiClient != null && resultCode == RESULT_OK) {
                     googleApiClient.connect();
+                } else if (googleApiClient != null && resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED) {
+                    googleApiClient.disconnect();
                 }
             }
         }
