@@ -298,6 +298,14 @@ public class UserPrefStorage {
     }
 
     public static UiThemeModeEnum getUiThemeMode(Context context) {
-        return UiThemeModeEnum.valueOf(getPrefs(context).getString(context.getString(R.string.preference_ui_theme_mode), "LIGHT"));
+        String cur_theme_val = getPrefs(context).getString(context.getString(R.string.preference_ui_theme_mode), "LIGHT");
+
+        // I messed up the code in v1.4.0 as I put an invalid name for the enum
+        if (cur_theme_val.equals("light")) {
+            cur_theme_val = "LIGHT";
+            getPrefs(context).edit().putString(context.getString(R.string.preference_ui_theme_mode), "LIGHT").apply();
+        }
+
+        return UiThemeModeEnum.valueOf(cur_theme_val);
     }
 }
