@@ -67,7 +67,6 @@ public class GameActivity extends BaseActivity {
         setupAds((AdView) findViewById(R.id.adView));
         setupGoogleGames();
 
-        setupSoundEffects();
         setupBoardInfoLayout();
         setupBoardLayout(savedInstanceState);
 
@@ -198,6 +197,19 @@ public class GameActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        setupSoundEffects();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        soundEffects.release();
+        soundEffects = null;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_game, menu);
@@ -285,19 +297,20 @@ public class GameActivity extends BaseActivity {
     public boolean dispatchKeyEvent(KeyEvent event) {
         int action = event.getAction();
         int keyCode = event.getKeyCode();
-
-        if (UserPrefStorage.getVolumeButton(this)) {
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_VOLUME_UP:
-                    if (action == KeyEvent.ACTION_DOWN) {
-                        changeFlagMode(minesweeperBoard);
-                    }
-                    return true;
-                case KeyEvent.KEYCODE_VOLUME_DOWN:
-                    if (action == KeyEvent.ACTION_DOWN) {
-                        changeFlagMode(minesweeperBoard);
-                    }
-                    return true;
+        if (!isFinishing()) {
+            if (UserPrefStorage.getVolumeButton(this)) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_VOLUME_UP:
+                        if (action == KeyEvent.ACTION_DOWN) {
+                            changeFlagMode(minesweeperBoard);
+                        }
+                        return true;
+                    case KeyEvent.KEYCODE_VOLUME_DOWN:
+                        if (action == KeyEvent.ACTION_DOWN) {
+                            changeFlagMode(minesweeperBoard);
+                        }
+                        return true;
+                }
             }
         }
         return super.dispatchKeyEvent(event);

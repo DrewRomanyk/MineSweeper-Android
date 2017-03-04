@@ -1,6 +1,8 @@
 package app.drewromanyk.com.minesweeper.views;
 
 /**
+ * SeekBar Preference
+ * Class used for discrete seek bar values
  * Created by Drew on 12/15/2014.
  */
 
@@ -12,8 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -24,8 +24,8 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
     private final String TAG = getClass().getName();
 
-    private static final String ANDROIDNS = "http://schemas.android.com/apk/res/android";
-    private static final String APPLICATIONNS = "http://robobunny.com";
+    private static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
+    private static final String APPLICATION_NS = "http://robobunny.com";
     private static final int DEFAULT_VALUE = 50;
 
     private int mMaxValue = 100;
@@ -41,6 +41,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     private boolean isColumnSeek;
     private static int mRowValue;
     private static int mColumnValue;
+    // Need access to this as if rowSeek or colSeek are used, then it will impact mineSeek as well.
     private static SeekBar mineSeek;
 
     public SeekBarPreference(Context context, AttributeSet attrs) {
@@ -63,15 +64,15 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     }
 
     private void setValuesFromXml(AttributeSet attrs) {
-        mMaxValue = attrs.getAttributeIntValue(ANDROIDNS, "max", 100);
-        mMinValue = attrs.getAttributeIntValue(APPLICATIONNS, "min", 0);
+        mMaxValue = attrs.getAttributeIntValue(ANDROID_NS, "max", 100);
+        mMinValue = attrs.getAttributeIntValue(APPLICATION_NS, "min", 0);
 
-        mUnitsLeft = getAttributeStringValue(attrs, APPLICATIONNS, "unitsLeft", "");
-        String units = getAttributeStringValue(attrs, APPLICATIONNS, "units", "");
-        mUnitsRight = getAttributeStringValue(attrs, APPLICATIONNS, "unitsRight", units);
+        mUnitsLeft = getAttributeStringValue(attrs, APPLICATION_NS, "unitsLeft", "");
+        String units = getAttributeStringValue(attrs, APPLICATION_NS, "units", "");
+        mUnitsRight = getAttributeStringValue(attrs, APPLICATION_NS, "unitsRight", units);
 
         try {
-            String newInterval = attrs.getAttributeValue(APPLICATIONNS, "interval");
+            String newInterval = attrs.getAttributeValue(APPLICATION_NS, "interval");
             if (newInterval != null)
                 mInterval = Integer.parseInt(newInterval);
         } catch (Exception e) {
@@ -116,7 +117,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
                 }
                 // remove the existing seekbar (there may not be one) and add ours
                 newContainer.removeAllViews();
-                newContainer.addView(mSeekBar, ViewGroup.LayoutParams.FILL_PARENT,
+                newContainer.addView(mSeekBar, ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
             }
         } catch (Exception ex) {
@@ -134,9 +135,9 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     /**
      * Update a SeekBarPreference view with our current state
      *
-     * @param view
+     * @param view Status text of seek bar
      */
-    protected void updateView(View view) {
+    private void updateView(View view) {
 
         try {
             mStatusText = (TextView) view.findViewById(R.id.seekBarPrefValue);
@@ -196,10 +197,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
     @Override
     protected Object onGetDefaultValue(TypedArray ta, int index) {
-
-        int defaultValue = ta.getInt(index, DEFAULT_VALUE);
-        return defaultValue;
-
+        return ta.getInt(index, DEFAULT_VALUE);
     }
 
     @Override
@@ -240,38 +238,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         }
     }
 
-    protected void setMaxValue(int mMaxValue) {
-        this.mMaxValue = mMaxValue;
-        mSeekBar.setMax(mMaxValue - mMinValue);
-
-        int newValue = mSeekBar.getProgress() + mMinValue;
-
-        if (newValue > mMaxValue)
-            newValue = mMaxValue;
-        else if (newValue < mMinValue)
-            newValue = mMinValue;
-        else if (mInterval != 1 && newValue % mInterval != 0)
-            newValue = Math.round(((float) newValue) / mInterval) * mInterval;
-
-        // change rejected, revert to the previous value
-        if (!callChangeListener(newValue)) {
-            mSeekBar.setProgress(mCurrentValue - mMinValue);
-            return;
-        }
-
-        // change accepted, store it
-        updateCurrentValue(newValue);
-
-        //mStatusText.setText(String.valueOf(newValue));
-        mStatusText.setText(String.valueOf(mUnitsLeft + newValue + mUnitsRight));
-        persistInt(newValue);
-    }
-
-    protected int getValue() {
-        return mCurrentValue;
-    }
-
-    protected void updateCurrentValue(int newValue) {
+    private void updateCurrentValue(int newValue) {
         mCurrentValue = newValue;
         if (isRowSeek) {
             mRowValue = mCurrentValue;

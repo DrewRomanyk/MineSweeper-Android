@@ -1,16 +1,12 @@
 package app.drewromanyk.com.minesweeper.views;
 
 import android.content.Context;
-import android.os.SystemClock;
-import android.widget.Chronometer;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import app.drewromanyk.com.minesweeper.R;
-import app.drewromanyk.com.minesweeper.models.Board;
-import app.drewromanyk.com.minesweeper.util.Helper;
 
 /**
  * Created by Drew on 11/7/15.
@@ -41,7 +37,8 @@ public class BoardInfoView {
 
     private String getTimeString(long millis) {
         //hh:mm:ss
-        return String.format("%02d:%02d:%02d",
+        Locale locale = timeKeeperView.getResources().getConfiguration().locale;
+        return String.format(locale, "%02d:%02d:%02d",
                 TimeUnit.MILLISECONDS.toHours(millis),
                 TimeUnit.MILLISECONDS.toMinutes(millis) -
                         TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),

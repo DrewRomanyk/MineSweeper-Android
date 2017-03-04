@@ -3,7 +3,6 @@ package app.drewromanyk.com.minesweeper.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import org.json.JSONArray;
 
@@ -15,11 +14,18 @@ import app.drewromanyk.com.minesweeper.enums.UiThemeModeEnum;
 import app.drewromanyk.com.minesweeper.models.Board;
 
 /**
+ * UserPrefStorage
+ * Class designed to handle all user pref storage information
+ * - Settings
+ * - Game status/saved
+ * - Stats
+ * - first time
+ *
  * Created by Drew on 4/17/2015.
  */
 public class UserPrefStorage {
 
-    public static SharedPreferences getPrefs(Context context) {
+    private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -34,7 +40,7 @@ public class UserPrefStorage {
     public static void setFirstTime(Context context, boolean value) {
         SharedPreferences.Editor editor = getPrefs(context).edit();
         editor.putBoolean("FIRST_TIME", value);
-        editor.commit();
+        editor.apply();
     }
 
     /*
@@ -56,7 +62,7 @@ public class UserPrefStorage {
     public static void setHasFinishedRatingDialog(Context context) {
         SharedPreferences.Editor editor = getPrefs(context).edit();
         editor.putBoolean("FINISHED_RATING", true);
-        editor.commit();
+        editor.apply();
     }
 
     public static void increaseAppOpenCount(Context context) {
@@ -64,14 +70,14 @@ public class UserPrefStorage {
 
         SharedPreferences.Editor editor = getPrefs(context).edit();
         editor.putInt("APP_OPEN_COUNT", appOpenCount + 1);
-        editor.commit();
+        editor.apply();
     }
 
     /*
      * SAVED GAME INFO
      */
 
-    public static String getSavedDataVersion(Context context) {
+    private static String getSavedDataVersion(Context context) {
         return getPrefs(context).getString("SAVED_VERSION", "");
     }
 
@@ -83,7 +89,7 @@ public class UserPrefStorage {
         return getPrefs(context).getInt("STATUS", GameStatus.DEFEAT.ordinal());
     }
 
-    public static long getGameDuration(Context context) {
+    private static long getGameDuration(Context context) {
         return getPrefs(context).getLong("TIME_MILLIS", 0);
     }
 
@@ -164,7 +170,7 @@ public class UserPrefStorage {
         editor.putString("CELL_REVEALED", cellRevealed.toString());
         editor.putString("CELL_FLAGGED", cellFlagged.toString());
 
-        editor.commit();
+        editor.apply();
     }
 
     /*
@@ -246,7 +252,7 @@ public class UserPrefStorage {
         editor.putInt(currentLosesStreakKey, currentLosesStreak);
         editor.putInt(bestScoreKey, bestScore);
         editor.putFloat(avgScoreKey, avgScore);
-        editor.commit();
+        editor.apply();
     }
 
     /*
