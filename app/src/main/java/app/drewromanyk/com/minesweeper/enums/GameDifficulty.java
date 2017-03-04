@@ -1,11 +1,14 @@
 package app.drewromanyk.com.minesweeper.enums;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 
 import app.drewromanyk.com.minesweeper.R;
 
 /**
  * Created by Drew on 4/17/2015.
+ * GameDifficulty
+ * Enum for the difficulty of Minesweeper, and helper methods for those difficulty's attributes.
  */
 public enum GameDifficulty {
     RESUME, CUSTOM, EASY, MEDIUM, EXPERT;
@@ -43,17 +46,17 @@ public enum GameDifficulty {
     public int getColor(Context context) {
         switch (this) {
             case RESUME:
-                return context.getResources().getColor(R.color.resume_difficulty);
+                return ContextCompat.getColor(context, R.color.resume_difficulty);
             case CUSTOM:
-                return context.getResources().getColor(R.color.custom_difficulty);
+                return ContextCompat.getColor(context, R.color.custom_difficulty);
             case EASY:
-                return context.getResources().getColor(R.color.easy_difficulty);
+                return ContextCompat.getColor(context, R.color.easy_difficulty);
             case MEDIUM:
-                return context.getResources().getColor(R.color.medium_difficulty);
+                return ContextCompat.getColor(context, R.color.medium_difficulty);
             case EXPERT:
-                return context.getResources().getColor(R.color.expert_difficulty);
+                return ContextCompat.getColor(context, R.color.expert_difficulty);
             default:
-                return context.getResources().getColor(R.color.easy_difficulty);
+                return ContextCompat.getColor(context, R.color.easy_difficulty);
         }
     }
 

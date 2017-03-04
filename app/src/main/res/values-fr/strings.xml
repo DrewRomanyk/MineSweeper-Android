@@ -74,25 +74,25 @@ S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com 
     <string name="game_difficulty_custom">Personnalisé</string>
     <string name="game_difficulty_custom_details">Paramètres personnalisés</string>
     <!-- GAME BAR -->
-    <string name="game_bar_time_title">Temps:\u0020</string>
-    <string name="game_bar_score_title">Score:\u0020</string>
-    <string name="game_bar_mine_title">Mines:\u0020</string>
+    <string name="game_bar_time_title">Temps: {amount}</string>
+    <string name="game_bar_score_title">Score: {amount}</string>
+    <string name="game_bar_mine_title">Mines: {amount}</string>
     <string name="game_best_time">NOUVEAU MEILLEUR TEMPS!</string>
     <string name="game_best_score">NOUVEAU MEILLEUR SCORE!</string>
 
 
     <!-- STATS FRAGMENT -->
-    <string name="stats_title_best_score">Meilleur score:\u0020</string>
-    <string name="stats_title_best_time">Meilleur temps:\u0020</string>
-    <string name="stats_title_avg_score">Score moyen:\u0020</string>
-    <string name="stats_title_avg_time">Temps moyen:\u0020</string>
-    <string name="stats_title_games_won">Jeux gagnés:\u0020</string>
-    <string name="stats_title_games_played">Parties jouées:\u0020</string>
-    <string name="stats_title_win_percent">Pourcentage de victoires:\u0020</string>
-    <string name="stats_title_explore_percent">Explorez le pourcentage:\u0020</string>
-    <string name="stats_title_win_streak">Victoires en série:\u0020</string>
-    <string name="stats_title_lose_streak">Perd en série:\u0020</string>
-    <string name="stats_title_current_streak">Série en cours:\u0020</string>
+    <string name="stats_title_best_score">Meilleur score: {amount}</string>
+    <string name="stats_title_best_time">Meilleur temps: {amount}</string>
+    <string name="stats_title_avg_score">Score moyen: {amount}</string>
+    <string name="stats_title_avg_time">Temps moyen: {amount}</string>
+    <string name="stats_title_games_won">Jeux gagnés: {amount}</string>
+    <string name="stats_title_games_played">Parties jouées: {amount}</string>
+    <string name="stats_title_win_percent">Pourcentage de victoires: {amount}</string>
+    <string name="stats_title_explore_percent">Explorez le pourcentage: {amount}</string>
+    <string name="stats_title_win_streak">Victoires en série: {amount}</string>
+    <string name="stats_title_lose_streak">Perd en série: {amount}</string>
+    <string name="stats_title_current_streak">Série en cours: {amount}</string>
 
     <!-- GOOGLE GAMES -->
     <string name="signin_other_error">Il y avait un problème de connexion. S\'il vous plaît essayer à nouveau plus tard.</string>

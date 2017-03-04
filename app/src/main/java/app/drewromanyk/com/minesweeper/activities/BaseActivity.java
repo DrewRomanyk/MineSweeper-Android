@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -111,12 +113,12 @@ public abstract class BaseActivity extends AppCompatActivity
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // Only for LOLLIPOP and newer versions
             if (!(this instanceof MainActivity))
-                getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
+                getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primary_dark));
 
             ActivityManager.TaskDescription tDesc = new ActivityManager.TaskDescription(
                     getString(R.string.app_name),
                     BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_icon),
-                    getResources().getColor(R.color.primary_task));
+                    ContextCompat.getColor(this, R.color.primary_task));
             setTaskDescription(tDesc);
         }
     }
@@ -233,7 +235,7 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         if (mResolvingConnectionFailure) {
             // Already resolving
             return;

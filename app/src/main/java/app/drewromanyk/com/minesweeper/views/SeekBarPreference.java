@@ -1,11 +1,5 @@
 package app.drewromanyk.com.minesweeper.views;
 
-/**
- * SeekBar Preference
- * Class used for discrete seek bar values
- * Created by Drew on 12/15/2014.
- */
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.Preference;
@@ -19,6 +13,12 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import app.drewromanyk.com.minesweeper.R;
+
+/**
+ * SeekBar Preference
+ * Class used for discrete seek bar values
+ * Created by Drew on 12/15/2014.
+ */
 
 public class SeekBarPreference extends Preference implements OnSeekBarChangeListener {
 

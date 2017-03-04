@@ -1,30 +1,33 @@
 package app.drewromanyk.com.minesweeper.adapters;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.phrase.Phrase;
+
 import java.util.ArrayList;
+import java.util.Locale;
 
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
-import app.drewromanyk.com.minesweeper.interfaces.PlayNavigator;
+import app.drewromanyk.com.minesweeper.util.Helper;
+import app.drewromanyk.com.minesweeper.util.PhraseKeys;
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 /**
  * Created by Drew on 12/11/15.
+ * StatsGameDifficultyAdapter
+ * Adapter to display all the local stats for each difficulty
  */
 public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDifficultyAdapter.PlayViewHolder> {
 
     private ArrayList<GameDifficulty> gameDifficultyList;
 
-    public class PlayViewHolder extends RecyclerView.ViewHolder {
+    class PlayViewHolder extends RecyclerView.ViewHolder {
 
         TextView difficultyText;
 
@@ -40,7 +43,7 @@ public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDi
         TextView loseStreak;
         TextView currentStreak;
 
-        public PlayViewHolder(View itemView) {
+        PlayViewHolder(View itemView) {
             super(itemView);
 
             difficultyText = (TextView) itemView.findViewById(R.id.card_difficulty_text);
@@ -100,18 +103,42 @@ public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDi
 
         double winPerct = ((totalGames != 0) ? ((((double) wins / totalGames)) * 100) : 0);
 
-        holder.bestScore.setText(boldString(context.getString(R.string.stats_title_best_score), "" + String.format("%.2f", (double) bestScore / 1000)));
-        holder.avgScore.setText(boldString(context.getString(R.string.stats_title_avg_score), String.format("%.2f", (double) avgScore / 1000)));
-        holder.bestTime.setText(boldString(context.getString(R.string.stats_title_best_time), "" + bestTime));
-        holder.avgTime.setText(boldString(context.getString(R.string.stats_title_avg_time), String.format("%.2f", avgTime)));
-        holder.gamesWon.setText(boldString(context.getString(R.string.stats_title_games_won), "" + wins));
-        holder.gamesPlayed.setText(boldString(context.getString(R.string.stats_title_games_played), "" + totalGames));
-        holder.winPercent.setText(boldString(context.getString(R.string.stats_title_win_percent), String.format("%.2f", winPerct) + "%"));
-        holder.explorePercent.setText(boldString(context.getString(R.string.stats_title_explore_percent), String.format("%.2f", explorPerct) + "%"));
-        holder.winStreak.setText(boldString(context.getString(R.string.stats_title_win_streak), "" + winStreak));
-        holder.loseStreak.setText(boldString(context.getString(R.string.stats_title_lose_streak), "" + losesStreak));
-        holder.currentStreak.setText(boldString(context.getString(R.string.stats_title_current_streak),
-                "" + ((currentWinStreak == 0) ? currentLosesStreak : currentWinStreak)));
+        Locale locale = Helper.getLocale(context);
+
+        holder.bestScore.setText(boldFirstString(Phrase.from(context, R.string.stats_title_best_score)
+                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", (double) bestScore / 1000))
+                .format()));
+        holder.avgScore.setText(boldFirstString(Phrase.from(context, R.string.stats_title_avg_score)
+                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", (double) avgScore / 1000))
+                .format()));
+        holder.bestTime.setText(boldFirstString(Phrase.from(context, R.string.stats_title_best_time)
+                .put(PhraseKeys.AMOUNT, bestTime)
+                .format()));
+        holder.avgTime.setText(boldFirstString(Phrase.from(context, R.string.stats_title_avg_time)
+                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", avgTime))
+                .format()));
+        holder.gamesWon.setText(boldFirstString(Phrase.from(context, R.string.stats_title_games_won)
+                .put(PhraseKeys.AMOUNT, wins)
+                .format()));
+        holder.gamesPlayed.setText(boldFirstString(Phrase.from(context, R.string.stats_title_games_played)
+                .put(PhraseKeys.AMOUNT, totalGames)
+                .format()));
+        holder.winPercent.setText(boldFirstString(Phrase.from(context, R.string.stats_title_win_percent)
+                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", winPerct) + "%")
+                .format()));
+        holder.explorePercent.setText(boldFirstString(Phrase.from(context, R.string.stats_title_explore_percent)
+                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", explorPerct) + "%")
+                .format()));
+        holder.winStreak.setText(boldFirstString(Phrase.from(context, R.string.stats_title_win_streak)
+                .put(PhraseKeys.AMOUNT, winStreak)
+                .format()));
+        holder.loseStreak.setText(boldFirstString(Phrase.from(context, R.string.stats_title_lose_streak)
+                .put(PhraseKeys.AMOUNT, losesStreak)
+                .format()));
+        holder.currentStreak.setText(boldFirstString(Phrase.from(context, R.string.stats_title_current_streak)
+                .put(PhraseKeys.AMOUNT,
+                        "" + ((currentWinStreak == 0) ? currentLosesStreak : currentWinStreak))
+                .format()));
     }
 
     @Override
@@ -119,7 +146,11 @@ public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDi
         return gameDifficultyList.size();
     }
 
-    private Spanned boldString(String phrase, String otherPhrase) {
-        return Html.fromHtml("<b>" + phrase + "</b>" + otherPhrase);
+    private Spanned boldFirstString(CharSequence phraseChars) {
+        String phrase = phraseChars.toString();
+        int keyWordIndex = phrase.indexOf(":") + 1;
+        String keyWord = phrase.substring(0, keyWordIndex);
+        String value = phrase.substring(keyWordIndex);
+        return Helper.fromHtml("<b>" + keyWord + "</b>" + value);
     }
 }

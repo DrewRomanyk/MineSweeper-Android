@@ -2,6 +2,8 @@ package app.drewromanyk.com.minesweeper.enums;
 
 /**
  * Created by drewromanyk on 2/27/17.
+ * UIThemeModeEnum
+ * Enum for UI Theme Mode Preference
  */
 
 public enum UiThemeModeEnum {

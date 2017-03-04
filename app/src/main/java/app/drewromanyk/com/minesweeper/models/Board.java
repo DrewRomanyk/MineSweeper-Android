@@ -1,11 +1,6 @@
 package app.drewromanyk.com.minesweeper.models;
 
-/**
- * Created by Drew on 12/7/2014.
- */
-
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.GridLayout;
@@ -26,13 +21,16 @@ import app.drewromanyk.com.minesweeper.enums.GameSoundType;
 import app.drewromanyk.com.minesweeper.enums.GameStatus;
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
+/**
+ * Created by Drew on 12/7/2014.
+ * Board
+ * Main engine of the Minesweeper game
+ */
 
 public class Board {
-    private String TAG = "Board";
-
     private GameActivity gameActivity;
 
-    private Cell[][] cell;
+    protected Cell[][] cell;
     private CellNeighbors[][] cellNeighbors;
     private int columns;
     private int rows;
@@ -277,11 +275,6 @@ public class Board {
             }
         }
         checkIfVictorious();
-
-        if (shortTap && gameStatus == GameStatus.PLAYING) {
-//            gameActivity.playSoundEffects(GameSoundType.TAP);
-        } else if (gameStatus == GameStatus.PLAYING) {
-        }
     }
 
     private boolean isRevealTap(boolean shortTap, Cell clickedCell) {
@@ -322,9 +315,9 @@ public class Board {
     }
 
     private void wipeBoard() {
-        for (int r = 0; r < cell.length; r++) {
-            for (int c = 0; c < cell[0].length; c++) {
-                cell[r][c].setValue(0);
+        for (Cell[] row_cells : cell) {
+            for (Cell cell : row_cells) {
+                cell.setValue(0);
             }
         }
     }
@@ -529,7 +522,7 @@ public class Board {
         }
     }
 
-    public double getGameScore() {
+    private double getGameScore() {
         if (score3BV == null) return 0;
         long time = getGameTime();
 
@@ -734,10 +727,9 @@ public class Board {
     }
 
     private void updateCellsZoom() {
-        for (int r = 0; r < cell.length; r++) {
-            for (int c = 0; c < cell[0].length; c++) {
-                cell[r][c].setGameCellScale(gameCellScale);
-                cell[r][c].updateImageValue();
+        for (Cell[] row_cells : cell) {
+            for (Cell cell : row_cells) {
+                cell.setGameCellScale(gameCellScale);
             }
         }
     }

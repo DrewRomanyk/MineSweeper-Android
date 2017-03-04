@@ -1,8 +1,7 @@
 package app.drewromanyk.com.minesweeper.util;
 
 import android.content.Context;
-
-import java.util.HashMap;
+import android.util.SparseArray;
 
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.enums.ResultCodes;
@@ -10,10 +9,12 @@ import app.drewromanyk.com.minesweeper.models.YesNoDialogInfo;
 
 /**
  * Created by Drew on 9/12/15.
+ * DialogInfoUtils
+ * Class designed to handle all Dialog information and what the text should be for each dialog
  */
 public class DialogInfoUtils {
 
-    private static HashMap<Integer, YesNoDialogInfo> yesNoDialogMap;
+    private static SparseArray<YesNoDialogInfo> yesNoDialogMap;
 
     private static DialogInfoUtils instance = null;
 
@@ -25,7 +26,7 @@ public class DialogInfoUtils {
     }
 
     private DialogInfoUtils(Context context) {
-        yesNoDialogMap = new HashMap<>();
+        yesNoDialogMap = new SparseArray<>();
 
         yesNoDialogMap.put(ResultCodes.ABOUT_DIALOG.ordinal(), new YesNoDialogInfo(context.getString(R.string.dialog_about_title),
                 context.getString(R.string.dialog_about_message) + context.getString(R.string.version_name)));

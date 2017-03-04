@@ -74,24 +74,24 @@ Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per
     <string name="game_difficulty_custom">Personalizzato</string>
     <string name="game_difficulty_custom_details">Impostazioni Personalizzazione</string>
     <!-- GAME BAR -->
-    <string name="game_bar_time_title">Tempo:\u0020</string>
-    <string name="game_bar_score_title">Punteggio:\u0020</string>
-    <string name="game_bar_mine_title">Mines:\u0020</string>
+    <string name="game_bar_time_title">Tempo: {amount}</string>
+    <string name="game_bar_score_title">Punteggio: {amount}</string>
+    <string name="game_bar_mine_title">Mines: {amount}</string>
     <string name="game_best_time">NUOVO MIGLIOR TEMPO!</string>
     <string name="game_best_score">NUOVO MIGLIOR PUNTEGGIO!</string>
 
     <!-- STATS FRAGMENT -->
-    <string name="stats_title_best_score">Miglior Punteggio:\u0020</string>
-    <string name="stats_title_best_time">Miglior Tempo:\u0020</string>
-    <string name="stats_title_avg_score">Punteggio Medio:\u0020</string>
-    <string name="stats_title_avg_time">Tempo Medio:\u0020</string>
-    <string name="stats_title_games_won">Partite Vinte:\u0020</string>
-    <string name="stats_title_games_played">Partite Giocate:\u0020</string>
-    <string name="stats_title_win_percent">Percentuale Vincite:\u0020</string>
-    <string name="stats_title_explore_percent">Analizza Percentuale:\u0020</string>
-    <string name="stats_title_win_streak">Vittorie Consecutive:\u0020</string>
-    <string name="stats_title_lose_streak">Perdite Consecutive:\u0020</string>
-    <string name="stats_title_current_streak">Serie attuale:\u0020</string>
+    <string name="stats_title_best_score">Miglior Punteggio: {amount}</string>
+    <string name="stats_title_best_time">Miglior Tempo: {amount}</string>
+    <string name="stats_title_avg_score">Punteggio Medio: {amount}</string>
+    <string name="stats_title_avg_time">Tempo Medio: {amount}</string>
+    <string name="stats_title_games_won">Partite Vinte: {amount}</string>
+    <string name="stats_title_games_played">Partite Giocate: {amount}</string>
+    <string name="stats_title_win_percent">Percentuale Vincite: {amount}</string>
+    <string name="stats_title_explore_percent">Analizza Percentuale: {amount}</string>
+    <string name="stats_title_win_streak">Vittorie Consecutive: {amount}</string>
+    <string name="stats_title_lose_streak">Perdite Consecutive: {amount}</string>
+    <string name="stats_title_current_streak">Serie attuale: {amount}</string>
 
     <!-- GOOGLE GAMES -->
     <string name="signin_other_error">Si è verificato un problema con la registrazione. Ti preghiamo di riprovare più tardi.</string>

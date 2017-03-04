@@ -1,22 +1,18 @@
 package app.drewromanyk.com.minesweeper.fragment;
 
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 
@@ -33,6 +29,8 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 /**
  * Created by Drew on 9/11/15.
+ * StatsFragment
+ * Fragment that shows the User's local stats
  */
 public class StatsFragment extends BaseFragment {
 

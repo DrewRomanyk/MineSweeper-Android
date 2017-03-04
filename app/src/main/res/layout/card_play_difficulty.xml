@@ -50,7 +50,7 @@
                     android:textColor="@color/dark_background"
                     android:gravity="center"
                     android:textSize="20sp"
-                    android:text="9 x 9\n10 mines"/>
+                    android:text="@string/game_difficulty_easy_details"/>
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/card_play_fab"
@@ -60,7 +60,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:backgroundTint="@color/easy_difficulty"
-                    android:src="@drawable/ic_play_dark"/>
+                    android:src="@drawable/ic_play_dark"
+                    tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
 

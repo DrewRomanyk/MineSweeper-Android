@@ -1,9 +1,11 @@
 package app.drewromanyk.com.minesweeper.models;
 
 /**
- * Created by drewi_000 on 12/14/2014.
+ * Created by Drew on 12/14/2014.
+ * CellNeighbors
+ * Class used to calculate the number of mines and number of flags near a cell
  */
-public class CellNeighbors {
+class CellNeighbors {
 
     private Cell[][] neighboringCells;
     private int rows;
@@ -12,7 +14,7 @@ public class CellNeighbors {
     private int numFlags;
 
 
-    public CellNeighbors(Cell[][] cell, Cell tgtCell) {
+    CellNeighbors(Cell[][] cell, Cell tgtCell) {
         rows = cell.length;
         columns = cell[0].length;
         neighboringCells = new Cell[3][3];
@@ -23,19 +25,15 @@ public class CellNeighbors {
         findNeighboringCells(cell, tgtCell);
     }
 
-    public Cell[][] getNeighboringCells() {
-        return neighboringCells;
-    }
-
-    public int getNumMines() {
+    int getNumMines() {
         return numMines;
     }
 
-    public void setNumFlags(int numFlags) {
+    void setNumFlags(int numFlags) {
         this.numFlags = numFlags;
     }
 
-    public int getNumFlags() {
+    int getNumFlags() {
         return numFlags;
     }
 

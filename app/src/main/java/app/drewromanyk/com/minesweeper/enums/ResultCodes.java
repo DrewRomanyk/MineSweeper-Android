@@ -2,6 +2,8 @@ package app.drewromanyk.com.minesweeper.enums;
 
 /**
  * Created by Drew on 4/18/2015.
+ * ResultCodes
+ * Enum for result codes for ActivityResult methods
  */
 public enum ResultCodes {
     SIGN_IN,

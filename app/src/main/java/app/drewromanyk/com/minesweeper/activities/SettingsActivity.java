@@ -11,6 +11,8 @@ import app.drewromanyk.com.minesweeper.fragment.SettingsFragment;
 
 /**
  * Created by Drew on 9/11/15.
+ * SettingsActivity
+ * Activity for users to change preferences
  */
 public class SettingsActivity extends BaseActivity {
 
@@ -32,7 +34,9 @@ public class SettingsActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        getSupportActionBar().setTitle(R.string.nav_settings);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.nav_settings);
+        }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

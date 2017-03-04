@@ -73,24 +73,24 @@
     <string name="game_difficulty_custom">Пользовательский</string>
     <string name="game_difficulty_custom_details">Настройки Пользователя</string>
     <!-- GAME BAR -->
-    <string name="game_bar_time_title">Время:\u0020</string>
-    <string name="game_bar_score_title">Счет:\u0020</string>
-    <string name="game_bar_mine_title">Мины:\u0020</string>
+    <string name="game_bar_time_title">Время: {amount}</string>
+    <string name="game_bar_score_title">Счет: {amount}</string>
+    <string name="game_bar_mine_title">Мины: {amount}</string>
     <string name="game_best_time">НОВОЕ ЛУЧШЕЕ ВРЕМЯ!</string>
     <string name="game_best_score">НОВЫЙ ЛУЧШИЙ РЕЗУЛЬТАТ!</string>
 
     <!-- STATS FRAGMENT -->
-    <string name="stats_title_best_score">Лучший Результат:\u0020</string>
-    <string name="stats_title_best_time">Лучшее Время:\u0020</string>
-    <string name="stats_title_avg_score">Средний Результат:\u0020</string>
-    <string name="stats_title_avg_time">Среднее Время:\u0020</string>
-    <string name="stats_title_games_won">Выигранные Игры:\u0020</string>
-    <string name="stats_title_games_played">Сыгранные Игры:\u0020</string>
-    <string name="stats_title_win_percent">Процент Побед:\u0020</string>
-    <string name="stats_title_explore_percent">Процент Освоенного Поля:\u0020</string>
-    <string name="stats_title_win_streak">Количество Побед Подряд:\u0020</string>
-    <string name="stats_title_lose_streak">Количество Проигрышей Подряд:\u0020</string>
-    <string name="stats_title_current_streak">Текущее Количество Побед Подряд:\u0020</string>
+    <string name="stats_title_best_score">Лучший Результат: {amount}</string>
+    <string name="stats_title_best_time">Лучшее Время: {amount}</string>
+    <string name="stats_title_avg_score">Средний Результат: {amount}</string>
+    <string name="stats_title_avg_time">Среднее Время: {amount}</string>
+    <string name="stats_title_games_won">Выигранные Игры: {amount}</string>
+    <string name="stats_title_games_played">Сыгранные Игры: {amount}</string>
+    <string name="stats_title_win_percent">Процент Побед: {amount}</string>
+    <string name="stats_title_explore_percent">Процент Освоенного Поля: {amount}</string>
+    <string name="stats_title_win_streak">Количество Побед Подряд: {amount}</string>
+    <string name="stats_title_lose_streak">Количество Проигрышей Подряд: {amount}</string>
+    <string name="stats_title_current_streak">Текущее Количество Побед Подряд: {amount}</string>
 
     <!-- GOOGLE GAMES -->
     <string name="signin_other_error">TВо время авторизации возникла проблема. Пожалуйста, попробуйте чуть позже.</string>

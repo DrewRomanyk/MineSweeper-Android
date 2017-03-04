@@ -1,32 +1,25 @@
 package app.drewromanyk.com.minesweeper.fragment;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.analytics.HitBuilders;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.activities.GameActivity;
-import app.drewromanyk.com.minesweeper.activities.MainActivity;
 import app.drewromanyk.com.minesweeper.activities.SettingsActivity;
 import app.drewromanyk.com.minesweeper.adapters.PlayGameDifficultyAdapter;
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
@@ -41,6 +34,9 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 /**
  * Created by Drew on 9/11/15.
+ * PlayFragment
+ * Fragment Main home screen to allow a user to play a minesweeper game with their choice of
+ * difficulty.
  */
 public class PlayFragment extends BaseFragment implements PlayNavigator {
 
@@ -164,7 +160,7 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
         // To count with Play market backstack, After pressing back button,
         // to taken back to our application, we need to add following flags to intent.
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         try {
             startActivity(goToMarket);

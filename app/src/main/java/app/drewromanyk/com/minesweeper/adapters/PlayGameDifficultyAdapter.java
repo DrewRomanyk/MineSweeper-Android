@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.ArrayList;
 
 import app.drewromanyk.com.minesweeper.R;
@@ -19,10 +21,11 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 /**
  * Created by Drew on 12/11/15.
+ * PlayGameDifficultyAdapter
+ * RecyclerView to show list of difficulties to play along with optional cards to show such as
+ * resume and rating
  */
 public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDifficultyAdapter.PlayViewHolder> {
-
-    private static int FIRST_ITEM = 0;
 
     private static int RATING_TYPE = 0;
     private static int DIFFICULTY_TYPE = 1;
@@ -36,7 +39,7 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
     private boolean canShowRating;
     private PlayNavigator navigator;
 
-    public class PlayViewHolder extends RecyclerView.ViewHolder {
+    class PlayViewHolder extends RecyclerView.ViewHolder {
 
         View card;
 
@@ -49,7 +52,7 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
         TextView boardInfoText;
         FloatingActionButton fab;
 
-        public PlayViewHolder(View itemView, int itemViewType) {
+        PlayViewHolder(View itemView, int itemViewType) {
             super(itemView);
             card = itemView.findViewById(R.id.card);
 
@@ -57,7 +60,7 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
                 ratingDesc = (TextView) itemView.findViewById(R.id.rating_desc);
                 ratingNo = (Button) itemView.findViewById(R.id.rating_no);
                 ratingYes = (Button) itemView.findViewById(R.id.rating_yes);
-            } else {
+            } else if (itemViewType == DIFFICULTY_TYPE) {
                 difficultyText = (TextView) itemView.findViewById(R.id.card_difficulty_text);
                 boardInfoText = (TextView) itemView.findViewById(R.id.card_board_info);
                 fab = (FloatingActionButton) itemView.findViewById(R.id.card_play_fab);
@@ -82,6 +85,7 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
 
     @Override
     public int getItemViewType(int position) {
+        int FIRST_ITEM = 0;
         if (canShowRating && position == FIRST_ITEM) {
             return RATING_TYPE;
         } else {
@@ -101,6 +105,7 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
     @Override
     public void onBindViewHolder(final PlayViewHolder holder, int position) {
         if (getItemViewType(position) == RATING_TYPE) {
+            final FirebaseAnalytics fbAnalytics = FirebaseAnalytics.getInstance(holder.card.getContext());
             holder.ratingYes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -108,17 +113,23 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
                     holder.ratingNo.setText(R.string.inapp_rating_secondary_no);
 
                     if (holder.dialogRatingPosition == RATING_FIRST) {
+                        fbAnalytics.logEvent("REVIEW_CARD_YES_ENJOYED", null);
+
                         holder.dialogRatingPosition = RATING_YES;
                         holder.ratingDesc.setText(R.string.inapp_rating_rating);
                     } else if (holder.dialogRatingPosition == RATING_YES) {
+                        fbAnalytics.logEvent("REVIEW_CARD_RATE", null);
+
                         canShowRating = false;
                         notifyDataSetChanged();
-                        UserPrefStorage.setHasFinishedRatingDialog(v.getContext());
+                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.getContext());
                         navigator.startPlayStore();
                     } else if (holder.dialogRatingPosition == RATING_NO) {
+                        fbAnalytics.logEvent("REVIEW_CARD_FEEDBACK", null);
+
                         canShowRating = false;
                         notifyDataSetChanged();
-                        UserPrefStorage.setHasFinishedRatingDialog(v.getContext());
+                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.getContext());
                         navigator.sendFeedback();
                     }
                 }
@@ -130,23 +141,29 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
                     holder.ratingNo.setText(R.string.inapp_rating_secondary_no);
 
                     if (holder.dialogRatingPosition == RATING_FIRST) {
+                        fbAnalytics.logEvent("REVIEW_CARD_NO_ENJOYED", null);
+
                         holder.dialogRatingPosition = RATING_NO;
                         holder.ratingDesc.setText(R.string.inapp_rating_feedback);
                     } else if (holder.dialogRatingPosition == RATING_YES) {
+                        fbAnalytics.logEvent("REVIEW_CARD_NO_RATE", null);
+
                         canShowRating = false;
                         notifyDataSetChanged();
-                        UserPrefStorage.setHasFinishedRatingDialog(v.getContext());
+                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.getContext());
                     } else if (holder.dialogRatingPosition == RATING_NO) {
+                        fbAnalytics.logEvent("REVIEW_CARD_NO_FEEDBACK", null);
+
                         canShowRating = false;
                         notifyDataSetChanged();
-                        UserPrefStorage.setHasFinishedRatingDialog(v.getContext());
+                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.getContext());
                     }
                 }
             });
         } else {
             final GameDifficulty gameDifficulty = gameDifficultyList.get(
                     (canShowRating) ? position - 1 : position);
-            int gameDifficultyColor = gameDifficulty.getColor(holder.fab.getContext());
+            int gameDifficultyColor = gameDifficulty.getColor(holder.card.getContext());
 
             holder.card.setOnClickListener(new View.OnClickListener() {
                 @Override

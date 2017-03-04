@@ -3,10 +3,13 @@ package app.drewromanyk.com.minesweeper.views;
 import android.content.Context;
 import android.widget.TextView;
 
-import java.util.Locale;
+import com.squareup.phrase.Phrase;
+
 import java.util.concurrent.TimeUnit;
 
 import app.drewromanyk.com.minesweeper.R;
+import app.drewromanyk.com.minesweeper.util.Helper;
+import app.drewromanyk.com.minesweeper.util.PhraseKeys;
 
 /**
  * Created by Drew on 11/7/15.
@@ -32,13 +35,14 @@ public class BoardInfoView {
 
     public void setTimeKeeperText(long value) {
         Context context = timeKeeperView.getContext();
-        timeKeeperView.setText(context.getString(R.string.game_bar_time_title) + getTimeString(value));
+        timeKeeperView.setText(Phrase.from(context, R.string.game_bar_time_title)
+                .put(PhraseKeys.AMOUNT, getTimeString(value, context))
+                .format());
     }
 
-    private String getTimeString(long millis) {
+    private String getTimeString(long millis, Context context) {
         //hh:mm:ss
-        Locale locale = timeKeeperView.getResources().getConfiguration().locale;
-        return String.format(locale, "%02d:%02d:%02d",
+        return String.format(Helper.getLocale(context), "%02d:%02d:%02d",
                 TimeUnit.MILLISECONDS.toHours(millis),
                 TimeUnit.MILLISECONDS.toMinutes(millis) -
                         TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
@@ -48,11 +52,15 @@ public class BoardInfoView {
 
     public void setMineKeeperText(int value) {
         Context context = mineKeeperView.getContext();
-        mineKeeperView.setText(context.getString(R.string.game_bar_mine_title) + value);
+        mineKeeperView.setText(Phrase.from(context, R.string.game_bar_mine_title)
+                .put(PhraseKeys.AMOUNT, value)
+                .format());
     }
 
     public void setScoreKeeperText(double value) {
         Context context = mineKeeperView.getContext();
-        scoreKeeperView.setText(context.getString(R.string.game_bar_score_title) + String.format("%.3f", value));
+        scoreKeeperView.setText(Phrase.from(context, R.string.game_bar_score_title)
+                .put(PhraseKeys.AMOUNT, String.format(Helper.getLocale(context), "%.3f", value))
+                .format());
     }
 }

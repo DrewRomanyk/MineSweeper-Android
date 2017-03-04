@@ -70,13 +70,13 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:10.2.0'
     compile 'com.google.android.gms:play-services-games:10.2.0'
     compile 'com.google.android.gms:play-services-plus:10.2.0'
-    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.google.code.gson:gson:2.7'
 
     compile 'com.google.firebase:firebase-core:10.2.0'
     compile 'com.google.firebase:firebase-ads:10.2.0'
     compile 'com.google.firebase:firebase-crash:10.2.0'
 
-    compile 'com.anjlab.android.iab.v3:library:1.0.+'
+    compile 'com.anjlab.android.iab.v3:library:1.0.38'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.phrase:phrase:1.1.0'
     compile 'de.hdodenhof:circleimageview:1.2.1'

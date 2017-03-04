@@ -75,24 +75,24 @@ Flag:
     <string name="game_difficulty_custom">Custom</string>
     <string name="game_difficulty_custom_details">Custom Settings</string>
     <!-- GAME BAR -->
-    <string name="game_bar_time_title">Time:\u0020</string>
-    <string name="game_bar_score_title">Score:\u0020</string>
-    <string name="game_bar_mine_title">Mines:\u0020</string>
+    <string name="game_bar_time_title">Time: {amount}</string>
+    <string name="game_bar_score_title">Score: {amount}</string>
+    <string name="game_bar_mine_title">Mines: {amount}</string>
     <string name="game_best_time">NEW BEST TIME!</string>
     <string name="game_best_score">NEW BEST SCORE!</string>
 
     <!-- STATS FRAGMENT -->
-    <string name="stats_title_best_score">Best Score:\u0020</string>
-    <string name="stats_title_best_time">Best Time:\u0020</string>
-    <string name="stats_title_avg_score">Average Score:\u0020</string>
-    <string name="stats_title_avg_time">Average Time:\u0020</string>
-    <string name="stats_title_games_won">Games Won:\u0020</string>
-    <string name="stats_title_games_played">Games Played:\u0020</string>
-    <string name="stats_title_win_percent">Win Percent:\u0020</string>
-    <string name="stats_title_explore_percent">Explore Percent:\u0020</string>
-    <string name="stats_title_win_streak">Win Streak:\u0020</string>
-    <string name="stats_title_lose_streak">Lose Streak:\u0020</string>
-    <string name="stats_title_current_streak">Current Streak:\u0020</string>
+    <string name="stats_title_best_score">Best Score: {amount}</string>
+    <string name="stats_title_best_time">Best Time: {amount}</string>
+    <string name="stats_title_avg_score">Average Score: {amount}</string>
+    <string name="stats_title_avg_time">Average Time: {amount}</string>
+    <string name="stats_title_games_won">Games Won: {amount}</string>
+    <string name="stats_title_games_played">Games Played: {amount}</string>
+    <string name="stats_title_win_percent">Win Percent: {amount}</string>
+    <string name="stats_title_explore_percent">Explore Percent: {amount}</string>
+    <string name="stats_title_win_streak">Win Streak: {amount}</string>
+    <string name="stats_title_lose_streak">Lose Streak: {amount}</string>
+    <string name="stats_title_current_streak">Current Streak: {amount}</string>
 
     <!-- GOOGLE GAMES -->
     <string name="signin_other_error">There was an issue with sign in. Please try again later.</string>
@@ -149,6 +149,6 @@ Flag:
     <string name="inapp_rating_feedback">Would you mind giving us some feedback?</string>
     <string name="inapp_rating_rating">How about a rating on the Play Store, then?</string>
     <string name="inapp_rating_secondary_no">No, thanks</string>
-    <string name="inapp_rating_secondary_yes">Ok, sure</string>
+    <string name="inapp_rating_secondary_yes">OK, sure</string>
 
 </resources>

@@ -3,37 +3,27 @@ package app.drewromanyk.com.minesweeper.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.text.Html;
+import android.text.Spanned;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.Tracker;
+
+import java.util.Locale;
 
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.application.MinesweeperApp;
 
 /**
  * Created by Drew on 4/18/2015.
+ * Helper
+ * Class is used as a general utils class for random things to improve code
  */
 public class Helper {
-
-    // resizes a bitmap to new dimensions
-    public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-        // CREATE A MATRIX FOR THE MANIPULATION
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scaleWidth, scaleHeight);
-
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
-        return resizedBitmap;
-    }
 
     public static boolean isOnline(Context context) {
         ConnectivityManager cm =
@@ -58,5 +48,25 @@ public class Helper {
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(activity, activity.getString(R.string.settings_feedback_error), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Locale getLocale(Context context) {
+        Resources resources = context.getResources();
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                ? resources.getConfiguration().getLocales()
+                .getFirstMatch(resources.getAssets().getLocales())
+                : resources.getConfiguration().locale;
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html){
+        Spanned result;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            result = Html.fromHtml(html,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            result = Html.fromHtml(html);
+        }
+        return result;
     }
 }

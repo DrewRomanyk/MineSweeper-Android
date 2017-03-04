@@ -74,25 +74,25 @@ Bandera:
     <string name="game_difficulty_custom">Personalizado</string>
     <string name="game_difficulty_custom_details">Configuraciones Personalizadas</string>
     <!-- GAME BAR -->
-    <string name="game_bar_time_title">Tiempo:\u0020</string>
-    <string name="game_bar_score_title">Puntuación:\u0020</string>
-    <string name="game_bar_mine_title">Minas:\u0020</string>
+    <string name="game_bar_time_title">Tiempo: {amount}</string>
+    <string name="game_bar_score_title">Puntuación: {amount}</string>
+    <string name="game_bar_mine_title">Minas: {amount}</string>
     <string name="game_best_time">¡NUEVO MEJOR TIEMPO!</string>
     <string name="game_best_score">¡NUEVA MEJOR PUNTUACIÓN!</string>
 
 
     <!-- STATS FRAGMENT -->
-    <string name="stats_title_best_score">Mejor Puntuación:\u0020</string>
-    <string name="stats_title_best_time">Mejor Tiempo:\u0020</string>
-    <string name="stats_title_avg_score">Puntuación Promedio:\u0020</string>
-    <string name="stats_title_avg_time">Tiempo Promedio:\u0020</string>
-    <string name="stats_title_games_won">Juegos Ganados:\u0020</string>
-    <string name="stats_title_games_played">Juegos Jugados:\u0020</string>
-    <string name="stats_title_win_percent">Porcentaje De Victorias:\u0020</string>
-    <string name="stats_title_explore_percent">Porcentaje De Exploración:\u0020</string>
-    <string name="stats_title_win_streak">Racha Ganadora:\u0020</string>
-    <string name="stats_title_lose_streak">Racha Perdedora:\u0020</string>
-    <string name="stats_title_current_streak">Racha en Curso:\u0020</string>
+    <string name="stats_title_best_score">Mejor Puntuación: {amount}</string>
+    <string name="stats_title_best_time">Mejor Tiempo: {amount}</string>
+    <string name="stats_title_avg_score">Puntuación Promedio: {amount}</string>
+    <string name="stats_title_avg_time">Tiempo Promedio: {amount}</string>
+    <string name="stats_title_games_won">Juegos Ganados: {amount}</string>
+    <string name="stats_title_games_played">Juegos Jugados: {amount}</string>
+    <string name="stats_title_win_percent">Porcentaje De Victorias: {amount}</string>
+    <string name="stats_title_explore_percent">Porcentaje De Exploración: {amount}</string>
+    <string name="stats_title_win_streak">Racha Ganadora: {amount}</string>
+    <string name="stats_title_lose_streak">Racha Perdedora: {amount}</string>
+    <string name="stats_title_current_streak">Racha en Curso: {amount}</string>
 
     <!-- GOOGLE GAMES -->
     <string name="signin_other_error">Hubo un problema con el inicio de sesión. Por favor inténtelo de nuevo más tarde.</string>

@@ -4,27 +4,29 @@ import java.util.LinkedList;
 
 /**
  * Created by Drew on 12/14/2014.
+ * ThreeBV
+ * Class to help calculate the score of the minesweeper board
  */
-public class ThreeBV {
+class ThreeBV {
 
     private int rows;
     private int columns;
     private double score3BV;
     private Cell[][] cell;
 
-    public ThreeBV(Cell[][] cell, int rows, int columns) {
+    ThreeBV(Cell[][] cell, int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
         this.cell = cell;
         score3BV = 0;
     }
 
-    public double getThreeBV() {
+    double getThreeBV() {
         return score3BV;
     }
 
     // Calculates the difficulty rating for the game
-    public void calculate3BV() {
+    void calculate3BV() {
         boolean[][] marked = new boolean[rows][columns];
 
         // For each empty 0 cell
@@ -50,11 +52,11 @@ public class ThreeBV {
         }
     }
 
-    protected class Coordinates {
+    private class Coordinates {
         int row;
         int col;
 
-        public Coordinates(int row, int col) {
+        private Coordinates(int row, int col) {
             this.row = row;
             this.col = col;
         }

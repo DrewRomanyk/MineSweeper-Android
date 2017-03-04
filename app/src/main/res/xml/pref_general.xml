@@ -1,6 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://robobunny.com"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://robobunny.com">
 
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->

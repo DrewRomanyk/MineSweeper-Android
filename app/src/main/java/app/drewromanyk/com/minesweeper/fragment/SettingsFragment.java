@@ -1,12 +1,9 @@
 package app.drewromanyk.com.minesweeper.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 
@@ -14,12 +11,13 @@ import app.drewromanyk.com.minesweeper.BuildConfig;
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.activities.BaseActivity;
 import app.drewromanyk.com.minesweeper.application.MinesweeperApp;
-import app.drewromanyk.com.minesweeper.enums.ResultCodes;
 import app.drewromanyk.com.minesweeper.util.Helper;
 import app.drewromanyk.com.minesweeper.views.SeekBarPreference;
 
 /**
  * Created by Drew on 9/11/15.
+ * SettingsFragment
+ * Fragment that shows users preferences/configs/settings
  */
 public class SettingsFragment extends PreferenceFragment {
 

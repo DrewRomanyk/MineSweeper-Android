@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.NavUtils;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -142,6 +142,7 @@ public class GameActivity extends BaseActivity {
                     orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
                     break;
                 default:
+                case Surface.ROTATION_270:
                     orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
                     break;
             }
@@ -153,16 +154,16 @@ public class GameActivity extends BaseActivity {
         UiThemeModeEnum uiThemeMode = UserPrefStorage.getUiThemeMode(this);
         switch (uiThemeMode) {
             case LIGHT:
-                boardBackground.setBackgroundColor(getResources().getColor(R.color.light_background));
+                boardBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.light_background));
                 break;
             case DARK:
-                boardBackground.setBackgroundColor(getResources().getColor(R.color.dark_background));
+                boardBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.dark_background));
                 break;
             case AMOLED:
-                boardBackground.setBackgroundColor(getResources().getColor(R.color.amoled_background));
+                boardBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.amoled_background));
                 break;
             case CLASSICAL:
-                boardBackground.setBackgroundColor(getResources().getColor(R.color.light_background));
+                boardBackground.setBackgroundColor(ContextCompat.getColor(this, R.color.light_background));
                 break;
         }
         minesweeperBoard.updateCellSize();

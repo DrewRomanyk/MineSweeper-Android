@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <android.support.v7.widget.CardView
@@ -50,42 +49,42 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_background"
                         android:textSize="16sp"
-                        android:text="Best Score: 1.2"/>
+                        android:text="@string/stats_title_best_score"/>
                     <TextView
                         android:id="@+id/best_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_background"
                         android:textSize="16sp"
-                        android:text="Best Time: 1.2"/>
+                        android:text="@string/game_best_time"/>
                     <TextView
                         android:id="@+id/games_won"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_background"
                         android:textSize="16sp"
-                        android:text="Games Won: 1.2"/>
+                        android:text="@string/stats_title_games_won"/>
                     <TextView
                         android:id="@+id/win_percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_background"
                         android:textSize="16sp"
-                        android:text="Win Percent: 1.2"/>
+                        android:text="@string/stats_title_win_percent"/>
                     <TextView
                         android:id="@+id/win_streak"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_background"
                         android:textSize="16sp"
-                        android:text="Best Win Streak: 1.2"/>
+                        android:text="@string/stats_title_win_streak"/>
                     <TextView
                         android:id="@+id/current_streak"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_background"
                         android:textSize="16sp"
-                        android:text="Current Streak: 1.2"/>
+                        android:text="@string/stats_title_current_streak"/>
                 </LinearLayout>
 
                 <View
@@ -104,35 +103,35 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_background"
                         android:textSize="16sp"
-                        android:text="Average Score: 1.2"/>
+                        android:text="@string/stats_title_avg_score"/>
                     <TextView
                         android:id="@+id/avg_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_background"
                         android:textSize="16sp"
-                        android:text="Average Time: 1.2"/>
+                        android:text="@string/stats_title_avg_time"/>
                     <TextView
                         android:id="@+id/games_played"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_background"
                         android:textSize="16sp"
-                        android:text="Games Played: 1.2"/>
+                        android:text="@string/stats_title_games_played"/>
                     <TextView
                         android:id="@+id/explore_percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_background"
                         android:textSize="16sp"
-                        android:text="Explore Percent: 1.2"/>
+                        android:text="@string/stats_title_explore_percent"/>
                     <TextView
                         android:id="@+id/lose_streak"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_background"
                         android:textSize="16sp"
-                        android:text="Best Lose Streak: 1.2"/>
+                        android:text="@string/stats_title_lose_streak"/>
                 </LinearLayout>
 
             </LinearLayout>

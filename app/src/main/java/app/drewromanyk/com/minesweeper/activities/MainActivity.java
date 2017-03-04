@@ -3,13 +3,12 @@ package app.drewromanyk.com.minesweeper.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +18,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 
 import app.drewromanyk.com.minesweeper.R;
@@ -33,10 +31,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Drew on 1/10/2015.
+ * MainActivity
+ * Main view for users to select a new game or play an old one
  */
-public class MainActivity extends BaseActivity {
-    private static final String TAG = "MainActivity";
 
+public class MainActivity extends BaseActivity {
     //NAV DRAWER
     private DrawerLayout drawerLayout;
     private NavigationView navView;
@@ -66,8 +65,7 @@ public class MainActivity extends BaseActivity {
 
                     ((TextView) navView.findViewById(R.id.name)).setText(getString(R.string.nav_header_playername_empty));
                     Picasso.with(v.getContext()).load(R.drawable.common_google_signin_btn_icon_dark).into((ImageView) navView.findViewById(R.id.avatar));
-                    Picasso.with(v.getContext()).load(R.color.background_material_dark).into((ImageView) navView.findViewById(R.id.cover));
-
+                    Picasso.with(v.getContext()).load(R.color.nav_drawer_header_background).into((ImageView) navView.findViewById(R.id.cover));
                 } else {
                     setSignInClicked(true);
                     getGoogleApiClient().connect();
@@ -79,7 +77,7 @@ public class MainActivity extends BaseActivity {
         navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(final MenuItem menuItem) {
+                    public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
                         menuItem.setChecked(true);
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         switch (menuItem.getItemId()) {
@@ -198,7 +196,7 @@ public class MainActivity extends BaseActivity {
 
             if (cover != null && currentPerson.getCover() != null && currentPerson.getCover().hasCoverPhoto()) {
                 String playerCoverURL = currentPerson.getCover().getCoverPhoto().getUrl();
-                Picasso.with(this).load(playerCoverURL).placeholder(R.color.background_material_dark).into(cover);
+                Picasso.with(this).load(playerCoverURL).placeholder(R.color.nav_drawer_header_background).into(cover);
             }
         }
     }

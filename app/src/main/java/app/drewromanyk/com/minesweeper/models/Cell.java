@@ -1,11 +1,9 @@
 package app.drewromanyk.com.minesweeper.models;
 
-import android.content.Context;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import app.drewromanyk.com.minesweeper.BuildConfig;
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.activities.GameActivity;
 import app.drewromanyk.com.minesweeper.enums.UiThemeModeEnum;
@@ -13,36 +11,32 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 /**
  * Created by Drew on 12/7/2014.
+ * Cell
+ * Class to define how cells in a board operate and look
  */
 
-public class Cell {
-    public final static int MINE = -1;
+class Cell {
+    final static int MINE = -1;
     private static final String PACKAGE_NAME = "app.drewromanyk.com.minesweeper";
 
     private GameActivity gameActivity;
 
     private boolean reveal;
     private int value; // -1 is bomb, then the rest is the amount of neighbors
-    private int flaggedNeighbors;
-    private int mineNeighbors;
     private boolean flagged;
     private int row;
     private int column;
     private ImageView cellButton;
     private double gameCellScale = 1;
 
-    // empty constructor for null cells
-    public Cell() {
-    }
-
     //context is for the creation of the image button
-    public Cell(int row, int column, double gameCellScale, GameActivity gameActivity) {
+    Cell(int row, int column, double gameCellScale, GameActivity gameActivity) {
         this(row, column, 0, false, false, gameCellScale, gameActivity);
 
     }
 
-    //create exisiting cell for resume
-    public Cell(int row, int column, int value, boolean reveal, boolean flagged, double gameCellScale, GameActivity gameActivity) {
+    //create existing cell for resume
+    Cell(int row, int column, int value, boolean reveal, boolean flagged, double gameCellScale, GameActivity gameActivity) {
         this.reveal = reveal;
         this.flagged = flagged;
         this.value = value;
@@ -54,8 +48,8 @@ public class Cell {
         createButton();
     }
 
-    //create exisiting cell for resume
-    public Cell(int row, int column, int value, boolean reveal, boolean flagged, double gameCellScale) {
+    //create existing cell for resume
+    Cell(int row, int column, int value, boolean reveal, boolean flagged, double gameCellScale) {
         this.reveal = reveal;
         this.flagged = flagged;
         this.value = value;
@@ -84,12 +78,12 @@ public class Cell {
     }
 
     //returns the image button for the cell
-    public ImageView getButton() {
+    ImageView getButton() {
         return cellButton;
     }
 
     // Updates the cells image and size of the button
-    protected void updateImageValue() {
+    void updateImageValue() {
         UiThemeModeEnum uiThemeMode = UserPrefStorage.getUiThemeMode(gameActivity);
         boolean light_mode = false;
         boolean material_mode = true;
@@ -146,7 +140,7 @@ public class Cell {
                     : R.drawable.ic_cell_bomb_classical;
         }
 
-        getButton().setBackgroundDrawable(gameActivity.getResources().getDrawable(id));
+        getButton().setBackgroundResource(id);
         updateButtonSize();
     }
 
@@ -171,7 +165,7 @@ public class Cell {
     }
 
     //returns the clicked mine cell image
-    protected void updateClickedMine() {
+    void updateClickedMine() {
         UiThemeModeEnum uiThemeMode = UserPrefStorage.getUiThemeMode(gameActivity);
         boolean light_mode = false;
         boolean material_mode = true;
@@ -193,68 +187,53 @@ public class Cell {
         int id = (material_mode) ?
                 (light_mode) ? R.drawable.ic_cell_bombpressed_light : R.drawable.ic_cell_bombpressed
                 : R.drawable.ic_cell_bombpressed_classical;
-        getButton().setBackgroundDrawable(gameActivity.getResources().getDrawable(id));
+        getButton().setBackgroundResource(id);
         updateButtonSize();
     }
 
     //revealed is when it is viewable by the user
-    public boolean isRevealed() {
+    boolean isRevealed() {
         return reveal;
     }
 
-    public void setRevealed(boolean reveal) {
+    void setRevealed(boolean reveal) {
         this.reveal = reveal;
     }
 
     //flagged is when the user has it flagged as a bomb
-    public boolean isFlagged() {
+    boolean isFlagged() {
         return flagged;
     }
 
-    public void setFlagged(boolean flagged) {
+    void setFlagged(boolean flagged) {
         this.flagged = flagged;
     }
 
     //value is what the cell is, either a bomb or how many neighboring bombs near that cell
-    public int getValue() {
+    int getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    void setValue(int value) {
         this.value = value;
     }
 
     //row and column of the cell for the board
-    public int getRow() {
+    int getRow() {
         return row;
     }
 
-    public int getColumn() {
+    int getColumn() {
         return column;
     }
 
     //is the cell a bomb?
-    public boolean isMine() {
+    boolean isMine() {
         return (value == MINE);
     }
 
-    public int getFlaggedNeighbors() {
-        return flaggedNeighbors;
-    }
-
-    public void setFlaggedNeighbors(int flaggedNeighbors) {
-        this.flaggedNeighbors = flaggedNeighbors;
-    }
-
-    public int getMineNeighbors() {
-        return mineNeighbors;
-    }
-
-    public void setMineNeighbors(int mineNeighbors) {
-        this.mineNeighbors = mineNeighbors;
-    }
-
-    public void setGameCellScale(double gameCellScale) {
+    void setGameCellScale(double gameCellScale) {
         this.gameCellScale = gameCellScale;
+        updateImageValue();
     }
 }
