@@ -47,7 +47,7 @@ S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com 
     </string>
     <!-- ABOUT -->
     <string name="dialog_about_title">À propos</string>
-    <string name="dialog_about_message">Le classique jeu le Démineur est ici pour Android. Utilisez la stratégie et la pensée critique pour gagner. Le but est de révéler toutes les cellules qui ne sont pas des mines. Le Démineur est également connu comme Mines.\n\nVersion: </string>
+    <string name="dialog_about_message">Le classique jeu le Démineur est ici pour Android. Utilisez la stratégie et la pensée critique pour gagner. Le but est de révéler toutes les cellules qui ne sont pas des mines. Le Démineur est également connu comme Mines.\n\nVersion: {amount}</string>
     <!-- CUSTOMGAMEERROR -->
     <string name="dialog_customgameerror_title">Erreur des paramètres de jeu personnalisés </string>
     <string name="dialog_customgameerror_message">La quantité de bombes que vous avez sélectionné n\'est pas valable pour la quantité de cellules dans le jeu.</string>

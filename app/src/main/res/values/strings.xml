@@ -2,7 +2,6 @@
 <resources>
     <!-- APP -->
     <string name="app_name">Minesweeper</string>
-    <string name="version_name" translatable="false">1.4.2</string>
 
     <!-- NAV DRAWER -->
     <string name="nav_header_playername_empty">SIGN IN</string>
@@ -48,7 +47,7 @@ Flag:
     </string>
     <!-- ABOUT -->
     <string name="dialog_about_title">About</string>
-    <string name="dialog_about_message">The classic game of Minesweeper is here for Android. Use strategy and critical thinking to win. The goal is to reveal all cells that aren\'t mines. Minesweeper is also known as Mines.\n\nVersion: </string>
+    <string name="dialog_about_message">The classic game of Minesweeper is here for Android. Use strategy and critical thinking to win. The goal is to reveal all cells that aren\'t mines. Minesweeper is also known as Mines.\n\nVersion: {amount}</string>
     <!-- CUSTOMGAMEERROR -->
     <string name="dialog_customgameerror_title">Custom Game Settings Error</string>
     <string name="dialog_customgameerror_message">The amount of bombs you selected arent valid for the amount of cells in the game.</string>

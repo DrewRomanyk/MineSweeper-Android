@@ -47,7 +47,7 @@ Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per
     </string>
     <!-- ABOUT -->
     <string name="dialog_about_title">Informazioni</string>
-    <string name="dialog_about_message">Campo Minato è un’applicazione gratuita offerta da Drew Romanyk. Non esitare a contattarlo a drew.romanyk@gmail.com per qualsiasi feedback.\n\nVersione:</string>
+    <string name="dialog_about_message">Campo Minato è un’applicazione gratuita offerta da Drew Romanyk. Non esitare a contattarlo a drew.romanyk@gmail.com per qualsiasi feedback.\n\nVersione: {amount}</string>
     <!-- CUSTOMGAMEERROR -->
     <string name="dialog_customgameerror_title">Errore Impostazioni Partita Personalizzata</string>
     <string name="dialog_customgameerror_message">La quantità di mine che hai selezionato non è valida per la quantità di caselle nella partita.</string>

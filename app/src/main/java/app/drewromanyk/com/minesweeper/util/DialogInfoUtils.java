@@ -3,6 +3,9 @@ package app.drewromanyk.com.minesweeper.util;
 import android.content.Context;
 import android.util.SparseArray;
 
+import com.squareup.phrase.Phrase;
+
+import app.drewromanyk.com.minesweeper.BuildConfig;
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.enums.ResultCodes;
 import app.drewromanyk.com.minesweeper.models.YesNoDialogInfo;
@@ -29,7 +32,10 @@ public class DialogInfoUtils {
         yesNoDialogMap = new SparseArray<>();
 
         yesNoDialogMap.put(ResultCodes.ABOUT_DIALOG.ordinal(), new YesNoDialogInfo(context.getString(R.string.dialog_about_title),
-                context.getString(R.string.dialog_about_message) + context.getString(R.string.version_name)));
+                Phrase.from(context, R.string.dialog_about_message)
+                        .put(PhraseKeys.AMOUNT, BuildConfig.VERSION_NAME)
+                        .format()
+                        .toString()));
 
         yesNoDialogMap.put(ResultCodes.HELP_DIALOG.ordinal(), new YesNoDialogInfo(context.getString(R.string.dialog_help_title),
                 context.getString(R.string.dialog_help_message)));

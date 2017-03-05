@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ui_theme_keys">
+        <item>明亮</item>
+        <item>灰色</item>
+        <item>黑色</item>
+        <item>经典</item>
+    </string-array>
+</resources>

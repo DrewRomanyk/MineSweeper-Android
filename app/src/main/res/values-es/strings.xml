@@ -47,7 +47,7 @@ Bandera:
     </string>
     <!-- ABOUT -->
     <string name="dialog_about_title">Acerca De</string>
-    <string name="dialog_about_message">El clásico juego de Buscaminas está aquí para Android. Usa estrategia y pensamiento crítico para ganar. El objetivo es revelar todas las celdas que no son minas. Buscaminas también es conocido como Minas.\n\nVersión: </string>
+    <string name="dialog_about_message">El clásico juego de Buscaminas está aquí para Android. Usa estrategia y pensamiento crítico para ganar. El objetivo es revelar todas las celdas que no son minas. Buscaminas también es conocido como Minas.\n\nVersión: {amount}</string>
     <!-- CUSTOMGAMEERROR -->
     <string name="dialog_customgameerror_title">Error de Configuración de Personalización del Juego</string>
     <string name="dialog_customgameerror_message">La cantidad de bombas que seleccionaste no es válida para la cantidad de celdas en el juego.</string>
