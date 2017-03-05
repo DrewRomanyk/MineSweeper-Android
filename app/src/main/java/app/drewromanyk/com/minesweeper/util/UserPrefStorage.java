@@ -303,6 +303,8 @@ public class UserPrefStorage {
     }
 
     public static int getLongPressLength(Context context) {
+        return getPrefs(context).getInt(context.getString(R.string.preference_longclick_duration), 400);
+    }
 
     public static UiThemeModeEnum getUiThemeMode(Context context) {
         String cur_theme_val = getPrefs(context).getString(context.getString(R.string.preference_ui_theme_mode), "LIGHT");
