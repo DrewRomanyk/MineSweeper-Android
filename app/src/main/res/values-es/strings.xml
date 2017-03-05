@@ -121,6 +121,8 @@ Bandera:
     <string name="settings_game_volumeflag">Botón de Volumen Modo Bandera</string>
     <string name="settings_game_swiftchange">Cambio Rápido</string>
     <string name="settings_game_swiftopen">Apertura Rápida</string>
+    <string name="settings_game_longclick_duration">Duración del clic largo</string>
+
     <string name="settings_support">Soporte</string>
     <string name="settings_support_feedback">Enviar Retroalimentación</string>
     <string name="settings_feedback_subject">Buscaminas: Retroalimentación</string>

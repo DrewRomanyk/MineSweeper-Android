@@ -1,6 +1,7 @@
 package app.drewromanyk.com.minesweeper.models;
 
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.GridLayout;
@@ -215,42 +216,29 @@ public class Board {
         currentCell.getButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateBoardByTap(currentCell, true);
+                if ((boolean) v.getTag()) {
+                    updateBoardByTap(currentCell, true);
+                }
             }
         });
-        // Long tap
-        currentCell.getButton().setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                updateBoardByTap(currentCell, false);
-                gameActivity.vibrate();
-                return true;
-            }
-        });
-        // Touch
-//        currentCell.getButton().setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View arg0, MotionEvent arg1) {
-//                if (arg1.getAction() == MotionEvent.ACTION_DOWN) {
-//                    gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_tap);
-//                } else {
-//                    gameActivity.refreshButton.setIcon(R.drawable.ic_action_refresh_playing);
-//                }
-//
-//                return false;
-//            }
-//        });
-    }
 
-    //removes the button listeners to make it more efficient
-    private void removeCellListeners() {
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < columns; c++) {
-                cell[r][c].getButton().setOnClickListener(null);
-                cell[r][c].getButton().setOnTouchListener(null);
-                cell[r][c].getButton().setOnLongClickListener(null);
+        // Long tap
+        currentCell.getButton().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.setTag(true);
+                } else if (v.isPressed() && (boolean) v.getTag()) {
+                    long eventDuration = event.getEventTime() - event.getDownTime();
+                    if (eventDuration > UserPrefStorage.getLongPressLength(gameActivity)) {
+                        v.setTag(false);
+                        updateBoardByTap(currentCell, false);
+                        gameActivity.vibrate();
+                    }
+                }
+                return false;
             }
-        }
+        });
     }
 
     /*
@@ -502,12 +490,12 @@ public class Board {
         //update UI
         int refreshIcon = (gameStatus == GameStatus.VICTORY) ?
                 R.drawable.ic_action_refresh_win : R.drawable.ic_action_refresh_lose;
-        updateMineImage(gameStatus);
+        updateToGameOverCells(gameStatus);
+
         if (gameStatus == GameStatus.DEFEAT) {
             clickedCell.updateClickedMine();
         }
 
-        removeCellListeners();
         stopGameTime();
         gameActivity.refreshButton.setIcon(refreshIcon);
         gameActivity.vibrate();
@@ -531,9 +519,11 @@ public class Board {
     }
 
     //reveals the board when you lose
-    private void updateMineImage(GameStatus gameStatus) {
+    private void updateToGameOverCells(GameStatus gameStatus) {
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
+                cell[r][c].getButton().setOnClickListener(null);
+                cell[r][c].getButton().setOnTouchListener(null);
                 if (cell[r][c].isMine()) {
                     if (gameStatus == GameStatus.VICTORY) {
                         cell[r][c].setFlagged(true);

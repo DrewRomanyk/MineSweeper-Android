@@ -20,7 +20,6 @@ import app.drewromanyk.com.minesweeper.models.Board;
  * - Game status/saved
  * - Stats
  * - first time
- *
  * Created by Drew on 4/17/2015.
  */
 public class UserPrefStorage {
@@ -302,6 +301,8 @@ public class UserPrefStorage {
     public static boolean getLockRotate(Context context) {
         return getPrefs(context).getBoolean(context.getString(R.string.preference_lockrotate), false);
     }
+
+    public static int getLongPressLength(Context context) {
 
     public static UiThemeModeEnum getUiThemeMode(Context context) {
         String cur_theme_val = getPrefs(context).getString(context.getString(R.string.preference_ui_theme_mode), "LIGHT");

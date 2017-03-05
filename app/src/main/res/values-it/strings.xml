@@ -120,6 +120,8 @@ Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per
     <string name="settings_game_volumeflag">Pulsante Volume Modalità Flag</string>
     <string name="settings_game_swiftchange">Modifica Rapida</string>
     <string name="settings_game_swiftopen">Apertura Rapida</string>
+    <string name="settings_game_longclick_duration">Lunga Durata Click</string>
+
     <string name="settings_support">Assistenza</string>
     <string name="settings_support_feedback">Invia Feedback</string>
     <string name="settings_feedback_subject">Campo Minato: Feedback</string>

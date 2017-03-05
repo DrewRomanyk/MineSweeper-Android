@@ -123,6 +123,7 @@
     <string name="settings_game_volumeflag">音量按钮标志模式</string>
     <string name="settings_game_swiftchange">快速更改</string>
     <string name="settings_game_swiftopen">快速打开</string>
+    <string name="settings_game_longclick_duration">长期点击时间</string>
 
     <string name="settings_support">支持</string>
     <string name="settings_support_feedback">发送反馈</string>

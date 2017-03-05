@@ -93,6 +93,14 @@
             android:defaultValue="true"
             android:key="swiftopen_check"
             android:title="@string/settings_game_swiftopen" />
+        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
+            android:defaultValue="400"
+            android:key="longclick_duration_seek"
+            android:max="1000"
+            android:title="@string/settings_game_longclick_duration"
+            app:min="100"
+            app:unitsLeft="     "
+            app:unitsRight="ms" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_support">
         <Preference

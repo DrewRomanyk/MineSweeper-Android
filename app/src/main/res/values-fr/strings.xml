@@ -123,6 +123,7 @@ S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com 
     <string name="settings_game_volumeflag">Mode volume du Bouton de Drapeau</string>
     <string name="settings_game_swiftchange">Changement rapide</string>
     <string name="settings_game_swiftopen">Ouverture rapide</string>
+    <string name="settings_game_longclick_duration">Durée du clic long</string>
 
     <string name="settings_support">Soutien</string>
     <string name="settings_support_feedback">Envoyer des commentaires</string>

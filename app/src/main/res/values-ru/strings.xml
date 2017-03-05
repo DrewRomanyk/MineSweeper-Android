@@ -119,6 +119,8 @@
     <string name="settings_game_volumeflag">Режим Громкости Кнопки Использования Флагов</string>
     <string name="settings_game_swiftchange">Быстрая Смена Режима</string>
     <string name="settings_game_swiftopen">Быстрое Открытие</string>
+    <string name="settings_game_longclick_duration">Длинные Нажмите Длительность</string>
+
     <string name="settings_support">Поддержка</string>
     <string name="settings_support_feedback">Отправить Отзыв</string>
     <string name="settings_feedback_subject">Сапёр: Отзывы</string>
