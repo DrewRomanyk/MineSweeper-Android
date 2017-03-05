@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
                     getGoogleApiClient().disconnect();
 
                     ((TextView) navView.findViewById(R.id.name)).setText(getString(R.string.nav_header_playername_empty));
-                    Picasso.with(v.getContext()).load(R.drawable.common_google_signin_btn_icon_dark).into((ImageView) navView.findViewById(R.id.avatar));
+                    Picasso.with(v.getContext()).load(R.drawable.person_image_empty).into((ImageView) navView.findViewById(R.id.avatar));
                     Picasso.with(v.getContext()).load(R.color.nav_drawer_header_background).into((ImageView) navView.findViewById(R.id.cover));
                 } else {
                     setSignInClicked(true);
