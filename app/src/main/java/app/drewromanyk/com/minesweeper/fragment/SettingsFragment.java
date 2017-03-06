@@ -3,7 +3,7 @@ package app.drewromanyk.com.minesweeper.fragment;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 
@@ -41,13 +41,17 @@ public class SettingsFragment extends PreferenceFragment {
         in_app_ads.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                boolean isAvailable = BillingProcessor.isIabServiceAvailable(getActivity());
                 BillingProcessor bp = ((BaseActivity) getActivity()).bp;
-                if (bp != null) {
+                if (isAvailable && bp != null) {
                     boolean isOneTimePurchaseSupported = bp.isOneTimePurchaseSupported();
                     if (isOneTimePurchaseSupported) {
-                        Log.i("SettingsFrag", "onPreferenceClick: purchase");
                         bp.purchase(getActivity(), BuildConfig.PREMIUM_SKU);
+                    } else {
+                        Toast.makeText(getActivity(), R.string.google_play_error, Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(getActivity(), R.string.google_play_error, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
