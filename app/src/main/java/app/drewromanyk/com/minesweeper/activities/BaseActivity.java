@@ -213,14 +213,17 @@ public abstract class BaseActivity extends AppCompatActivity
 
         if (!bp.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
+
             if (requestCode == ResultCodes.SIGN_IN.ordinal()) {
                 mSignInClicked = false;
                 mResolvingConnectionFailure = false;
                 if (googleApiClient != null && resultCode == RESULT_OK) {
                     googleApiClient.connect();
-                } else if (googleApiClient != null && resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED) {
-                    googleApiClient.disconnect();
                 }
+            }
+
+            if (googleApiClient != null && resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED) {
+                googleApiClient.disconnect();
             }
         }
     }

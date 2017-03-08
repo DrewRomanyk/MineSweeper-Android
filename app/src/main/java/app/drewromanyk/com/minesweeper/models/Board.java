@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.LinkedList;
 import java.util.Timer;
@@ -630,6 +631,8 @@ public class Board {
         String[] leaderboardStreaks = {BuildConfig.LEADERBOARD_EASY_BEST_STREAK, BuildConfig.LEADERBOARD_MEDIUM_BEST_STREAKs, BuildConfig.LEADERBOARD_EXPERT_BEST_STREAKs};
 
         if (gameStatus == GameStatus.VICTORY) {
+            FirebaseAnalytics fba = FirebaseAnalytics.getInstance(gameActivity);
+            fba.logEvent("game_over_google_games_victory", null);
             if (googleApiClient.isConnected()) {
                 // Skip non ranked difficulty
                 if (gameDifficulty == GameDifficulty.CUSTOM || gameDifficulty == GameDifficulty.RESUME)
@@ -637,11 +640,13 @@ public class Board {
 
                 // Offset is 2 for RESUME and CUSTOM
                 int gameDiffIndex = gameDifficulty.ordinal() - 2;
+                fba.logEvent("game_over_games_achievements", null);
                 Games.Achievements.unlock(googleApiClient, "" + achievementWin[gameDiffIndex]);
                 if (millis < achievementSeconds[gameDiffIndex]) {
                     Games.Achievements.unlock(googleApiClient, "" + achievementSpeed[gameDiffIndex]);
                 }
 
+                fba.logEvent("game_over_games_leaderboards", null);
                 Games.Leaderboards.submitScore(googleApiClient,
                         "" + leaderboardScores[gameDiffIndex],
                         score);
@@ -652,6 +657,7 @@ public class Board {
                 Games.Leaderboards.submitScore(googleApiClient,
                         "" + leaderboardStreaks[gameDiffIndex],
                         UserPrefStorage.getCurWinStreakForDifficulty(gameActivity, gameDifficulty));
+                fba.logEvent("game_over_games_finished_update", null);
             }
         }
     }
