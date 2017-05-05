@@ -1,15 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_header"
     android:layout_width="match_parent"
     android:layout_height="175dp"
-    android:orientation="vertical"
-    android:id="@+id/nav_header"
-    android:background="@color/accent">
+    android:background="@color/accent"
+    android:orientation="vertical">
+
     <ImageView
         android:id="@+id/cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/nav_drawer_header_background"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
 
     <View
         android:layout_width="match_parent"
@@ -20,31 +21,31 @@
         android:id="@+id/avatar"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@drawable/person_image_empty"
+        android:layout_above="@+id/info_layout"
+        android:layout_marginBottom="28dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="28dp"
-        android:layout_above="@+id/info_layout"/>
+        android:src="@drawable/person_image_empty" />
 
     <LinearLayout
         android:id="@+id/info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="5dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="23dp"
             android:layout_marginStart="23dp"
-            android:layout_marginBottom="10dp"
-            android:textColor="#ffffff"
             android:text="@string/nav_header_playername_empty"
+            android:textColor="#ffffff"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>

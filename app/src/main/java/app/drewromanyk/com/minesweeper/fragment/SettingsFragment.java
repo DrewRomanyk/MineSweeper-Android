@@ -9,9 +9,9 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 
 import app.drewromanyk.com.minesweeper.BuildConfig;
 import app.drewromanyk.com.minesweeper.R;
-import app.drewromanyk.com.minesweeper.activities.BaseActivity;
-import app.drewromanyk.com.minesweeper.application.MinesweeperApp;
+import app.drewromanyk.com.minesweeper.activities.AdsActivity;
 import app.drewromanyk.com.minesweeper.util.Helper;
+import app.drewromanyk.com.minesweeper.util.PremiumUtils;
 import app.drewromanyk.com.minesweeper.views.SeekBarPreference;
 
 /**
@@ -37,41 +37,8 @@ public class SettingsFragment extends PreferenceFragment {
         columnSeek = (SeekBarPreference) findPreference("column_seek");
         columnSeek.setColumnSeek(true);
 
-        Preference in_app_ads = findPreference("purchase_remove_ads");
-        in_app_ads.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                boolean isAvailable = BillingProcessor.isIabServiceAvailable(getActivity());
-                BillingProcessor bp = ((BaseActivity) getActivity()).bp;
-                if (isAvailable && bp != null) {
-                    boolean isOneTimePurchaseSupported = bp.isOneTimePurchaseSupported();
-                    if (isOneTimePurchaseSupported) {
-                        bp.purchase(getActivity(), BuildConfig.PREMIUM_SKU);
-                    } else {
-                        Toast.makeText(getActivity(), R.string.google_play_error, Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(getActivity(), R.string.google_play_error, Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            }
-        });
-
-//        Preference clear_purchases = findPreference("purchase_clear");
-//        clear_purchases.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-//            @Override
-//            public boolean onPreferenceClick(Preference preference) {
-//                BillingProcessor bp = ((BaseActivity) getActivity()).bp;
-//                if (bp != null) {
-//                    boolean isOneTimePurchaseSupported = bp.isOneTimePurchaseSupported();
-//                    if (isOneTimePurchaseSupported) {
-//                        Log.i("SettingsFrag", "onPreferenceClick: consume");
-//                        bp.consumePurchase(BuildConfig.PREMIUM_SKU);
-//                    }
-//                }
-//                return true;
-//            }
-//        });
+        setup_purchase_pref();
+        setup_clear_purchase_pref();
 
         Preference send_feedback = findPreference("send_feedback");
         send_feedback.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -81,10 +48,41 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
+    }
 
-        if (((MinesweeperApp) getActivity().getApplication()).getIsPremium() == 1) {
+    private void setup_clear_purchase_pref() {
+        // For testing only
+        final boolean enable_clear_purchase = false && BuildConfig.DEBUG;
+
+        if (enable_clear_purchase) {
+            Preference clear_purchases = findPreference("purchase_clear");
+            clear_purchases.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    PremiumUtils.instance.clear_purchase();
+                    return true;
+                }
+            });
+
+            clear_purchases.setEnabled(false);
+            if (PremiumUtils.instance.isPremiumUser()) {
+                clear_purchases.setEnabled(true);
+            }
+        }
+    }
+
+    private void setup_purchase_pref() {
+        Preference in_app_ads = findPreference("purchase_remove_ads");
+        in_app_ads.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                PremiumUtils.instance.purchase_premium(getActivity());
+                return true;
+            }
+        });
+
+        if (PremiumUtils.instance.isPremiumUser()) {
             in_app_ads.setEnabled(false);
-//            clear_purchases.setEnabled(true);
         }
     }
 }

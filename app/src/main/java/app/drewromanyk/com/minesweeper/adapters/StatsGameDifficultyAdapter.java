@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.squareup.phrase.Phrase;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import app.drewromanyk.com.minesweeper.R;
@@ -25,7 +26,7 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
  */
 public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDifficultyAdapter.PlayViewHolder> {
 
-    private ArrayList<GameDifficulty> gameDifficultyList;
+    private List<GameDifficulty> gameDifficultyList;
 
     class PlayViewHolder extends RecyclerView.ViewHolder {
 
@@ -64,12 +65,9 @@ public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDi
 
     public StatsGameDifficultyAdapter() {
         gameDifficultyList = new ArrayList<>();
-    }
-
-    public void setGameDifficultyList(ArrayList<GameDifficulty> gameDifficultyList) {
-        this.gameDifficultyList.clear();
-        this.gameDifficultyList.addAll(gameDifficultyList);
-        notifyDataSetChanged();
+        gameDifficultyList.add(GameDifficulty.EASY);
+        gameDifficultyList.add(GameDifficulty.MEDIUM);
+        gameDifficultyList.add(GameDifficulty.EXPERT);
     }
 
     @Override

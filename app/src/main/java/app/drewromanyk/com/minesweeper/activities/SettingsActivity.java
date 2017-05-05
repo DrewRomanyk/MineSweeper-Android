@@ -2,9 +2,6 @@ package app.drewromanyk.com.minesweeper.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-
-import com.google.android.gms.ads.AdView;
 
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.fragment.SettingsFragment;
@@ -14,34 +11,18 @@ import app.drewromanyk.com.minesweeper.fragment.SettingsFragment;
  * SettingsActivity
  * Activity for users to change preferences
  */
-public class SettingsActivity extends BaseActivity {
+public class SettingsActivity extends BackActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        setupAds();
 
-        setupToolbar((Toolbar) findViewById(R.id.toolbar));
-        setupAds((AdView) findViewById(R.id.adView));
-        setupGoogleGames();
+        setupToolbar((Toolbar) findViewById(R.id.toolbar), getString(R.string.nav_settings));
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.content, new SettingsFragment())
                 .commit();
-    }
-
-    private void setupToolbar(Toolbar toolbar) {
-        setSupportActionBar(toolbar);
-
-        toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.nav_settings);
-        }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 }

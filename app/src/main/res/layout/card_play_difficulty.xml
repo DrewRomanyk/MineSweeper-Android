@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <android.support.v7.widget.CardView
         android:id="@+id/card"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="5dp"
         app:cardCornerRadius="4dp">
 
@@ -20,18 +20,18 @@
 
             <TextView
                 android:id="@+id/card_difficulty_text"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
                 android:adjustViewBounds="true"
-                android:padding="15dp"
+                android:background="@color/easy_difficulty"
                 android:gravity="center"
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
+                android:padding="15dp"
                 android:text="@string/game_difficulty_easy"
-                android:background="@color/easy_difficulty"/>
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -41,26 +41,26 @@
 
                 <TextView
                     android:id="@+id/card_board_info"
-                    android:layout_centerInParent="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:layout_marginTop="15dp"
+                    android:gravity="center"
                     android:paddingLeft="65dp"
                     android:paddingRight="65dp"
+                    android:text="@string/game_difficulty_easy_details"
                     android:textColor="@color/dark_background"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:text="@string/game_difficulty_easy_details"/>
+                    android:textSize="20sp" />
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/card_play_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerHorizontal="true"
                     android:layout_margin="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:backgroundTint="@color/easy_difficulty"
                     android:src="@drawable/ic_play_dark"
+                    app:backgroundTint="@color/easy_difficulty"
                     tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>

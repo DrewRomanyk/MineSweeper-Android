@@ -85,8 +85,7 @@ public class StatsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Helper.getGoogAnalyticsTracker(getActivity()).setScreenName("Screen~" + "Stats");
-        Helper.getGoogAnalyticsTracker(getActivity()).send(new HitBuilders.ScreenViewBuilder().build());
+        Helper.screenViewOnGoogleAnalytics(getActivity(), "Stats");
     }
 
     private void setupStatView(ViewGroup root) {
@@ -94,16 +93,6 @@ public class StatsFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new StatsGameDifficultyAdapter();
         recyclerView.setAdapter(adapter);
-
-        updateStatsData();
-    }
-
-    private void updateStatsData() {
-        ArrayList<GameDifficulty> difficulties = new ArrayList<>();
-        difficulties.add(GameDifficulty.EASY);
-        difficulties.add(GameDifficulty.MEDIUM);
-        difficulties.add(GameDifficulty.EXPERT);
-        adapter.setGameDifficultyList(difficulties);
     }
 
     private void deleteLocalStats() {
@@ -111,6 +100,6 @@ public class StatsFragment extends BaseFragment {
             UserPrefStorage.updateStats(getActivity(), GameDifficulty.values()[mode], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        updateStatsData();
+        adapter.notifyDataSetChanged();
     }
 }

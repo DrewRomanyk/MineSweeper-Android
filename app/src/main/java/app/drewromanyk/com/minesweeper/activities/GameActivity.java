@@ -2,10 +2,7 @@ package app.drewromanyk.com.minesweeper.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Vibrator;
 import android.support.v4.app.NavUtils;
 import android.os.Bundle;
@@ -23,7 +20,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 
 import app.drewromanyk.com.minesweeper.enums.GameSoundType;
@@ -36,18 +32,18 @@ import app.drewromanyk.com.minesweeper.enums.ResultCodes;
 import app.drewromanyk.com.minesweeper.models.YesNoDialogInfo;
 import app.drewromanyk.com.minesweeper.util.DialogInfoUtils;
 import app.drewromanyk.com.minesweeper.util.Helper;
+import app.drewromanyk.com.minesweeper.util.SoundPlayer;
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 import app.drewromanyk.com.minesweeper.views.BoardInfoView;
 
 
-public class GameActivity extends BaseActivity {
+public class GameActivity extends BackActivity {
 
     private static final String TAG = "GameActivity";
 
     private Board minesweeperBoard;
     // SOUNDS
-    private SoundPool soundEffects;
-    private int[] soundIDs;
+    private SoundPlayer sound_player;
     // UI ELEMENTS
     private ScrollView vScroll;
     private View boardBackground;
@@ -62,10 +58,9 @@ public class GameActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        setupAds();
 
-        setupToolbar((Toolbar) findViewById(R.id.toolbar));
-        setupAds((AdView) findViewById(R.id.adView));
-        setupGoogleGames();
+        setupToolbar((Toolbar) findViewById(R.id.toolbar), getString(R.string.nav_play));
 
         setupBoardInfoLayout();
         setupBoardLayout(savedInstanceState);
@@ -73,30 +68,13 @@ public class GameActivity extends BaseActivity {
         applySettings();
     }
 
-    private void setupToolbar(Toolbar toolbar) {
-        setSupportActionBar(toolbar);
-
-        toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        toolbar.setTitle(R.string.nav_play);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    @Override
+    protected void setupToolbar(Toolbar toolbar, String title) {
+        super.setupToolbar(toolbar, title);
 
         toolbar.inflateMenu(R.menu.menu_game);
         flagButton = toolbar.getMenu().findItem(R.id.action_flag);
         refreshButton = toolbar.getMenu().findItem(R.id.action_refresh);
-    }
-
-    private void setupSoundEffects() {
-        soundEffects = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        soundIDs = new int[GameSoundType.values().length];
-        soundIDs[GameSoundType.TAP.ordinal()] = soundEffects.load(this, R.raw.click_short, 1);
-        soundIDs[GameSoundType.LONGPRESS.ordinal()] = soundEffects.load(this, R.raw.click_long, 1);
-        soundIDs[GameSoundType.WIN.ordinal()] = soundEffects.load(this, R.raw.effect_win, 1);
-        soundIDs[GameSoundType.LOSE.ordinal()] = soundEffects.load(this, R.raw.effect_lose, 1);
     }
 
     private void setupBoardInfoLayout() {
@@ -122,8 +100,6 @@ public class GameActivity extends BaseActivity {
     }
 
     private void applySettings() {
-        minesweeperBoard.updateCellSize();
-
         if (UserPrefStorage.getScreenOn(this)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
@@ -170,19 +146,12 @@ public class GameActivity extends BaseActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ResultCodes.SETTINGS.ordinal()) {
-            applySettings();
-        }
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         gamePlaying = (minesweeperBoard.getGameStatus() == GameStatus.PLAYING);
-        if (minesweeperBoard != null)
+        if (minesweeperBoard != null) {
             minesweeperBoard.stopGameTime();
+        }
 
         UserPrefStorage.saveBoardInfo(this, minesweeperBoard);
     }
@@ -193,21 +162,20 @@ public class GameActivity extends BaseActivity {
         if (minesweeperBoard != null && !minesweeperBoard.getFirstRound() && gamePlaying)
             minesweeperBoard.startGameTime();
 
-        Helper.getGoogAnalyticsTracker(this).setScreenName("Screen~" + "Game");
-        Helper.getGoogAnalyticsTracker(this).send(new HitBuilders.ScreenViewBuilder().build());
+        Helper.screenViewOnGoogleAnalytics(this, "Game");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        setupSoundEffects();
+        sound_player = new SoundPlayer(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        soundEffects.release();
-        soundEffects = null;
+        sound_player.release();
+        sound_player = null;
     }
 
     @Override
@@ -322,9 +290,7 @@ public class GameActivity extends BaseActivity {
      */
 
     public void playSoundEffects(GameSoundType type) {
-        if (UserPrefStorage.getSound(this)) {
-            soundEffects.play(soundIDs[type.ordinal()], 1, 1, 1, 0, 1.0f);
-        }
+        sound_player.play(type);
     }
 
     public void vibrate() {
@@ -347,7 +313,6 @@ public class GameActivity extends BaseActivity {
         int icon = (flagMode) ? R.drawable.ic_action_flag : R.drawable.ic_action_notflag;
         flagButton.setIcon(icon);
         board.updateCellSize();
-
     }
 
     /*

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
@@ -35,7 +36,7 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
     private static int RATING_YES = 2;
 
 
-    private ArrayList<GameDifficulty> gameDifficultyList;
+    private List<GameDifficulty> gameDifficultyList;
     private boolean canShowRating;
     private PlayNavigator navigator;
 

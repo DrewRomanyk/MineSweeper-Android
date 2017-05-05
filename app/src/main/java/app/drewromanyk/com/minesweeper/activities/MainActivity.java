@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
@@ -35,7 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Main view for users to select a new game or play an old one
  */
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AdsActivity {
     //NAV DRAWER
     private DrawerLayout drawerLayout;
     private NavigationView navView;
@@ -44,11 +43,10 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupAds();
 
         setupDrawerContent((DrawerLayout) findViewById(R.id.drawer_layout), (NavigationView) findViewById(R.id.nav_view));
         setupFragmentContent(savedInstanceState);
-        setupAds((AdView) findViewById(R.id.adView));
-        setupGoogleGames();
     }
 
     protected void setupDrawerContent(final DrawerLayout drawerLayout, final NavigationView navView) {

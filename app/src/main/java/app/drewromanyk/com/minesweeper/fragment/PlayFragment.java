@@ -62,8 +62,7 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
     @Override
     public void onResume() {
         super.onResume();
-        Helper.getGoogAnalyticsTracker(getActivity()).setScreenName("Screen~" + "Play");
-        Helper.getGoogAnalyticsTracker(getActivity()).send(new HitBuilders.ScreenViewBuilder().build());
+        Helper.screenViewOnGoogleAnalytics(getActivity(), "Play");
     }
 
     private void setupPlayButtons(ViewGroup root) {

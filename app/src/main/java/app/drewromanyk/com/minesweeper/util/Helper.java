@@ -11,6 +11,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.Locale;
@@ -32,8 +33,10 @@ public class Helper {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-    public static Tracker getGoogAnalyticsTracker(Context context) {
+    public static Tracker screenViewOnGoogleAnalytics(Context context, String screenName) {
         MinesweeperApp application = (MinesweeperApp) context.getApplicationContext();
+        application.getDefaultTracker().setScreenName("Screen~" + screenName);
+        application.getDefaultTracker().send(new HitBuilders.ScreenViewBuilder().build());
         return application.getDefaultTracker();
     }
 

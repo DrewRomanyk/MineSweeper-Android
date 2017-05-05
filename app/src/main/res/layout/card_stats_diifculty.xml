@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <android.support.v7.widget.CardView
         android:id="@+id/card"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="5dp"
         app:cardCornerRadius="4dp">
 
@@ -19,72 +19,79 @@
 
             <TextView
                 android:id="@+id/card_difficulty_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:padding="15dp"
+                android:background="@color/easy_difficulty"
                 android:gravity="center"
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
+                android:padding="15dp"
                 android:text="@string/game_difficulty_easy"
-                android:background="@color/easy_difficulty"/>
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_below="@id/card_difficulty_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:orientation="horizontal">
+                android:layout_below="@id/card_difficulty_text"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.95"
                     android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/best_score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/stats_title_best_score"
                         android:textColor="@color/dark_background"
-                        android:textSize="16sp"
-                        android:text="@string/stats_title_best_score"/>
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/best_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/game_best_time"
                         android:textColor="@color/dark_background"
-                        android:textSize="16sp"
-                        android:text="@string/game_best_time"/>
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/games_won"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/stats_title_games_won"
                         android:textColor="@color/dark_background"
-                        android:textSize="16sp"
-                        android:text="@string/stats_title_games_won"/>
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/win_percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/stats_title_win_percent"
                         android:textColor="@color/dark_background"
-                        android:textSize="16sp"
-                        android:text="@string/stats_title_win_percent"/>
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/win_streak"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/stats_title_win_streak"
                         android:textColor="@color/dark_background"
-                        android:textSize="16sp"
-                        android:text="@string/stats_title_win_streak"/>
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/current_streak"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/stats_title_current_streak"
                         android:textColor="@color/dark_background"
-                        android:textSize="16sp"
-                        android:text="@string/stats_title_current_streak"/>
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <View
@@ -97,41 +104,46 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.95"
                     android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/avg_score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/stats_title_avg_score"
                         android:textColor="@color/dark_background"
-                        android:textSize="16sp"
-                        android:text="@string/stats_title_avg_score"/>
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/avg_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/stats_title_avg_time"
                         android:textColor="@color/dark_background"
-                        android:textSize="16sp"
-                        android:text="@string/stats_title_avg_time"/>
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/games_played"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/stats_title_games_played"
                         android:textColor="@color/dark_background"
-                        android:textSize="16sp"
-                        android:text="@string/stats_title_games_played"/>
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/explore_percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/stats_title_explore_percent"
                         android:textColor="@color/dark_background"
-                        android:textSize="16sp"
-                        android:text="@string/stats_title_explore_percent"/>
+                        android:textSize="16sp" />
+
                     <TextView
                         android:id="@+id/lose_streak"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/stats_title_lose_streak"
                         android:textColor="@color/dark_background"
-                        android:textSize="16sp"
-                        android:text="@string/stats_title_lose_streak"/>
+                        android:textSize="16sp" />
                 </LinearLayout>
 
             </LinearLayout>

@@ -32,7 +32,7 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 public class Board {
     private GameActivity gameActivity;
 
-    protected Cell[][] cell;
+    private Cell[][] cell;
     private CellNeighbors[][] cellNeighbors;
     private int columns;
     private int rows;
@@ -621,45 +621,7 @@ public class Board {
     private void updateGoogleGame() {
         long millis = getGameTime();
         long score = (long) (getGameScore() * 1000);
-        GoogleApiClient googleApiClient = gameActivity.getGoogleApiClient();
-
-        long[] achievementSeconds = {20000, 60000, 150000};
-        String[] achievementWin = {BuildConfig.ACHIEVEMENT_EASY, BuildConfig.ACHIEVEMENT_MEDIUM, BuildConfig.ACHIEVEMENT_EXPERT};
-        String[] achievementSpeed = {BuildConfig.ACHIEVEMENT_FAST, BuildConfig.ACHIEVEMENT_QUICK, BuildConfig.ACHIEVEMENT_SWIFT};
-        String[] leaderboardScores = {BuildConfig.LEADERBOARD_EASY_BEST_SCORES, BuildConfig.LEADERBOARD_MEDIUM_BEST_SCORES, BuildConfig.LEADERBOARD_EXPERT_BEST_SCORES};
-        String[] leaderboardTimes = {BuildConfig.LEADERBOARD_EASY_BEST_TIMES, BuildConfig.LEADERBOARD_MEDIUM_BEST_TIMES, BuildConfig.LEADERBOARD_EXPERT_BEST_TIMES};
-        String[] leaderboardStreaks = {BuildConfig.LEADERBOARD_EASY_BEST_STREAK, BuildConfig.LEADERBOARD_MEDIUM_BEST_STREAKs, BuildConfig.LEADERBOARD_EXPERT_BEST_STREAKs};
-
-        if (gameStatus == GameStatus.VICTORY) {
-            FirebaseAnalytics fba = FirebaseAnalytics.getInstance(gameActivity);
-            fba.logEvent("game_over_google_games_victory", null);
-            if (googleApiClient.isConnected()) {
-                // Skip non ranked difficulty
-                if (gameDifficulty == GameDifficulty.CUSTOM || gameDifficulty == GameDifficulty.RESUME)
-                    return;
-
-                // Offset is 2 for RESUME and CUSTOM
-                int gameDiffIndex = gameDifficulty.ordinal() - 2;
-                fba.logEvent("game_over_games_achievements", null);
-                Games.Achievements.unlock(googleApiClient, "" + achievementWin[gameDiffIndex]);
-                if (millis < achievementSeconds[gameDiffIndex]) {
-                    Games.Achievements.unlock(googleApiClient, "" + achievementSpeed[gameDiffIndex]);
-                }
-
-                fba.logEvent("game_over_games_leaderboards", null);
-                Games.Leaderboards.submitScore(googleApiClient,
-                        "" + leaderboardScores[gameDiffIndex],
-                        score);
-                int seconds = (int) Math.ceil(millis / 1000.0);
-                Games.Leaderboards.submitScore(googleApiClient,
-                        "" + leaderboardTimes[gameDiffIndex],
-                        seconds);
-                Games.Leaderboards.submitScore(googleApiClient,
-                        "" + leaderboardStreaks[gameDiffIndex],
-                        UserPrefStorage.getCurWinStreakForDifficulty(gameActivity, gameDifficulty));
-                fba.logEvent("game_over_games_finished_update", null);
-            }
-        }
+        gameActivity.updateLeaderboards(gameStatus, gameDifficulty, score, millis);
     }
 
     /*

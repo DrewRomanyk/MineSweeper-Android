@@ -7,6 +7,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
 import app.drewromanyk.com.minesweeper.BuildConfig;
+import app.drewromanyk.com.minesweeper.enums.PremiumState;
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 /**
@@ -17,7 +18,6 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 public class MinesweeperApp extends Application {
     private Tracker mTracker;
-    private int isPremium = -1;
 
     public MinesweeperApp() {
         super();
@@ -46,14 +46,6 @@ public class MinesweeperApp extends Application {
                 }
             });
         }
-    }
-
-    public int getIsPremium() {
-        return isPremium;
-    }
-
-    public void setIsPremium(int isPremium) {
-        this.isPremium = isPremium;
     }
 
     /**
