@@ -32,7 +32,6 @@ class Cell {
     //context is for the creation of the image button
     Cell(int row, int column, double gameCellScale, GameActivity gameActivity) {
         this(row, column, 0, false, false, gameCellScale, gameActivity);
-
     }
 
     //create existing cell for resume

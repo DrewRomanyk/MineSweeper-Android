@@ -1,13 +1,13 @@
 package app.drewromanyk.com.minesweeper.activities;
 
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import app.drewromanyk.com.minesweeper.R;
 
 /**
- * Created by drewromanyk on 5/5/17.
+ * Created by Drew on 11/6/15.
+ * This is a Activity that handles setting the back action for the toolbar
  */
 
 public class BackActivity extends AdsActivity {

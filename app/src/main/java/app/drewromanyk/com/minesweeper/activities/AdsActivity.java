@@ -19,7 +19,7 @@ import app.drewromanyk.com.minesweeper.util.PremiumUtils;
 
 /**
  * Created by Drew on 11/6/15.
- * This is a Base Activity for all activities in order to unify In-app purchases and Google Games
+ * This is a Activity that handles Ads and In-app purchases through PremiumUtils
  */
 public abstract class AdsActivity extends GameServicesActivity implements UpdateAdViewHandler {
     private static final String TAG = "AdsActivity";

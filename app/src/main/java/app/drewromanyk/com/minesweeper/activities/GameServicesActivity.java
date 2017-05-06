@@ -26,7 +26,7 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 /**
  * Created by Drew on 11/6/15.
- * This is a Base Activity for all activities in order to unify In-app purchases and Google Games
+ * This is a Base Activity for all activities in order to unify Google Games Services
  */
 public abstract class GameServicesActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
