@@ -1,10 +1,8 @@
 package app.drewromanyk.com.minesweeper.adapters;
 
 import android.content.res.ColorStateList;
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -123,14 +121,14 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
 
                         canShowRating = false;
                         notifyDataSetChanged();
-                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.getContext());
+                        UserPrefStorage.INSTANCE.setHasFinishedRatingDialog(holder.card.getContext());
                         navigator.startPlayStore();
                     } else if (holder.dialogRatingPosition == RATING_NO) {
                         fbAnalytics.logEvent("REVIEW_CARD_FEEDBACK", null);
 
                         canShowRating = false;
                         notifyDataSetChanged();
-                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.getContext());
+                        UserPrefStorage.INSTANCE.setHasFinishedRatingDialog(holder.card.getContext());
                         navigator.sendFeedback();
                     }
                 }
@@ -151,13 +149,13 @@ public class PlayGameDifficultyAdapter extends RecyclerView.Adapter<PlayGameDiff
 
                         canShowRating = false;
                         notifyDataSetChanged();
-                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.getContext());
+                        UserPrefStorage.INSTANCE.setHasFinishedRatingDialog(holder.card.getContext());
                     } else if (holder.dialogRatingPosition == RATING_NO) {
                         fbAnalytics.logEvent("REVIEW_CARD_NO_FEEDBACK", null);
 
                         canShowRating = false;
                         notifyDataSetChanged();
-                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.getContext());
+                        UserPrefStorage.INSTANCE.setHasFinishedRatingDialog(holder.card.getContext());
                     }
                 }
             });

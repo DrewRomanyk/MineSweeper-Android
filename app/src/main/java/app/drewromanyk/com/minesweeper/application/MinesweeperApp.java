@@ -7,7 +7,6 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
 import app.drewromanyk.com.minesweeper.BuildConfig;
-import app.drewromanyk.com.minesweeper.enums.PremiumState;
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
 
 /**
@@ -28,7 +27,7 @@ public class MinesweeperApp extends Application {
         super.onCreate();
         disableFirebaseDuringDebugBuilds();
 
-        UserPrefStorage.increaseAppOpenCount(getApplicationContext());
+        UserPrefStorage.INSTANCE.increaseAppOpenCount(getApplicationContext());
         //fix crash for lower API devices
         try {
             Class.forName("android.os.AsyncTask");

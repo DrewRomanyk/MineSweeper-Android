@@ -14,10 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.analytics.HitBuilders;
-
-import java.util.ArrayList;
-
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.adapters.StatsGameDifficultyAdapter;
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
@@ -97,7 +93,7 @@ public class StatsFragment extends BaseFragment {
 
     private void deleteLocalStats() {
         for (int mode = GameDifficulty.EASY.ordinal(); mode <= GameDifficulty.EXPERT.ordinal(); mode++) {
-            UserPrefStorage.updateStats(getActivity(), GameDifficulty.values()[mode], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            UserPrefStorage.INSTANCE.updateStats(getActivity(), GameDifficulty.values()[mode], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
         adapter.notifyDataSetChanged();

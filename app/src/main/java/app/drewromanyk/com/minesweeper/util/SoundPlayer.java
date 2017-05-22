@@ -19,7 +19,7 @@ public class SoundPlayer {
     public SoundPlayer(Context context) {
         this.context = context;
 
-        soundEffects = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundEffects = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         soundIDs = new int[GameSoundType.values().length];
         soundIDs[GameSoundType.TAP.ordinal()] = soundEffects.load(context, R.raw.click_short, 1);
         soundIDs[GameSoundType.LONGPRESS.ordinal()] = soundEffects.load(context, R.raw.click_long, 1);
@@ -32,7 +32,7 @@ public class SoundPlayer {
     }
 
     public void play(GameSoundType game_sound_type) {
-        if (UserPrefStorage.getSound(context)) {
+        if (UserPrefStorage.INSTANCE.getSound(context)) {
             soundEffects.play(soundIDs[game_sound_type.ordinal()], 1, 1, 1, 0, 1.0f);
         }
     }

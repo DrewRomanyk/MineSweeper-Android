@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Vibrator;
 import android.text.Html;
 import android.text.Spanned;
 import android.widget.Toast;
@@ -50,6 +51,13 @@ public class Helper {
             activity.startActivity(Intent.createChooser(i, activity.getString(R.string.settings_feedback_chooser)));
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(activity, activity.getString(R.string.settings_feedback_error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void vibrate(Context context) {
+        if (UserPrefStorage.INSTANCE.getVibrate(context)) {
+            Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(100);
         }
     }
 

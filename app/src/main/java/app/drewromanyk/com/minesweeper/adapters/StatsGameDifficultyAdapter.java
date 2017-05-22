@@ -85,21 +85,21 @@ public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDi
         holder.difficultyText.setText(gameDifficulty.getName(context));
 
         // Get data
-        int wins = UserPrefStorage.getWinsForDifficulty(context, gameDifficulty);
-        int loses = UserPrefStorage.getLosesForDifficulty(context, gameDifficulty);
-        int bestTime = UserPrefStorage.getBestTimeForDifficulty(context, gameDifficulty);
-        float avgTime = UserPrefStorage.getAvgTimeForDifficulty(context, gameDifficulty);
-        float explorPerct = UserPrefStorage.getExplorPercentForDifficulty(context, gameDifficulty);
-        int winStreak = UserPrefStorage.getWinStreakForDifficulty(context, gameDifficulty);
-        int losesStreak = UserPrefStorage.getLoseStreakForDifficulty(context, gameDifficulty);
-        int currentWinStreak = UserPrefStorage.getCurWinStreakForDifficulty(context, gameDifficulty);
-        int currentLosesStreak = UserPrefStorage.getCurLoseStreakForDifficulty(context, gameDifficulty);
-        int bestScore = UserPrefStorage.getBestScoreForDifficulty(context, gameDifficulty);
-        float avgScore = UserPrefStorage.getAvgScoreForDifficulty(context, gameDifficulty);
+        int wins = UserPrefStorage.INSTANCE.getWinsForDifficulty(context, gameDifficulty);
+        int loses = UserPrefStorage.INSTANCE.getLosesForDifficulty(context, gameDifficulty);
+        int bestTime = UserPrefStorage.INSTANCE.getBestTimeForDifficulty(context, gameDifficulty);
+        float avgTime = UserPrefStorage.INSTANCE.getAvgTimeForDifficulty(context, gameDifficulty);
+        float explorPerct = UserPrefStorage.INSTANCE.getExplorPercentForDifficulty(context, gameDifficulty);
+        int winStreak = UserPrefStorage.INSTANCE.getWinStreakForDifficulty(context, gameDifficulty);
+        int losesStreak = UserPrefStorage.INSTANCE.getLoseStreakForDifficulty(context, gameDifficulty);
+        int currentWinStreak = UserPrefStorage.INSTANCE.getCurWinStreakForDifficulty(context, gameDifficulty);
+        int currentLosesStreak = UserPrefStorage.INSTANCE.getCurLoseStreakForDifficulty(context, gameDifficulty);
+        int bestScore = UserPrefStorage.INSTANCE.getBestScoreForDifficulty(context, gameDifficulty);
+        float avgScore = UserPrefStorage.INSTANCE.getAvgScoreForDifficulty(context, gameDifficulty);
 
         int totalGames = wins + loses;
 
-        double winPerct = ((totalGames != 0) ? ((((double) wins / totalGames)) * 100) : 0);
+        double winPercentage = ((totalGames != 0) ? ((((double) wins / totalGames)) * 100) : 0);
 
         Locale locale = Helper.getLocale(context);
 
@@ -122,7 +122,7 @@ public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDi
                 .put(PhraseKeys.AMOUNT, totalGames)
                 .format()));
         holder.winPercent.setText(boldFirstString(Phrase.from(context, R.string.stats_title_win_percent)
-                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", winPerct) + "%")
+                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", winPercentage) + "%")
                 .format()));
         holder.explorePercent.setText(boldFirstString(Phrase.from(context, R.string.stats_title_explore_percent)
                 .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", explorPerct) + "%")

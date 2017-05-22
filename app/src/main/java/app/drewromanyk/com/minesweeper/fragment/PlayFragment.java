@@ -14,8 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.analytics.HitBuilders;
-
 import java.util.ArrayList;
 
 import app.drewromanyk.com.minesweeper.R;
@@ -26,7 +24,6 @@ import app.drewromanyk.com.minesweeper.enums.GameDifficulty;
 import app.drewromanyk.com.minesweeper.enums.GameStatus;
 import app.drewromanyk.com.minesweeper.enums.ResultCodes;
 import app.drewromanyk.com.minesweeper.interfaces.PlayNavigator;
-import app.drewromanyk.com.minesweeper.models.Board;
 import app.drewromanyk.com.minesweeper.models.YesNoDialogInfo;
 import app.drewromanyk.com.minesweeper.util.DialogInfoUtils;
 import app.drewromanyk.com.minesweeper.util.Helper;
@@ -74,8 +71,8 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
     }
 
     private boolean hasResumeGame() {
-        return UserPrefStorage.getLastGameStatus(getActivity()) == GameStatus.PLAYING.ordinal()
-                && UserPrefStorage.isCurrentSavedDataVersion(getActivity());
+        return UserPrefStorage.INSTANCE.getLastGameStatus(getActivity()) == GameStatus.PLAYING.ordinal()
+                && UserPrefStorage.INSTANCE.isCurrentSavedDataVersion(getActivity());
     }
 
     private void updatePlaySelectButtons() {
@@ -88,7 +85,8 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
         gameDifficulties.add(GameDifficulty.MEDIUM);
         gameDifficulties.add(GameDifficulty.EXPERT);
 
-        adapter.setCanShowRating(UserPrefStorage.canShowRatingDialog(getActivity()));
+        //TODO fix this comment
+//        adapter.setCanShowRating(UserPrefStorage.INSTANCE.canShowRatingDialog(getActivity()));
         adapter.setGameDifficultyList(gameDifficulties);
         adapter.notifyDataSetChanged();
     }
@@ -104,9 +102,10 @@ public class PlayFragment extends BaseFragment implements PlayNavigator {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Board statsBoard = UserPrefStorage.loadSavedBoard(getActivity(), true);
-                            statsBoard.updateLocalStatistics(getActivity());
-                            startGameIntent(difficulty);
+                            //TODO
+//                            BoardOld statsBoard = UserPrefStorage.loadSavedBoard(getActivity(), true);
+//                            statsBoard.updateLocalStatistics(getActivity());
+//                            startGameIntent(difficulty);
                         }
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

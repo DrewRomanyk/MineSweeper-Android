@@ -1,5 +1,7 @@
 package app.drewromanyk.com.minesweeper.enums;
 
+import app.drewromanyk.com.minesweeper.R;
+
 /**
  * Created by drewromanyk on 2/27/17.
  * UIThemeModeEnum
@@ -20,5 +22,18 @@ public enum UiThemeModeEnum {
 
     public String theme() {
         return ui_theme_mode;
+    }
+
+    public int getColor() {
+        switch (this) {
+            case DARK:
+                return R.color.dark_background;
+            case AMOLED:
+                return R.color.amoled_background;
+            default:
+            case CLASSICAL:
+            case LIGHT:
+                return R.color.light_background;
+        }
     }
 }

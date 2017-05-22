@@ -68,8 +68,8 @@ public abstract class GameServicesActivity extends AppCompatActivity
     }
 
     private void setupGoogleGames() {
-        autoStartSignInFlow = (this instanceof MainActivity) && UserPrefStorage.isFirstTime(this);
-        UserPrefStorage.setFirstTime(this, false);
+        autoStartSignInFlow = (this instanceof MainActivity) && UserPrefStorage.INSTANCE.isFirstTime(this);
+        UserPrefStorage.INSTANCE.setFirstTime(this, false);
 
         // Create the Google API Client with access to Plus and Games
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -114,7 +114,7 @@ public abstract class GameServicesActivity extends AppCompatActivity
                         seconds);
                 Games.Leaderboards.submitScore(googleApiClient,
                         "" + leaderboardStreaks[gameDiffIndex],
-                        UserPrefStorage.getCurWinStreakForDifficulty(this, gameDifficulty));
+                        UserPrefStorage.INSTANCE.getCurWinStreakForDifficulty(this, gameDifficulty));
                 fba.logEvent("game_over_games_finished_update", null);
             }
         }
