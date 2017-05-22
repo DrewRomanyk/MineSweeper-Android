@@ -8,10 +8,9 @@ import app.drewromanyk.com.minesweeper.models.Cell
 interface MinesweeperHandler : GameTimerHandler {
     fun isSwiftOpenEnabled(): Boolean
 
-    // TODO: Maybe change this to be inside Minesweeper and not MinesweeperUi?
     fun onSwiftChange()
 
-    fun onCellChange(cell: Cell)
+    fun onCellChange(cell: Cell, flagChange: Boolean)
 
     fun onGameStatusChange(cell: Cell)
 }

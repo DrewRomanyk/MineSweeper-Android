@@ -3,7 +3,10 @@ package app.drewromanyk.com.minesweeper.views
 import android.content.Context
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.GridLayout
+import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.ClickMode
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
 import app.drewromanyk.com.minesweeper.enums.GameSoundType
@@ -47,7 +50,7 @@ class MinesweeperUI(gameDifficulty: GameDifficulty, private val boardInfoView: B
         minesweeper = Minesweeper(gameDifficulty.getRows(context), gameDifficulty.getColumns(context), gameDifficulty.getMineCount(context), this)
         uiCells = Array(gameDifficulty.getRows(context)) { Array(gameDifficulty.getColumns(context)) { UiCell(context) } }
 
-        boardInfoView.setMineKeeperText(gameDifficulty.getMineCount(context))
+        boardInfoView.reset(gameDifficulty.getMineCount(context))
 
         layout.rowCount = uiCells.size
         layout.columnCount = uiCells[0].size
@@ -70,7 +73,7 @@ class MinesweeperUI(gameDifficulty: GameDifficulty, private val boardInfoView: B
             Log.v("clickListener", "outside")
             if (v.tag as Boolean) {
                 Log.v("clickListener", "inside")
-                onUiCellTap(row, col, true)
+                onUiCellTap(v, row, col, true)
             }
         }
 
@@ -85,7 +88,7 @@ class MinesweeperUI(gameDifficulty: GameDifficulty, private val boardInfoView: B
                 val eventDuration = event.eventTime - event.downTime
                 if (eventDuration > UserPrefStorage.getLongPressLength(v.context)) {
                     v.tag = false
-                    onUiCellTap(row, col, false)
+                    onUiCellTap(v, row, col, false)
                     Helper.vibrate(v.context)
                 }
             }
@@ -93,8 +96,16 @@ class MinesweeperUI(gameDifficulty: GameDifficulty, private val boardInfoView: B
         }
     }
 
-    fun onUiCellTap(row: Int, col: Int, shortTap: Boolean) {
+    fun onUiCellTap(view: View, row: Int, col: Int, shortTap: Boolean) {
         Log.v("onUiCellTap", "$row $col $shortTap")
+        if (shortTap) {
+            soundPlayer.play(GameSoundType.TAP)
+        } else {
+            if (clickMode == ClickMode.FLAG) {
+                view.startAnimation(AnimationUtils.loadAnimation(view.context, R.anim.puff_in))
+            }
+            soundPlayer.play(GameSoundType.LONGPRESS)
+        }
         if ((shortTap && clickMode == ClickMode.REVEAL) || !shortTap && clickMode != ClickMode.REVEAL) {
             minesweeper.revealCell(row, col)
         } else if ((shortTap && clickMode == ClickMode.FLAG) || (!shortTap && clickMode == ClickMode.REVEAL)) {
@@ -133,7 +144,7 @@ class MinesweeperUI(gameDifficulty: GameDifficulty, private val boardInfoView: B
     private fun updateUiCellImage() {
         for ((r, rowUiCells) in uiCells.withIndex()) {
             for ((c, uiCell) in rowUiCells.withIndex()) {
-                onCellChange(minesweeper.cells[r][c])
+                onCellChange(minesweeper.cells[r][c], flagChange = false)
             }
         }
     }
@@ -156,7 +167,11 @@ class MinesweeperUI(gameDifficulty: GameDifficulty, private val boardInfoView: B
         clickMode = if (clickMode == ClickMode.FLAG) ClickMode.REVEAL else ClickMode.FLAG
     }
 
-    override fun onCellChange(cell: Cell) {
+    override fun onCellChange(cell: Cell, flagChange: Boolean) {
+        if (flagChange) {
+            boardInfoView.setMineKeeperText(minesweeper.getMinesLeftNumber())
+            uiCells[cell.row][cell.column].startAnimation(AnimationUtils.loadAnimation(layout.context, R.anim.puff_in))
+        }
         uiCells[cell.row][cell.column].updateImage(cell, clickMode, minesweeper.gameStatus)
     }
 
@@ -183,10 +198,23 @@ class MinesweeperUI(gameDifficulty: GameDifficulty, private val boardInfoView: B
     fun reset() {
         minesweeper.reset()
         clickMode = ClickMode.REVEAL
+        boardInfoView.reset(gameDifficulty.getMineCount(layout.context))
         updateUiCellImage()
     }
 
     protected fun finalize() {
         soundPlayer.release()
+    }
+
+    /***
+     * Timer
+     */
+
+    fun resumeTimer() {
+        minesweeper.resumeTimer()
+    }
+
+    fun pauseTimer() {
+        minesweeper.pauseTimer()
     }
 }

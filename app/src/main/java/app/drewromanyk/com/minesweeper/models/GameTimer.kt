@@ -22,7 +22,7 @@ class GameTimer constructor(startTime: Long = GameTimer.DEFAULT_START_TIME, priv
 
     fun startGameTime() {
         isOn = true
-        if (timer != null) timer!!.cancel()
+        timer?.cancel()
         timer = Timer()
         val timerTask = object : TimerTask() {
             override fun run() {
@@ -39,7 +39,7 @@ class GameTimer constructor(startTime: Long = GameTimer.DEFAULT_START_TIME, priv
 
     fun stopGameTime() {
         isOn = false
-        if (timer != null) timer!!.cancel()
+        timer?.cancel()
     }
 
     fun reset() {

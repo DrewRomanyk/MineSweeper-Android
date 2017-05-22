@@ -16,7 +16,12 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
     val cells: Array<Array<Cell>> = Array(rows) { Array(columns) { Cell() } }
 
     var gameStatus: GameStatus = GameStatus.NOT_STARTED
-        private set
+        private set(value) {
+            field = value
+            if (value.isGameOver()) {
+                pauseTimer()
+            }
+        }
     private var score: Score = Score()
     private var flaggedMines: Int = 0
     private var flaggedCells: Int = 0
@@ -156,7 +161,7 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
                 if (currentCell.isEmpty()) {
                     getCellNeighbors(currentCell).filterTo(queue) { !it.isRevealed() && !it.isFlagged() }
                 }
-                gameHandler.onCellChange(currentCell)
+                gameHandler.onCellChange(currentCell, flagChange = false)
             }
         }
 
@@ -205,18 +210,29 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
         if (clickedCell.isMine()) {
             flaggedMines = if (clickedCell.isFlagged()) flaggedMines + 1 else flaggedMines - 1
         }
-        gameHandler.onCellChange(clickedCell)
+        gameHandler.onCellChange(clickedCell, flagChange = true)
 
     }
 
     /***
-     *
+     * Helper
      */
+
+    fun resumeTimer() {
+        if (gameStatus == GameStatus.PLAYING) {
+            gameTimer.startGameTime()
+        }
+    }
+
+    fun pauseTimer() {
+        gameTimer.stopGameTime()
+    }
 
     fun getScore(): Double {
         return score.getScore(gameTimer.time)
     }
 
+    fun getMinesLeftNumber(): Int = mineCount - flaggedCells
 
     private fun inbounds(row: Int, col: Int): Boolean =
             row in 0 until cells.size && col in 0 until cells[0].size

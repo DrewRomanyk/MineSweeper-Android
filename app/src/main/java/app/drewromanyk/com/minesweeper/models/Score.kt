@@ -22,7 +22,6 @@ class Score() {
         val marked = Array(cells.size) { BooleanArray(cells[0].size) }
 
         // For each empty 0 cell
-        // TODO try to move this code elsewhere as this is getting duplicated else where too i believe.
         for (r in 0..(cells.size - 1)) {
             for (c in 0..(cells[0].size - 1)) {
                 if (!marked[r][c] && cells[r][c].isEmpty()) {
@@ -35,7 +34,6 @@ class Score() {
         }
 
         // For each unmarked cell that isnt a bomb
-        // TODO check and see if this is actually needed
         for (r in 0..(cells.size - 1)) {
             for (c in 0..(cells[0].size - 1)) {
                 if (!marked[r][c] && !cells[r][c].isMine()) {
