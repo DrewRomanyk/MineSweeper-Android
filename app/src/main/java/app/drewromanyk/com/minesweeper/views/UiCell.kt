@@ -5,7 +5,7 @@ import android.support.v7.widget.AppCompatImageButton
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.ClickMode
 import app.drewromanyk.com.minesweeper.enums.GameStatus
-import app.drewromanyk.com.minesweeper.enums.UiThemeModeEnum
+import app.drewromanyk.com.minesweeper.enums.UiThemeMode
 import app.drewromanyk.com.minesweeper.models.Cell
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
 
@@ -31,8 +31,8 @@ class UiCell(context: Context) : AppCompatImageButton(context) {
 
     fun updateImage(cell: Cell, clickMode: ClickMode, gameStatus: GameStatus) {
         val uiThemeMode = UserPrefStorage.getUiThemeMode(context)
-        val light_mode = uiThemeMode == UiThemeModeEnum.LIGHT || uiThemeMode == UiThemeModeEnum.CLASSICAL
-        val material_mode = uiThemeMode != UiThemeModeEnum.CLASSICAL
+        val light_mode = uiThemeMode == UiThemeMode.LIGHT || uiThemeMode == UiThemeMode.CLASSICAL
+        val material_mode = uiThemeMode != UiThemeMode.CLASSICAL
 
         var id = if (material_mode) {
             if (light_mode) R.drawable.ic_cell_unknown_light else R.drawable.ic_cell_unknown
@@ -87,10 +87,10 @@ class UiCell(context: Context) : AppCompatImageButton(context) {
         var light_mode = false
         var material_mode = true
         when (uiThemeMode) {
-            UiThemeModeEnum.LIGHT -> light_mode = true
-            UiThemeModeEnum.DARK -> light_mode = false
-            UiThemeModeEnum.AMOLED -> light_mode = false
-            UiThemeModeEnum.CLASSICAL -> {
+            UiThemeMode.LIGHT -> light_mode = true
+            UiThemeMode.DARK -> light_mode = false
+            UiThemeMode.AMOLED -> light_mode = false
+            UiThemeMode.CLASSICAL -> {
                 light_mode = true
                 material_mode = false
             }

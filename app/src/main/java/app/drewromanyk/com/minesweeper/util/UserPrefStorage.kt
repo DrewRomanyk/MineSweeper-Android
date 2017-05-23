@@ -6,7 +6,7 @@ import android.preference.PreferenceManager
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
 import app.drewromanyk.com.minesweeper.enums.GameStatus
-import app.drewromanyk.com.minesweeper.enums.UiThemeModeEnum
+import app.drewromanyk.com.minesweeper.enums.UiThemeMode
 import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
 import app.drewromanyk.com.minesweeper.models.Minesweeper
 import org.json.JSONArray
@@ -301,7 +301,7 @@ object UserPrefStorage {
         return getPrefs(context).getInt(context.getString(R.string.preference_longclick_duration), 400)
     }
 
-    fun getUiThemeMode(context: Context): UiThemeModeEnum {
+    fun getUiThemeMode(context: Context): UiThemeMode {
         var cur_theme_val: String = getPrefs(context).getString(context.getString(R.string.preference_ui_theme_mode), "LIGHT")
 
         // I messed up the code in v1.4.0 as I put an invalid name for the enum
@@ -310,6 +310,6 @@ object UserPrefStorage {
             getPrefs(context).edit().putString(context.getString(R.string.preference_ui_theme_mode), "LIGHT").apply()
         }
 
-        return UiThemeModeEnum.valueOf(cur_theme_val)
+        return UiThemeMode.valueOf(cur_theme_val)
     }
 }
