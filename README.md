@@ -1,4 +1,4 @@
-# Minesweeper Android [![Foo](https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=app.drewromanyk.com.minesweeper&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+# Minesweeper Android [![Foo](<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="48">)](https://play.google.com/store/apps/details?id=app.drewromanyk.com.minesweeper&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
 
 This project originally started as a Java application, from which I used my basic knowledge of Android to adapt that project to Android. I learned a lot and I continue to develop for it to learn new things about Android, such as new libraries or new languages such as Kotlin.
 
