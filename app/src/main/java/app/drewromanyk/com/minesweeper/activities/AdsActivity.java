@@ -21,7 +21,7 @@ public abstract class AdsActivity extends GameServicesActivity implements Update
     private AdView adView;
 
     protected void setupAds() {
-        PremiumUtils.instance.updateContext(this, this);
+        PremiumUtils.Companion.getInstance().updateContext(this, this);
         this.adView = (AdView) findViewById(R.id.adView);
 
         final Handler handler = new Handler();
@@ -36,7 +36,7 @@ public abstract class AdsActivity extends GameServicesActivity implements Update
     }
 
     public void updateAdView() {
-        if (PremiumUtils.instance.isPremiumUser()) {
+        if (PremiumUtils.Companion.getInstance().isPremiumUser()) {
             adView.pause();
             adView.setVisibility(View.GONE);
         } else {
@@ -61,12 +61,12 @@ public abstract class AdsActivity extends GameServicesActivity implements Update
     protected void onDestroy() {
         super.onDestroy();
         if (adView != null) adView.destroy();
-        PremiumUtils.instance.releaseContext();
+        PremiumUtils.Companion.getInstance().releaseContext();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!PremiumUtils.instance.handleBillingActivityResults(requestCode, resultCode, data)) {
+        if (!PremiumUtils.Companion.getInstance().handleBillingActivityResults(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }

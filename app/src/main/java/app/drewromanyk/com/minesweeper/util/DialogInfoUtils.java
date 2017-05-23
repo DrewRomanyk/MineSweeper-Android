@@ -33,7 +33,7 @@ public class DialogInfoUtils {
 
         yesNoDialogMap.put(ResultCodes.ABOUT_DIALOG.ordinal(), new YesNoDialogInfo(context.getString(R.string.dialog_about_title),
                 Phrase.from(context, R.string.dialog_about_message)
-                        .put(PhraseKeys.AMOUNT, BuildConfig.VERSION_NAME)
+                        .put(PhraseKeys.INSTANCE.getAMOUNT(), BuildConfig.VERSION_NAME)
                         .format()
                         .toString()));
 

@@ -101,40 +101,40 @@ public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDi
 
         double winPercentage = ((totalGames != 0) ? ((((double) wins / totalGames)) * 100) : 0);
 
-        Locale locale = Helper.getLocale(context);
+        Locale locale = Helper.INSTANCE.getLocale(context);
 
         holder.bestScore.setText(boldFirstString(Phrase.from(context, R.string.stats_title_best_score)
-                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", (double) bestScore / 1000))
+                .put(PhraseKeys.INSTANCE.getAMOUNT(), String.format(locale, "%.2f", (double) bestScore / 1000))
                 .format()));
         holder.avgScore.setText(boldFirstString(Phrase.from(context, R.string.stats_title_avg_score)
-                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", (double) avgScore / 1000))
+                .put(PhraseKeys.INSTANCE.getAMOUNT(), String.format(locale, "%.2f", (double) avgScore / 1000))
                 .format()));
         holder.bestTime.setText(boldFirstString(Phrase.from(context, R.string.stats_title_best_time)
-                .put(PhraseKeys.AMOUNT, bestTime)
+                .put(PhraseKeys.INSTANCE.getAMOUNT(), bestTime)
                 .format()));
         holder.avgTime.setText(boldFirstString(Phrase.from(context, R.string.stats_title_avg_time)
-                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", avgTime))
+                .put(PhraseKeys.INSTANCE.getAMOUNT(), String.format(locale, "%.2f", avgTime))
                 .format()));
         holder.gamesWon.setText(boldFirstString(Phrase.from(context, R.string.stats_title_games_won)
-                .put(PhraseKeys.AMOUNT, wins)
+                .put(PhraseKeys.INSTANCE.getAMOUNT(), wins)
                 .format()));
         holder.gamesPlayed.setText(boldFirstString(Phrase.from(context, R.string.stats_title_games_played)
-                .put(PhraseKeys.AMOUNT, totalGames)
+                .put(PhraseKeys.INSTANCE.getAMOUNT(), totalGames)
                 .format()));
         holder.winPercent.setText(boldFirstString(Phrase.from(context, R.string.stats_title_win_percent)
-                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", winPercentage) + "%")
+                .put(PhraseKeys.INSTANCE.getAMOUNT(), String.format(locale, "%.2f", winPercentage) + "%")
                 .format()));
         holder.explorePercent.setText(boldFirstString(Phrase.from(context, R.string.stats_title_explore_percent)
-                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", explorPerct) + "%")
+                .put(PhraseKeys.INSTANCE.getAMOUNT(), String.format(locale, "%.2f", explorPerct) + "%")
                 .format()));
         holder.winStreak.setText(boldFirstString(Phrase.from(context, R.string.stats_title_win_streak)
-                .put(PhraseKeys.AMOUNT, winStreak)
+                .put(PhraseKeys.INSTANCE.getAMOUNT(), winStreak)
                 .format()));
         holder.loseStreak.setText(boldFirstString(Phrase.from(context, R.string.stats_title_lose_streak)
-                .put(PhraseKeys.AMOUNT, losesStreak)
+                .put(PhraseKeys.INSTANCE.getAMOUNT(), losesStreak)
                 .format()));
         holder.currentStreak.setText(boldFirstString(Phrase.from(context, R.string.stats_title_current_streak)
-                .put(PhraseKeys.AMOUNT,
+                .put(PhraseKeys.INSTANCE.getAMOUNT(),
                         "" + ((currentWinStreak == 0) ? currentLosesStreak : currentWinStreak))
                 .format()));
     }
@@ -149,6 +149,6 @@ public class StatsGameDifficultyAdapter extends RecyclerView.Adapter<StatsGameDi
         int keyWordIndex = phrase.indexOf(":") + 1;
         String keyWord = phrase.substring(0, keyWordIndex);
         String value = phrase.substring(keyWordIndex);
-        return Helper.fromHtml("<b>" + keyWord + "</b>" + value);
+        return Helper.INSTANCE.fromHtml("<b>" + keyWord + "</b>" + value);
     }
 }

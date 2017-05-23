@@ -172,7 +172,7 @@ public class MainActivity extends AdsActivity {
 
     @Override
     public void onConnected(Bundle bundle) {
-        if (Helper.isOnline(this) && Plus.PeopleApi.getCurrentPerson(getGoogleApiClient()) != null) {
+        if (Helper.INSTANCE.isOnline(this) && Plus.PeopleApi.getCurrentPerson(getGoogleApiClient()) != null) {
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(getGoogleApiClient());
             TextView nameDisplay = (TextView) navView.findViewById(R.id.name);
             CircleImageView avatar = (CircleImageView) navView.findViewById(R.id.avatar);
