@@ -54,7 +54,7 @@ object UserPrefStorage {
             if (hasWonGame) break
         }
 
-        return !hasFinishedRatingDialog and hasOpenedApp5times and hasWonGame
+        return !hasFinishedRatingDialog && hasOpenedApp5times && hasWonGame
     }
 
     fun setHasFinishedRatingDialog(context: Context) {
@@ -99,7 +99,7 @@ object UserPrefStorage {
         val rows = preferences.getInt("ROWS", 0)
         val columns = preferences.getInt("COLUMNS", 0)
 
-        if (!((rows == 0) or (columns == 0))) {
+        if (!((rows == 0) || (columns == 0))) {
             val difficulty = GameDifficulty.values()[preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal)]
             val clickMode = ClickMode.values()[preferences.getInt("CLICK_MODE", ClickMode.REVEAL.ordinal)]
             val zoomCellScale = preferences.getFloat("GAME_CELL_SCALE", 1f).toDouble()

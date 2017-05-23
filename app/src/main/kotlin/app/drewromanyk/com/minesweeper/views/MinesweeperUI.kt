@@ -49,7 +49,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
 
     init {
         var results: UserPrefStorage.GameStorageData? = null
-        if (loadGame or (gameDifficulty == GameDifficulty.RESUME)) {
+        if (loadGame || (gameDifficulty == GameDifficulty.RESUME)) {
             results = UserPrefStorage.loadGame(context, this)
             minesweeper = results.minesweeper
             this.gameDifficulty = results.gameDifficulty
@@ -92,7 +92,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
         cell.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 v.tag = true
-            } else if (v.isPressed and v.tag as Boolean) {
+            } else if (v.isPressed && v.tag as Boolean) {
                 val eventDuration = event.eventTime - event.downTime
                 if (eventDuration > UserPrefStorage.getLongPressLength(v.context)) {
                     v.tag = false
@@ -113,9 +113,9 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
             }
             soundPlayer.play(GameSoundType.LONGPRESS)
         }
-        if ((shortTap and (clickMode == ClickMode.REVEAL)) or (!shortTap and (clickMode != ClickMode.REVEAL))) {
+        if ((shortTap && (clickMode == ClickMode.REVEAL)) || (!shortTap && (clickMode != ClickMode.REVEAL))) {
             minesweeper.revealCell(row, col)
-        } else if ((shortTap and (clickMode == ClickMode.FLAG)) or (!shortTap and (clickMode == ClickMode.REVEAL))) {
+        } else if ((shortTap && (clickMode == ClickMode.FLAG)) || (!shortTap && (clickMode == ClickMode.REVEAL))) {
             minesweeper.flagCell(row, col)
         } else {
             throw IllegalStateException("Unsupported state with clickMode and shortTap")

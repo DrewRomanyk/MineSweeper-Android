@@ -23,7 +23,7 @@ enum class UiThemeMode constructor(val themeValue: String) {
             }
         }
 
-    fun isLightMode(): Boolean = (this == LIGHT) or (this == CLASSICAL)
+    fun isLightMode(): Boolean = (this == LIGHT) || (this == CLASSICAL)
 
     fun isMaterialMode(): Boolean = (this != CLASSICAL)
 }

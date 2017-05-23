@@ -165,7 +165,7 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
             newValue = mMaxValue
         else if (newValue < mMinValue)
             newValue = mMinValue
-        else if ((mInterval != 1) and (newValue % mInterval != 0))
+        else if ((mInterval != 1) && (newValue % mInterval != 0))
             newValue = Math.round(newValue.toFloat() / mInterval) * mInterval
 
         // change rejected, revert to the previous value

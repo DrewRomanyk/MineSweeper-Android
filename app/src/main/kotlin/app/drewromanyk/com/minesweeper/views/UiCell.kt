@@ -40,7 +40,7 @@ class UiCell(context: Context) : AppCompatImageButton(context) {
             R.drawable.ic_cell_unknown_classical
         }
 
-        if (cell.isUnknown() and (clickMode == ClickMode.FLAG)) {
+        if (!gameStatus.isGameOver() && cell.isUnknown() && (clickMode == ClickMode.FLAG)) {
             id = if (materialMode)
                 if (lightMode) R.drawable.ic_cell_unknownflag_light else R.drawable.ic_cell_unknownflag
             else
@@ -50,7 +50,7 @@ class UiCell(context: Context) : AppCompatImageButton(context) {
                 if (lightMode) R.drawable.ic_cell_flag_light else R.drawable.ic_cell_flag
             else
                 R.drawable.ic_cell_unknownflag_classical
-        } else if (cell.isRevealed() and (cell.value >= 0)) {
+        } else if (cell.isRevealed() && (cell.value >= 0)) {
             if (!materialMode) {
                 id = context.resources.getIdentifier(
                         "ic_cell_${cell.value}_classical", "drawable", PACKAGE_NAME)
@@ -67,12 +67,12 @@ class UiCell(context: Context) : AppCompatImageButton(context) {
                 else
                     R.drawable.ic_cell_0_classical
             }
-        } else if ((gameStatus.isGameOver()) and cell.isFlagged() and cell.isMine()) {
+        } else if ((gameStatus.isGameOver()) && cell.isFlagged() && cell.isMine()) {
             id = if (materialMode)
                 if (lightMode) R.drawable.ic_cell_bombflagged_light else R.drawable.ic_cell_bombflagged
             else
                 R.drawable.ic_cell_bombflagged_classical
-        } else if ((gameStatus.isGameOver()) and !cell.isFlagged() and cell.isMine()) {
+        } else if ((gameStatus.isGameOver()) && !cell.isFlagged() && cell.isMine()) {
             id = if (materialMode)
                 if (lightMode) R.drawable.ic_cell_bomb_light else R.drawable.ic_cell_bomb
             else

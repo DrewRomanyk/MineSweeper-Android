@@ -146,7 +146,7 @@ class MainActivity : AdsActivity() {
      */
 
     override fun onConnected(bundle: Bundle?) {
-        if (Helper.isOnline(this) and (Plus.PeopleApi.getCurrentPerson(googleApiClient) != null)) {
+        if (Helper.isOnline(this) && (Plus.PeopleApi.getCurrentPerson(googleApiClient) != null)) {
             val currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient)
             val nameDisplay = navView!!.findViewById(R.id.name) as TextView
             val avatar = navView!!.findViewById(R.id.avatar) as CircleImageView

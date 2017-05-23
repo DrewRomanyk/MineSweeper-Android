@@ -64,7 +64,7 @@ class PlayFragment : BaseFragment(), PlayNavigator {
     }
 
     private fun hasResumeGame(): Boolean {
-        return (UserPrefStorage.getLastGameStatus(activity) == GameStatus.PLAYING.ordinal) and (UserPrefStorage.isCurrentSavedDataVersion(activity))
+        return (UserPrefStorage.getLastGameStatus(activity) == GameStatus.PLAYING.ordinal) && (UserPrefStorage.isCurrentSavedDataVersion(activity))
     }
 
     private fun updatePlaySelectButtons() {
@@ -84,7 +84,7 @@ class PlayFragment : BaseFragment(), PlayNavigator {
     }
 
     override fun startGame(difficulty: GameDifficulty) {
-        if (hasResumeGame() and (difficulty !== GameDifficulty.RESUME)) {
+        if (hasResumeGame() && (difficulty !== GameDifficulty.RESUME)) {
             // A current game exists, ask if they want to delete
             val (title, description) = DialogInfoUtils.getInstance(activity).getDialogInfo(ResultCodes.RESUME_DIALOG.ordinal)
             val dialog = AlertDialog.Builder(activity)

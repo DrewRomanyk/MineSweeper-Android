@@ -50,7 +50,7 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
         get() = premium_state === PremiumState.NOT_PREMIUM
 
     fun purchase_premium(activity: Activity) {
-        if (BillingProcessor.isIabServiceAvailable(activity) and (bp != null)) {
+        if (BillingProcessor.isIabServiceAvailable(activity) && (bp != null)) {
             if (bp!!.isOneTimePurchaseSupported) {
                 bp!!.purchase(activity, BuildConfig.PREMIUM_SKU)
             } else {

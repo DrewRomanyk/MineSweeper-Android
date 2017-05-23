@@ -39,7 +39,7 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
     constructor(gameHandler: MinesweeperHandler, rows: Int, columns: Int, mineCount: Int, gameTime: Long, gameStatus: GameStatus,
                 cellValues: JSONArray, cellRevealed: JSONArray, cellFlagged: JSONArray) :
             this(rows, columns, mineCount, gameHandler, gameTime) {
-        if ((rows == 0) or (columns == 0) or (gameStatus == GameStatus.NOT_STARTED)) {
+        if ((rows == 0) || (columns == 0) || (gameStatus == GameStatus.NOT_STARTED)) {
             throw IllegalArgumentException()
         }
 
@@ -84,9 +84,9 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
                 val randomR = (Math.random() * cells.size).toInt()
                 val randomC = (Math.random() * cells[0].size).toInt()
 
-                val validSpot = getCellNeighbors(clickedCell).all { (it.row != randomR) and (it.column != randomC) }
+                val validSpot = getCellNeighbors(clickedCell).all { (it.row != randomR) && (it.column != randomC) }
 
-                if (validSpot and !cells[randomR][randomC].isMine()) {
+                if (validSpot && !cells[randomR][randomC].isMine()) {
                     placedMines++
                     cells[randomR][randomC].value = Cell.MINE
                     for (cell in getCellNeighbors(cells[randomR][randomC]).filter { !it.isMine() }) {
@@ -128,15 +128,15 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
     fun revealCell(row: Int, col: Int) {
         if (gameStatus.isGameOver()) return
         val clickedCell = cells[row][col]
-        if (clickedCell.isRevealed() and clickedCell.isEmpty()) {
+        if (clickedCell.isRevealed() && clickedCell.isEmpty()) {
             gameHandler.onSwiftChange()
             return
         }
 
         val queue = LinkedList<Cell>()
-        if (gameHandler.isSwiftOpenEnabled() and clickedCell.isRevealed() and !clickedCell.isEmpty() and
+        if (gameHandler.isSwiftOpenEnabled() && clickedCell.isRevealed() && !clickedCell.isEmpty() &&
                 isNumFlagNeighborsEqualToValue(clickedCell)) {
-            getCellNeighbors(clickedCell).filterTo(queue) { !it.isRevealed() and !it.isFlagged() }
+            getCellNeighbors(clickedCell).filterTo(queue) { !it.isRevealed() && !it.isFlagged() }
         } else {
             queue.add(clickedCell)
         }
@@ -144,7 +144,7 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
         while (!queue.isEmpty()) {
             val currentCell = queue.poll()
 
-            if (currentCell.isRevealed() and (clickedCell != currentCell)) continue
+            if (currentCell.isRevealed() && (clickedCell != currentCell)) continue
             if (currentCell.isFlagged()) continue
 
             if (gameStatus == GameStatus.NOT_STARTED) {
@@ -159,7 +159,7 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
                 currentCell.setToRevealed()
 
                 if (currentCell.isEmpty()) {
-                    getCellNeighbors(currentCell).filterTo(queue) { !it.isRevealed() and !it.isFlagged() }
+                    getCellNeighbors(currentCell).filterTo(queue) { !it.isRevealed() && !it.isFlagged() }
                 }
                 gameHandler.onCellChange(currentCell, flagChange = false)
             }
@@ -178,7 +178,7 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
 
         for (r in cell.row - 1..cell.row + 1) {
             (cell.column - 1..cell.column + 1)
-                    .filter { inbounds(r, it) and !((cell.row == r) and (cell.column == it)) }
+                    .filter { inbounds(r, it) && !((cell.row == r) && (cell.column == it)) }
                     .mapTo(neighbors) { cells[r][it] }
         }
 
@@ -194,7 +194,7 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
         if (gameStatus.isGameOver()) return
         val clickedCell = cells[row][col]
 
-        if (clickedCell.isRevealed() and clickedCell.isEmpty()) {
+        if (clickedCell.isRevealed() && clickedCell.isEmpty()) {
             gameHandler.onSwiftChange()
             return
         } else if (clickedCell.isRevealed()) {
@@ -240,6 +240,6 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
     fun getMinesLeftNumber(): Int = mineCount - flaggedCells
 
     private fun inbounds(row: Int, col: Int): Boolean =
-            (row in 0 until cells.size) and (col in 0 until cells[0].size)
+            (row in 0 until cells.size) && (col in 0 until cells[0].size)
 
 }
