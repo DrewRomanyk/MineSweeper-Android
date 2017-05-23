@@ -19,6 +19,10 @@ import app.drewromanyk.com.minesweeper.interfaces.UpdateAdViewHandler
  */
 
 class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
+    companion object {
+        val instance = PremiumUtils()
+    }
+
     private var premium_state = PremiumState.NOT_SURE
     private var bp: BillingProcessor? = null
     private var adViewHandler: UpdateAdViewHandler? = null
@@ -46,10 +50,8 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
         get() = premium_state === PremiumState.NOT_PREMIUM
 
     fun purchase_premium(activity: Activity) {
-        val isAvailable = BillingProcessor.isIabServiceAvailable(activity)
-        if (isAvailable && bp != null) {
-            val isOneTimePurchaseSupported = bp!!.isOneTimePurchaseSupported
-            if (isOneTimePurchaseSupported) {
+        if (BillingProcessor.isIabServiceAvailable(activity) and (bp != null)) {
+            if (bp!!.isOneTimePurchaseSupported) {
                 bp!!.purchase(activity, BuildConfig.PREMIUM_SKU)
             } else {
                 Toast.makeText(activity, R.string.google_play_error, Toast.LENGTH_SHORT).show()
@@ -60,10 +62,9 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
     }
 
     fun clear_purchase() {
-        if (bp != null) {
-            val isOneTimePurchaseSupported = bp!!.isOneTimePurchaseSupported
-            if (isOneTimePurchaseSupported) {
-                bp!!.consumePurchase(BuildConfig.PREMIUM_SKU)
+        bp?.let {
+            if (it.isOneTimePurchaseSupported) {
+                it.consumePurchase(BuildConfig.PREMIUM_SKU)
             }
         }
     }
@@ -77,7 +78,7 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
          * Called when BillingProcessor was initialized and it's ready to purchase
          */
         val td = bp!!.getPurchaseTransactionDetails(BuildConfig.PREMIUM_SKU)
-        if (td != null && td.purchaseInfo.purchaseData.productId == BuildConfig.PREMIUM_SKU) {
+        if (td?.purchaseInfo?.purchaseData?.productId == BuildConfig.PREMIUM_SKU) {
             premium_state = PremiumState.PREMIUM
         } else {
             premium_state = PremiumState.NOT_PREMIUM
@@ -111,9 +112,5 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
          * Called when purchase history was restored and the list of all owned PRODUCT ID's
          * was loaded from Google Play
          */
-    }
-
-    companion object {
-        val instance = PremiumUtils()
     }
 }

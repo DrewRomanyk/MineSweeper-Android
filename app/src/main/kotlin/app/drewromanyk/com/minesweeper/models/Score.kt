@@ -22,9 +22,9 @@ class Score {
         val marked = Array(cells.size) { BooleanArray(cells[0].size) }
 
         // For each empty 0 cell
-        for (r in 0..(cells.size - 1)) {
-            for (c in 0..(cells[0].size - 1)) {
-                if (!marked[r][c] && cells[r][c].isEmpty()) {
+        for (r in 0 until cells.size) {
+            for (c in 0 until cells[0].size) {
+                if (!marked[r][c] and cells[r][c].isEmpty()) {
                     marked[r][c] = true
 
                     value++
@@ -34,9 +34,9 @@ class Score {
         }
 
         // For each unmarked cell that isnt a bomb
-        for (r in 0..(cells.size - 1)) {
-            for (c in 0..(cells[0].size - 1)) {
-                if (!marked[r][c] && !cells[r][c].isMine()) {
+        for (r in 0 until cells.size) {
+            for (c in 0 until cells[0].size) {
+                if (!marked[r][c] and !cells[r][c].isMine()) {
                     marked[r][c] = true
                     value++
                 }
@@ -58,7 +58,7 @@ class Score {
             val currCoords = coordQueue.poll()
             for (r in currCoords.row - 1..currCoords.row + 1) {
                 for (c in currCoords.col - 1..currCoords.col + 1) {
-                    if (inbounds(r, c, cells.size, cells[0].size) && !marked[r][c] && !(currCoords.col == c && currCoords.row == r)) {
+                    if (inbounds(r, c, cells.size, cells[0].size) and !marked[r][c] and !((currCoords.col == c) and (currCoords.row == r))) {
                         marked[r][c] = true
                         if (cells[r][c].isEmpty()) {
                             coordQueue.add(Coordinates(r, c))
@@ -69,8 +69,7 @@ class Score {
         }
     }
 
-    // Checks if the cell being called is inbounds
     private fun inbounds(row: Int, column: Int, rows: Int, columns: Int): Boolean {
-        return row in 0..(rows - 1) && column in 0..(columns - 1)
+        return (row in 0 until rows) and (column in 0 until columns)
     }
 }

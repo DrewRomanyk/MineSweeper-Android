@@ -59,7 +59,7 @@ enum class GameDifficulty {
 
     fun getColumns(context: Context): Int {
         when (this) {
-            RESUME -> return 0
+            RESUME -> throw IllegalArgumentException()
             CUSTOM -> return UserPrefStorage.getColumnCount(context)
             EASY -> return 9
             MEDIUM -> return 16
@@ -70,7 +70,7 @@ enum class GameDifficulty {
 
     fun getRows(context: Context): Int {
         when (this) {
-            RESUME -> return 0
+            RESUME -> throw IllegalArgumentException()
             CUSTOM -> return UserPrefStorage.getRowCount(context)
             EASY -> return 9
             MEDIUM, EXPERT -> return 16
@@ -80,7 +80,7 @@ enum class GameDifficulty {
 
     fun getMineCount(context: Context): Int {
         when (this) {
-            RESUME -> return 0
+            RESUME -> throw IllegalArgumentException()
             CUSTOM -> return UserPrefStorage.getMineCount(context)
             EASY -> return 10
             MEDIUM -> return 40

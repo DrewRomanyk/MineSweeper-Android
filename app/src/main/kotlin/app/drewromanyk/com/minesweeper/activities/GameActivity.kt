@@ -210,11 +210,7 @@ class GameActivity : BackActivity() {
     private fun setupGame(savedStateIsEmpty: Boolean) {
         val gameDifficulty = GameDifficulty.valueOf(intent.getStringExtra("gameDifficulty"))
 
-        minesweeperUI = MinesweeperUI(savedStateIsEmpty, gameDifficulty, boardInfoView, this, this::updateBoardInfo) {
-            val icon = if (minesweeperUI.clickMode == ClickMode.FLAG)
-                R.drawable.ic_action_flag else R.drawable.ic_action_notflag
-            flagButton.setIcon(icon)
-        }
+        minesweeperUI = MinesweeperUI(!savedStateIsEmpty, gameDifficulty, boardInfoView, this, this::updateBoardInfo, this::onFlagChange)
 
         supportActionBar?.title = minesweeperUI.gameDifficulty.getName(this)
 
@@ -227,6 +223,12 @@ class GameActivity : BackActivity() {
             boardInfoView.setTimeKeeperText(gameTime)
             boardInfoView.setScoreKeeperText(score)
         }
+    }
+
+    private fun onFlagChange(clickMode: ClickMode) {
+        val icon = if (clickMode == ClickMode.FLAG)
+            R.drawable.ic_action_flag else R.drawable.ic_action_notflag
+        flagButton.setIcon(icon)
     }
 
 

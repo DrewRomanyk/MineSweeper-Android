@@ -61,7 +61,7 @@ abstract class GameServicesActivity : AppCompatActivity(), GoogleApiClient.Conne
     }
 
     private fun setupGoogleGames() {
-        autoStartSignInFlow = this is MainActivity && UserPrefStorage.isFirstTime(this)
+        autoStartSignInFlow = this is MainActivity and UserPrefStorage.isFirstTime(this)
         UserPrefStorage.setFirstTime(this, false)
 
         // Create the Google API Client with access to Plus and Games
@@ -87,7 +87,7 @@ abstract class GameServicesActivity : AppCompatActivity(), GoogleApiClient.Conne
             fba.logEvent("game_over_google_games_victory", null)
             if (googleApiClient!!.isConnected) {
                 // Skip non ranked difficulty
-                if (gameDifficulty === GameDifficulty.CUSTOM || gameDifficulty === GameDifficulty.RESUME)
+                if ((gameDifficulty === GameDifficulty.CUSTOM) or (gameDifficulty === GameDifficulty.RESUME))
                     return
 
                 // Offset is 2 for RESUME and CUSTOM
@@ -137,12 +137,12 @@ abstract class GameServicesActivity : AppCompatActivity(), GoogleApiClient.Conne
         if (requestCode == ResultCodes.SIGN_IN.ordinal) {
             signInClicked = false
             isResolvingConnectionFailure = false
-            if (googleApiClient != null && resultCode == AppCompatActivity.RESULT_OK) {
+            if ((googleApiClient != null) and (resultCode == AppCompatActivity.RESULT_OK)) {
                 googleApiClient!!.connect()
             }
         }
 
-        if (googleApiClient != null && resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED) {
+        if ((googleApiClient != null) and (resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED)) {
             googleApiClient!!.disconnect()
         }
     }
@@ -161,7 +161,7 @@ abstract class GameServicesActivity : AppCompatActivity(), GoogleApiClient.Conne
 
         // If the sign in button was clicked or if auto sign-in is enabled,
         // launch the sign-in flow
-        if (signInClicked || autoStartSignInFlow) {
+        if (signInClicked or autoStartSignInFlow) {
             autoStartSignInFlow = false
             signInClicked = false
             isResolvingConnectionFailure = true

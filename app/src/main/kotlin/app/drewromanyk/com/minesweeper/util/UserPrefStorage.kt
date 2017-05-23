@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import app.drewromanyk.com.minesweeper.R
+import app.drewromanyk.com.minesweeper.enums.ClickMode
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
 import app.drewromanyk.com.minesweeper.enums.GameStatus
 import app.drewromanyk.com.minesweeper.enums.UiThemeMode
@@ -53,7 +54,7 @@ object UserPrefStorage {
             if (hasWonGame) break
         }
 
-        return !hasFinishedRatingDialog && hasOpenedApp5times && hasWonGame
+        return !hasFinishedRatingDialog and hasOpenedApp5times and hasWonGame
     }
 
     fun setHasFinishedRatingDialog(context: Context) {
@@ -90,14 +91,17 @@ object UserPrefStorage {
         return getPrefs(context).getLong("TIME_MILLIS", 1)
     }
 
-    fun loadGame(context: Context, gameHandler: MinesweeperHandler): Triple<Minesweeper, GameDifficulty, Double> {
+    data class GameStorageData(val minesweeper: Minesweeper, val gameDifficulty: GameDifficulty, val zoomCellScale: Double, val clickMode: ClickMode)
+
+    fun loadGame(context: Context, gameHandler: MinesweeperHandler): GameStorageData {
         val preferences = getPrefs(context)
 
         val rows = preferences.getInt("ROWS", 0)
         val columns = preferences.getInt("COLUMNS", 0)
 
-        if (!(rows == 0 || columns == 0)) {
+        if (!((rows == 0) or (columns == 0))) {
             val difficulty = GameDifficulty.values()[preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal)]
+            val clickMode = ClickMode.values()[preferences.getInt("CLICK_MODE", ClickMode.REVEAL.ordinal)]
             val zoomCellScale = preferences.getFloat("GAME_CELL_SCALE", 1f).toDouble()
             val mineCount = preferences.getInt("MINE_COUNT", 0)
             val status = GameStatus.values()[preferences.getInt("STATUS", GameStatus.DEFEAT.ordinal)]
@@ -108,11 +112,10 @@ object UserPrefStorage {
                 val cellRevealedJ = JSONArray(preferences.getString("CELL_REVEALED", "[]"))
                 val cellFlaggedJ = JSONArray(preferences.getString("CELL_FLAGGED", "[]"))
 
-                return Triple(
+                return GameStorageData(
                         Minesweeper(gameHandler, rows, columns, mineCount, startGameTime, status,
                                 cellValuesJ, cellRevealedJ, cellFlaggedJ),
-                        difficulty,
-                        zoomCellScale)
+                        difficulty, zoomCellScale, clickMode)
             } catch (e: Exception) {
                 //TODO log this
                 e.printStackTrace()
@@ -123,21 +126,13 @@ object UserPrefStorage {
         throw IllegalArgumentException()
     }
 
-    fun storeGameLocalStats(context: Context) {
-        //TODO
-        TODO()
-//        val preferences = getPrefs(context)
-//
-//        val minesweeper = Minesweeper(preferences)
-//        minesweeper.
-    }
+    fun saveGame(context: Context, gameStorageData: GameStorageData) {
+        val minesweeper = gameStorageData.minesweeper
+        val gameDifficulty = gameStorageData.gameDifficulty
+        val zoomCellScale = gameStorageData.zoomCellScale
+        val clickMode = gameStorageData.clickMode
 
-    fun saveGame(context: Context, saveData: Triple<Minesweeper, GameDifficulty, Double>) {
-        val minesweeper = saveData.first
-        val gameDifficulty = saveData.second
-        val zoomCellScale = saveData.third
-
-        val time = saveData.first.getTime()
+        val time = minesweeper.getTime()
         val editor = getPrefs(context).edit()
 
         editor.putString("SAVED_VERSION", context.getString(R.string.preference_saved_current_version))
@@ -146,6 +141,7 @@ object UserPrefStorage {
         editor.putInt("MINE_COUNT", gameDifficulty.getMineCount(context))
         editor.putFloat("GAME_CELL_SCALE", zoomCellScale.toFloat())
         editor.putInt("DIFFICULTY", gameDifficulty.ordinal)
+        editor.putInt("CLICK_MODE", clickMode.ordinal)
         editor.putInt("STATUS", minesweeper.gameStatus.ordinal)
         editor.putLong("TIME_MILLIS", time)
 
@@ -170,6 +166,15 @@ object UserPrefStorage {
     /*
      * STATS
      */
+
+    fun storeGameLocalStats(context: Context) {
+        //TODO
+        TODO()
+//        val preferences = getPrefs(context)
+//
+//        val minesweeper = Minesweeper(preferences)
+//        minesweeper.
+    }
 
     fun getWinsForDifficulty(context: Context, difficulty: GameDifficulty): Int {
         return getPrefs(context).getInt("${difficulty.storagePrefix}WINS", 0)
@@ -302,14 +307,14 @@ object UserPrefStorage {
     }
 
     fun getUiThemeMode(context: Context): UiThemeMode {
-        var cur_theme_val: String = getPrefs(context).getString(context.getString(R.string.preference_ui_theme_mode), "LIGHT")
+        var curThemeValue: String = getPrefs(context).getString(context.getString(R.string.preference_ui_theme_mode), "LIGHT")
 
         // I messed up the code in v1.4.0 as I put an invalid name for the enum
-        if (cur_theme_val == "light") {
-            cur_theme_val = "LIGHT"
+        if (curThemeValue == "light") {
+            curThemeValue = "LIGHT"
             getPrefs(context).edit().putString(context.getString(R.string.preference_ui_theme_mode), "LIGHT").apply()
         }
 
-        return UiThemeMode.valueOf(cur_theme_val)
+        return UiThemeMode.valueOf(curThemeValue)
     }
 }

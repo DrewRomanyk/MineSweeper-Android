@@ -31,30 +31,30 @@ class UiCell(context: Context) : AppCompatImageButton(context) {
 
     fun updateImage(cell: Cell, clickMode: ClickMode, gameStatus: GameStatus) {
         val uiThemeMode = UserPrefStorage.getUiThemeMode(context)
-        val light_mode = uiThemeMode == UiThemeMode.LIGHT || uiThemeMode == UiThemeMode.CLASSICAL
-        val material_mode = uiThemeMode != UiThemeMode.CLASSICAL
+        val lightMode = uiThemeMode.isLightMode()
+        val materialMode = uiThemeMode.isMaterialMode()
 
-        var id = if (material_mode) {
-            if (light_mode) R.drawable.ic_cell_unknown_light else R.drawable.ic_cell_unknown
+        var id = if (materialMode) {
+            if (lightMode) R.drawable.ic_cell_unknown_light else R.drawable.ic_cell_unknown
         } else {
             R.drawable.ic_cell_unknown_classical
         }
 
-        if (cell.isUnknown() && clickMode == ClickMode.FLAG) {
-            id = if (material_mode)
-                if (light_mode) R.drawable.ic_cell_unknownflag_light else R.drawable.ic_cell_unknownflag
+        if (cell.isUnknown() and (clickMode == ClickMode.FLAG)) {
+            id = if (materialMode)
+                if (lightMode) R.drawable.ic_cell_unknownflag_light else R.drawable.ic_cell_unknownflag
             else
                 R.drawable.ic_cell_unknown_classical
         } else if (cell.isFlagged()) {
-            id = if (material_mode)
-                if (light_mode) R.drawable.ic_cell_flag_light else R.drawable.ic_cell_flag
+            id = if (materialMode)
+                if (lightMode) R.drawable.ic_cell_flag_light else R.drawable.ic_cell_flag
             else
                 R.drawable.ic_cell_unknownflag_classical
-        } else if (cell.isRevealed() && cell.value >= 0) {
-            if (!material_mode) {
+        } else if (cell.isRevealed() and (cell.value >= 0)) {
+            if (!materialMode) {
                 id = context.resources.getIdentifier(
                         "ic_cell_${cell.value}_classical", "drawable", PACKAGE_NAME)
-            } else if (light_mode) {
+            } else if (lightMode) {
                 id = context.resources.getIdentifier(
                         "ic_cell_${cell.value}_light", "drawable", PACKAGE_NAME)
             } else {
@@ -62,19 +62,19 @@ class UiCell(context: Context) : AppCompatImageButton(context) {
                         "ic_cell_${cell.value}", "drawable", PACKAGE_NAME)
             }
             if (cell.isEmpty()) {
-                id = if (material_mode)
+                id = if (materialMode)
                     android.R.color.transparent
                 else
                     R.drawable.ic_cell_0_classical
             }
-        } else if ((gameStatus.isGameOver()) && cell.isFlagged() && cell.isMine()) {
-            id = if (material_mode)
-                if (light_mode) R.drawable.ic_cell_bombflagged_light else R.drawable.ic_cell_bombflagged
+        } else if ((gameStatus.isGameOver()) and cell.isFlagged() and cell.isMine()) {
+            id = if (materialMode)
+                if (lightMode) R.drawable.ic_cell_bombflagged_light else R.drawable.ic_cell_bombflagged
             else
                 R.drawable.ic_cell_bombflagged_classical
-        } else if ((gameStatus.isGameOver()) && !cell.isFlagged() && cell.isMine()) {
-            id = if (material_mode)
-                if (light_mode) R.drawable.ic_cell_bomb_light else R.drawable.ic_cell_bomb
+        } else if ((gameStatus.isGameOver()) and !cell.isFlagged() and cell.isMine()) {
+            id = if (materialMode)
+                if (lightMode) R.drawable.ic_cell_bomb_light else R.drawable.ic_cell_bomb
             else
                 R.drawable.ic_cell_bomb_classical
         }
@@ -84,19 +84,11 @@ class UiCell(context: Context) : AppCompatImageButton(context) {
 
     fun updateImageClickedMine() {
         val uiThemeMode = UserPrefStorage.getUiThemeMode(context)
-        var light_mode = false
-        var material_mode = true
-        when (uiThemeMode) {
-            UiThemeMode.LIGHT -> light_mode = true
-            UiThemeMode.DARK -> light_mode = false
-            UiThemeMode.AMOLED -> light_mode = false
-            UiThemeMode.CLASSICAL -> {
-                light_mode = true
-                material_mode = false
-            }
-        }
-        val id = if (material_mode)
-            if (light_mode) R.drawable.ic_cell_bombpressed_light else R.drawable.ic_cell_bombpressed
+        val lightMode = uiThemeMode.isLightMode()
+        val materialMode = uiThemeMode.isMaterialMode()
+
+        val id = if (materialMode)
+            if (lightMode) R.drawable.ic_cell_bombpressed_light else R.drawable.ic_cell_bombpressed
         else
             R.drawable.ic_cell_bombpressed_classical
         setBackgroundResource(id)

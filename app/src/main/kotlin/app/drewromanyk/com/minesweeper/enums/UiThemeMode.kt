@@ -8,15 +8,11 @@ import app.drewromanyk.com.minesweeper.R
  * Enum for UI Theme Mode Preference
  */
 
-enum class UiThemeMode constructor(private val ui_theme_mode: String) {
+enum class UiThemeMode constructor(val themeValue: String) {
     LIGHT("LIGHT"),
     DARK("DARK"),
     AMOLED("AMOLED"),
     CLASSICAL("CLASSICAL");
-
-    fun theme(): String {
-        return ui_theme_mode
-    }
 
     val color: Int
         get() {
@@ -26,4 +22,8 @@ enum class UiThemeMode constructor(private val ui_theme_mode: String) {
                 CLASSICAL, LIGHT -> return R.color.light_background
             }
         }
+
+    fun isLightMode(): Boolean = (this == LIGHT) or (this == CLASSICAL)
+
+    fun isMaterialMode(): Boolean = (this != CLASSICAL)
 }

@@ -23,7 +23,7 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage
  * Glue for the Minesweeper model, it handles all UI interactions as it contains the visual cells
  *  for the game
  */
-class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private val boardInfoView: BoardInfoView, context: Context, private val onGameTimerTick: (Long, Double) -> Unit, private val onFlagChange: () -> Unit) : MinesweeperHandler {
+class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private val boardInfoView: BoardInfoView, context: Context, private val onGameTimerTick: (Long, Double) -> Unit, private val onFlagChange: (ClickMode) -> Unit) : MinesweeperHandler {
     companion object {
         private val MIN_SCALE = .4
         private val MAX_SCALE = 2.0
@@ -31,11 +31,11 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
 
     val gameDifficulty: GameDifficulty
     private val minesweeper: Minesweeper
-    var clickMode: ClickMode = ClickMode.REVEAL
-        private set(value) {
+    private var clickMode: ClickMode = ClickMode.REVEAL
+        set(value) {
             field = value
             updateUiCellImage()
-            onFlagChange()
+            onFlagChange(value)
         }
     private var zoomCellScale: Double = 1.0
 
@@ -48,20 +48,19 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
     private val isSwiftChangeEnabled = UserPrefStorage.getSwiftChange(context)
 
     init {
-        if (loadGame || gameDifficulty == GameDifficulty.RESUME) {
-            val results = UserPrefStorage.loadGame(context, this)
-            minesweeper = results.first
-            this.gameDifficulty = results.second
-            zoomCellScale = results.third
-
+        var results: UserPrefStorage.GameStorageData? = null
+        if (loadGame or (gameDifficulty == GameDifficulty.RESUME)) {
+            results = UserPrefStorage.loadGame(context, this)
+            minesweeper = results.minesweeper
+            this.gameDifficulty = results.gameDifficulty
+            zoomCellScale = results.zoomCellScale
         } else {
             this.gameDifficulty = gameDifficulty
-            minesweeper = Minesweeper(gameDifficulty.getRows(context), gameDifficulty.getColumns(context), gameDifficulty.getMineCount(context), this)
+            minesweeper = Minesweeper(this.gameDifficulty.getRows(context), this.gameDifficulty.getColumns(context), this.gameDifficulty.getMineCount(context), this)
         }
-        uiCells = Array(gameDifficulty.getRows(context)) { Array(gameDifficulty.getColumns(context)) { UiCell(context) } }
 
-        boardInfoView.reset(gameDifficulty.getMineCount(context))
-
+        uiCells = Array(this.gameDifficulty.getRows(context)) { Array(this.gameDifficulty.getColumns(context)) { UiCell(context) } }
+        boardInfoView.reset(this.gameDifficulty.getMineCount(context))
         layout.rowCount = uiCells.size
         layout.columnCount = uiCells[0].size
         layout.setPadding(20, 20, 20, 20)
@@ -73,6 +72,10 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
             }
         }
 
+        if (results != null) {
+            clickMode = results.clickMode
+        }
+
         updateUiCellSize()
         updateUiCellImage()
     }
@@ -80,21 +83,16 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
     private fun setUiCellListeners(cell: UiCell, row: Int, col: Int) {
         // Single tap
         cell.setOnClickListener { v ->
-            Log.v("clickListener", "outside")
             if (v.tag as Boolean) {
-                Log.v("clickListener", "inside")
                 onUiCellTap(v, row, col, true)
             }
         }
 
         // Long tap
         cell.setOnTouchListener { v, event ->
-            Log.v("touchListener", "outside")
             if (event.action == MotionEvent.ACTION_DOWN) {
-                Log.v("touchListener", "action down")
                 v.tag = true
-            } else if (v.isPressed && v.tag as Boolean) {
-                Log.v("touchListener", "pressed and tag")
+            } else if (v.isPressed and v.tag as Boolean) {
                 val eventDuration = event.eventTime - event.downTime
                 if (eventDuration > UserPrefStorage.getLongPressLength(v.context)) {
                     v.tag = false
@@ -107,7 +105,6 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
     }
 
     fun onUiCellTap(view: View, row: Int, col: Int, shortTap: Boolean) {
-        Log.v("onUiCellTap", "$row $col $shortTap")
         if (shortTap) {
             soundPlayer.play(GameSoundType.TAP)
         } else {
@@ -116,9 +113,9 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
             }
             soundPlayer.play(GameSoundType.LONGPRESS)
         }
-        if ((shortTap && clickMode == ClickMode.REVEAL) || !shortTap && clickMode != ClickMode.REVEAL) {
+        if ((shortTap and (clickMode == ClickMode.REVEAL)) or (!shortTap and (clickMode != ClickMode.REVEAL))) {
             minesweeper.revealCell(row, col)
-        } else if ((shortTap && clickMode == ClickMode.FLAG) || (!shortTap && clickMode == ClickMode.REVEAL)) {
+        } else if ((shortTap and (clickMode == ClickMode.FLAG)) or (!shortTap and (clickMode == ClickMode.REVEAL))) {
             minesweeper.flagCell(row, col)
         } else {
             throw IllegalStateException("Unsupported state with clickMode and shortTap")
@@ -166,9 +163,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
     override fun isSwiftOpenEnabled(): Boolean = isSwiftOpenEnabled
 
     override fun onSwiftChange() {
-        Log.v("onSwiftChange", "going...")
         if (isSwiftChangeEnabled) {
-            Log.v("onSwiftChange", "is Enabled")
             switchClickMode()
         }
     }
@@ -213,10 +208,12 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
     }
 
     fun save(context: Context) {
-        UserPrefStorage.saveGame(context, Triple(minesweeper, gameDifficulty, zoomCellScale))
+        UserPrefStorage.saveGame(context, UserPrefStorage.GameStorageData(minesweeper, gameDifficulty, zoomCellScale, clickMode))
     }
 
+    @Throws(Throwable::class)
     protected fun finalize() {
+        Log.d("MinesweeperUI", "being finalize")
         soundPlayer.release()
     }
 

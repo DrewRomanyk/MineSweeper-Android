@@ -7,6 +7,6 @@ package app.drewromanyk.com.minesweeper.enums
 enum class GameStatus {
     NOT_STARTED, PLAYING, DEFEAT, VICTORY;
 
-    fun isGameOver(): Boolean = this == DEFEAT || this == VICTORY
+    fun isGameOver(): Boolean = (this == DEFEAT) or (this == VICTORY)
 
 }
