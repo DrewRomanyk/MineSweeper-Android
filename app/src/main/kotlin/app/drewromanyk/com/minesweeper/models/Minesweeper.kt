@@ -233,11 +233,11 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
      * Helper
      */
 
-    fun getScore(): Double {
-        return score.getScore(gameTimer.time)
-    }
+    fun getScore(): Double = score.getScore(gameTimer.time)
 
     fun getMinesLeftNumber(): Int = mineCount - flaggedCells
+
+    fun getExplorePercent(): Float = revealedCells.toFloat() / ((cells.size * cells[0].size) - mineCount) * 100
 
     private fun inbounds(row: Int, col: Int): Boolean =
             (row in 0 until cells.size) && (col in 0 until cells[0].size)

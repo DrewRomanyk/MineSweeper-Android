@@ -11,6 +11,8 @@ import app.drewromanyk.com.minesweeper.enums.UiThemeMode
 import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
 import app.drewromanyk.com.minesweeper.models.Minesweeper
 import org.json.JSONArray
+import android.widget.Toast
+
 
 /**
  * UserPrefStorage
@@ -163,17 +165,131 @@ object UserPrefStorage {
         editor.apply()
     }
 
+    private fun invalidateSavedGame(context: Context) {
+        val editor = getPrefs(context).edit()
+        editor.putInt("ROWS", 0)
+        editor.putInt("COLUMNS", 0)
+        editor.apply()
+    }
+
     /*
      * STATS
      */
 
-    fun storeGameLocalStats(context: Context) {
-        //TODO
-        TODO()
-//        val preferences = getPrefs(context)
-//
-//        val minesweeper = Minesweeper(preferences)
-//        minesweeper.
+    fun updateStatsWithGame(context: Context, gameDifficulty: GameDifficulty, minesweeper: Minesweeper) {
+
+        var newBestTime = false
+        var newBestScore = false
+
+        // skip the resume/custom modes
+        if (gameDifficulty == GameDifficulty.RESUME || gameDifficulty == GameDifficulty.CUSTOM)
+            return
+
+        //initial data
+        var wins = getWinsForDifficulty(context, gameDifficulty)
+        var loses = getLosesForDifficulty(context, gameDifficulty)
+        var bestTime = getBestTimeForDifficulty(context, gameDifficulty)
+        var avgTime = getAvgTimeForDifficulty(context, gameDifficulty)
+        var explorPerct = getExplorPercentForDifficulty(context, gameDifficulty)
+        var winStreak = getWinStreakForDifficulty(context, gameDifficulty)
+        var losesStreak = getLoseStreakForDifficulty(context, gameDifficulty)
+        var currentWinStreak = getCurWinStreakForDifficulty(context, gameDifficulty)
+        var currentLosesStreak = getCurLoseStreakForDifficulty(context, gameDifficulty)
+        var bestScore = getBestScoreForDifficulty(context, gameDifficulty)
+        var avgScore = getAvgScoreForDifficulty(context, gameDifficulty)
+
+        // Update wins/losses/total
+        if (minesweeper.gameStatus == GameStatus.VICTORY) {
+            wins++
+        } else {
+            loses++
+        }
+        val total_games = wins + loses
+
+        // Update best time and avg time
+        val currentTime: Int = (minesweeper.getTime() / 1000).toInt()
+        if (minesweeper.gameStatus == GameStatus.VICTORY) {
+            // Smaller currentTime is better than bestTime
+            if (bestTime > currentTime || bestTime == 0) {
+                newBestTime = true
+                bestTime = currentTime
+            }
+            avgTime += (currentTime - avgTime) / wins
+        }
+
+        // Update exploration percentage
+        val currentExplorPerct = minesweeper.getExplorePercent()
+        explorPerct += (currentExplorPerct - explorPerct) / total_games
+
+        // Update streaks
+        if (minesweeper.gameStatus == GameStatus.VICTORY) {
+            currentWinStreak++
+            currentLosesStreak = 0
+        } else {
+            currentWinStreak = 0
+            currentLosesStreak++
+        }
+        if (currentWinStreak > winStreak)
+            winStreak = currentWinStreak
+        if (currentLosesStreak > losesStreak)
+            losesStreak = currentLosesStreak
+
+        // Update best score & avg score
+        val currentScore: Int = (minesweeper.getScore() * 1000).toInt()
+        if (minesweeper.gameStatus == GameStatus.VICTORY) {
+            // Bigger currentScore is better than bestScore
+            if (bestScore < currentScore || bestScore == 0) {
+                newBestScore = true
+                bestScore = currentScore
+            }
+            avgScore += (currentScore.toFloat() - avgScore) / wins
+        }
+
+        updateStats(context, gameDifficulty, wins, loses, bestTime, avgTime,
+                explorPerct, winStreak, losesStreak, currentWinStreak, currentLosesStreak,
+                bestScore, avgScore)
+        invalidateSavedGame(context)
+
+        // Display new bests
+        if (newBestTime)
+            Toast.makeText(context, R.string.game_best_time, Toast.LENGTH_SHORT).show()
+
+        if (newBestScore)
+            Toast.makeText(context, R.string.game_best_score, Toast.LENGTH_SHORT).show()
+    }
+
+    fun updateStats(context: Context, difficulty: GameDifficulty, wins: Int, loses: Int,
+                    bestTime: Int, avgTime: Float, explorePercent: Float, winStreak: Int,
+                    losesStreak: Int, currentWinStreak: Int, currentLosesStreak: Int,
+                    bestScore: Int, avgScore: Float) {
+        val editor = getPrefs(context).edit()
+        val prefix = difficulty.storagePrefix
+        // Get key info
+        val winsKey = "${prefix}WINS"
+        val losesKey = "${prefix}LOSES"
+        val bestTimeKey = "${prefix}BEST_TIME"
+        val avgTimeKey = "${prefix}AVG_TIME"
+        val explorePercentKey = "${prefix}EXPLOR_PERCT"
+        val winStreakKey = "${prefix}WIN_STREAK"
+        val losesStreakKey = "${prefix}LOSES_STREAK"
+        val currentWinStreakKey = "${prefix}CURRENTWIN_STREAK"
+        val currentLosesStreakKey = "${prefix}CURRENTLOSES_STREAK"
+        val bestScoreKey = "${prefix}BEST_SCORE"
+        val avgScoreKey = "${prefix}AVG_SCORE"
+
+        // Put data into storage
+        editor.putInt(winsKey, wins)
+        editor.putInt(losesKey, loses)
+        editor.putInt(bestTimeKey, bestTime)
+        editor.putFloat(avgTimeKey, avgTime)
+        editor.putFloat(explorePercentKey, explorePercent)
+        editor.putInt(winStreakKey, winStreak)
+        editor.putInt(losesStreakKey, losesStreak)
+        editor.putInt(currentWinStreakKey, currentWinStreak)
+        editor.putInt(currentLosesStreakKey, currentLosesStreak)
+        editor.putInt(bestScoreKey, bestScore)
+        editor.putFloat(avgScoreKey, avgScore)
+        editor.apply()
     }
 
     fun getWinsForDifficulty(context: Context, difficulty: GameDifficulty): Int {
@@ -218,40 +334,6 @@ object UserPrefStorage {
 
     fun getAvgScoreForDifficulty(context: Context, difficulty: GameDifficulty): Float {
         return getPrefs(context).getFloat("${difficulty.storagePrefix}AVG_SCORE", 0f)
-    }
-
-    fun updateStats(context: Context, difficulty: GameDifficulty, wins: Int, loses: Int,
-                    bestTime: Int, avgTime: Float, explorPerct: Float, winStreak: Int,
-                    losesStreak: Int, currentWinStreak: Int, currentLosesStreak: Int,
-                    bestScore: Int, avgScore: Float) {
-        val editor = getPrefs(context).edit()
-        val prefix = difficulty.storagePrefix
-        // Get key info
-        val winsKey = "${prefix}WINS"
-        val losesKey = "${prefix}LOSES"
-        val bestTimeKey = "${prefix}BEST_TIME"
-        val avgTimeKey = "${prefix}AVG_TIME"
-        val explorPerctKey = "${prefix}EXPLOR_PERCT"
-        val winStreakKey = "${prefix}WIN_STREAK"
-        val losesStreakKey = "${prefix}LOSES_STREAK"
-        val currentWinStreakKey = "${prefix}CURRENTWIN_STREAK"
-        val currentLosesStreakKey = "${prefix}CURRENTLOSES_STREAK"
-        val bestScoreKey = "${prefix}BEST_SCORE"
-        val avgScoreKey = "${prefix}AVG_SCORE"
-
-        // Put data into storage
-        editor.putInt(winsKey, wins)
-        editor.putInt(losesKey, loses)
-        editor.putInt(bestTimeKey, bestTime)
-        editor.putFloat(avgTimeKey, avgTime)
-        editor.putFloat(explorPerctKey, explorPerct)
-        editor.putInt(winStreakKey, winStreak)
-        editor.putInt(losesStreakKey, losesStreak)
-        editor.putInt(currentWinStreakKey, currentWinStreak)
-        editor.putInt(currentLosesStreakKey, currentLosesStreak)
-        editor.putInt(bestScoreKey, bestScore)
-        editor.putFloat(avgScoreKey, avgScore)
-        editor.apply()
     }
 
     /*

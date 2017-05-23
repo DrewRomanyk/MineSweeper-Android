@@ -12,6 +12,7 @@ import app.drewromanyk.com.minesweeper.enums.GameDifficulty
 import app.drewromanyk.com.minesweeper.enums.GameSoundType
 import app.drewromanyk.com.minesweeper.enums.GameStatus
 import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
+import app.drewromanyk.com.minesweeper.interfaces.MinesweeperUiHandler
 import app.drewromanyk.com.minesweeper.models.Cell
 import app.drewromanyk.com.minesweeper.models.Minesweeper
 import app.drewromanyk.com.minesweeper.util.Helper
@@ -23,7 +24,7 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage
  * Glue for the Minesweeper model, it handles all UI interactions as it contains the visual cells
  *  for the game
  */
-class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private val boardInfoView: BoardInfoView, context: Context, private val onGameTimerTick: (Long, Double) -> Unit, private val onFlagChange: (ClickMode) -> Unit) : MinesweeperHandler {
+class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private val boardInfoView: BoardInfoView, context: Context, private val minesweeperUiHandler: MinesweeperUiHandler) : MinesweeperHandler {
     companion object {
         private val MIN_SCALE = .4
         private val MAX_SCALE = 2.0
@@ -35,7 +36,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
         set(value) {
             field = value
             updateUiCellImage()
-            onFlagChange(value)
+            minesweeperUiHandler.onFlagChange(value)
         }
     private var zoomCellScale: Double = 1.0
 
@@ -150,7 +151,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
 
     private fun updateUiCellImage() {
         for ((r, rowUiCells) in uiCells.withIndex()) {
-            for ((c, uiCell) in rowUiCells.withIndex()) {
+            for ((c, _) in rowUiCells.withIndex()) {
                 onCellChange(minesweeper.cells[r][c], flagChange = false)
             }
         }
@@ -185,13 +186,16 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
         Helper.vibrate(layout.context)
 
         updateUiCellImage()
+        UserPrefStorage.updateStatsWithGame(layout.context, gameDifficulty, minesweeper)
         if (minesweeper.gameStatus == GameStatus.DEFEAT) {
             uiCells[cell.row][cell.column].updateImageClickedMine()
+        } else {
+            minesweeperUiHandler.onVictory((minesweeper.getScore() * 1000).toLong(), minesweeper.getTime())
         }
     }
 
     override fun onTimerTick(gameTime: Long) {
-        onGameTimerTick(gameTime, minesweeper.getScore())
+        minesweeperUiHandler.onGameTimerTick(gameTime, minesweeper.getScore())
     }
 
     /***
@@ -200,7 +204,10 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
 
     fun isPlaying(): Boolean = minesweeper.gameStatus == GameStatus.PLAYING
 
-    fun reset() {
+    fun reset(context: Context) {
+        if (isPlaying()) {
+            UserPrefStorage.updateStatsWithGame(context, gameDifficulty, minesweeper)
+        }
         minesweeper.reset()
         clickMode = ClickMode.REVEAL
         boardInfoView.reset(gameDifficulty.getMineCount(layout.context))

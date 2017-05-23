@@ -21,6 +21,9 @@ import android.widget.TextView
 
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.*
+import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
+import app.drewromanyk.com.minesweeper.interfaces.MinesweeperUiHandler
+import app.drewromanyk.com.minesweeper.models.Cell
 import app.drewromanyk.com.minesweeper.util.DialogInfoUtils
 import app.drewromanyk.com.minesweeper.util.Helper
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
@@ -146,14 +149,13 @@ class GameActivity : BackActivity() {
                             .setTitle(dialogInfo.title)
                             .setMessage(dialogInfo.description)
                             .setPositiveButton(android.R.string.yes) { _, _ ->
-                                //TODO update local stats
-                                minesweeperUI.reset()
+                                minesweeperUI.reset(this)
                             }
                             .setNegativeButton(android.R.string.no) { _, _ -> }
                             .create()
                     dialog.show()
                 } else {
-                    minesweeperUI.reset()
+                    minesweeperUI.reset(this)
                 }
                 return true
             }
@@ -210,27 +212,30 @@ class GameActivity : BackActivity() {
     private fun setupGame(savedStateIsEmpty: Boolean) {
         val gameDifficulty = GameDifficulty.valueOf(intent.getStringExtra("gameDifficulty"))
 
-        minesweeperUI = MinesweeperUI(!savedStateIsEmpty, gameDifficulty, boardInfoView, this, this::updateBoardInfo, this::onFlagChange)
+        minesweeperUI = MinesweeperUI(!savedStateIsEmpty, gameDifficulty, boardInfoView, this, object : MinesweeperUiHandler {
+            override fun onGameTimerTick(gameTime: Long, score: Double) {
+                runOnUiThread {
+                    boardInfoView.setTimeKeeperText(gameTime)
+                    boardInfoView.setScoreKeeperText(score)
+                }
+            }
+
+            override fun onFlagChange(clickMode: ClickMode) {
+                val icon = if (clickMode == ClickMode.FLAG)
+                    R.drawable.ic_action_flag else R.drawable.ic_action_notflag
+                flagButton.setIcon(icon)
+            }
+
+            override fun onVictory(score: Long, time: Long) {
+                updateLeaderboards(GameStatus.VICTORY, minesweeperUI.gameDifficulty, score, time)
+            }
+        })
 
         supportActionBar?.title = minesweeperUI.gameDifficulty.getName(this)
 
         vScroll.removeAllViews()
         vScroll.addView(minesweeperUI.layout)
     }
-
-    private fun updateBoardInfo(gameTime: Long, score: Double) {
-        runOnUiThread {
-            boardInfoView.setTimeKeeperText(gameTime)
-            boardInfoView.setScoreKeeperText(score)
-        }
-    }
-
-    private fun onFlagChange(clickMode: ClickMode) {
-        val icon = if (clickMode == ClickMode.FLAG)
-            R.drawable.ic_action_flag else R.drawable.ic_action_notflag
-        flagButton.setIcon(icon)
-    }
-
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupBiDirectionalScrolling() {

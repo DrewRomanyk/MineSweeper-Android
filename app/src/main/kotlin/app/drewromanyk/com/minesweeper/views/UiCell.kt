@@ -5,7 +5,6 @@ import android.support.v7.widget.AppCompatImageButton
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.ClickMode
 import app.drewromanyk.com.minesweeper.enums.GameStatus
-import app.drewromanyk.com.minesweeper.enums.UiThemeMode
 import app.drewromanyk.com.minesweeper.models.Cell
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
 

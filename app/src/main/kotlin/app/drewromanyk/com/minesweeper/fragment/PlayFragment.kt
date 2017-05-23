@@ -21,7 +21,9 @@ import app.drewromanyk.com.minesweeper.adapters.PlayGameDifficultyAdapter
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
 import app.drewromanyk.com.minesweeper.enums.GameStatus
 import app.drewromanyk.com.minesweeper.enums.ResultCodes
+import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
 import app.drewromanyk.com.minesweeper.interfaces.PlayNavigator
+import app.drewromanyk.com.minesweeper.models.Cell
 import app.drewromanyk.com.minesweeper.util.DialogInfoUtils
 import app.drewromanyk.com.minesweeper.util.Helper
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
@@ -91,10 +93,19 @@ class PlayFragment : BaseFragment(), PlayNavigator {
                     .setTitle(title)
                     .setMessage(description)
                     .setPositiveButton(android.R.string.yes) { _, _ ->
-                        //TODO
-                        //                            BoardOld statsBoard = UserPrefStorage.loadSavedBoard(getActivity(), true);
-                        //                            statsBoard.updateLocalStatistics(getActivity());
-                        //                            startGameIntent(difficulty);
+                        val data = UserPrefStorage.loadGame(context, object : MinesweeperHandler {
+                            override fun isSwiftOpenEnabled(): Boolean = false
+
+                            override fun onSwiftChange() {}
+
+                            override fun onCellChange(cell: Cell, flagChange: Boolean) {}
+
+                            override fun onGameStatusChange(cell: Cell) {}
+
+                            override fun onTimerTick(gameTime: Long) {}
+                        })
+                        UserPrefStorage.updateStatsWithGame(context, data.gameDifficulty, data.minesweeper)
+                        startGameIntent(difficulty)
                     }
                     .setNegativeButton(android.R.string.no) { _, _ -> }
                     .create()

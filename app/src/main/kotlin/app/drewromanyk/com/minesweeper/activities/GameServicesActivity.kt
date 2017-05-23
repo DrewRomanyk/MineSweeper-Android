@@ -74,18 +74,17 @@ abstract class GameServicesActivity : AppCompatActivity(), GoogleApiClient.Conne
     }
 
     fun updateLeaderboards(gameStatus: GameStatus, gameDifficulty: GameDifficulty, score: Long, millis: Long) {
-        // TODO
-        val achievementSeconds = longArrayOf(20000, 60000, 150000)
+        val achievementSeconds = longArrayOf(20_000, 60_000, 150_000)
         val achievementWin = arrayOf(BuildConfig.ACHIEVEMENT_EASY, BuildConfig.ACHIEVEMENT_MEDIUM, BuildConfig.ACHIEVEMENT_EXPERT)
         val achievementSpeed = arrayOf(BuildConfig.ACHIEVEMENT_FAST, BuildConfig.ACHIEVEMENT_QUICK, BuildConfig.ACHIEVEMENT_SWIFT)
         val leaderboardScores = arrayOf(BuildConfig.LEADERBOARD_EASY_BEST_SCORES, BuildConfig.LEADERBOARD_MEDIUM_BEST_SCORES, BuildConfig.LEADERBOARD_EXPERT_BEST_SCORES)
         val leaderboardTimes = arrayOf(BuildConfig.LEADERBOARD_EASY_BEST_TIMES, BuildConfig.LEADERBOARD_MEDIUM_BEST_TIMES, BuildConfig.LEADERBOARD_EXPERT_BEST_TIMES)
         val leaderboardStreaks = arrayOf(BuildConfig.LEADERBOARD_EASY_BEST_STREAK, BuildConfig.LEADERBOARD_MEDIUM_BEST_STREAKs, BuildConfig.LEADERBOARD_EXPERT_BEST_STREAKs)
 
-        if (gameStatus === GameStatus.VICTORY) {
+        if (gameStatus == GameStatus.VICTORY) {
             val fba = FirebaseAnalytics.getInstance(this)
             fba.logEvent("game_over_google_games_victory", null)
-            if (googleApiClient!!.isConnected) {
+            if (googleApiClient?.isConnected as Boolean) {
                 // Skip non ranked difficulty
                 if ((gameDifficulty === GameDifficulty.CUSTOM) || (gameDifficulty === GameDifficulty.RESUME))
                     return
