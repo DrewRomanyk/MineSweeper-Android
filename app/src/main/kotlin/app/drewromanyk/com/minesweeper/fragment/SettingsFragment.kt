@@ -42,7 +42,7 @@ class SettingsFragment : PreferenceFragment() {
 
     private fun setup_clear_purchase_pref() {
         // For testing only
-        val enable_clear_purchase = false && BuildConfig.DEBUG
+        val enable_clear_purchase = false and BuildConfig.DEBUG
 
         if (enable_clear_purchase) {
             val clear_purchases = findPreference("purchase_clear")

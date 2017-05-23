@@ -79,7 +79,7 @@ class PlayGameDifficultyAdapter(private val navigator: PlayNavigator) : Recycler
 
     override fun getItemViewType(position: Int): Int {
         val FIRST_ITEM = 0
-        if (canShowRating && position == FIRST_ITEM) {
+        if (canShowRating and (position == FIRST_ITEM)) {
             return RATING_TYPE
         } else {
             return DIFFICULTY_TYPE

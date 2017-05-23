@@ -146,7 +146,7 @@ class MainActivity : AdsActivity() {
      */
 
     override fun onConnected(bundle: Bundle?) {
-        if (Helper.isOnline(this) && Plus.PeopleApi.getCurrentPerson(googleApiClient) != null) {
+        if (Helper.isOnline(this) and (Plus.PeopleApi.getCurrentPerson(googleApiClient) != null)) {
             val currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient)
             val nameDisplay = navView!!.findViewById(R.id.name) as TextView
             val avatar = navView!!.findViewById(R.id.avatar) as CircleImageView
@@ -162,7 +162,7 @@ class MainActivity : AdsActivity() {
 
             Picasso.with(this).load(playerAvatarURL).placeholder(R.drawable.person_image_empty).into(avatar)
 
-            if (currentPerson.cover != null && currentPerson.cover.hasCoverPhoto()) {
+            if (currentPerson.cover?.hasCoverPhoto() as Boolean) {
                 val playerCoverURL = currentPerson.cover.coverPhoto.url
                 Picasso.with(this).load(playerCoverURL).placeholder(R.color.nav_drawer_header_background).into(cover)
             }
