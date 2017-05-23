@@ -34,3 +34,5 @@ proguard/
 
 # miscellaneous files
 .DS_Store
+
+app/release/output.json

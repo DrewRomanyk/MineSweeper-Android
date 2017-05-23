@@ -79,8 +79,7 @@ class PlayFragment : BaseFragment(), PlayNavigator {
         gameDifficulties.add(GameDifficulty.MEDIUM)
         gameDifficulties.add(GameDifficulty.EXPERT)
 
-        //TODO fix this comment
-        //        adapter.setCanShowRating(UserPrefStorage.INSTANCE.canShowRatingDialog(getActivity()));
+        adapter.setCanShowRating(UserPrefStorage.canShowRatingDialog(context));
         adapter.setGameDifficultyList(gameDifficulties)
         adapter.notifyDataSetChanged()
     }

@@ -3,6 +3,9 @@ package app.drewromanyk.com.minesweeper.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+
+import com.google.firebase.analytics.FirebaseAnalytics
+
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.ClickMode
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
@@ -52,6 +55,7 @@ object UserPrefStorage {
         val hasOpenedApp5times = getPrefs(context).getInt("APP_OPEN_COUNT", 0) >= 5
         var hasWonGame = false
         for (difficulty in GameDifficulty.values()) {
+            if (difficulty == GameDifficulty.CUSTOM || difficulty == GameDifficulty.RESUME) continue
             hasWonGame = getWinsForDifficulty(context, difficulty) > 0
             if (hasWonGame) break
         }
@@ -119,7 +123,8 @@ object UserPrefStorage {
                                 cellValuesJ, cellRevealedJ, cellFlaggedJ),
                         difficulty, zoomCellScale, clickMode)
             } catch (e: Exception) {
-                //TODO log this
+                val fba = FirebaseAnalytics.getInstance(context)
+                fba.logEvent("loadGame Error", null)
                 e.printStackTrace()
             }
 
