@@ -10,7 +10,7 @@ import app.drewromanyk.com.minesweeper.R;
  * This is a Activity that handles setting the back action for the toolbar
  */
 
-public class BackActivity extends AdsActivity {
+public abstract class BackActivity extends AdsActivity {
 
     protected void setupToolbar(Toolbar toolbar, String title) {
         setSupportActionBar(toolbar);

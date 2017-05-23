@@ -2,7 +2,6 @@
     android:id="@+id/nav_header"
     android:layout_width="match_parent"
     android:layout_height="175dp"
-    android:background="@color/accent"
     android:orientation="vertical">
 
     <ImageView

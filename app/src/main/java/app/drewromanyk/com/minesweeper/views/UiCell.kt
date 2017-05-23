@@ -1,7 +1,7 @@
 package app.drewromanyk.com.minesweeper.views
 
 import android.content.Context
-import android.widget.ImageButton
+import android.support.v7.widget.AppCompatImageButton
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.ClickMode
 import app.drewromanyk.com.minesweeper.enums.GameStatus
@@ -10,10 +10,10 @@ import app.drewromanyk.com.minesweeper.models.Cell
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
 
 /**
- * Created by drewromanyk on 5/19/17.
+ * Created by Drew Romanyk on 5/19/17.
  * The UI for the cell component
  */
-class UiCell(context: Context) : ImageButton(context) {
+class UiCell(context: Context) : AppCompatImageButton(context) {
     companion object {
         private val PACKAGE_NAME = "app.drewromanyk.com.minesweeper"
     }

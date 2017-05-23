@@ -8,7 +8,8 @@ import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.enums.GameSoundType;
 
 /**
- * Created by drewromanyk on 5/5/17.
+ * Created by Drew Romanyk on 5/5/17.
+ * Model to help play sounds for the Minesweeper game
  */
 
 public class SoundPlayer {

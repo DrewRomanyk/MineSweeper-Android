@@ -4,7 +4,8 @@ import app.drewromanyk.com.minesweeper.interfaces.GameTimerHandler
 import java.util.*
 
 /**
- * Created by drewromanyk on 5/20/17.
+ * Created by Drew Romanyk on 5/20/17.
+ * Model for handling the game time and the timer
  */
 class GameTimer constructor(startTime: Long = GameTimer.DEFAULT_START_TIME, private val gameTimerHandler: GameTimerHandler) {
     companion object {
@@ -29,7 +30,7 @@ class GameTimer constructor(startTime: Long = GameTimer.DEFAULT_START_TIME, priv
                 if (isOn) {
                     time += 1000 // increase every sec
                     time -= time % 1000
-                    gameTimerHandler.onNewTimerTick(time)
+                    gameTimerHandler.onTimerTick(time)
                 }
             }
         }

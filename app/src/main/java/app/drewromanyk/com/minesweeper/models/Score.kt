@@ -7,7 +7,7 @@ import java.util.LinkedList
  * ThreeBV
  * Class to help calculate the score (3BV) of the minesweeper board
  */
-class Score() {
+class Score {
     private var value: Double = 0.0
 
     fun getScore(time: Long): Double {

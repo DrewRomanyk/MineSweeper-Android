@@ -128,7 +128,7 @@ S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com 
     <string name="settings_support">Soutien</string>
     <string name="settings_support_feedback">Envoyer des commentaires</string>
     <string name="settings_feedback_subject">Démineur: Commentaires</string>
-    <string name="settings_feedback_chooser">Envoyer des commentaires email...</string>
+    <string name="settings_feedback_chooser">Envoyer des commentaires email…</string>
     <string name="settings_feedback_error">Il n\'y a pas emails de clients installés.</string>
 
     <!-- IN APP RATING -->

@@ -30,7 +30,6 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage;
  */
 public abstract class GameServicesActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    private static final String TAG = "GameServicesActivity";
 
     // GOOGLE GAMES
     private GoogleApiClient googleApiClient;
@@ -42,8 +41,8 @@ public abstract class GameServicesActivity extends AppCompatActivity
         return googleApiClient;
     }
 
-    protected void setSignInClicked(boolean value) {
-        signInClicked = value;
+    protected void onSignInClick() {
+        signInClicked = true;
     }
 
     @Override
@@ -81,6 +80,7 @@ public abstract class GameServicesActivity extends AppCompatActivity
     }
 
     public void updateLeaderboards(GameStatus gameStatus, GameDifficulty gameDifficulty, long score, long millis) {
+        // TODO
         long[] achievementSeconds = {20000, 60000, 150000};
         String[] achievementWin = {BuildConfig.ACHIEVEMENT_EASY, BuildConfig.ACHIEVEMENT_MEDIUM, BuildConfig.ACHIEVEMENT_EXPERT};
         String[] achievementSpeed = {BuildConfig.ACHIEVEMENT_FAST, BuildConfig.ACHIEVEMENT_QUICK, BuildConfig.ACHIEVEMENT_SWIFT};

@@ -14,7 +14,8 @@ import app.drewromanyk.com.minesweeper.enums.PremiumState;
 import app.drewromanyk.com.minesweeper.interfaces.UpdateAdViewHandler;
 
 /**
- * Created by drewromanyk on 5/5/17.
+ * Created by Drew Romanyk on 5/5/17.
+ * Util to help with the Premium functions
  */
 
 public class PremiumUtils implements BillingProcessor.IBillingHandler {

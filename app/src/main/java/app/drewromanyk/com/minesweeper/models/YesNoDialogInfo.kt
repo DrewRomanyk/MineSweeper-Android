@@ -1,6 +1,7 @@
 package app.drewromanyk.com.minesweeper.models
 
 /**
- * Created by drewromanyk on 5/18/17.
+ * Created by Drew Romanyk on 5/18/17.
+ * Data class to store information about the dialogs title and description
  */
-class YesNoDialogInfo(val title: String, val description: String)
+data class YesNoDialogInfo(val title: String, val description: String)

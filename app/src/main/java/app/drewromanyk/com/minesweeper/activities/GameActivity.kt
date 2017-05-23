@@ -28,7 +28,8 @@ import app.drewromanyk.com.minesweeper.views.BoardInfoView
 import app.drewromanyk.com.minesweeper.views.MinesweeperUI
 
 /**
- * Created by drewromanyk on 5/19/17.
+ * Created by Drew Romanyk on 5/19/17.
+ * Activity that handles the whole game and its interactions
  */
 
 
@@ -105,8 +106,7 @@ class GameActivity : BackActivity() {
     override fun onPause() {
         super.onPause()
         minesweeperUI.pauseTimer()
-
-        UserPrefStorage.saveBoardInfo(this, minesweeperUI)
+        minesweeperUI.save(this)
     }
 
     public override fun onResume() {
@@ -210,17 +210,10 @@ class GameActivity : BackActivity() {
     private fun setupGame(savedStateIsEmpty: Boolean) {
         val gameDifficulty = GameDifficulty.valueOf(intent.getStringExtra("gameDifficulty"))
 
-        if (!savedStateIsEmpty || gameDifficulty == GameDifficulty.RESUME) {
-            // Load game from storage
-            TODO()
-//            minesweeperUI = UserPrefStorage.loadSavedBoard(this, false)
-        } else {
-            // Set to custom game defaults
-            minesweeperUI = MinesweeperUI(gameDifficulty, boardInfoView, this, this::updateBoardInfo) {
-                val icon = if (minesweeperUI.clickMode == ClickMode.FLAG)
-                    R.drawable.ic_action_flag else R.drawable.ic_action_notflag
-                flagButton.setIcon(icon)
-            }
+        minesweeperUI = MinesweeperUI(savedStateIsEmpty, gameDifficulty, boardInfoView, this, this::updateBoardInfo) {
+            val icon = if (minesweeperUI.clickMode == ClickMode.FLAG)
+                R.drawable.ic_action_flag else R.drawable.ic_action_notflag
+            flagButton.setIcon(icon)
         }
 
         supportActionBar?.title = minesweeperUI.gameDifficulty.getName(this)
@@ -236,6 +229,7 @@ class GameActivity : BackActivity() {
         }
     }
 
+
     @SuppressLint("ClickableViewAccessibility")
     private fun setupBiDirectionalScrolling() {
 
@@ -243,12 +237,13 @@ class GameActivity : BackActivity() {
 
         vScroll = findViewById(R.id.scrollVertical) as ScrollView
 
+        //inner scroll listener
         vScroll.setOnTouchListener { v, _ ->
-            //inner scroll listener
-            v.performClick()
             false
         }
-        hScroll.setOnTouchListener(object : View.OnTouchListener { //outer scroll listener
+
+        //outer scroll listener
+        hScroll.setOnTouchListener(object : View.OnTouchListener {
             private var mx: Float = 0.toFloat()
             private var my: Float = 0.toFloat()
             private var curX: Float = 0.toFloat()
@@ -272,7 +267,6 @@ class GameActivity : BackActivity() {
                         my = curY
                     }
                     MotionEvent.ACTION_UP -> {
-                        v.performClick()
                         vScroll.scrollBy(0, dy)
                         hScroll.scrollBy(dx, 0)
                         started = false

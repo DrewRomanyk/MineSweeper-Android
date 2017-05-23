@@ -19,16 +19,18 @@ import app.drewromanyk.com.minesweeper.util.SoundPlayer
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
 
 /**
- * Created by drewromanyk on 5/18/17.
+ * Created by Drew Romanyk on 5/18/17.
+ * Glue for the Minesweeper model, it handles all UI interactions as it contains the visual cells
+ *  for the game
  */
-class MinesweeperUI(gameDifficulty: GameDifficulty, private val boardInfoView: BoardInfoView, context: Context, private val onGameTimerTick: (Long, Double) -> Unit, private val onFlagChange: () -> Unit) : MinesweeperHandler {
+class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private val boardInfoView: BoardInfoView, context: Context, private val onGameTimerTick: (Long, Double) -> Unit, private val onFlagChange: () -> Unit) : MinesweeperHandler {
     companion object {
         private val MIN_SCALE = .4
         private val MAX_SCALE = 2.0
     }
 
     val gameDifficulty: GameDifficulty
-    private var minesweeper: Minesweeper
+    private val minesweeper: Minesweeper
     var clickMode: ClickMode = ClickMode.REVEAL
         private set(value) {
             field = value
@@ -46,8 +48,16 @@ class MinesweeperUI(gameDifficulty: GameDifficulty, private val boardInfoView: B
     private val isSwiftChangeEnabled = UserPrefStorage.getSwiftChange(context)
 
     init {
-        this.gameDifficulty = gameDifficulty
-        minesweeper = Minesweeper(gameDifficulty.getRows(context), gameDifficulty.getColumns(context), gameDifficulty.getMineCount(context), this)
+        if (loadGame || gameDifficulty == GameDifficulty.RESUME) {
+            val results = UserPrefStorage.loadGame(context, this)
+            minesweeper = results.first
+            this.gameDifficulty = results.second
+            zoomCellScale = results.third
+
+        } else {
+            this.gameDifficulty = gameDifficulty
+            minesweeper = Minesweeper(gameDifficulty.getRows(context), gameDifficulty.getColumns(context), gameDifficulty.getMineCount(context), this)
+        }
         uiCells = Array(gameDifficulty.getRows(context)) { Array(gameDifficulty.getColumns(context)) { UiCell(context) } }
 
         boardInfoView.reset(gameDifficulty.getMineCount(context))
@@ -185,7 +195,7 @@ class MinesweeperUI(gameDifficulty: GameDifficulty, private val boardInfoView: B
         }
     }
 
-    override fun onNewTimerTick(gameTime: Long) {
+    override fun onTimerTick(gameTime: Long) {
         onGameTimerTick(gameTime, minesweeper.getScore())
     }
 
@@ -200,6 +210,10 @@ class MinesweeperUI(gameDifficulty: GameDifficulty, private val boardInfoView: B
         clickMode = ClickMode.REVEAL
         boardInfoView.reset(gameDifficulty.getMineCount(layout.context))
         updateUiCellImage()
+    }
+
+    fun save(context: Context) {
+        UserPrefStorage.saveGame(context, Triple(minesweeper, gameDifficulty, zoomCellScale))
     }
 
     protected fun finalize() {

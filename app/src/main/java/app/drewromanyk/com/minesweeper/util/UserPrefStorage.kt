@@ -7,8 +7,9 @@ import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
 import app.drewromanyk.com.minesweeper.enums.GameStatus
 import app.drewromanyk.com.minesweeper.enums.UiThemeModeEnum
+import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
 import app.drewromanyk.com.minesweeper.models.Minesweeper
-import app.drewromanyk.com.minesweeper.views.MinesweeperUI
+import org.json.JSONArray
 
 /**
  * UserPrefStorage
@@ -89,40 +90,41 @@ object UserPrefStorage {
         return getPrefs(context).getLong("TIME_MILLIS", 1)
     }
 
-    fun loadResumeGame(context: Context): Minesweeper {
-        TODO()
-//        val preferences = getPrefs(context)
-//
-//        var result: Minesweeper? = null
-//
-//        val rows = preferences.getInt("ROWS", 0)
-//        val columns = preferences.getInt("COLUMNS", 0)
-//
-//        if (!(rows == 0 || columns == 0)) {
-//            val difficulty = GameDifficulty.values()[preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal())]
-//            val gameCellScale = preferences.getFloat("GAME_CELL_SCALE", 1f).toDouble()
-//            val mineCount = preferences.getInt("MINE_COUNT", 0)
-//            val status = GameStatus.values()[preferences.getInt("STATUS",
-//                    GameStatus.DEFEAT.ordinal)]
-//
-//            try {
-//                val cellValuesJ = JSONArray(preferences.getString("CELL_VALUES", "[]"))
-//                val cellRevealedJ = JSONArray(preferences.getString("CELL_REVEALED", "[]"))
-//                val cellFlaggedJ = JSONArray(preferences.getString("CELL_FLAGGED", "[]"))
-//
-//                result = Minesweeper(rows, columns, mineCount, getGameDuration(context),
-//                        difficulty, status, cellValuesJ, cellRevealedJ, cellFlaggedJ)
-//
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//
-//        }
-//
-//        return result
+    fun loadGame(context: Context, gameHandler: MinesweeperHandler): Triple<Minesweeper, GameDifficulty, Double> {
+        val preferences = getPrefs(context)
+
+        val rows = preferences.getInt("ROWS", 0)
+        val columns = preferences.getInt("COLUMNS", 0)
+
+        if (!(rows == 0 || columns == 0)) {
+            val difficulty = GameDifficulty.values()[preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal)]
+            val zoomCellScale = preferences.getFloat("GAME_CELL_SCALE", 1f).toDouble()
+            val mineCount = preferences.getInt("MINE_COUNT", 0)
+            val status = GameStatus.values()[preferences.getInt("STATUS", GameStatus.DEFEAT.ordinal)]
+            val startGameTime = getGameDuration(context)
+
+            try {
+                val cellValuesJ = JSONArray(preferences.getString("CELL_VALUES", "[]"))
+                val cellRevealedJ = JSONArray(preferences.getString("CELL_REVEALED", "[]"))
+                val cellFlaggedJ = JSONArray(preferences.getString("CELL_FLAGGED", "[]"))
+
+                return Triple(
+                        Minesweeper(gameHandler, rows, columns, mineCount, startGameTime, status,
+                                cellValuesJ, cellRevealedJ, cellFlaggedJ),
+                        difficulty,
+                        zoomCellScale)
+            } catch (e: Exception) {
+                //TODO log this
+                e.printStackTrace()
+            }
+
+        }
+
+        throw IllegalArgumentException()
     }
 
     fun storeGameLocalStats(context: Context) {
+        //TODO
         TODO()
 //        val preferences = getPrefs(context)
 //
@@ -130,36 +132,39 @@ object UserPrefStorage {
 //        minesweeper.
     }
 
-    fun saveBoardInfo(context: Context, minesweeperUI: MinesweeperUI) {
-        TODO()
-//        val time = minesweeperUI.time
-//        val editor = getPrefs(context).edit()
-//
-//        editor.putString("SAVED_VERSION", context.getString(R.string.preference_saved_current_version))
-//        editor.putInt("ROWS", minesweeperUI.rows)
-//        editor.putInt("COLUMNS", minesweeperUI.columns)
-//        editor.putInt("MINE_COUNT", minesweeperUI.mineCount)
-//        editor.putFloat("GAME_CELL_SCALE", minesweeperUI.gameCellScale.toFloat())
-//        editor.putInt("DIFFICULTY", minesweeperUI.gameDifficulty.ordinal)
-//        editor.putInt("STATUS", minesweeperUI.gameStatus.ordinal)
-//        editor.putLong("TIME_MILLIS", time)
-//
-//        val cellValues = JSONArray()
-//        val cellRevealed = JSONArray()
-//        val cellFlagged = JSONArray()
-//        for (r in 0 until minesweeperUI.rows) {
-//            for (c in 0 until minesweeperUI.columns) {
-//                cellValues.put(minesweeperUI.getCellValue(r, c))
-//                cellRevealed.put(minesweeperUI.getCellReveal(r, c))
-//                cellFlagged.put(minesweeperUI.getCellFlag(r, c))
-//            }
-//        }
-//
-//        editor.putString("CELL_VALUES", cellValues.toString())
-//        editor.putString("CELL_REVEALED", cellRevealed.toString())
-//        editor.putString("CELL_FLAGGED", cellFlagged.toString())
-//
-//        editor.apply()
+    fun saveGame(context: Context, saveData: Triple<Minesweeper, GameDifficulty, Double>) {
+        val minesweeper = saveData.first
+        val gameDifficulty = saveData.second
+        val zoomCellScale = saveData.third
+
+        val time = saveData.first.getTime()
+        val editor = getPrefs(context).edit()
+
+        editor.putString("SAVED_VERSION", context.getString(R.string.preference_saved_current_version))
+        editor.putInt("ROWS", minesweeper.cells.size)
+        editor.putInt("COLUMNS", minesweeper.cells[0].size)
+        editor.putInt("MINE_COUNT", gameDifficulty.getMineCount(context))
+        editor.putFloat("GAME_CELL_SCALE", zoomCellScale.toFloat())
+        editor.putInt("DIFFICULTY", gameDifficulty.ordinal)
+        editor.putInt("STATUS", minesweeper.gameStatus.ordinal)
+        editor.putLong("TIME_MILLIS", time)
+
+        val cellValues = JSONArray()
+        val cellRevealed = JSONArray()
+        val cellFlagged = JSONArray()
+        for (r in 0 until minesweeper.cells.size) {
+            for (c in 0 until minesweeper.cells[0].size) {
+                cellValues.put(minesweeper.cells[r][c].value)
+                cellRevealed.put(minesweeper.cells[r][c].isRevealed())
+                cellFlagged.put(minesweeper.cells[r][c].isFlagged())
+            }
+        }
+
+        editor.putString("CELL_VALUES", cellValues.toString())
+        editor.putString("CELL_REVEALED", cellRevealed.toString())
+        editor.putString("CELL_FLAGGED", cellFlagged.toString())
+
+        editor.apply()
     }
 
     /*

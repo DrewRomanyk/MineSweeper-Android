@@ -124,7 +124,7 @@
     <string name="settings_support">Поддержка</string>
     <string name="settings_support_feedback">Отправить Отзыв</string>
     <string name="settings_feedback_subject">Сапёр: Отзывы</string>
-    <string name="settings_feedback_chooser">тправить письмо с отзывом...</string>
+    <string name="settings_feedback_chooser">тправить письмо с отзывом…</string>
     <string name="settings_feedback_error">Почтовые Клиенты не Установлены.</string>
 
     <!-- IN APP RATING -->

@@ -7,7 +7,7 @@ import org.json.JSONException
 import java.util.*
 
 /**
- * Created by drewromanyk on 5/18/17.
+ * Created by Drew Romanyk on 5/18/17.
  * Pure non-android class to represent all Minesweeper operations
  */
 
@@ -22,7 +22,7 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
                 pauseTimer()
             }
         }
-    private var score: Score = Score()
+    private val score: Score = Score()
     private var flaggedMines: Int = 0
     private var flaggedCells: Int = 0
     private var revealedCells: Int = 0
@@ -174,14 +174,12 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
     private fun hasWonGame(): Boolean = (mineCount + revealedCells == cells.size * cells[0].size)
 
     private fun getCellNeighbors(cell: Cell): Collection<Cell> {
-        val neighbors: MutableList<Cell> = mutableListOf<Cell>()
+        val neighbors: MutableList<Cell> = mutableListOf()
 
         for (r in cell.row - 1..cell.row + 1) {
-            for (c in cell.column - 1..cell.column + 1) {
-                if (inbounds(r, c) && !(cell.row == r && cell.column == c)) {
-                    neighbors.add(cells[r][c])
-                }
-            }
+            (cell.column - 1..cell.column + 1)
+                    .filter { inbounds(r, it) && !(cell.row == r && cell.column == it) }
+                    .mapTo(neighbors) { cells[r][it] }
         }
 
         return neighbors
@@ -215,7 +213,7 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
     }
 
     /***
-     * Helper
+     * Time
      */
 
     fun resumeTimer() {
@@ -227,6 +225,13 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
     fun pauseTimer() {
         gameTimer.stopGameTime()
     }
+
+    fun getTime(): Long = gameTimer.time
+
+
+    /***
+     * Helper
+     */
 
     fun getScore(): Double {
         return score.getScore(gameTimer.time)

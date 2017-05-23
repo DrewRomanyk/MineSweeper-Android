@@ -3,7 +3,8 @@ package app.drewromanyk.com.minesweeper.models
 import app.drewromanyk.com.minesweeper.enums.CellStatus
 
 /**
- * Created by drewromanyk on 5/18/17.
+ * Created by Drew Romanyk on 5/18/17.
+ * Model for handling Cell data and operations
  */
 
 class Cell {

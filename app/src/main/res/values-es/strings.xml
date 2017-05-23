@@ -126,7 +126,7 @@ Bandera:
     <string name="settings_support">Soporte</string>
     <string name="settings_support_feedback">Enviar Retroalimentación</string>
     <string name="settings_feedback_subject">Buscaminas: Retroalimentación</string>
-    <string name="settings_feedback_chooser">Enviar Retroalimentación por Correo Electrónico...</string>
+    <string name="settings_feedback_chooser">Enviar Retroalimentación por Correo Electrónico…</string>
     <string name="settings_feedback_error">No hay proveedor de correo electrónico instalado.</string>
 
     <!-- IN APP RATING -->

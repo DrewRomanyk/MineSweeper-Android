@@ -125,7 +125,7 @@ Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per
     <string name="settings_support">Assistenza</string>
     <string name="settings_support_feedback">Invia Feedback</string>
     <string name="settings_feedback_subject">Campo Minato: Feedback</string>
-    <string name="settings_feedback_chooser">Invia email feedback...</string>
+    <string name="settings_feedback_chooser">Invia email feedback…</string>
     <string name="settings_feedback_error">Non sono installati client email.</string>
 
     <!-- IN APP RATING -->

@@ -128,7 +128,7 @@
     <string name="settings_support">支持</string>
     <string name="settings_support_feedback">发送反馈</string>
     <string name="settings_feedback_subject">扫雷: 反馈</string>
-    <string name="settings_feedback_chooser">发送反馈电子邮件...</string>
+    <string name="settings_feedback_chooser">发送反馈电子邮件…</string>
     <string name="settings_feedback_error">没有安装电子邮件客户端。</string>
 
     <!-- IN APP RATING -->

@@ -1,18 +1,13 @@
 package app.drewromanyk.com.minesweeper.activities;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.TransactionDetails;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
-import app.drewromanyk.com.minesweeper.BuildConfig;
 import app.drewromanyk.com.minesweeper.R;
 import app.drewromanyk.com.minesweeper.interfaces.UpdateAdViewHandler;
 import app.drewromanyk.com.minesweeper.util.PremiumUtils;
@@ -22,7 +17,6 @@ import app.drewromanyk.com.minesweeper.util.PremiumUtils;
  * This is a Activity that handles Ads and In-app purchases through PremiumUtils
  */
 public abstract class AdsActivity extends GameServicesActivity implements UpdateAdViewHandler {
-    private static final String TAG = "AdsActivity";
     // ADS
     private AdView adView;
 

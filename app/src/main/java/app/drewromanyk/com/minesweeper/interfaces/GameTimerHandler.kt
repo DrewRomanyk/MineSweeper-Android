@@ -1,8 +1,9 @@
 package app.drewromanyk.com.minesweeper.interfaces
 
 /**
- * Created by drewromanyk on 5/20/17.
+ * Created by Drew Romanyk on 5/20/17.
+ * Interface to allow for event handlers for the timer
  */
 interface GameTimerHandler {
-    fun onNewTimerTick(gameTime: Long)
+    fun onTimerTick(gameTime: Long)
 }

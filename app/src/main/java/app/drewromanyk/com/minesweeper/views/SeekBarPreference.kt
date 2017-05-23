@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
@@ -141,7 +140,7 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
         try {
             mStatusText = view!!.findViewById(R.id.seekBarPrefValue) as TextView
 
-            mStatusText!!.text = (mUnitsLeft + mCurrentValue + mUnitsRight).toString()
+            mStatusText!!.text = (mUnitsLeft + mCurrentValue + mUnitsRight)
             mStatusText!!.minimumWidth = 30
 
             mSeekBar!!.progress = mCurrentValue - mMinValue
@@ -178,7 +177,7 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
         // change accepted, store it
         updateCurrentValue(newValue)
         //mStatusText.setText(String.valueOf(newValue));
-        mStatusText!!.text = (mUnitsLeft + newValue + mUnitsRight).toString()
+        mStatusText!!.text = (mUnitsLeft + newValue + mUnitsRight)
         persistInt(newValue)
 
     }

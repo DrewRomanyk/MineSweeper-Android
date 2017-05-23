@@ -65,7 +65,7 @@ public class MainActivity extends AdsActivity {
                     Picasso.with(v.getContext()).load(R.drawable.person_image_empty).into((ImageView) navView.findViewById(R.id.avatar));
                     Picasso.with(v.getContext()).load(R.color.nav_drawer_header_background).into((ImageView) navView.findViewById(R.id.cover));
                 } else {
-                    setSignInClicked(true);
+                    onSignInClick();
                     getGoogleApiClient().connect();
                 }
             }
@@ -152,7 +152,7 @@ public class MainActivity extends AdsActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (requestCode == ResultCodes.NEEDGOOGLE_DIALOG.ordinal()) {
-                            setSignInClicked(true);
+                            onSignInClick();
                             getGoogleApiClient().connect();
                         }
                     }
