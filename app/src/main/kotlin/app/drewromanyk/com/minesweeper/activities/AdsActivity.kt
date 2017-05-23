@@ -58,7 +58,7 @@ abstract class AdsActivity : GameServicesActivity(), UpdateAdViewHandler {
         PremiumUtils.instance.releaseContext()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (!PremiumUtils.instance.handleBillingActivityResults(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data)
         }

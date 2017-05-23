@@ -38,7 +38,7 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
         }
     }
 
-    fun handleBillingActivityResults(requestCode: Int, resultCode: Int, data: Intent): Boolean {
+    fun handleBillingActivityResults(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         return bp!!.handleActivityResult(requestCode, resultCode, data)
     }
 
