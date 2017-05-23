@@ -171,7 +171,7 @@ abstract class GameServicesActivity : AppCompatActivity(), GoogleApiClient.Conne
             // error string in your strings.xml file, such as "There was
             // an issue with sign in, please try again later."
             if (!BaseGameUtils.resolveConnectionFailure(this,
-                    googleApiClient, connectionResult,
+                    googleApiClient!!, connectionResult,
                     ResultCodes.SIGN_IN.ordinal, getString(R.string.signin_other_error))) {
                 isResolvingConnectionFailure = false
             }
