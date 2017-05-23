@@ -82,7 +82,7 @@
             android:key="lockrotate_check"
             android:title="@string/settings_game_rotate" />
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="volumebutton_check"
             android:title="@string/settings_game_volumeflag" />
         <SwitchPreference
