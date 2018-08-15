@@ -27,7 +27,7 @@
     <!-- HELP -->
     <string name="dialog_help_title">Ayuda</string>
     <string name="dialog_help_message">"CÓMO JUGAR:
-    Buscaminas es un juego tipo acertijo en el que el jugador debe descubrir todas las celdas que no son minas sin descubrir una celda con mina. Las celdas pueden ser ya sea minas o la cantidad de minas en las 8 celdas vecinas cercanas. El jugador puede deducir de las celdas sin minas, dónde podrían estar las minas. Los jugadores pueden poner una bandera en una celda en la que creen que hay una mina.
+    Dragaminas es un juego tipo acertijo en el que el jugador debe descubrir todas las celdas que no son minas sin descubrir una celda con mina. Las celdas pueden ser ya sea minas o la cantidad de minas en las 8 celdas vecinas cercanas. El jugador puede deducir de las celdas sin minas, dónde podrían estar las minas. Los jugadores pueden poner una bandera en una celda en la que creen que hay una mina.
     \nCONTROLES:
 Normal:
  • Toca una celda para revelarla.
@@ -41,13 +41,13 @@ Bandera:
  • Toca una celda numerada que tiene varias banderas cerca para despejar las celdas cercanas sin bandera (Swift Open).
  • Toca una celda vacía para cambiar el modo de control rápidamente (Swift Change).
     \nPUNTUACIÓN:
-    La puntuación está basada en 3BV por segundo, donde 3BV es una forma de medir la dificultad de un tablero de Buscaminas basado en la cantidad de clicks que tome resolver el tablero.
+    La puntuación está basada en 3BV por segundo, donde 3BV es una forma de medir la dificultad de un tablero de Dragaminas basado en la cantidad de clicks que tome resolver el tablero.
     \nSOPORTE:
     Por favor, envíe un correo electrónico al desarrollador a drew.romanyk@gmail.com por cualquier comentario o retroalimentación."
     </string>
     <!-- ABOUT -->
     <string name="dialog_about_title">Acerca De</string>
-    <string name="dialog_about_message">El clásico juego de Buscaminas está aquí para Android. Usa estrategia y pensamiento crítico para ganar. El objetivo es revelar todas las celdas que no son minas. Buscaminas también es conocido como Minas.\n\nVersión: {amount}</string>
+    <string name="dialog_about_message">El clásico juego de Dragaminas está aquí para Android. Usa estrategia y pensamiento crítico para ganar. El objetivo es revelar todas las celdas que no son minas. Dragaminas también es conocido como Minas.\n\nVersión: {amount}</string>
     <!-- CUSTOMGAMEERROR -->
     <string name="dialog_customgameerror_title">Error de Configuración de Personalización del Juego</string>
     <string name="dialog_customgameerror_message">La cantidad de bombas que seleccionaste no es válida para la cantidad de celdas en el juego.</string>
@@ -125,12 +125,12 @@ Bandera:
 
     <string name="settings_support">Soporte</string>
     <string name="settings_support_feedback">Enviar Retroalimentación</string>
-    <string name="settings_feedback_subject">Buscaminas: Retroalimentación</string>
+    <string name="settings_feedback_subject">Dragaminas: Retroalimentación</string>
     <string name="settings_feedback_chooser">Enviar Retroalimentación por Correo Electrónico…</string>
     <string name="settings_feedback_error">No hay proveedor de correo electrónico instalado.</string>
 
     <!-- IN APP RATING -->
-    <string name="inapp_rating_enjoy">¿Disfrutando Buscaminas?</string>
+    <string name="inapp_rating_enjoy">¿Disfrutando Dragaminas?</string>
     <string name="inapp_rating_enjoy_no">No realmente</string>
     <string name="inapp_rating_enjoy_yes">¡Si!</string>
     <string name="inapp_rating_feedback">¿Te molestaría darnos una Retroalimentación?</string>
