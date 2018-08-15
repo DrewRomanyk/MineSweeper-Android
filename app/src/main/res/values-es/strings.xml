@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- APP -->
-    <string name="app_name">Buscaminas</string>
+    <string name="app_name">Dragaminas</string>
 
     <!-- NAV DRAWER -->
     <string name="nav_header_playername_empty">REGISTRARSE</string>

@@ -20,8 +20,8 @@ android {
         applicationId "app.drewromanyk.com.minesweeper"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 26
-        versionName "1.5.1"
+        versionCode 27
+        versionName "1.5.2"
 
         resValue "string", "ad_id", retrieveProp('AD_ID')
         resValue "string", "ad_app_id", retrieveProp('AD_APP_ID')
