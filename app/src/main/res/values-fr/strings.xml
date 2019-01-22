@@ -139,4 +139,6 @@ S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com 
     <string name="inapp_rating_rating">Que diriez-vous d\'une note sur le Play Store, alors?</string>
     <string name="inapp_rating_secondary_no">Non merci</string>
     <string name="inapp_rating_secondary_yes">Ok, bien sûr</string>
+    <string name="settings_support_privacy_policy">Voir la politique de confidentialité</string>
+    <string name="settings_support_terms_conditions">Voir les termes et conditions</string>
 </resources>

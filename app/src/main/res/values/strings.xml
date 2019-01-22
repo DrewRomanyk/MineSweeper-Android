@@ -140,6 +140,8 @@ Flag:
 
     <string name="settings_support">Support</string>
     <string name="settings_support_feedback">Send Feedback</string>
+    <string name="settings_support_privacy_policy">View privacy policy</string>
+    <string name="settings_support_terms_conditions">View terms and conditions</string>
     <string name="settings_feedback_subject">Minesweeper: Feedback</string>
     <string name="settings_feedback_chooser">Send feedback email…</string>
     <string name="settings_feedback_error">There are no email clients installed.</string>

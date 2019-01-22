@@ -136,5 +136,7 @@ Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per
     <string name="inapp_rating_rating">E che ne dici di votarla sul Play Store?</string>
     <string name="inapp_rating_secondary_no">No, grazie</string>
     <string name="inapp_rating_secondary_yes">Ok, certo</string>
+    <string name="settings_support_privacy_policy">Visualizza l\'informativa sulla privacy</string>
+    <string name="settings_support_terms_conditions">Visualizza termini e condizioni</string>
 
 </resources>

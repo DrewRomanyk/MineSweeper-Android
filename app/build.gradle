@@ -15,7 +15,10 @@ def retrieveProp(String key) {
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
     defaultConfig {
         applicationId "app.drewromanyk.com.minesweeper"
         minSdkVersion 14

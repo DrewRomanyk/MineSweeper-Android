@@ -1,6 +1,8 @@
 package app.drewromanyk.com.minesweeper.fragment
 
+import android.content.Intent
 import android.os.Bundle
+import android.net.Uri
 import android.preference.Preference
 import android.preference.PreferenceFragment
 
@@ -36,6 +38,16 @@ class SettingsFragment : PreferenceFragment() {
         val send_feedback = findPreference("send_feedback")
         send_feedback.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             Helper.sendFeedback(activity)
+            true
+        }
+        val view_privacy_policy = findPreference("view_privacy_policy")
+        view_privacy_policy.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://www.drewromanyk.com/minesweeper/privacy_policy")))
+            true
+        }
+        val view_terms_and_conditions = findPreference("view_terms_and_conditions")
+        view_terms_and_conditions.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://www.drewromanyk.com/minesweeper/terms_and_conditions")))
             true
         }
     }

@@ -139,4 +139,6 @@
     <string name="inapp_rating_rating">那么，去Play商店给个评分怎么样？</string>
     <string name="inapp_rating_secondary_no">不用了, 谢谢</string>
     <string name="inapp_rating_secondary_yes">可以, 当然</string>
+    <string name="settings_support_privacy_policy">查看隐私政策</string>
+    <string name="settings_support_terms_conditions">查看条款和条件</string>
 </resources>

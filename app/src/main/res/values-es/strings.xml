@@ -137,4 +137,6 @@ Bandera:
     <string name="inapp_rating_rating">¿Qué tal una Puntuación en Play Store, entonces?</string>
     <string name="inapp_rating_secondary_no">No, gracias</string>
     <string name="inapp_rating_secondary_yes">Ok, seguro</string>
+    <string name="settings_support_privacy_policy">Ver política de privacidad</string>
+    <string name="settings_support_terms_conditions">Ver términos y condiciones</string>
 </resources>
