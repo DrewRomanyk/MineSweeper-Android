@@ -1,7 +1,7 @@
 package app.drewromanyk.com.minesweeper.views
 
 import android.content.Context
-import android.support.v7.widget.AppCompatImageButton
+import androidx.appcompat.widget.AppCompatImageButton
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.ClickMode
 import app.drewromanyk.com.minesweeper.enums.GameStatus

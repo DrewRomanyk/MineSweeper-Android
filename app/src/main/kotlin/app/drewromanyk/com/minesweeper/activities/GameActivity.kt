@@ -3,11 +3,7 @@ package app.drewromanyk.com.minesweeper.activities
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
-import android.support.v4.app.NavUtils
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -17,13 +13,14 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.HorizontalScrollView
 import android.widget.ScrollView
-import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import androidx.core.app.NavUtils
+import androidx.core.content.ContextCompat
 
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.*
-import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
 import app.drewromanyk.com.minesweeper.interfaces.MinesweeperUiHandler
-import app.drewromanyk.com.minesweeper.models.Cell
 import app.drewromanyk.com.minesweeper.util.DialogInfoUtils
 import app.drewromanyk.com.minesweeper.util.Helper
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
@@ -51,12 +48,12 @@ class GameActivity : BackActivity() {
         setContentView(R.layout.activity_game)
         setupAds()
 
-        setupToolbar(findViewById(R.id.toolbar) as Toolbar, getString(R.string.nav_play))
+        setupToolbar(findViewById(R.id.toolbar), getString(R.string.nav_play))
 
         boardInfoView = BoardInfoView(
-                findViewById(R.id.timeKeeper) as TextView,
-                findViewById(R.id.mineKeeper) as TextView,
-                findViewById(R.id.scoreKeeper) as TextView)
+                findViewById(R.id.timeKeeper),
+                findViewById(R.id.mineKeeper),
+                findViewById(R.id.scoreKeeper))
         setupBoardLayout(savedInstanceState)
 
         applySettings()
@@ -72,7 +69,7 @@ class GameActivity : BackActivity() {
 
     private fun setupBoardLayout(savedInstanceState: Bundle?) {
         boardBackground = findViewById(R.id.boardBackground)
-        boardBackground.setOnClickListener { _ ->
+        boardBackground.setOnClickListener {
             if (UserPrefStorage.getSwiftChange(this)) {
                 minesweeperUI.switchClickMode()
             }
@@ -88,17 +85,14 @@ class GameActivity : BackActivity() {
         }
 
         if (UserPrefStorage.getLockRotate(this)) {
-            val orientation: Int
             val rotation = (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
-            when (rotation) {
-                Surface.ROTATION_0 -> orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                Surface.ROTATION_90 -> orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                Surface.ROTATION_180 -> orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-                Surface.ROTATION_270 -> orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-                else -> orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+            requestedOrientation = when (rotation) {
+                Surface.ROTATION_0 -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                Surface.ROTATION_90 -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                Surface.ROTATION_180 -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                Surface.ROTATION_270 -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                else -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
             }
-
-            requestedOrientation = orientation
         }
 
         // Theme Changing Background
@@ -115,8 +109,6 @@ class GameActivity : BackActivity() {
     public override fun onResume() {
         super.onResume()
         minesweeperUI.resumeTimer()
-
-        Helper.screenViewOnGoogleAnalytics(this, "Game")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -125,13 +117,13 @@ class GameActivity : BackActivity() {
         flagButton = menu.findItem(R.id.action_flag)
         refreshButton = menu.findItem(R.id.action_refresh)
 
-        val action_zoomin = findViewById(R.id.action_zoomin)
-        action_zoomin?.setOnLongClickListener {
+        val actionZoomIn = findViewById<View>(R.id.action_zoomin)
+        actionZoomIn.setOnLongClickListener {
             minesweeperUI.zoomIn(true)
             true
         }
-        val action_zoomout = findViewById(R.id.action_zoomout)
-        action_zoomout?.setOnLongClickListener {
+        val actionZoomOut = findViewById<View>(R.id.action_zoomout)
+        actionZoomOut.setOnLongClickListener {
             minesweeperUI.zoomOut(true)
             true
         }
@@ -208,7 +200,6 @@ class GameActivity : BackActivity() {
      * SETUP BOARD
      */
 
-
     private fun setupGame(savedStateIsEmpty: Boolean) {
         val gameDifficulty = GameDifficulty.valueOf(intent.getStringExtra("gameDifficulty"))
 
@@ -240,12 +231,12 @@ class GameActivity : BackActivity() {
     @SuppressLint("ClickableViewAccessibility")
     private fun setupBiDirectionalScrolling() {
 
-        val hScroll = findViewById(R.id.scrollHorizontal) as HorizontalScrollView
+        val hScroll = findViewById<HorizontalScrollView>(R.id.scrollHorizontal)
 
-        vScroll = findViewById(R.id.scrollVertical) as ScrollView
+        vScroll = findViewById(R.id.scrollVertical)
 
         //inner scroll listener
-        vScroll.setOnTouchListener { v, _ ->
+        vScroll.setOnTouchListener { _, _ ->
             false
         }
 

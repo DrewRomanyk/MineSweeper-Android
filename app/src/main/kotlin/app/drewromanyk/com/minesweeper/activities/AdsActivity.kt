@@ -22,11 +22,11 @@ abstract class AdsActivity : GameServicesActivity(), UpdateAdViewHandler {
 
     protected fun setupAds() {
         PremiumUtils.instance.updateContext(this, this)
-        this.adView = findViewById(R.id.adView) as AdView
+        this.adView = findViewById(R.id.adView)
 
         val handler = Handler()
         handler.postDelayed({
-            MobileAds.initialize(applicationContext, getString(R.string.ad_app_id))
+            MobileAds.initialize(this, getString(R.string.ad_app_id))
             this@AdsActivity.adView!!.loadAd(AdRequest.Builder().build())
             updateAdView()
         }, 1000)

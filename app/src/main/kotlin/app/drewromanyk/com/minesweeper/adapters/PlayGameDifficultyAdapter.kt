@@ -1,12 +1,11 @@
 package app.drewromanyk.com.minesweeper.adapters
 
 import android.content.res.ColorStateList
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
 import com.google.firebase.analytics.FirebaseAnalytics
 
@@ -16,6 +15,7 @@ import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
 import app.drewromanyk.com.minesweeper.interfaces.PlayNavigator
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
  * Created by Drew on 12/11/15.
@@ -64,7 +64,7 @@ class PlayGameDifficultyAdapter(private val navigator: PlayNavigator) : Recycler
     }
 
     init {
-        gameDifficultyList = ArrayList<GameDifficulty>()
+        gameDifficultyList = ArrayList()
     }
 
     fun setGameDifficultyList(gameDifficultyList: ArrayList<GameDifficulty>) {

@@ -10,13 +10,9 @@ import android.text.Html
 import android.text.Spanned
 import android.widget.Toast
 
-import com.google.android.gms.analytics.HitBuilders
-import com.google.android.gms.analytics.Tracker
-
 import java.util.Locale
 
 import app.drewromanyk.com.minesweeper.R
-import app.drewromanyk.com.minesweeper.application.MinesweeperApp
 
 /**
  * Created by Drew on 4/18/2015.
@@ -28,13 +24,6 @@ object Helper {
     fun isOnline(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.activeNetworkInfo?.isConnectedOrConnecting as Boolean
-    }
-
-    fun screenViewOnGoogleAnalytics(context: Context, screenName: String): Tracker {
-        val application = context.applicationContext as MinesweeperApp
-        application.defaultTracker.setScreenName("Screen~" + screenName)
-        application.defaultTracker.send(HitBuilders.ScreenViewBuilder().build())
-        return application.defaultTracker
     }
 
     fun sendFeedback(activity: Activity) {

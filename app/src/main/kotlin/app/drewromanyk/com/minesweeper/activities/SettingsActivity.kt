@@ -1,7 +1,6 @@
 package app.drewromanyk.com.minesweeper.activities
 
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.fragment.SettingsFragment
@@ -18,7 +17,7 @@ class SettingsActivity : BackActivity() {
         setContentView(R.layout.activity_settings)
         setupAds()
 
-        setupToolbar(findViewById(R.id.toolbar) as Toolbar, getString(R.string.nav_settings))
+        setupToolbar(findViewById(R.id.toolbar), getString(R.string.nav_settings))
 
         fragmentManager.beginTransaction()
                 .replace(R.id.content, SettingsFragment())

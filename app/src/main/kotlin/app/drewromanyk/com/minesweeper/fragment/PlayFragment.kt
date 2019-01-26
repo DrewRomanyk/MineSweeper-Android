@@ -4,13 +4,13 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import java.util.ArrayList
 
@@ -38,8 +38,8 @@ class PlayFragment : BaseFragment(), PlayNavigator {
 
     private lateinit var adapter: PlayGameDifficultyAdapter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater!!.inflate(R.layout.fragment_play, container, false) as ViewGroup
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val root = inflater.inflate(R.layout.fragment_play, container, false) as ViewGroup
 
         setupToolbar(root.findViewById(R.id.toolbar) as Toolbar, getString(R.string.nav_play))
         setupPlayButtons(root)
@@ -52,11 +52,6 @@ class PlayFragment : BaseFragment(), PlayNavigator {
         updatePlaySelectButtons()
     }
 
-    override fun onResume() {
-        super.onResume()
-        Helper.screenViewOnGoogleAnalytics(activity, "Play")
-    }
-
     private fun setupPlayButtons(root: ViewGroup) {
         adapter = PlayGameDifficultyAdapter(this)
         val recyclerView = root.findViewById(R.id.playGameDifficultyRV) as RecyclerView
@@ -66,7 +61,7 @@ class PlayFragment : BaseFragment(), PlayNavigator {
     }
 
     private fun hasResumeGame(): Boolean {
-        return (UserPrefStorage.getLastGameStatus(activity) == GameStatus.PLAYING.ordinal) && (UserPrefStorage.isCurrentSavedDataVersion(activity))
+        return (UserPrefStorage.getLastGameStatus(activity!!) == GameStatus.PLAYING.ordinal) && (UserPrefStorage.isCurrentSavedDataVersion(activity!!))
     }
 
     private fun updatePlaySelectButtons() {
@@ -79,7 +74,7 @@ class PlayFragment : BaseFragment(), PlayNavigator {
         gameDifficulties.add(GameDifficulty.MEDIUM)
         gameDifficulties.add(GameDifficulty.EXPERT)
 
-        adapter.setCanShowRating(UserPrefStorage.canShowRatingDialog(context));
+        adapter.setCanShowRating(UserPrefStorage.canShowRatingDialog(context!!))
         adapter.setGameDifficultyList(gameDifficulties)
         adapter.notifyDataSetChanged()
     }
@@ -87,12 +82,12 @@ class PlayFragment : BaseFragment(), PlayNavigator {
     override fun startGame(difficulty: GameDifficulty) {
         if (hasResumeGame() && (difficulty !== GameDifficulty.RESUME)) {
             // A current game exists, ask if they want to delete
-            val (title, description) = DialogInfoUtils.getInstance(activity).getDialogInfo(ResultCodes.RESUME_DIALOG.ordinal)
-            val dialog = AlertDialog.Builder(activity)
+            val (title, description) = DialogInfoUtils.getInstance(activity!!).getDialogInfo(ResultCodes.RESUME_DIALOG.ordinal)
+            val dialog = AlertDialog.Builder(activity!!)
                     .setTitle(title)
                     .setMessage(description)
                     .setPositiveButton(android.R.string.yes) { _, _ ->
-                        val data = UserPrefStorage.loadGame(context, object : MinesweeperHandler {
+                        val data = UserPrefStorage.loadGame(context!!, object : MinesweeperHandler {
                             override fun isSwiftOpenEnabled(): Boolean = false
 
                             override fun onSwiftChange() {}
@@ -103,7 +98,7 @@ class PlayFragment : BaseFragment(), PlayNavigator {
 
                             override fun onTimerTick(gameTime: Long) {}
                         })
-                        UserPrefStorage.updateStatsWithGame(context, data.gameDifficulty, data.minesweeper)
+                        UserPrefStorage.updateStatsWithGame(context!!, data.gameDifficulty, data.minesweeper)
                         startGameIntent(difficulty)
                     }
                     .setNegativeButton(android.R.string.no) { _, _ -> }
@@ -112,8 +107,8 @@ class PlayFragment : BaseFragment(), PlayNavigator {
         } else {
             if (difficulty === GameDifficulty.CUSTOM) {
                 // Ask if they want to change their custom settings
-                val (title, description) = DialogInfoUtils.getInstance(activity).getDialogInfo(ResultCodes.CUSTOM_SETTING_CHANGE.ordinal)
-                val dialog = AlertDialog.Builder(activity)
+                val (title, description) = DialogInfoUtils.getInstance(activity!!).getDialogInfo(ResultCodes.CUSTOM_SETTING_CHANGE.ordinal)
+                val dialog = AlertDialog.Builder(activity!!)
                         .setTitle(title)
                         .setMessage(description)
                         .setPositiveButton(android.R.string.yes) { _, _ ->
@@ -140,9 +135,9 @@ class PlayFragment : BaseFragment(), PlayNavigator {
     }
 
     override fun startPlayStore() {
-        val uri = Uri.parse("market://details?id=" + activity.packageName)
+        val uri = Uri.parse("market://details?id=" + activity!!.packageName)
         val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-        // To count with Play market backstack, After pressing back button,
+        // To count with Play market back stack, After pressing back button,
         // to taken back to our application, we need to add following flags to intent.
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or
                 Intent.FLAG_ACTIVITY_NEW_TASK or
@@ -151,12 +146,12 @@ class PlayFragment : BaseFragment(), PlayNavigator {
             startActivity(goToMarket)
         } catch (e: ActivityNotFoundException) {
             startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=" + activity.packageName)))
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + activity!!.packageName)))
         }
 
     }
 
     override fun sendFeedback() {
-        Helper.sendFeedback(activity)
+        Helper.sendFeedback(activity!!)
     }
 }

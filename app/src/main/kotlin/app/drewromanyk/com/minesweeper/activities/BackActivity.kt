@@ -1,6 +1,6 @@
 package app.drewromanyk.com.minesweeper.activities
 
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 
 import app.drewromanyk.com.minesweeper.R
 

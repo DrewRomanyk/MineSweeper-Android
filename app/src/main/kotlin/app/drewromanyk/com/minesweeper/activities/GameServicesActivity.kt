@@ -1,76 +1,63 @@
 package app.drewromanyk.com.minesweeper.activities
 
-import android.app.ActivityManager
-import android.content.Intent
-import android.graphics.BitmapFactory
-import android.os.Build
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.games.Games
-import com.google.android.gms.games.GamesActivityResultCodes
-import com.google.android.gms.plus.Plus
-import com.google.firebase.analytics.FirebaseAnalytics
-
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import app.drewromanyk.com.minesweeper.BuildConfig
-import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
 import app.drewromanyk.com.minesweeper.enums.GameStatus
-import app.drewromanyk.com.minesweeper.enums.ResultCodes
-import app.drewromanyk.com.minesweeper.util.BaseGameUtils
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
+import com.crashlytics.android.Crashlytics
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.games.AchievementsClient
+import com.google.android.gms.games.Games
+import com.google.android.gms.games.LeaderboardsClient
+import com.google.firebase.analytics.FirebaseAnalytics
+
 
 /**
  * Created by Drew on 11/6/15.
  * This is a Base Activity for all activities in order to unify Google Games Services
  */
-abstract class GameServicesActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+abstract class GameServicesActivity: AppCompatActivity() {
+    protected var googleSignInClient: GoogleSignInClient? = null
+    protected var achievementsClient: AchievementsClient? = null
+    protected var leaderboardsClient: LeaderboardsClient? = null
 
-    // GOOGLE GAMES
-    var googleApiClient: GoogleApiClient? = null
-        private set
-    private var isResolvingConnectionFailure = false
-    private var signInClicked = false
-    private var autoStartSignInFlow = true
-
-    protected fun onSignInClick() {
-        signInClicked = true
-    }
+    // request codes we use when invoking an external activity
+    protected val RC_UNUSED = 5001
+    protected val RC_SIGN_IN = 9001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupTaskActivityInfo()
         setupGoogleGames()
     }
 
-    private fun setupTaskActivityInfo() {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // Only for LOLLIPOP and newer versions
-            if (this !is MainActivity)
-                window.statusBarColor = ContextCompat.getColor(this, R.color.primary_dark)
+    private fun setupGoogleGames() {
+        googleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN).build())
+    }
 
-            val tDesc = ActivityManager.TaskDescription(
-                    getString(R.string.app_name),
-                    BitmapFactory.decodeResource(resources, R.drawable.ic_launcher_icon),
-                    ContextCompat.getColor(this, R.color.primary_task))
-            setTaskDescription(tDesc)
+    fun startSignInIntent() {
+        startActivityForResult(googleSignInClient!!.signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        googleSignInClient!!.silentSignIn().addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                onConnected(task.result!!)
+            } else {
+                onDisconnected()
+            }
         }
     }
 
-    private fun setupGoogleGames() {
-        autoStartSignInFlow = (this is MainActivity) && UserPrefStorage.isFirstTime(this)
-        UserPrefStorage.setFirstTime(this, false)
-
-        // Create the Google API Client with access to Plus and Games
-        googleApiClient = GoogleApiClient.Builder(this)
-                .addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN)
-                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build()
+    fun isSignedIn(): Boolean {
+        return GoogleSignIn.getLastSignedInAccount(this) != null
     }
 
     fun updateLeaderboards(gameStatus: GameStatus, gameDifficulty: GameDifficulty, score: Long, millis: Long) {
@@ -84,96 +71,39 @@ abstract class GameServicesActivity : AppCompatActivity(), GoogleApiClient.Conne
         if (gameStatus == GameStatus.VICTORY) {
             val fba = FirebaseAnalytics.getInstance(this)
             fba.logEvent("game_over_google_games_victory", null)
-            if (googleApiClient?.isConnected as Boolean) {
+            if (!isSignedIn()) {
+                return
+            }
                 // Skip non ranked difficulty
-                if ((gameDifficulty === GameDifficulty.CUSTOM) || (gameDifficulty === GameDifficulty.RESUME))
-                    return
-
-                // Offset is 2 for RESUME and CUSTOM
-                val gameDiffIndex = gameDifficulty.ordinal - 2
-                fba.logEvent("game_over_games_achievements", null)
-                Games.Achievements.unlock(googleApiClient, "" + achievementWin[gameDiffIndex])
-                if (millis < achievementSeconds[gameDiffIndex]) {
-                    Games.Achievements.unlock(googleApiClient, "" + achievementSpeed[gameDiffIndex])
-                }
-
-                fba.logEvent("game_over_games_leaderboards", null)
-                Games.Leaderboards.submitScore(googleApiClient,
-                        "" + leaderboardScores[gameDiffIndex],
-                        score)
-                val seconds = Math.ceil(millis / 1000.0).toInt()
-                Games.Leaderboards.submitScore(googleApiClient,
-                        "" + leaderboardTimes[gameDiffIndex],
-                        seconds.toLong())
-                Games.Leaderboards.submitScore(googleApiClient,
-                        "" + leaderboardStreaks[gameDiffIndex],
-                        UserPrefStorage.getCurWinStreakForDifficulty(this, gameDifficulty).toLong())
-                fba.logEvent("game_over_games_finished_update", null)
+            if ((gameDifficulty === GameDifficulty.CUSTOM) || (gameDifficulty === GameDifficulty.RESUME)) {
+                return
             }
-        }
-    }
 
-    override fun onStart() {
-        super.onStart()
-        googleApiClient!!.connect()
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        if (googleApiClient!!.isConnected) {
-            googleApiClient!!.disconnect()
-        }
-    }
-
-    /*
-     * GOOGLE GAME CONNECTION
-     */
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == ResultCodes.SIGN_IN.ordinal) {
-            signInClicked = false
-            isResolvingConnectionFailure = false
-            if ((googleApiClient != null) && (resultCode == AppCompatActivity.RESULT_OK)) {
-                googleApiClient!!.connect()
+            // Offset is 2 for RESUME and CUSTOM
+            val gameDiffIndex = gameDifficulty.ordinal - 2
+            fba.logEvent("game_over_games_achievements", null)
+            achievementsClient!!.unlock(achievementWin[gameDiffIndex])
+            if (millis < achievementSeconds[gameDiffIndex]) {
+                achievementsClient!!.unlock(achievementSpeed[gameDiffIndex])
             }
-        }
 
-        if ((googleApiClient != null) && (resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED)) {
-            googleApiClient!!.disconnect()
-        }
-    }
-
-    override fun onConnected(bundle: Bundle?) {}
-
-    override fun onConnectionSuspended(i: Int) {
-        googleApiClient!!.connect()
-    }
-
-    override fun onConnectionFailed(connectionResult: ConnectionResult) {
-        if (isResolvingConnectionFailure) {
-            // Already resolving
-            return
-        }
-
-        // If the sign in button was clicked or if auto sign-in is enabled,
-        // launch the sign-in flow
-        if (signInClicked || autoStartSignInFlow) {
-            autoStartSignInFlow = false
-            signInClicked = false
-            isResolvingConnectionFailure = true
-
-            // Attempt to resolve the connection failure using BaseGameUtils.
-            // The R.string.signin_other_error value should reference a generic
-            // error string in your strings.xml file, such as "There was
-            // an issue with sign in, please try again later."
-            if (!BaseGameUtils.resolveConnectionFailure(this,
-                    googleApiClient!!, connectionResult,
-                    ResultCodes.SIGN_IN.ordinal, getString(R.string.signin_other_error))) {
-                isResolvingConnectionFailure = false
-            }
+            fba.logEvent("game_over_games_leaderboards", null)
+            leaderboardsClient!!.submitScore(leaderboardScores[gameDiffIndex], score)
+            val seconds = Math.ceil(millis / 1000.0).toInt()
+            leaderboardsClient!!.submitScore(leaderboardTimes[gameDiffIndex], seconds.toLong())
+            leaderboardsClient!!.submitScore(leaderboardStreaks[gameDiffIndex], UserPrefStorage.getCurWinStreakForDifficulty(this, gameDifficulty).toLong())
+            fba.logEvent("game_over_games_finished_update", null)
         }
     }
+
+    open fun onConnected(googleSignInAccount: GoogleSignInAccount) {
+        achievementsClient = Games.getAchievementsClient(this, googleSignInAccount)
+        leaderboardsClient = Games.getLeaderboardsClient(this, googleSignInAccount)
+    }
+
+    fun onDisconnected() {
+        achievementsClient = null
+        leaderboardsClient = null
+    }
+
 }

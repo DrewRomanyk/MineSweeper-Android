@@ -3,8 +3,7 @@ package app.drewromanyk.com.minesweeper.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-
-import com.google.firebase.analytics.FirebaseAnalytics
+import android.util.Log
 
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.ClickMode
@@ -15,6 +14,8 @@ import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
 import app.drewromanyk.com.minesweeper.models.Minesweeper
 import org.json.JSONArray
 import android.widget.Toast
+import com.crashlytics.android.Crashlytics
+import com.google.firebase.analytics.FirebaseAnalytics
 
 
 /**

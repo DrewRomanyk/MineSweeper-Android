@@ -2,16 +2,13 @@ package app.drewromanyk.com.minesweeper.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 
-import com.google.android.gms.games.Games
-import com.google.android.gms.plus.Plus
 import com.squareup.picasso.Picasso
 
 import app.drewromanyk.com.minesweeper.R
@@ -19,7 +16,9 @@ import app.drewromanyk.com.minesweeper.fragment.PlayFragment
 import app.drewromanyk.com.minesweeper.fragment.StatsFragment
 import app.drewromanyk.com.minesweeper.enums.ResultCodes
 import app.drewromanyk.com.minesweeper.util.DialogInfoUtils
-import app.drewromanyk.com.minesweeper.util.Helper
+import com.crashlytics.android.Crashlytics
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.material.navigation.NavigationView
 import de.hdodenhof.circleimageview.CircleImageView
 
 /**
@@ -38,7 +37,7 @@ class MainActivity : AdsActivity() {
         setContentView(R.layout.activity_main)
         setupAds()
 
-        setupDrawerContent(findViewById(R.id.drawer_layout) as DrawerLayout, findViewById(R.id.nav_view) as NavigationView)
+        setupDrawerContent(findViewById(R.id.drawer_layout), findViewById(R.id.nav_view))
         setupFragmentContent(savedInstanceState)
     }
 
@@ -48,16 +47,16 @@ class MainActivity : AdsActivity() {
         val headerLayout = navView.getHeaderView(0)
 
         headerLayout.setOnClickListener { v ->
-            if (googleApiClient!!.isConnected) {
-                Games.signOut(googleApiClient!!)
-                googleApiClient!!.disconnect()
+            if (isSignedIn()) {
+                googleSignInClient!!.signOut().addOnCompleteListener(this) {
+                    onDisconnected()
+                }
 
                 (navView.findViewById(R.id.name) as TextView).text = getString(R.string.nav_header_playername_empty)
-                Picasso.with(v.context).load(R.drawable.person_image_empty).into(navView.findViewById(R.id.avatar) as ImageView)
-                Picasso.with(v.context).load(R.color.nav_drawer_header_background).into(navView.findViewById(R.id.cover) as ImageView)
+                Picasso.with(v.context).load(R.drawable.person_image_empty).into(navView.findViewById<ImageView>(R.id.avatar))
+                Picasso.with(v.context).load(R.color.nav_drawer_header_background).into(navView.findViewById<ImageView>(R.id.cover))
             } else {
-                onSignInClick()
-                googleApiClient!!.connect()
+                startSignInIntent()
             }
         }
 
@@ -70,14 +69,14 @@ class MainActivity : AdsActivity() {
                     transaction.replace(R.id.content_fragment, PlayFragment())
                     transaction.commit()
                 }
-                R.id.nav_leaderboards -> if (googleApiClient!!.isConnected)
-                    startActivityForResult(Games.Leaderboards
-                            .getAllLeaderboardsIntent(googleApiClient), ResultCodes.LEADERBOARDS.ordinal)
+                R.id.nav_leaderboards -> if (isSignedIn())
+                    leaderboardsClient!!.allLeaderboardsIntent
+                            .addOnSuccessListener { intent -> startActivityForResult(intent, RC_UNUSED) }
                 else
                     showYesNoDialog(ResultCodes.NEEDGOOGLE_DIALOG.ordinal)
-                R.id.nav_achievements -> if (googleApiClient!!.isConnected)
-                    startActivityForResult(Games.Achievements
-                            .getAchievementsIntent(googleApiClient), ResultCodes.ACHIEVEMENTS.ordinal)
+                R.id.nav_achievements -> if (isSignedIn())
+                    achievementsClient!!.achievementsIntent
+                            .addOnSuccessListener{ intent -> startActivityForResult(intent, RC_UNUSED) }
                 else
                     showYesNoDialog(ResultCodes.NEEDGOOGLE_DIALOG.ordinal)
                 R.id.nav_statistics -> {
@@ -125,15 +124,14 @@ class MainActivity : AdsActivity() {
      * DIALOGS
      */
 
-    fun showYesNoDialog(requestCode: Int) {
+    private fun showYesNoDialog(requestCode: Int) {
         val (title, description) = DialogInfoUtils.getInstance(this).getDialogInfo(requestCode)
         val dialog = AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(description)
                 .setPositiveButton(android.R.string.yes) { _, _ ->
                     if (requestCode == ResultCodes.NEEDGOOGLE_DIALOG.ordinal) {
-                        onSignInClick()
-                        googleApiClient!!.connect()
+                        startSignInIntent()
                     }
                 }
                 .setNegativeButton(android.R.string.no) { _, _ -> }
@@ -145,27 +143,20 @@ class MainActivity : AdsActivity() {
      * GOOGLE PLAY GAMES
      */
 
-    override fun onConnected(bundle: Bundle?) {
-        if (Helper.isOnline(this) && (Plus.PeopleApi.getCurrentPerson(googleApiClient) != null)) {
-            val currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient)
-            val nameDisplay = navView!!.findViewById(R.id.name) as TextView
-            val avatar = navView!!.findViewById(R.id.avatar) as CircleImageView
-            val cover = navView!!.findViewById(R.id.cover) as ImageView
+    override fun onConnected(googleSignInAccount: GoogleSignInAccount) {
+        super.onConnected(googleSignInAccount)
 
-            nameDisplay.text = currentPerson.displayName
-
-            var playerAvatarURL = currentPerson.image.url
-            val index = playerAvatarURL.indexOf("?sz=")
-            if (index != -1) {
-                playerAvatarURL = playerAvatarURL.substring(0, index) + "?sz=200"
-            }
-
-            Picasso.with(this).load(playerAvatarURL).placeholder(R.drawable.person_image_empty).into(avatar)
-
-            if (currentPerson.cover?.hasCoverPhoto() as Boolean) {
-                val playerCoverURL = currentPerson.cover.coverPhoto.url
-                Picasso.with(this).load(playerCoverURL).placeholder(R.color.nav_drawer_header_background).into(cover)
-            }
-        }
+//        val nameDisplay = navViw!!.findViewById(R.id.name) as TextView
+////        val avatar = navView!!.findViewById(R.id.avatar) as CircleImageView
+////
+////        nameDisplay.text = googleSignInAccount.displayName
+////
+////        var playerAvatarURL = googleSignInAccount.photoUrl.toString()
+////        val index = playerAvatarURL.indexOf("?sz=")
+////        if (index != -1) {
+////            playerAvatarURL = playerAvatarURL.substring(0, index) + "?sz=200"
+////        }
+////
+////        Picasso.with(thise).load(playerAvatarURL).placeholder(R.drawable.person_image_empty).into(avatar)
     }
 }

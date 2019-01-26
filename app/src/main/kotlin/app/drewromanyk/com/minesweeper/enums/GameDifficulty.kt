@@ -1,7 +1,7 @@
 package app.drewromanyk.com.minesweeper.enums
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
@@ -16,76 +16,70 @@ enum class GameDifficulty {
 
     val storagePrefix: String
         get() {
-            when (this) {
-                EASY -> return "EASY_"
-                MEDIUM -> return "MEDIUM_"
-                EXPERT -> return "EXPERT_"
+            return when (this) {
+                EASY -> "EASY_"
+                MEDIUM -> "MEDIUM_"
+                EXPERT -> "EXPERT_"
                 else -> throw IllegalArgumentException()
             }
         }
 
     fun getName(context: Context): String {
-        when (this) {
-            RESUME -> return context.getString(R.string.game_difficulty_resume)
-            CUSTOM -> return context.getString(R.string.game_difficulty_custom)
-            EASY -> return context.getString(R.string.game_difficulty_easy)
-            MEDIUM -> return context.getString(R.string.game_difficulty_medium)
-            EXPERT -> return context.getString(R.string.game_difficulty_expert)
-            else -> throw IllegalArgumentException()
+        return when (this) {
+            RESUME -> context.getString(R.string.game_difficulty_resume)
+            CUSTOM -> context.getString(R.string.game_difficulty_custom)
+            EASY -> context.getString(R.string.game_difficulty_easy)
+            MEDIUM -> context.getString(R.string.game_difficulty_medium)
+            EXPERT -> context.getString(R.string.game_difficulty_expert)
         }
     }
 
     fun getColor(context: Context): Int {
-        when (this) {
-            RESUME -> return ContextCompat.getColor(context, R.color.resume_difficulty)
-            CUSTOM -> return ContextCompat.getColor(context, R.color.custom_difficulty)
-            EASY -> return ContextCompat.getColor(context, R.color.easy_difficulty)
-            MEDIUM -> return ContextCompat.getColor(context, R.color.medium_difficulty)
-            EXPERT -> return ContextCompat.getColor(context, R.color.expert_difficulty)
-            else -> throw IllegalArgumentException()
+        return when (this) {
+            RESUME -> ContextCompat.getColor(context, R.color.resume_difficulty)
+            CUSTOM -> ContextCompat.getColor(context, R.color.custom_difficulty)
+            EASY -> ContextCompat.getColor(context, R.color.easy_difficulty)
+            MEDIUM -> ContextCompat.getColor(context, R.color.medium_difficulty)
+            EXPERT -> ContextCompat.getColor(context, R.color.expert_difficulty)
         }
     }
 
     fun getDescription(context: Context): String {
-        when (this) {
-            RESUME -> return context.getString(R.string.game_difficulty_resume_details)
-            CUSTOM -> return context.getString(R.string.game_difficulty_custom_details)
-            EASY -> return context.getString(R.string.game_difficulty_easy_details)
-            MEDIUM -> return context.getString(R.string.game_difficulty_medium_details)
-            EXPERT -> return context.getString(R.string.game_difficulty_expert_details)
-            else -> throw IllegalArgumentException()
+        return when (this) {
+            RESUME -> context.getString(R.string.game_difficulty_resume_details)
+            CUSTOM -> context.getString(R.string.game_difficulty_custom_details)
+            EASY -> context.getString(R.string.game_difficulty_easy_details)
+            MEDIUM -> context.getString(R.string.game_difficulty_medium_details)
+            EXPERT -> context.getString(R.string.game_difficulty_expert_details)
         }
     }
 
     fun getColumns(context: Context): Int {
-        when (this) {
+        return when (this) {
             RESUME -> throw IllegalArgumentException()
-            CUSTOM -> return UserPrefStorage.getColumnCount(context)
-            EASY -> return 9
-            MEDIUM -> return 16
-            EXPERT -> return 30
-            else -> throw IllegalArgumentException()
+            CUSTOM -> UserPrefStorage.getColumnCount(context)
+            EASY -> 9
+            MEDIUM -> 16
+            EXPERT -> 30
         }
     }
 
     fun getRows(context: Context): Int {
-        when (this) {
+        return when (this) {
             RESUME -> throw IllegalArgumentException()
-            CUSTOM -> return UserPrefStorage.getRowCount(context)
-            EASY -> return 9
-            MEDIUM, EXPERT -> return 16
-            else -> throw IllegalArgumentException()
+            CUSTOM -> UserPrefStorage.getRowCount(context)
+            EASY -> 9
+            MEDIUM, EXPERT -> 16
         }
     }
 
     fun getMineCount(context: Context): Int {
-        when (this) {
+        return when (this) {
             RESUME -> throw IllegalArgumentException()
-            CUSTOM -> return UserPrefStorage.getMineCount(context)
-            EASY -> return 10
-            MEDIUM -> return 40
-            EXPERT -> return 99
-            else -> throw IllegalArgumentException()
+            CUSTOM -> UserPrefStorage.getMineCount(context)
+            EASY -> 10
+            MEDIUM -> 40
+            EXPERT -> 99
         }
     }
 }
