@@ -39,7 +39,7 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
     }
 
     fun handleBillingActivityResults(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-        return bp!!.handleActivityResult(requestCode, resultCode, data)
+        return bp != null && bp!!.handleActivityResult(requestCode, resultCode, data)
     }
 
 
@@ -77,13 +77,13 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
         /*
          * Called when BillingProcessor was initialized and it's ready to purchase
          */
-        val td = bp!!.getPurchaseTransactionDetails(BuildConfig.PREMIUM_SKU)
+        val td = bp?.getPurchaseTransactionDetails(BuildConfig.PREMIUM_SKU)
         if (td?.purchaseInfo?.purchaseData?.productId == BuildConfig.PREMIUM_SKU) {
             premium_state = PremiumState.PREMIUM
         } else {
             premium_state = PremiumState.NOT_PREMIUM
         }
-        adViewHandler!!.updateAdView()
+        adViewHandler?.updateAdView()
     }
 
     override fun onProductPurchased(productId: String, details: TransactionDetails) {
@@ -93,10 +93,10 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
         if (details.purchaseInfo.purchaseData.productId == BuildConfig.PREMIUM_SKU) {
             premium_state = PremiumState.PREMIUM
         }
-        adViewHandler!!.updateAdView()
+        adViewHandler?.updateAdView()
     }
 
-    override fun onBillingError(errorCode: Int, error: Throwable) {
+    override fun onBillingError(errorCode: Int, error: Throwable?) {
         /*
          * Called when some error occurred. See Constants class for more details
          *
@@ -104,7 +104,7 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
          * errorCode = Constants.BILLING_RESPONSE_RESULT_USER_CANCELED
          */
         premium_state = PremiumState.NOT_PREMIUM
-        adViewHandler!!.updateAdView()
+        adViewHandler?.updateAdView()
     }
 
     override fun onPurchaseHistoryRestored() {

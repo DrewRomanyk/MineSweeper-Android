@@ -1,6 +1,7 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://robobunny.com">
-
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+>
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
@@ -8,55 +9,9 @@
         <Preference
             android:key="purchase_remove_ads"
             android:title="@string/settings_inapp_ads" />
-        <!--<Preference-->
-        <!--android:key="purchase_clear"-->
-        <!--android:title="Clear Purchases" />-->
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/settings_cell">
-        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
-            android:defaultValue="100"
-            android:key="cellSize_seek"
-            android:max="150"
-            android:title="@string/settings_cell_size"
-            app:min="50"
-            app:unitsLeft="   "
-            app:unitsRight="%" />
-        <!--
-        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
-            android:key="longpress_seek"
-            android:title="Long Press Duration"
-            app:min="250"
-            android:defaultValue="500"
-            android:max="750"
-            app:unitsLeft="   "
-            app:unitsRight=""/>
-            -->
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/settings_custom">
-        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
-            android:defaultValue="9"
-            android:key="row_seek"
-            android:max="16"
-            android:title="@string/settings_custom_rows"
-            app:min="9"
-            app:unitsLeft="   "
-            app:unitsRight="" />
-        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
-            android:defaultValue="9"
-            android:key="column_seek"
-            android:max="30"
-            android:title="@string/settings_custom_columns"
-            app:min="9"
-            app:unitsLeft="   "
-            app:unitsRight="" />
-        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
-            android:defaultValue="10"
-            android:key="mine_seek"
-            android:max="64"
-            android:title="@string/settings_custom_mines"
-            app:min="10"
-            app:unitsLeft="   "
-            app:unitsRight="" />
+        <Preference
+        android:key="purchase_clear"
+        android:title="Clear Purchases" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_game">
         <ListPreference
@@ -93,25 +48,50 @@
             android:defaultValue="true"
             android:key="swiftopen_check"
             android:title="@string/settings_game_swiftopen" />
-        <app.drewromanyk.com.minesweeper.views.SeekBarPreference
+        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
             android:defaultValue="400"
             android:key="longclick_duration_seek"
-            android:max="1000"
             android:title="@string/settings_game_longclick_duration"
-            app:min="100"
-            app:unitsLeft="     "
-            app:unitsRight="ms" />
+            app:msbp_minValue="100"
+            app:msbp_maxValue="1000"
+            app:msbp_measurementUnit="ms"
+            />
+        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+            android:defaultValue="100"
+            android:key="cellSize_seek"
+            android:title="@string/settings_cell_size"
+            app:msbp_minValue="50"
+            app:msbp_maxValue="150"
+            app:msbp_measurementUnit="%"
+            />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/settings_support">
-        <Preference
-            android:key="send_feedback"
-            android:title="@string/settings_support_feedback" />
-        <Preference
-            android:key="view_privacy_policy"
-            android:title="@string/settings_support_privacy_policy" />
-        <Preference
-            android:key="view_terms_and_conditions"
-            android:title="@string/settings_support_terms_conditions" />
+    <PreferenceCategory android:title="@string/settings_custom">
+        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+            android:defaultValue="9"
+            android:key="row_seek"
+            android:title="@string/settings_custom_rows"
+            app:msbp_minValue="9"
+            app:msbp_maxValue="16"
+        />
+        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+            android:defaultValue="9"
+            android:key="column_seek"
+            android:title="@string/settings_custom_columns"
+            app:msbp_minValue="9"
+            app:msbp_maxValue="30"
+        />
+        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+            android:defaultValue="10"
+            android:key="mine_seek"
+            android:title="@string/settings_custom_mines"
+            app:msbp_minValue="10"
+            app:msbp_maxValue="64"
+        />
     </PreferenceCategory>
-
-</PreferenceScreen>
+    <PreferenceCategory android:title="Statistics">
+        <Preference
+            android:key="reset_stats"
+            android:title="Reset statistics"
+        />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

@@ -41,7 +41,7 @@ class StatsGameDifficultyAdapter : RecyclerView.Adapter<StatsGameDifficultyAdapt
     }
 
     init {
-        gameDifficultyList = ArrayList<GameDifficulty>()
+        gameDifficultyList = ArrayList()
         gameDifficultyList.add(GameDifficulty.EASY)
         gameDifficultyList.add(GameDifficulty.MEDIUM)
         gameDifficultyList.add(GameDifficulty.EXPERT)
@@ -64,7 +64,7 @@ class StatsGameDifficultyAdapter : RecyclerView.Adapter<StatsGameDifficultyAdapt
         val loses = UserPrefStorage.getLosesForDifficulty(context, gameDifficulty)
         val bestTime = UserPrefStorage.getBestTimeForDifficulty(context, gameDifficulty)
         val avgTime = UserPrefStorage.getAvgTimeForDifficulty(context, gameDifficulty)
-        val explorPerct = UserPrefStorage.getExplorPercentForDifficulty(context, gameDifficulty)
+        val explorePercent = UserPrefStorage.getExplorPercentForDifficulty(context, gameDifficulty)
         val winStreak = UserPrefStorage.getWinStreakForDifficulty(context, gameDifficulty)
         val losesStreak = UserPrefStorage.getLoseStreakForDifficulty(context, gameDifficulty)
         val currentWinStreak = UserPrefStorage.getCurWinStreakForDifficulty(context, gameDifficulty)
@@ -100,7 +100,7 @@ class StatsGameDifficultyAdapter : RecyclerView.Adapter<StatsGameDifficultyAdapt
                 .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", winPercentage) + "%")
                 .format())
         holder.explorePercent.text = boldFirstString(Phrase.from(context, R.string.stats_title_explore_percent)
-                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", explorPerct) + "%")
+                .put(PhraseKeys.AMOUNT, String.format(locale, "%.2f", explorePercent) + "%")
                 .format())
         holder.winStreak.text = boldFirstString(Phrase.from(context, R.string.stats_title_win_streak)
                 .put(PhraseKeys.AMOUNT, winStreak)

@@ -49,20 +49,7 @@
                     android:paddingLeft="65dp"
                     android:paddingRight="65dp"
                     android:text="@string/game_difficulty_easy_details"
-                    android:textColor="@color/dark_background"
                     android:textSize="20sp" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/card_play_fab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="5dp"
-                    android:src="@drawable/ic_play_dark"
-                    app:backgroundTint="@color/easy_difficulty"
-                    tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
         </RelativeLayout>

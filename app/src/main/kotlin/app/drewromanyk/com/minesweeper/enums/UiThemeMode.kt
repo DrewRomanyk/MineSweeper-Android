@@ -14,12 +14,12 @@ enum class UiThemeMode constructor(val themeValue: String) {
     AMOLED("AMOLED"),
     CLASSICAL("CLASSICAL");
 
-    val color: Int
+    val themeResourceId: Int
         get() {
-            when (this) {
-                DARK -> return R.color.dark_background
-                AMOLED -> return R.color.amoled_background
-                CLASSICAL, LIGHT -> return R.color.light_background
+            return when (this) {
+                DARK -> R.style.AppTheme_Dark_NoActionBar
+                AMOLED -> R.style.AppTheme_Amoled_NoActionBar
+                CLASSICAL, LIGHT -> R.style.AppTheme_NoActionBar
             }
         }
 

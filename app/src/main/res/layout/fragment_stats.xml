@@ -1,16 +1,52 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    tools:context=".ui.StatsFragment"
+>
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
+        android:id="@+id/appbar"
+        style="@style/Widget.AppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <include layout="@layout/toolbar" />
+    >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+        >
+            <ImageView
+                android:id="@+id/achievements"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|start"
+                android:padding="10dp"
+                android:foreground="?selectableItemBackground"
+                android:src="@drawable/trophy_award"
+            />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:minHeight="?actionBarSize"
+                android:text="Statistics"
+                android:textAppearance="@style/TextAppearance.Minesweeper.ToolbarTitle"
+            />
+            <ImageView
+                android:id="@+id/leaderboards"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|end"
+                android:padding="10dp"
+                android:foreground="?selectableItemBackground"
+                android:src="@drawable/trophy"
+            />
+        </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -18,6 +54,6 @@
         android:id="@+id/statsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

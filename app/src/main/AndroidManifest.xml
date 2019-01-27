@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="app.drewromanyk.com.minesweeper">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="app.drewromanyk.com.minesweeper"
+>
 
     <supports-screens
         android:anyDensity="true"
         android:smallScreens="true"
         android:normalScreens="true"
         android:largeScreens="true"
-        android:xlargeScreens="true" />
+        android:xlargeScreens="true"
+    />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,49 +20,47 @@
 
     <application
         android:name=".application.MinesweeperApp"
-        android:icon="@drawable/ic_launcher_icon"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:theme="@style/AppTheme"
-        android:supportsRtl="true">
-
+        android:supportsRtl="true"
+    >
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
-            android:value="@string/app_id" />
+            android:value="@string/app_id"
+        />
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"
+        />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/ad_app_id"/>
+            android:value="@string/ad_app_id"
+        />
 
         <activity
             android:configChanges="keyboardHidden"
-            android:name=".activities.MainActivity"
-            android:label="@string/app_name">
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:scheme="http"
                     android:host="drewromanyk.com"
-                    android:pathPattern="/projects" />
+                    android:pathPattern="/projects"
+                />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.GameActivity" />
-        <!-- Activity required to show ad overlays. -->
-        <activity
-            android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
     </application>
 </manifest>

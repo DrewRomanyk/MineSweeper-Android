@@ -94,6 +94,10 @@ object UserPrefStorage {
         return getPrefs(context).getInt("STATUS", GameStatus.DEFEAT.ordinal)
     }
 
+    fun hasResumeGame(context: Context): Boolean {
+        return getLastGameStatus(context) == GameStatus.PLAYING.ordinal && isCurrentSavedDataVersion(context)
+    }
+
     private fun getGameDuration(context: Context): Long {
         return getPrefs(context).getLong("TIME_MILLIS", 1)
     }
@@ -125,7 +129,7 @@ object UserPrefStorage {
                         difficulty, zoomCellScale, clickMode)
             } catch (e: Exception) {
                 val fba = FirebaseAnalytics.getInstance(context)
-                fba.logEvent("loadGame Error", null)
+                fba.logEvent("loadGameError", null)
                 e.printStackTrace()
             }
 

@@ -1,11 +1,130 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
-        <item name="android:windowBackground">@color/window_background</item>
+        <item name="toolbarStyle">@style/Widget.Toolbar</item>
+        <item name="appBarColor">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:navigationBarColor">@color/primary_dark</item>
     </style>
 
+    <style name="AppTheme.Dark" parent="Theme.MaterialComponents">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="toolbarStyle">@style/Widget.Dark.Toolbar</item>
+        <item name="appBarColor">@color/dark_tab</item>
+        <item name="colorSurface">@color/dark_tab</item>
+        <item name="android:windowBackground">@color/dark_background</item>
+        <item name="android:statusBarColor">@color/amoled_background</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:navigationBarColor">@color/primary_dark</item>
+    </style>
+
+    <style name="AppTheme.Amoled" parent="Theme.MaterialComponents">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="toolbarStyle">@style/Widget.Dark.Toolbar</item>
+        <item name="appBarColor">@color/dark_background</item>
+        <item name="colorSurface">@color/dark_background</item>
+        <item name="android:windowBackground">@color/amoled_background</item>
+        <item name="android:statusBarColor">@color/amoled_background</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:navigationBarColor">@color/primary_dark</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Dark.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Amoled.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+    <style name="AppTheme.Dark.PopupOverlay" parent="ThemeOverlay.MaterialComponents" />
+    <style name="AppTheme.PopupTheme" parent="ThemeOverlay.MaterialComponents.Light" />
+    <style name="AppTheme.Dark.PopupTheme" parent="ThemeOverlay.MaterialComponents" />
+
+    <!-- TOOLBAR-->
+    <style name="Widget.AppBar" parent="@style/Widget.Design.AppBarLayout">
+        <item name="popupTheme">@style/AppTheme.PopupTheme</item>
+        <item name="android:background">?attr/appBarColor</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Widget.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="popupTheme">@style/AppTheme.PopupTheme</item>
+    </style>
+    <style name="Widget.Dark.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="popupTheme">@style/AppTheme.Dark.PopupTheme</item>
+    </style>
+
+    <style name="TextAppearance.Minesweeper.ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+    <!-- BOTTOM NAV -->
+    <style name="Widget.Minesweeper.BottomNav" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="itemIconTint">@color/bottom_nav_item</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.Minesweeper.BottomNavigationView.Active</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.Minesweeper.BottomNavigationView</item>
+        <item name="labelVisibilityMode">selected</item>
+        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark</item>
+    </style>
+
+    <style name="TextAppearance.Minesweeper.BottomNavigationView" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="android:textColor">@color/bottom_nav_item</item>
+    </style>
+
+    <style name="TextAppearance.Minesweeper.BottomNavigationView.Active">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- TAB LAYOUT -->
+    <style name="Widget.Minesweeper.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/TextAppearance.Minesweeper.Tab</item>
+        <item name="tabIndicator">@drawable/tab_indicator</item>
+    </style>
+
+    <style name="TextAppearance.Minesweeper.Tab" parent="@style/TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/mtrl_tabs_icon_color_selector</item>
+        <item name="android:textStyle">bold</item>
+        <item name="textAllCaps">false</item>
+    </style>
+    <!-- BUTTONS -->
+
+    <style name="Widget.Minesweeper.AboutButtons" parent="@style/Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.Minesweeper.AboutButtons</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+    </style>
+
+    <style name="TextAppearance.Minesweeper.AboutButtons" parent="@style/TextAppearance.MaterialComponents.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Minesweeper.Body" parent="@style/TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="TextAppearance.Minesweeper.Subhead" parent="@style/TextAppearance.Minesweeper.Body">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 </resources>

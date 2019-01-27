@@ -48,7 +48,6 @@ class PlayGameDifficultyAdapter(private val navigator: PlayNavigator) : Recycler
 
         var difficultyText: TextView? = null
         var boardInfoText: TextView? = null
-        var fab: FloatingActionButton? = null
 
         init {
             if (itemViewType == RATING_TYPE) {
@@ -58,7 +57,6 @@ class PlayGameDifficultyAdapter(private val navigator: PlayNavigator) : Recycler
             } else if (itemViewType == DIFFICULTY_TYPE) {
                 difficultyText = itemView.findViewById(R.id.card_difficulty_text) as TextView
                 boardInfoText = itemView.findViewById(R.id.card_board_info) as TextView
-                fab = itemView.findViewById(R.id.card_play_fab) as FloatingActionButton
             }
         }
     }
@@ -150,8 +148,6 @@ class PlayGameDifficultyAdapter(private val navigator: PlayNavigator) : Recycler
             val gameDifficultyColor = gameDifficulty.getColor(holder.card.context)
 
             holder.card.setOnClickListener { navigator.startGame(gameDifficulty) }
-            holder.fab!!.setOnClickListener { navigator.startGame(gameDifficulty) }
-            holder.fab!!.backgroundTintList = ColorStateList.valueOf(gameDifficultyColor)
             holder.difficultyText!!.setBackgroundColor(gameDifficultyColor)
             holder.difficultyText!!.text = gameDifficulty.getName(holder.card.context)
             holder.boardInfoText!!.text = gameDifficulty.getDescription(holder.card.context)

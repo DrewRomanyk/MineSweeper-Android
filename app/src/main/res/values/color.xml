@@ -6,22 +6,27 @@
     <color name="accent">#C5CAE9</color>
     <color name="text_primary">#fff</color>
     -->
-    <color name="primary">#3F51B5</color>
-    <color name="primary_dark">#303F9F</color>
-    <color name="primary_light">#C5CAE9</color>
-    <color name="accent">#009688</color>
+    <color name="primary">#26a16c</color>
+    <color name="primary_dark">#1a8155</color>
+    <color name="primary_light">#6dbd96</color>
+    <color name="accent">#af4c7a</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="material_dark_text">#ffffffff</color>
     <color name="icons">#FFFFFF</color>
+    <color name="status_bar">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
     <color name="primary_task">#3949AB</color>
 
     <color name="window_background">#FFF5F5F5</color>
     <color name="light_background">#eeeeee</color>
-    <color name="dark_background">#424242</color>
+    <color name="dark_background">#202124</color>
     <color name="amoled_background">#000000</color>
     <color name="nav_drawer_header_background">#ff303030</color>
+
+    <color name="dark_tab">#313235</color>
+
+    <color name="white">#FFFFFF</color>
 
     <color name="resume_difficulty">#009688</color>
     <color name="custom_difficulty">#E91E63</color>
