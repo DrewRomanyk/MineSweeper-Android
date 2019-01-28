@@ -28,7 +28,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         super.onViewCreated(view, savedInstanceState)
 
         (findPreference("longclick_duration_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)
-        (findPreference("cellSize_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)
         (findPreference("row_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)
         (findPreference("column_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)
         (findPreference("mine_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)

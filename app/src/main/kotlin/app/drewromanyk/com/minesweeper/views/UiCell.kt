@@ -17,21 +17,18 @@ class UiCell(context: Context) : AppCompatImageButton(context) {
         private val PACKAGE_NAME = "app.drewromanyk.com.minesweeper"
     }
 
-    fun updateSize(zoomCellScale: Double) {
+    fun updateImage(cell: Cell, clickMode: ClickMode, gameStatus: GameStatus) {
+        val uiThemeMode = UserPrefStorage.getUiThemeMode(context)
+        val lightMode = uiThemeMode.isLightMode()
+        val materialMode = uiThemeMode.isMaterialMode()
         val densityScale = (context.resources.displayMetrics.density / 3).toDouble()
-        val cellSize = (1.0 * UserPrefStorage.getCellSize(context) / 100 * 100 * zoomCellScale * densityScale).toInt()
+        val cellSize = (100.0 * densityScale).toInt()
         layoutParams.width = cellSize
         layoutParams.height = cellSize
         maxWidth = cellSize
         minimumWidth = cellSize
         maxHeight = cellSize
         minimumHeight = cellSize
-    }
-
-    fun updateImage(cell: Cell, clickMode: ClickMode, gameStatus: GameStatus) {
-        val uiThemeMode = UserPrefStorage.getUiThemeMode(context)
-        val lightMode = uiThemeMode.isLightMode()
-        val materialMode = uiThemeMode.isMaterialMode()
 
         var id = if (materialMode) {
             if (lightMode) R.drawable.ic_cell_unknown_light else R.drawable.ic_cell_unknown

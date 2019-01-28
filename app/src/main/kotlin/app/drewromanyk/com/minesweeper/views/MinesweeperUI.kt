@@ -38,7 +38,6 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
             updateUiCellImage()
             minesweeperUiHandler.onFlagChange(value)
         }
-    private var zoomCellScale: Double = 1.0
 
     val layout: GridLayout = GridLayout(context)
     private val uiCells: Array<Array<UiCell>>
@@ -65,7 +64,6 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
         } else {
             minesweeper = results.minesweeper
             this.gameDifficulty = results.gameDifficulty
-            zoomCellScale = results.zoomCellScale
             minesweeperUiHandler.onGameTimerTick(results.minesweeper.getTime(), results.minesweeper.getScore())
         }
 
@@ -86,7 +84,6 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
             clickMode = results.clickMode
         }
 
-        updateUiCellSize()
         updateUiCellImage()
     }
 
@@ -135,28 +132,6 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
     /***
      * Scale
      */
-
-    fun zoomIn(fully: Boolean) {
-        zoomCellScale = if (fully) MAX_SCALE else zoomCellScale + .2
-
-        if (zoomCellScale > MAX_SCALE) zoomCellScale = MAX_SCALE
-        updateUiCellSize()
-    }
-
-    fun zoomOut(fully: Boolean) {
-        zoomCellScale = if (fully) MIN_SCALE else zoomCellScale - .2
-
-        if (zoomCellScale < MIN_SCALE) zoomCellScale = MIN_SCALE
-        updateUiCellSize()
-    }
-
-    private fun updateUiCellSize() {
-        for (rowUiCells in uiCells) {
-            for (uiCell in rowUiCells) {
-                uiCell.updateSize(zoomCellScale)
-            }
-        }
-    }
 
     private fun updateUiCellImage() {
         for ((r, rowUiCells) in uiCells.withIndex()) {
@@ -224,7 +199,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
     }
 
     fun save(context: Context) {
-        UserPrefStorage.saveGame(context, UserPrefStorage.GameStorageData(minesweeper, gameDifficulty, zoomCellScale, clickMode))
+        UserPrefStorage.saveGame(context, UserPrefStorage.GameStorageData(minesweeper, gameDifficulty, clickMode))
     }
 
     @Throws(Throwable::class)

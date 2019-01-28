@@ -15,8 +15,6 @@
     <string name="menu_restart">Nouveau jeu</string>
     <string name="menu_flag">Mode Drapeau</string>
     <string name="menu_wipe">Effacez les statistiques</string>
-    <string name="menu_zoom_in">Zoom avant</string>
-    <string name="menu_zoom_out">Zoom arrière</string>
 
     <!-- DIALOG -->
     <!-- CANCELRESUME -->

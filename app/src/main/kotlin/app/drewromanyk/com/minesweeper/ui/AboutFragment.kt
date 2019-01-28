@@ -57,21 +57,31 @@ class AboutFragment : Fragment() {
                         Library.GSON
                     )
                     .addAttributions(
+                        Attribution.Builder("Phrase")
+                            .addCopyrightNotice("Copyright 2013 Square, Inc.")
+                            .addLicense(License.APACHE)
+                            .setWebsite("https://github.com/square/phrase")
+                            .build(),
+                        Attribution.Builder("ZoomLayout")
+                            .addCopyrightNotice("Copyright 2017 Otalia Studios")
+                            .addLicense(License.APACHE)
+                            .setWebsite("https://github.com/natario1/ZoomLayout")
+                            .build(),
                         Attribution.Builder("AttributionPresenter")
                             .addCopyrightNotice("Copyright 2017 Francisco José Montiel Navarro")
                             .addLicense(License.APACHE)
                             .setWebsite("https://github.com/franmontiel/AttributionPresenter")
                             .build(),
                         Attribution.Builder("MaterialSeekBarPreference")
-                            .addCopyrightNotice("Copyright 2015 Francisco Pavel Sikun")
+                            .addCopyrightNotice("Copyright 2015 Pavel Sikun")
                             .addLicense(License.APACHE)
                             .setWebsite("https://github.com/MrBIMC/MaterialSeekBarPreference")
                             .build(),
                         Attribution.Builder("Phrase")
-                                .addCopyrightNotice("Copyright 2013 Square, Inc.")
-                                .addLicense(License.APACHE)
-                                .setWebsite("https://github.com/square/phrase")
-                                .build()
+                            .addCopyrightNotice("Copyright 2013 Square, Inc.")
+                            .addLicense(License.APACHE)
+                            .setWebsite("https://github.com/square/phrase")
+                            .build()
                     )
                     .build()
                     .showDialog(getString(R.string.open_source_licenses))

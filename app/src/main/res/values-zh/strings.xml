@@ -15,8 +15,6 @@
     <string name="menu_restart">新的游戏</string>
     <string name="menu_flag">标记模式</string>
     <string name="menu_wipe">清除统计</string>
-    <string name="menu_zoom_in">放大</string>
-    <string name="menu_zoom_out">缩小</string>
 
     <!-- DIALOG -->
     <!-- CANCELRESUME -->

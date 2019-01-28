@@ -106,7 +106,7 @@ object UserPrefStorage {
         return getPrefs(context).getLong("TIME_MILLIS", 1)
     }
 
-    data class GameStorageData(val minesweeper: Minesweeper, val gameDifficulty: GameDifficulty, val zoomCellScale: Double, val clickMode: ClickMode)
+    data class GameStorageData(val minesweeper: Minesweeper, val gameDifficulty: GameDifficulty, val clickMode: ClickMode)
 
     fun loadGame(context: Context, gameHandler: MinesweeperHandler): GameStorageData {
         val preferences = getPrefs(context)
@@ -117,7 +117,6 @@ object UserPrefStorage {
         if (!((rows == 0) || (columns == 0))) {
             val difficulty = getGameDifficulty(context)
             val clickMode = ClickMode.values()[preferences.getInt("CLICK_MODE", ClickMode.REVEAL.ordinal)]
-            val zoomCellScale = preferences.getFloat("GAME_CELL_SCALE", 1f).toDouble()
             val mineCount = preferences.getInt("MINE_COUNT", 0)
             val status = GameStatus.values()[preferences.getInt("STATUS", GameStatus.DEFEAT.ordinal)]
             val startGameTime = getGameDuration(context)
@@ -130,7 +129,7 @@ object UserPrefStorage {
                 return GameStorageData(
                         Minesweeper(gameHandler, rows, columns, mineCount, startGameTime, status,
                                 cellValuesJ, cellRevealedJ, cellFlaggedJ),
-                        difficulty, zoomCellScale, clickMode)
+                        difficulty, clickMode)
             } catch (e: Exception) {
                 val fba = FirebaseAnalytics.getInstance(context)
                 fba.logEvent("loadGameError", null)
@@ -145,7 +144,6 @@ object UserPrefStorage {
     fun saveGame(context: Context, gameStorageData: GameStorageData) {
         val minesweeper = gameStorageData.minesweeper
         val gameDifficulty = gameStorageData.gameDifficulty
-        val zoomCellScale = gameStorageData.zoomCellScale
         val clickMode = gameStorageData.clickMode
 
         val time = minesweeper.getTime()
@@ -155,7 +153,6 @@ object UserPrefStorage {
         editor.putInt("ROWS", minesweeper.cells.size)
         editor.putInt("COLUMNS", minesweeper.cells[0].size)
         editor.putInt("MINE_COUNT", gameDifficulty.getMineCount(context))
-        editor.putFloat("GAME_CELL_SCALE", zoomCellScale.toFloat())
         editor.putInt("DIFFICULTY", gameDifficulty.ordinal)
         editor.putInt("CLICK_MODE", clickMode.ordinal)
         editor.putInt("STATUS", minesweeper.gameStatus.ordinal)

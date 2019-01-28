@@ -15,8 +15,6 @@
     <string name="menu_restart">Nuova partita</string>
     <string name="menu_flag">Modalità Flag</string>
     <string name="menu_wipe">Azzera Statistiche</string>
-    <string name="menu_zoom_in">Zoom Avanti</string>
-    <string name="menu_zoom_out">Zoom Indietro</string>
 
     <!-- DIALOG -->
     <!-- CANCELRESUME -->

@@ -15,8 +15,6 @@
     <string name="menu_restart">Nueva partida</string>
     <string name="menu_flag">Modo Banderas</string>
     <string name="menu_wipe">Borrar Estadísticas</string>
-    <string name="menu_zoom_in">Ampliar</string>
-    <string name="menu_zoom_out">Reducir</string>
 
     <!-- DIALOG -->
     <!-- CANCELRESUME -->

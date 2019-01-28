@@ -15,8 +15,6 @@
     <string name="menu_restart">Новая Игра</string>
     <string name="menu_flag">Режим пометки флагом</string>
     <string name="menu_wipe">Очистить Статистику</string>
-    <string name="menu_zoom_in">Увеличить Изображение</string>
-    <string name="menu_zoom_out">Уменьшить Изображение</string>
 
     <!-- DIALOG -->
     <!-- CANCELRESUME -->

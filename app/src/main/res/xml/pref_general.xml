@@ -56,14 +56,6 @@
             app:msbp_maxValue="1000"
             app:msbp_measurementUnit="ms"
             />
-        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
-            android:defaultValue="100"
-            android:key="cellSize_seek"
-            android:title="@string/settings_cell_size"
-            app:msbp_minValue="50"
-            app:msbp_maxValue="150"
-            app:msbp_measurementUnit="%"
-            />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_custom">
         <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat

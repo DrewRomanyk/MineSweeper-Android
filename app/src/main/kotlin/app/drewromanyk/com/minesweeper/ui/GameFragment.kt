@@ -35,7 +35,6 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
     private lateinit var minesweeperUI: MinesweeperUI
 
     // UI ELEMENTS
-    private lateinit var vScroll: ScrollView
     private lateinit var boardInfoView: BoardInfoView
     private lateinit var refreshButton: MenuItem
     private var flagButton: MenuItem? = null
@@ -68,19 +67,6 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
         inflater?.inflate(R.menu.menu_game, menu)
         flagButton = menu!!.findItem(R.id.action_flag)
         refreshButton = menu.findItem(R.id.action_refresh)
-
-        requireActivity().findViewById<View>(R.id.action_zoomin)
-
-        val actionZoomIn = requireActivity().findViewById<View>(R.id.action_zoomin)
-        actionZoomIn.setOnLongClickListener {
-            minesweeperUI.zoomIn(true)
-            true
-        }
-        val actionZoomOut = requireActivity().findViewById<View>(R.id.action_zoomout)
-        actionZoomOut.setOnLongClickListener {
-            minesweeperUI.zoomOut(true)
-            true
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -99,20 +85,11 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
                             .create()
                     dialog.show()
                 } else {
-                    minesweeperUI.reset(requireContext())
-                }
+                    minesweeperUI.reset(requireContext())                }
                 return true
             }
             R.id.action_flag -> {
                 minesweeperUI.switchClickMode()
-                return true
-            }
-            R.id.action_zoomin -> {
-                minesweeperUI.zoomIn(false)
-                return true
-            }
-            R.id.action_zoomout -> {
-                minesweeperUI.zoomOut(false)
                 return true
             }
             android.R.id.home -> {
@@ -171,13 +148,12 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
     }
 
     private fun setupBoardLayout(savedInstanceState: Bundle?) {
-        boardBackground.setOnClickListener {
+        zoomLayout.setOnClickListener {
             if (UserPrefStorage.getSwiftChange(requireContext())) {
                 minesweeperUI.switchClickMode()
             }
         }
 
-        setupBiDirectionalScrolling()
         setupGame(savedInstanceState)
     }
 
@@ -230,54 +206,7 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
             }
         })
 
-        vScroll.removeAllViews()
-        vScroll.addView(minesweeperUI.layout)
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private fun setupBiDirectionalScrolling() {
-
-        val hScroll = scrollHorizontal
-
-        vScroll = scrollVertical
-
-        //inner scroll listener
-        vScroll.setOnTouchListener { _, _ ->
-            false
-        }
-
-        //outer scroll listener
-        hScroll.setOnTouchListener(object : View.OnTouchListener {
-            private var mx: Float = 0.toFloat()
-            private var my: Float = 0.toFloat()
-            private var curX: Float = 0.toFloat()
-            private var curY: Float = 0.toFloat()
-            private var started = false
-
-            override fun onTouch(v: View, event: MotionEvent): Boolean {
-                curX = event.x
-                curY = event.y
-                val dx = (mx - curX).toInt()
-                val dy = (my - curY).toInt()
-                when (event.action) {
-                    MotionEvent.ACTION_MOVE -> {
-                        if (started) {
-                            vScroll.scrollBy(0, dy)
-                            hScroll.scrollBy(dx, 0)
-                        } else {
-                            started = true
-                        }
-                        mx = curX
-                        my = curY
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        vScroll.scrollBy(0, dy)
-                        hScroll.scrollBy(dx, 0)
-                        started = false
-                    }
-                }
-                return true
-            }
-        })
+        zoomContainer.removeAllViews()
+        zoomContainer.addView(minesweeperUI.layout)
     }
 }
