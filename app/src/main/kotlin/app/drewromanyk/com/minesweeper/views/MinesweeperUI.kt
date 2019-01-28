@@ -26,8 +26,8 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage
  */
 class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private val boardInfoView: BoardInfoView, context: Context, private val minesweeperUiHandler: MinesweeperUiHandler) : MinesweeperHandler {
     companion object {
-        private val MIN_SCALE = .4
-        private val MAX_SCALE = 2.0
+        private const val MIN_SCALE = .4
+        private const val MAX_SCALE = 2.0
     }
 
     val gameDifficulty: GameDifficulty
@@ -50,14 +50,23 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
 
     init {
         var results: UserPrefStorage.GameStorageData? = null
-        if (loadGame || (gameDifficulty == GameDifficulty.RESUME)) {
-            results = UserPrefStorage.loadGame(context, this)
+        if (loadGame) {
+            try {
+                results = UserPrefStorage.loadGame(context, this)
+            } catch (exception: IllegalArgumentException) {
+                // This is due to rotating when not playing yet
+                results = null
+            }
+        }
+
+        if (results == null) {
+            this.gameDifficulty = gameDifficulty
+            minesweeper = Minesweeper(this.gameDifficulty.getRows(context), this.gameDifficulty.getColumns(context), this.gameDifficulty.getMineCount(context), this)
+        } else {
             minesweeper = results.minesweeper
             this.gameDifficulty = results.gameDifficulty
             zoomCellScale = results.zoomCellScale
-        } else {
-            this.gameDifficulty = gameDifficulty
-            minesweeper = Minesweeper(this.gameDifficulty.getRows(context), this.gameDifficulty.getColumns(context), this.gameDifficulty.getMineCount(context), this)
+            minesweeperUiHandler.onGameTimerTick(results.minesweeper.getTime(), results.minesweeper.getScore())
         }
 
         uiCells = Array(this.gameDifficulty.getRows(context)) { Array(this.gameDifficulty.getColumns(context)) { UiCell(context) } }

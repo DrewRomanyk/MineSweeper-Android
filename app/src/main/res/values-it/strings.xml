@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- APP -->
-    <string name="app_name">Campo Minato</string>
 
     <!-- NAV DRAWER -->
-    <string name="nav_header_playername_empty">REGISTRATI</string>
     <string name="nav_play">Gioca</string>
     <string name="nav_leaderboards">Classifiche</string>
     <string name="nav_achievements">Traguardi</string>
@@ -17,16 +15,16 @@
     <string name="menu_restart">Nuova partita</string>
     <string name="menu_flag">Modalità Flag</string>
     <string name="menu_wipe">Azzera Statistiche</string>
-    <string name="menu_zoomin">Zoom Avanti</string>
-    <string name="menu_zoomout">Zoom Indietro</string>
+    <string name="menu_zoom_in">Zoom Avanti</string>
+    <string name="menu_zoom_out">Zoom Indietro</string>
 
     <!-- DIALOG -->
     <!-- CANCELRESUME -->
-    <string name="dialog_cancelresume_title">Creare una Nuova Partita?</string>
-    <string name="dialog_cancelresume_message">C’è una partita in sospeso che potrebbe essere calcolata come perdita, vuoi ancora cominciare una nuova partita?</string>
+    <string name="dialog_cancel_resume_title">Creare una Nuova Partita?</string>
+    <string name="dialog_cancel_resume_message">C’è una partita in sospeso che potrebbe essere calcolata come perdita, vuoi ancora cominciare una nuova partita?</string>
     <!-- HELP -->
-    <string name="dialog_help_title">Aiuto</string>
-    <string name="dialog_help_message">"COME GIOCARE:
+    <string name="help_title">Aiuto</string>
+    <string name="help_label">"COME GIOCARE:
 	Campo Minato è un gioco di logica nel quale il giocatore deve scoprire tutte le caselle che non hanno mine senza scoprire una casella con una mina. Le caselle possono avere mine o indicare quante mine hanno nelle 8 caselle che le circondano. Il giocatore può dedurre dalle caselle senza mine dove potrebbero trovarsi le mine. I giocatori possono mettere una bandiera su una casella che pensano possa contenere una mina.
         \nCONTROLLI:
 Normale:
@@ -46,20 +44,16 @@ Bandiera:
 Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per qualsiasi dubbio o feedback."
     </string>
     <!-- ABOUT -->
-    <string name="dialog_about_title">Informazioni</string>
-    <string name="dialog_about_message">Campo Minato è un’applicazione gratuita offerta da Drew Romanyk. Non esitare a contattarlo a drew.romanyk@gmail.com per qualsiasi feedback.\n\nVersione: {amount}</string>
+    <string name="about_title">Informazioni</string>
+    <string name="about_label">Campo Minato è un’applicazione gratuita offerta da Drew Romanyk. Non esitare a contattarlo a drew.romanyk@gmail.com per qualsiasi feedback.\n\nVersione: {amount}</string>
     <!-- CUSTOMGAMEERROR -->
-    <string name="dialog_customgameerror_title">Errore Impostazioni Partita Personalizzata</string>
-    <string name="dialog_customgameerror_message">La quantità di mine che hai selezionato non è valida per la quantità di caselle nella partita.</string>
+    <string name="dialog_custom_game_error_title">Errore Impostazioni Partita Personalizzata</string>
+    <string name="dialog_custom_game_error_message">La quantità di mine che hai selezionato non è valida per la quantità di caselle nella partita.</string>
     <!-- NEEDGOOGLE -->
-    <string name="dialog_needgoogle_title">Accedere a Google Games?</string>
-    <string name="dialog_needgoogle_message">Per accedere a questa funzionalità devi accedere a Google Games, vuoi effettuare l’accesso?</string>
     <!-- TRASH STATS -->
-    <string name="dialog_trashstats_title">Azzerare tutte le statistiche?</string>
-    <string name="dialog_trashstats_message">Non potrai ripristinare le tue statistiche, sei sicuro di voler continuare?</string>
+    <string name="dialog_trash_stats_title">Azzerare tutte le statistiche?</string>
+    <string name="dialog_trash_stats_message">Non potrai ripristinare le tue statistiche, sei sicuro di voler continuare?</string>
     <!-- CUSTOM GAME SETTINGS-->
-    <string name="dialog_custom_settings_change_title">Modificare le impostazioni di gioco personalizzati?</string>
-    <string name="dialog_custom_settings_change_message">Fai a desidera modificare le impostazioni di gioco personalizzato?</string>
 
     <!-- GAME ACTIVITY-->
     <!-- GAME DIFFICULTY -->
@@ -94,7 +88,7 @@ Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per
     <string name="stats_title_current_streak">Serie attuale: {amount}</string>
 
     <!-- GOOGLE GAMES -->
-    <string name="signin_other_error">Si è verificato un problema con la registrazione. Ti preghiamo di riprovare più tardi.</string>
+    <string name="sign_in_other_error">Si è verificato un problema con la registrazione. Ti preghiamo di riprovare più tardi.</string>
     <string name="sign_in_failed">Impossibile registrarsi. Ti preghiamo di controllare la tua connessione di rete e riprovare.</string>
     <string name="app_misconfigured">L’applicazione non è configurata correttamente.</string>
     <string name="license_failed">Controllo licenza non riuscito.</string>
@@ -102,8 +96,7 @@ Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per
     <string name="google_play_error">Google Play errore di servizio.</string>
 
     <!-- SETTINGS -->
-    <string name="settings_inapp">Acquisti in-app</string>
-    <string name="settings_inapp_ads">Elimina annunci pubblicitari</string>
+    <string name="settings_in_app">Acquisti in-app</string>
     <string name="settings_cell">Impostazioni tasto casella</string>
     <string name="settings_cell_size">Dimensioni casella</string>
     <string name="settings_custom">Impostazioni Partita Personalizzata</string>
@@ -123,20 +116,25 @@ Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per
     <string name="settings_game_longclick_duration">Lunga Durata Click</string>
 
     <string name="settings_support">Assistenza</string>
-    <string name="settings_support_feedback">Invia Feedback</string>
     <string name="settings_feedback_subject">Campo Minato: Feedback</string>
     <string name="settings_feedback_chooser">Invia email feedback…</string>
     <string name="settings_feedback_error">Non sono installati client email.</string>
 
     <!-- IN APP RATING -->
-    <string name="inapp_rating_enjoy">Campo Minato mi sta piacendo?</string>
-    <string name="inapp_rating_enjoy_no">Non molto</string>
-    <string name="inapp_rating_enjoy_yes">Sì!</string>
-    <string name="inapp_rating_feedback">Ti andrebbe di darci un feedback?</string>
-    <string name="inapp_rating_rating">E che ne dici di votarla sul Play Store?</string>
-    <string name="inapp_rating_secondary_no">No, grazie</string>
-    <string name="inapp_rating_secondary_yes">Ok, certo</string>
-    <string name="settings_support_privacy_policy">Visualizza l\'informativa sulla privacy</string>
-    <string name="settings_support_terms_conditions">Visualizza termini e condizioni</string>
+    <string name="in_app_rating_enjoy">Campo Minato mi sta piacendo?</string>
+    <string name="in_app_rating_enjoy_no">Non molto</string>
+    <string name="in_app_rating_enjoy_yes">Sì!</string>
+    <string name="in_app_rating_feedback">Ti andrebbe di darci un feedback?</string>
+    <string name="in_app_rating_rating">E che ne dici di votarla sul Play Store?</string>
+    <string name="in_app_rating_secondary_no">No, grazie</string>
+    <string name="in_app_rating_secondary_yes">Ok, certo</string>
+    <string name="application_name">Campo Minato</string>
+    <string name="info">Informazioni</string>
+    <string name="open_source_licenses">Licenze open source</string>
+    <string name="privacy_policy">Politica sulla riservatezza</string>
+    <string name="remove_ads">Rimuovere gli annunci</string>
+    <string name="send_feedback">Invia feedback</string>
+    <string name="sign_in">Accedi</string>
+    <string name="terms_of_service">Termini di servizio</string>
 
 </resources>

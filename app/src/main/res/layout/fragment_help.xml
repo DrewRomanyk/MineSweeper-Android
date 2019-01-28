@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.AboutFragment"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.HelpFragment"
+>
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
@@ -15,20 +17,20 @@
             android:id="@+id/help_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/dialog_help_title"
+            android:layout_marginStart="@dimen/spacer"
+            android:layout_marginTop="@dimen/spacer"
+            android:text="@string/help_title"
             android:textAppearance="@style/TextAppearance.Minesweeper.Subhead"
         />
-
+        <!-- TODO change help label to be more spread out -->
         <TextView
-            android:id="@+id/about_label"
+            android:id="@+id/help_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/dialog_help_message"
+            android:layout_marginStart="@dimen/spacer"
+            android:layout_marginTop="@dimen/spacer"
+            android:layout_marginBottom="@dimen/spacer"
+            android:text="@string/help_label"
             android:textColor="?android:textColorPrimary"
         />
    </LinearLayout>

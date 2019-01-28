@@ -4,18 +4,20 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.widget.ListView
-import androidx.core.view.ViewCompat
+import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceFragmentCompat
 import app.drewromanyk.com.minesweeper.BuildConfig
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
+import app.drewromanyk.com.minesweeper.enums.ResultCodes
+import app.drewromanyk.com.minesweeper.util.DialogInfoUtils
 import app.drewromanyk.com.minesweeper.util.PremiumUtils
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
+import com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
 
 
 /**
- * A simple [Fragment] subclass.
+ * Fragment to handle user preferences
  */
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -24,30 +26,42 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val list = view.findViewById<ListView>(android.R.id.list)
-//        if (list != null) {
-//            ViewCompat.setNestedScrollingEnabled(list, true)
-//        }
+
+        (findPreference("longclick_duration_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)
+        (findPreference("cellSize_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)
+        (findPreference("row_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)
+        (findPreference("column_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)
+        (findPreference("mine_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)
 
         setupClearPurchase()
         setupPurchase()
 
         findPreference("reset_stats").setOnPreferenceClickListener {
-            for (mode in GameDifficulty.EASY.ordinal..GameDifficulty.EXPERT.ordinal) {
-                UserPrefStorage.updateStats(activity!!, GameDifficulty.values()[mode], 0, 0, 0, 0f, 0f, 0, 0, 0, 0, 0, 0f)
-            }
+            val (title, description) = DialogInfoUtils.getInstance(requireActivity()).getDialogInfo(ResultCodes.TRASH_STATS_DIALOG.ordinal)
+            val dialog = AlertDialog.Builder(requireActivity())
+                    .setTitle(title)
+                    .setMessage(description)
+                    .setPositiveButton(android.R.string.yes) { _, _ ->
+                        for (mode in GameDifficulty.EASY.ordinal..GameDifficulty.EXPERT.ordinal) {
+                            UserPrefStorage.updateStats(activity!!, GameDifficulty.values()[mode], 0, 0, 0, 0f, 0f, 0, 0, 0, 0, 0, 0f)
+                        }
+                    }
+                    .setNegativeButton(android.R.string.no) { _, _ -> }
+                    .create()
+            dialog.show()
+
             true
         }
     }
 
     private fun setupClearPurchase() {
         // For testing only
-        val enableClearPurchase = true && BuildConfig.DEBUG
+        val enableClearPurchase = BuildConfig.DEBUG
 
         if (enableClearPurchase) {
             val clearPurchase = findPreference("purchase_clear")
             clearPurchase.setOnPreferenceClickListener {
-                PremiumUtils.instance.clear_purchase()
+                PremiumUtils.instance.clearPurchase()
                 true
             }
 
@@ -61,7 +75,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private fun setupPurchase() {
         val purchaseAdRemoval = findPreference("purchase_remove_ads")
         purchaseAdRemoval.setOnPreferenceClickListener {
-            PremiumUtils.instance.purchase_premium(requireActivity())
+            PremiumUtils.instance.purchasePremium(requireActivity())
             true
         }
 

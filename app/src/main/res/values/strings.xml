@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- APP -->
-    <string name="app_name">Minesweeper</string>
+    <string name="application_name">Minesweeper</string>
 
     <!-- NAV DRAWER -->
-    <string name="nav_header_playername_empty">SIGN IN</string>
     <string name="nav_play">Play</string>
     <string name="nav_leaderboards">Leaderboards</string>
     <string name="nav_achievements">Achievements</string>
@@ -14,19 +13,19 @@
     <string name="nav_about">About</string>
 
     <!-- MENU -->
-    <string name="menu_restart">New Game</string>
-    <string name="menu_flag">Flag Mode</string>
-    <string name="menu_wipe">Wipe Statistics</string>
-    <string name="menu_zoomin">Zoom In</string>
-    <string name="menu_zoomout">Zoom Out</string>
+    <string name="menu_restart">New game</string>
+    <string name="menu_flag">Flag mode</string>
+    <string name="menu_wipe">Wipe statistics</string>
+    <string name="menu_zoom_in">Zoom in</string>
+    <string name="menu_zoom_out">Zoom out</string>
 
     <!-- DIALOG -->
-    <!-- CANCELRESUME -->
-    <string name="dialog_cancelresume_title">Create a New Game?</string>
-    <string name="dialog_cancelresume_message">There is an unfinished game that could count as a loss, do you still wish to start a new game?</string>
+    <!-- CANCEL RESUME -->
+    <string name="dialog_cancel_resume_title">Create a new game?</string>
+    <string name="dialog_cancel_resume_message">There is an unfinished game that could count as a loss, do you still wish to start a new game?</string>
     <!-- HELP -->
-    <string name="dialog_help_title">Help</string>
-    <string name="dialog_help_message">"HOW TO PLAY:
+    <string name="help_title">Help</string>
+    <string name="help_label">"HOW TO PLAY:
     Minesweeper is a puzzle game in which the player must uncover all the cells that aren\'t mines without uncovering a mine cell. Cells can either be mines or the amount of mines in the 8 neighboring cells near them. The player can deduce from the non-mine cells where the mines could be at. Players can place a flag on a cell that they think is a mine.
     \nCONTROLS:
 Normal:
@@ -46,20 +45,14 @@ Flag:
     Please email the developer at drew.romanyk@gmail.com for any concerns or feedback."
     </string>
     <!-- ABOUT -->
-    <string name="dialog_about_title">About</string>
-    <string name="dialog_about_message">The classic game of Minesweeper is here for Android. Use strategy and critical thinking to win. The goal is to reveal all cells that aren\'t mines. Minesweeper is also known as Mines.\n\nVersion: {amount}</string>
-    <!-- CUSTOMGAMEERROR -->
-    <string name="dialog_customgameerror_title">Custom Game Settings Error</string>
-    <string name="dialog_customgameerror_message">The amount of bombs you selected arent valid for the amount of cells in the game.</string>
-    <!-- NEEDGOOGLE -->
-    <string name="dialog_needgoogle_title">Login to Google Games?</string>
-    <string name="dialog_needgoogle_message">To access this feature you need to login to Google Games, do you wish to login?</string>
+    <string name="about_title">About</string>
+    <string name="about_label">The classic game of Minesweeper is here for Android. Use strategy and critical thinking to win. The goal is to reveal all cells that aren\'t mines. Minesweeper is also known as Mines.\n\nVersion: {amount}</string>
+    <!-- CUSTOM GAME ERROR -->
+    <string name="dialog_custom_game_error_title">Custom game settings error</string>
+    <string name="dialog_custom_game_error_message">The amount of bombs you selected aren\'t valid for the amount of cells in the game.</string>
     <!-- TRASH STATS -->
-    <string name="dialog_trashstats_title">Wipe all statistics?</string>
-    <string name="dialog_trashstats_message">You will not be able to restore your statistics, are you sure you want to continue?</string>
-    <!-- CUSTOM GAME SETTINGS-->
-    <string name="dialog_custom_settings_change_title">Change your custom game settings?</string>
-    <string name="dialog_custom_settings_change_message">Do you want to change your custom game settings?</string>
+    <string name="dialog_trash_stats_title">Wipe all statistics?</string>
+    <string name="dialog_trash_stats_message">You will not be able to restore your statistics, are you sure you want to continue?</string>
 
     <!-- GAME ACTIVITY-->
     <!-- GAME DIFFICULTY -->
@@ -72,7 +65,7 @@ Flag:
     <string name="game_difficulty_expert">Expert</string>
     <string name="game_difficulty_expert_details">30 x 16\n99 Mines</string>
     <string name="game_difficulty_custom">Custom</string>
-    <string name="game_difficulty_custom_details">Custom Settings</string>
+    <string name="game_difficulty_custom_details">Custom settings</string>
     <!-- GAME BAR -->
     <string name="game_bar_time_title">Time: {amount}</string>
     <string name="game_bar_score_title">Score: {amount}</string>
@@ -81,20 +74,20 @@ Flag:
     <string name="game_best_score">NEW BEST SCORE!</string>
 
     <!-- STATS FRAGMENT -->
-    <string name="stats_title_best_score">Best Score: {amount}</string>
-    <string name="stats_title_best_time">Best Time: {amount}</string>
-    <string name="stats_title_avg_score">Average Score: {amount}</string>
-    <string name="stats_title_avg_time">Average Time: {amount}</string>
-    <string name="stats_title_games_won">Games Won: {amount}</string>
-    <string name="stats_title_games_played">Games Played: {amount}</string>
-    <string name="stats_title_win_percent">Win Percent: {amount}</string>
-    <string name="stats_title_explore_percent">Explore Percent: {amount}</string>
-    <string name="stats_title_win_streak">Win Streak: {amount}</string>
-    <string name="stats_title_lose_streak">Lose Streak: {amount}</string>
-    <string name="stats_title_current_streak">Current Streak: {amount}</string>
+    <string name="stats_title_best_score">Best score: {amount}</string>
+    <string name="stats_title_best_time">Best time: {amount}</string>
+    <string name="stats_title_avg_score">Average score: {amount}</string>
+    <string name="stats_title_avg_time">Average time: {amount}</string>
+    <string name="stats_title_games_won">Games won: {amount}</string>
+    <string name="stats_title_games_played">Games played: {amount}</string>
+    <string name="stats_title_win_percent">Win percent: {amount}</string>
+    <string name="stats_title_explore_percent">Explore percent: {amount}</string>
+    <string name="stats_title_win_streak">Win streak: {amount}</string>
+    <string name="stats_title_lose_streak">Lose streak: {amount}</string>
+    <string name="stats_title_current_streak">Current streak: {amount}</string>
 
     <!-- GOOGLE GAMES -->
-    <string name="signin_other_error">There was an issue with sign in. Please try again later.</string>
+    <string name="sign_in_other_error">There was an issue with sign in. Please try again later.</string>
     <string name="sign_in_failed">Failed to sign in. Please check your network connection and try again.</string>
     <string name="app_misconfigured">The application is incorrectly configured.</string>
     <string name="license_failed">License check failed.</string>
@@ -118,41 +111,46 @@ Flag:
     <string name="preference_saved_current_version" translatable="false">1</string>
 
     <!-- SETTINGS -->
-    <string name="settings_inapp">In-app Purchases</string>
-    <string name="settings_inapp_ads">Remove Ads</string>
-    <string name="settings_cell">Cell Button Settings</string>
-    <string name="settings_cell_size">Cell Size</string>
-    <string name="settings_custom">Custom Game Settings</string>
+    <string name="settings_in_app">In-app purchases</string>
+    <string name="settings_cell">Cell button settings</string>
+    <string name="settings_cell_size">Cell size</string>
+    <string name="settings_custom">Custom game settings</string>
     <string name="settings_custom_rows">Rows</string>
     <string name="settings_custom_columns">Columns</string>
     <string name="settings_custom_mines">Mines</string>
 
-    <string name="settings_game">Game Settings</string>
-    <string name="settings_game_ui_theme">UI Theme Mode</string>
-    <string name="settings_game_sound">Sound Effects</string>
+    <string name="settings_game">Game settings</string>
+    <string name="settings_game_ui_theme">UI theme mode</string>
+    <string name="settings_game_sound">Sound effects</string>
     <string name="settings_game_vibration">Vibration</string>
-    <string name="settings_game_screenon">Keep Screen On</string>
-    <string name="settings_game_rotate">Lock Rotation</string>
-    <string name="settings_game_volumeflag">Volume Button Flag Mode</string>
-    <string name="settings_game_swiftchange">Swift Change</string>
-    <string name="settings_game_swiftopen">Swift Open</string>
-    <string name="settings_game_longclick_duration">Long Click Duration</string>
+    <string name="settings_game_screenon">Keep screen on</string>
+    <string name="settings_game_rotate">Lock rotation</string>
+    <string name="settings_game_volumeflag">Volume button flag mode</string>
+    <string name="settings_game_swiftchange">Swift change</string>
+    <string name="settings_game_swiftopen">Swift open</string>
+    <string name="settings_game_longclick_duration">Long click duration</string>
 
     <string name="settings_support">Support</string>
-    <string name="settings_support_feedback">Send Feedback</string>
-    <string name="settings_support_privacy_policy">View privacy policy</string>
-    <string name="settings_support_terms_conditions">View terms and conditions</string>
     <string name="settings_feedback_subject">Minesweeper: Feedback</string>
     <string name="settings_feedback_chooser">Send feedback email…</string>
     <string name="settings_feedback_error">There are no email clients installed.</string>
 
     <!-- IN APP RATING -->
-    <string name="inapp_rating_enjoy">Enjoying Minesweeper?</string>
-    <string name="inapp_rating_enjoy_no">Not really</string>
-    <string name="inapp_rating_enjoy_yes">Yes!</string>
-    <string name="inapp_rating_feedback">Would you mind giving us some feedback?</string>
-    <string name="inapp_rating_rating">How about a rating on the Play Store, then?</string>
-    <string name="inapp_rating_secondary_no">No, thanks</string>
-    <string name="inapp_rating_secondary_yes">OK, sure</string>
+    <string name="in_app_rating_enjoy">Enjoying Minesweeper?</string>
+    <string name="in_app_rating_enjoy_no">Not really</string>
+    <string name="in_app_rating_enjoy_yes">Yes!</string>
+    <string name="in_app_rating_feedback">Would you mind giving us some feedback?</string>
+    <string name="in_app_rating_rating">How about a rating on the Play Store, then?</string>
+    <string name="in_app_rating_secondary_no">No, thanks</string>
+    <string name="in_app_rating_secondary_yes">OK, sure</string>
+
+    <!-- NEED SORTED OUT -->
+    <string name="open_source_licenses">Open source licenses</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="remove_ads">Remove ads</string>
+    <string name="terms_of_service">Terms of service</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="info">Info</string>
+    <string name="sign_in">Sign in</string>
 
 </resources>

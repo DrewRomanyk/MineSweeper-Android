@@ -13,7 +13,7 @@ import app.drewromanyk.com.minesweeper.views.CircularOutlineProvider
 import kotlinx.android.synthetic.main.fragment_stats.*
 
 /**
- * A simple [Fragment] subclass.
+ * Fragment to show statistics on game play
  */
 class StatsFragment : Fragment() {
     private lateinit var adapter: StatsGameDifficultyAdapter
@@ -27,7 +27,7 @@ class StatsFragment : Fragment() {
 
         val activity = requireActivity() as MainActivity
         achievements.setOnClickListener {
-            activity.startAchivementIntent()
+            activity.startAchievementIntent()
         }
         leaderboards.setOnClickListener {
             activity.startLeaderboardIntent()

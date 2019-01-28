@@ -9,24 +9,26 @@
 >
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-        style="@style/Widget.AppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Widget.AppBar"
     >
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
+            android:paddingStart="@dimen/spacer"
+            android:paddingEnd="@dimen/spacer"
         >
             <ImageView
                 android:id="@+id/sign_in"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/sign_in_button_size"
+                android:layout_height="@dimen/sign_in_button_size"
                 android:layout_gravity="center_vertical|start"
-                android:padding="4dp"
+                android:padding="@dimen/spacerD4"
                 android:foreground="?selectableItemBackground"
                 android:src="@drawable/ic_account_circle"
-            />
+                android:contentDescription="@string/sign_in"
+                tools:targetApi="m" />
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -34,7 +36,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:minHeight="?actionBarSize"
-                android:text="Minesweeper"
+                android:text="@string/application_name"
                 android:textAppearance="@style/TextAppearance.Minesweeper.ToolbarTitle"
             />
         </FrameLayout>

@@ -1,6 +1,5 @@
 package app.drewromanyk.com.minesweeper.ui
 
-
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,11 +14,13 @@ import app.drewromanyk.com.minesweeper.util.PhraseKeys
 import app.drewromanyk.com.minesweeper.util.PremiumUtils
 import com.franmontiel.attributionpresenter.AttributionPresenter
 import com.franmontiel.attributionpresenter.entities.Library
+import com.franmontiel.attributionpresenter.entities.License
+import com.franmontiel.attributionpresenter.entities.Attribution
 import com.squareup.phrase.Phrase
 import kotlinx.android.synthetic.main.fragment_about.*
 
 /**
- * A simple [Fragment] subclass.
+ * Fragment that tells the user the version & gives links to the privacy policy and other things
  */
 class AboutFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,7 +30,7 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        about_label.text = Phrase.from(context, R.string.dialog_about_message)
+        about_label.text = Phrase.from(context, R.string.about_label)
             .put(PhraseKeys.AMOUNT, BuildConfig.VERSION_NAME)
             .format()
             .toString()
@@ -39,7 +40,7 @@ class AboutFragment : Fragment() {
         }
 
         remove_ads.setOnClickListener {
-            PremiumUtils.instance.purchase_premium(requireActivity())
+            PremiumUtils.instance.purchasePremium(requireActivity())
         }
 
         terms_of_service_button.setOnClickListener {
@@ -53,10 +54,27 @@ class AboutFragment : Fragment() {
         open_source_licenses_button.setOnClickListener {
             AttributionPresenter.Builder(requireContext())
                     .addAttributions(
-                            Library.GSON
+                        Library.GSON
+                    )
+                    .addAttributions(
+                        Attribution.Builder("AttributionPresenter")
+                            .addCopyrightNotice("Copyright 2017 Francisco José Montiel Navarro")
+                            .addLicense(License.APACHE)
+                            .setWebsite("https://github.com/franmontiel/AttributionPresenter")
+                            .build(),
+                        Attribution.Builder("MaterialSeekBarPreference")
+                            .addCopyrightNotice("Copyright 2015 Francisco Pavel Sikun")
+                            .addLicense(License.APACHE)
+                            .setWebsite("https://github.com/MrBIMC/MaterialSeekBarPreference")
+                            .build(),
+                        Attribution.Builder("Phrase")
+                                .addCopyrightNotice("Copyright 2013 Square, Inc.")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/square/phrase")
+                                .build()
                     )
                     .build()
-                    .showDialog("Open source licenses")
+                    .showDialog(getString(R.string.open_source_licenses))
         }
     }
 }

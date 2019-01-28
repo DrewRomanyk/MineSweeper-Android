@@ -1,5 +1,6 @@
 package app.drewromanyk.com.minesweeper.models
 
+import android.util.Log
 import app.drewromanyk.com.minesweeper.enums.GameStatus
 import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
 import org.json.JSONArray
@@ -67,7 +68,9 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
         }
 
         score.calculateScore(cells)
-        gameTimer.startGameTime()
+        if (gameStatus == GameStatus.PLAYING) {
+            gameTimer.startGameTime()
+        }
     }
 
     private fun firstClickInit(clickedCell: Cell) {
@@ -97,7 +100,7 @@ class Minesweeper(rows: Int, columns: Int, private val mineCount: Int, private v
         }
 
         gameStatus = GameStatus.PLAYING
-
+        // TODO ensure map is solvable
         do {
             placeMinesOnEmptyCells(clickedCell)
             score.calculateScore(cells)

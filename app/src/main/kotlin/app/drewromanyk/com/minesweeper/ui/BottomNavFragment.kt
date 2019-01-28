@@ -1,6 +1,5 @@
 package app.drewromanyk.com.minesweeper.ui
 
-
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.interfaces.UpdateAdViewHandler
@@ -17,7 +15,7 @@ import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.fragment_bottom_nav.*
 
 /**
- * A simple [Fragment] subclass.
+ * Fragment to host all of the main screens
  */
 class BottomNavFragment : Fragment(), UpdateAdViewHandler {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

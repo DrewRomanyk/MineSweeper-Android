@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- APP -->
-    <string name="app_name">Démineur</string>
 
     <!-- NAV DRAWER -->
-    <string name="nav_header_playername_empty">SE CONNECTER</string>
     <string name="nav_play">Jouer</string>
     <string name="nav_leaderboards">Classements</string>
     <string name="nav_achievements">Réalisations</string>
@@ -17,16 +15,16 @@
     <string name="menu_restart">Nouveau jeu</string>
     <string name="menu_flag">Mode Drapeau</string>
     <string name="menu_wipe">Effacez les statistiques</string>
-    <string name="menu_zoomin">Zoom avant</string>
-    <string name="menu_zoomout">Zoom arrière</string>
+    <string name="menu_zoom_in">Zoom avant</string>
+    <string name="menu_zoom_out">Zoom arrière</string>
 
     <!-- DIALOG -->
     <!-- CANCELRESUME -->
-    <string name="dialog_cancelresume_title">Créez un nouveau jeu?</string>
-    <string name="dialog_cancelresume_message">Il y a un jeu inachevé qui être compté comme une perte, souhaitez-vous toujours commencer un nouveau jeu?</string>
+    <string name="dialog_cancel_resume_title">Créez un nouveau jeu?</string>
+    <string name="dialog_cancel_resume_message">Il y a un jeu inachevé qui être compté comme une perte, souhaitez-vous toujours commencer un nouveau jeu?</string>
     <!-- HELP -->
-    <string name="dialog_help_title">Aidez-moi</string>
-    <string name="dialog_help_message">"COMMENT JOUER :
+    <string name="help_title">Aidez-moi</string>
+    <string name="help_label">"COMMENT JOUER :
      Du Démineur est un jeu de puzzle dans lequel le joueur doit découvrir toutes les cellules qui ne sont pas des mines sans découvrir une cellule de la mine. Les cellules peuvent être soit des mines ou la quantité de mines dans les 8 cellules voisines près d\'eux. Le joueur peut en déduire à partir des cellules non-mines où pourraient être les mines. Les joueurs peuvent placer un drapeau sur une cellule qu'ils pensent est une mine.
     \nCONTRÔLES:
 Normal:
@@ -46,20 +44,16 @@ Drapeau:
 S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com pour toute question ou commentaires."
     </string>
     <!-- ABOUT -->
-    <string name="dialog_about_title">À propos</string>
-    <string name="dialog_about_message">Le classique jeu le Démineur est ici pour Android. Utilisez la stratégie et la pensée critique pour gagner. Le but est de révéler toutes les cellules qui ne sont pas des mines. Le Démineur est également connu comme Mines.\n\nVersion: {amount}</string>
+    <string name="about_title">À propos</string>
+    <string name="about_label">Le classique jeu le Démineur est ici pour Android. Utilisez la stratégie et la pensée critique pour gagner. Le but est de révéler toutes les cellules qui ne sont pas des mines. Le Démineur est également connu comme Mines.\n\nVersion: {amount}</string>
     <!-- CUSTOMGAMEERROR -->
-    <string name="dialog_customgameerror_title">Erreur des paramètres de jeu personnalisés </string>
-    <string name="dialog_customgameerror_message">La quantité de bombes que vous avez sélectionné n\'est pas valable pour la quantité de cellules dans le jeu.</string>
+    <string name="dialog_custom_game_error_title">Erreur des paramètres de jeu personnalisés </string>
+    <string name="dialog_custom_game_error_message">La quantité de bombes que vous avez sélectionné n\'est pas valable pour la quantité de cellules dans le jeu.</string>
     <!-- NEEDGOOGLE -->
-    <string name="dialog_needgoogle_title">Connectez-vous à Google Games?</string>
-    <string name="dialog_needgoogle_message">Pour accéder à cette fonctionnalité, vous devez vous connecter à Google Games, voulez-vous vous identifier?</string>
     <!-- TRASH STATS -->
-    <string name="dialog_trashstats_title">Effacez toutes les statistiques?</string>
-    <string name="dialog_trashstats_message">Vous ne serez pas en mesure de restaurer vos statistiques, êtes-vous sûr de vouloir continuer?</string>
+    <string name="dialog_trash_stats_title">Effacez toutes les statistiques?</string>
+    <string name="dialog_trash_stats_message">Vous ne serez pas en mesure de restaurer vos statistiques, êtes-vous sûr de vouloir continuer?</string>
     <!-- CUSTOM GAME SETTINGS-->
-    <string name="dialog_custom_settings_change_title">Modifier vos paramètres de jeu personnalisés?</string>
-    <string name="dialog_custom_settings_change_message">Voulez-vous modifier vos paramètres de jeu personnalisés?</string>
 
     <!-- GAME ACTIVITY-->
     <!-- GAME DIFFICULTY -->
@@ -95,7 +89,7 @@ S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com 
     <string name="stats_title_current_streak">Série en cours: {amount}</string>
 
     <!-- GOOGLE GAMES -->
-    <string name="signin_other_error">Il y avait un problème de connexion. S\'il vous plaît essayer à nouveau plus tard.</string>
+    <string name="sign_in_other_error">Il y avait un problème de connexion. S\'il vous plaît essayer à nouveau plus tard.</string>
     <string name="sign_in_failed">Échec de la connexion. S\'il vous plaît vérifier votre connexion réseau et réessayez.</string>
     <string name="app_misconfigured">L\'application est correctement configuré.</string>
     <string name="license_failed">La vérification de licence a échoué.</string>
@@ -103,8 +97,7 @@ S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com 
     <string name="google_play_error">Google Play erreur de service.</string>
 
     <!-- SETTINGS -->
-    <string name="settings_inapp">Achats integrees dans l\'application</string>
-    <string name="settings_inapp_ads">Supprimez la pub</string>
+    <string name="settings_in_app">Achats integrees dans l\'application</string>
 
     <string name="settings_cell">Paramètres de boutons de cellule</string>
     <string name="settings_cell_size">Taille de la cellule</string>
@@ -126,19 +119,24 @@ S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com 
     <string name="settings_game_longclick_duration">Durée du clic long</string>
 
     <string name="settings_support">Soutien</string>
-    <string name="settings_support_feedback">Envoyer des commentaires</string>
     <string name="settings_feedback_subject">Démineur: Commentaires</string>
     <string name="settings_feedback_chooser">Envoyer des commentaires email…</string>
     <string name="settings_feedback_error">Il n\'y a pas emails de clients installés.</string>
 
     <!-- IN APP RATING -->
-    <string name="inapp_rating_enjoy">Bénéficiant du Démineur?</string>
-    <string name="inapp_rating_enjoy_no">Pas vraiment</string>
-    <string name="inapp_rating_enjoy_yes">Oui!</string>
-    <string name="inapp_rating_feedback">Pourriez-vous nous donner quelques commentaires?</string>
-    <string name="inapp_rating_rating">Que diriez-vous d\'une note sur le Play Store, alors?</string>
-    <string name="inapp_rating_secondary_no">Non merci</string>
-    <string name="inapp_rating_secondary_yes">Ok, bien sûr</string>
-    <string name="settings_support_privacy_policy">Voir la politique de confidentialité</string>
-    <string name="settings_support_terms_conditions">Voir les termes et conditions</string>
+    <string name="in_app_rating_enjoy">Bénéficiant du Démineur?</string>
+    <string name="in_app_rating_enjoy_no">Pas vraiment</string>
+    <string name="in_app_rating_enjoy_yes">Oui!</string>
+    <string name="in_app_rating_feedback">Pourriez-vous nous donner quelques commentaires?</string>
+    <string name="in_app_rating_rating">Que diriez-vous d\'une note sur le Play Store, alors?</string>
+    <string name="in_app_rating_secondary_no">Non merci</string>
+    <string name="in_app_rating_secondary_yes">Ok, bien sûr</string>
+    <string name="application_name">Démineur</string>
+    <string name="info">Info</string>
+    <string name="open_source_licenses">Licences Open Source</string>
+    <string name="privacy_policy">Politique de confidentialité</string>
+    <string name="remove_ads">Supprimer les annonces</string>
+    <string name="send_feedback">Envoyer des commentaires</string>
+    <string name="sign_in">Se connecter</string>
+    <string name="terms_of_service">Conditions d\'utilisation</string>
 </resources>

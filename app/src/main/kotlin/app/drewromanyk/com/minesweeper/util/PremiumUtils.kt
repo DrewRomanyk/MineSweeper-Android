@@ -23,7 +23,7 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
         val instance = PremiumUtils()
     }
 
-    private var premium_state = PremiumState.NOT_SURE
+    private var premiumState = PremiumState.NOT_SURE
     private var bp: BillingProcessor? = null
     private var adViewHandler: UpdateAdViewHandler? = null
 
@@ -44,12 +44,9 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
 
 
     val isPremiumUser: Boolean
-        get() = premium_state === PremiumState.PREMIUM
+        get() = premiumState === PremiumState.PREMIUM
 
-    val isNotPremiumUser: Boolean
-        get() = premium_state === PremiumState.NOT_PREMIUM
-
-    fun purchase_premium(activity: Activity) {
+    fun purchasePremium(activity: Activity) {
         if (BillingProcessor.isIabServiceAvailable(activity) && (bp != null)) {
             if (bp!!.isOneTimePurchaseSupported) {
                 bp!!.purchase(activity, BuildConfig.PREMIUM_SKU)
@@ -61,7 +58,7 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
         }
     }
 
-    fun clear_purchase() {
+    fun clearPurchase() {
         bp?.let {
             if (it.isOneTimePurchaseSupported) {
                 it.consumePurchase(BuildConfig.PREMIUM_SKU)
@@ -78,20 +75,20 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
          * Called when BillingProcessor was initialized and it's ready to purchase
          */
         val td = bp?.getPurchaseTransactionDetails(BuildConfig.PREMIUM_SKU)
-        if (td?.purchaseInfo?.purchaseData?.productId == BuildConfig.PREMIUM_SKU) {
-            premium_state = PremiumState.PREMIUM
+        premiumState = if (td?.purchaseInfo?.purchaseData?.productId == BuildConfig.PREMIUM_SKU) {
+            PremiumState.PREMIUM
         } else {
-            premium_state = PremiumState.NOT_PREMIUM
+            PremiumState.NOT_PREMIUM
         }
         adViewHandler?.updateAdView()
     }
 
-    override fun onProductPurchased(productId: String, details: TransactionDetails) {
+    override fun onProductPurchased(productId: String, details: TransactionDetails?) {
         /*
          * Called when requested PRODUCT ID was successfully purchased
          */
-        if (details.purchaseInfo.purchaseData.productId == BuildConfig.PREMIUM_SKU) {
-            premium_state = PremiumState.PREMIUM
+        if (details?.purchaseInfo?.purchaseData?.productId == BuildConfig.PREMIUM_SKU) {
+            premiumState = PremiumState.PREMIUM
         }
         adViewHandler?.updateAdView()
     }
@@ -103,7 +100,7 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
          * Note - this includes handling the case where the user canceled the buy dialog:
          * errorCode = Constants.BILLING_RESPONSE_RESULT_USER_CANCELED
          */
-        premium_state = PremiumState.NOT_PREMIUM
+        premiumState = PremiumState.NOT_PREMIUM
         adViewHandler?.updateAdView()
     }
 

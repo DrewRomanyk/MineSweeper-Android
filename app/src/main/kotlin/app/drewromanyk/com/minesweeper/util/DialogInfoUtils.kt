@@ -33,32 +33,26 @@ class DialogInfoUtils private constructor(context: Context) {
 
     init {
 
-        yesNoDialogMap.put(ResultCodes.ABOUT_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_about_title),
-                Phrase.from(context, R.string.dialog_about_message)
+        yesNoDialogMap.put(ResultCodes.ABOUT_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.about_title),
+                Phrase.from(context, R.string.about_label)
                         .put(PhraseKeys.AMOUNT, BuildConfig.VERSION_NAME)
                         .format()
                         .toString()))
 
-        yesNoDialogMap.put(ResultCodes.HELP_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_help_title),
-                context.getString(R.string.dialog_help_message)))
+        yesNoDialogMap.put(ResultCodes.HELP_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.help_title),
+                context.getString(R.string.help_label)))
 
-        yesNoDialogMap.put(ResultCodes.RESUME_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_cancelresume_title),
-                context.getString(R.string.dialog_cancelresume_message)))
+        yesNoDialogMap.put(ResultCodes.RESUME_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_cancel_resume_title),
+                context.getString(R.string.dialog_cancel_resume_message)))
 
-        yesNoDialogMap.put(ResultCodes.CUSTOMGAMEERROR_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_customgameerror_title),
-                context.getString(R.string.dialog_customgameerror_message)))
+        yesNoDialogMap.put(ResultCodes.CUSTOMGAMEERROR_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_custom_game_error_title),
+                context.getString(R.string.dialog_custom_game_error_message)))
 
-        yesNoDialogMap.put(ResultCodes.TRASH_STATS_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_trashstats_title),
-                context.getString(R.string.dialog_trashstats_message)))
+        yesNoDialogMap.put(ResultCodes.TRASH_STATS_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_trash_stats_title),
+                context.getString(R.string.dialog_trash_stats_message)))
 
-        yesNoDialogMap.put(ResultCodes.RESTART_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_cancelresume_title),
-                context.getString(R.string.dialog_cancelresume_message)))
-
-        yesNoDialogMap.put(ResultCodes.NEEDGOOGLE_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_needgoogle_title),
-                context.getString(R.string.dialog_needgoogle_message)))
-
-        yesNoDialogMap.put(ResultCodes.CUSTOM_SETTING_CHANGE.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_custom_settings_change_title),
-                context.getString(R.string.dialog_custom_settings_change_message)))
+        yesNoDialogMap.put(ResultCodes.RESTART_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_cancel_resume_title),
+                context.getString(R.string.dialog_cancel_resume_message)))
     }
 
     fun getDialogInfo(requestCode: Int): YesNoDialogInfo {

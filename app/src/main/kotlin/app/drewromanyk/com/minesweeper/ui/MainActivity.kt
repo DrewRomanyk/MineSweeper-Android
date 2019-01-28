@@ -1,39 +1,39 @@
 package app.drewromanyk.com.minesweeper.ui
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
+import app.drewromanyk.com.minesweeper.BuildConfig
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
+import app.drewromanyk.com.minesweeper.enums.GameStatus
 import app.drewromanyk.com.minesweeper.interfaces.ProfileUiHandler
 import app.drewromanyk.com.minesweeper.util.PremiumUtils
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
-import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.tasks.Task
-import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.games.*
+import com.google.firebase.analytics.FirebaseAnalytics
+import kotlinx.android.synthetic.main.activity_main.*
 
+// request codes we use when invoking an external activity
+private const val RC_UNUSED = 5001
+private const val RC_SIGN_IN = 9001
 
+/**
+ * Activity that handles everything to do with the main navigation or contact with google services
+ */
 class MainActivity : AppCompatActivity() {
     private var googleSignInClient: GoogleSignInClient? = null
     private var achievementsClient: AchievementsClient? = null
     private var leaderboardsClient: LeaderboardsClient? = null
     private var playersClient: PlayersClient? = null
     var currentPlayer: Player? = null
-
-    // request codes we use when invoking an external activity
-    protected val RC_UNUSED = 5001
-    protected val RC_SIGN_IN = 9001
 
     var profileUiHandler: ProfileUiHandler? = null
 
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(googleSignInClient!!.signInIntent, RC_SIGN_IN)
     }
 
-    fun startAchivementIntent() {
+    fun startAchievementIntent() {
         if (isSignedIn()) {
             achievementsClient!!.achievementsIntent
                     .addOnSuccessListener { intent -> startActivityForResult(intent, RC_UNUSED) }
@@ -133,6 +133,7 @@ class MainActivity : AppCompatActivity() {
             onDisconnected()
             profileUiHandler?.onSignIn(null)
         } else {
+            Games.getGamesClient(this, account).setViewForPopups(container as View)
             achievementsClient = Games.getAchievementsClient(this, account)
             leaderboardsClient = Games.getLeaderboardsClient(this, account)
             playersClient = Games.getPlayersClient(this, account)
@@ -152,5 +153,42 @@ class MainActivity : AppCompatActivity() {
         leaderboardsClient = null
         playersClient = null
         currentPlayer = null
+    }
+
+    fun updateLeaderboards(gameStatus: GameStatus, gameDifficulty: GameDifficulty, score: Long, millis: Long) {
+        val achievementSeconds = longArrayOf(20_000, 4000_000, 150_000)
+        val achievementWin = arrayOf(BuildConfig.ACHIEVEMENT_EASY, BuildConfig.ACHIEVEMENT_MEDIUM, BuildConfig.ACHIEVEMENT_EXPERT)
+        val achievementSpeed = arrayOf(BuildConfig.ACHIEVEMENT_FAST, BuildConfig.ACHIEVEMENT_QUICK, BuildConfig.ACHIEVEMENT_SWIFT)
+        val leaderboardScores = arrayOf(BuildConfig.LEADERBOARD_EASY_BEST_SCORES, BuildConfig.LEADERBOARD_MEDIUM_BEST_SCORES, BuildConfig.LEADERBOARD_EXPERT_BEST_SCORES)
+        val leaderboardTimes = arrayOf(BuildConfig.LEADERBOARD_EASY_BEST_TIMES, BuildConfig.LEADERBOARD_MEDIUM_BEST_TIMES, BuildConfig.LEADERBOARD_EXPERT_BEST_TIMES)
+        val leaderboardStreaks = arrayOf(BuildConfig.LEADERBOARD_EASY_BEST_STREAK, BuildConfig.LEADERBOARD_MEDIUM_BEST_STREAKs, BuildConfig.LEADERBOARD_EXPERT_BEST_STREAKs)
+
+        if (gameStatus == GameStatus.VICTORY) {
+            val fba = FirebaseAnalytics.getInstance(this)
+            fba.logEvent("game_over_google_games_victory", null)
+            if (!isSignedIn()) {
+                return
+            }
+            // Skip non ranked difficulty
+            if ((gameDifficulty === GameDifficulty.CUSTOM) || (gameDifficulty === GameDifficulty.RESUME)) {
+                return
+            }
+
+            // Offset is 2 for RESUME and CUSTOM
+            val gameDiffIndex = gameDifficulty.ordinal - 2
+            fba.logEvent("game_over_games_achievements", null)
+            achievementsClient
+            achievementsClient!!.unlock(achievementWin[gameDiffIndex])
+            if (millis < achievementSeconds[gameDiffIndex]) {
+                achievementsClient!!.unlock(achievementSpeed[gameDiffIndex])
+            }
+
+            fba.logEvent("game_over_games_leaderboards", null)
+            leaderboardsClient!!.submitScore(leaderboardScores[gameDiffIndex], score)
+            val seconds = Math.ceil(millis / 1000.0).toInt()
+            leaderboardsClient!!.submitScore(leaderboardTimes[gameDiffIndex], seconds.toLong())
+            leaderboardsClient!!.submitScore(leaderboardStreaks[gameDiffIndex], UserPrefStorage.getCurWinStreakForDifficulty(this, gameDifficulty).toLong())
+            fba.logEvent("game_over_games_finished_update", null)
+        }
     }
 }

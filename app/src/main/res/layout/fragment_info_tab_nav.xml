@@ -9,15 +9,17 @@
 >
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-        style="@style/Widget.AppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Widget.AppBar"
     >
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
+            android:paddingStart="@dimen/spacer"
+            android:paddingEnd="@dimen/spacer"
             app:layout_scrollFlags="scroll"
+            tools:targetApi="o"
         >
             <TextView
                 android:id="@+id/title"
@@ -26,10 +28,9 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:minHeight="?actionBarSize"
-                android:text="Info"
+                android:text="@string/info"
                 android:textAppearance="@style/TextAppearance.Minesweeper.ToolbarTitle"
             />
-
         </FrameLayout>
 
         <com.google.android.material.tabs.TabLayout

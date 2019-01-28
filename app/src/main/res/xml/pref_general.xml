@@ -5,13 +5,13 @@
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-    <PreferenceCategory android:title="@string/settings_inapp">
+    <PreferenceCategory android:title="@string/settings_in_app">
         <Preference
             android:key="purchase_remove_ads"
-            android:title="@string/settings_inapp_ads" />
+            android:title="@string/remove_ads" />
         <Preference
-        android:key="purchase_clear"
-        android:title="Clear Purchases" />
+            android:key="purchase_clear"
+            android:title="Clear purchases" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_game">
         <ListPreference

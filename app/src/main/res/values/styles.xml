@@ -8,10 +8,13 @@
         <item name="toolbarStyle">@style/Widget.Toolbar</item>
         <item name="appBarColor">@color/white</item>
         <item name="colorSurface">@color/white</item>
+        <item name="textColor">?android:textColorPrimary</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:statusBarColor">@color/status_bar</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:navigationBarColor">@color/primary_dark</item>
+        <item name="buttonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+        <item name="borderlessButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents">
@@ -21,10 +24,13 @@
         <item name="toolbarStyle">@style/Widget.Dark.Toolbar</item>
         <item name="appBarColor">@color/dark_tab</item>
         <item name="colorSurface">@color/dark_tab</item>
+        <item name="textColor">?android:textColorPrimaryInverse</item>
         <item name="android:windowBackground">@color/dark_background</item>
         <item name="android:statusBarColor">@color/amoled_background</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:navigationBarColor">@color/primary_dark</item>
+        <item name="buttonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+        <item name="borderlessButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
     </style>
 
     <style name="AppTheme.Amoled" parent="Theme.MaterialComponents">
@@ -34,10 +40,13 @@
         <item name="toolbarStyle">@style/Widget.Dark.Toolbar</item>
         <item name="appBarColor">@color/dark_background</item>
         <item name="colorSurface">@color/dark_background</item>
+        <item name="textColor">?android:textColorPrimaryInverse</item>
         <item name="android:windowBackground">@color/amoled_background</item>
         <item name="android:statusBarColor">@color/amoled_background</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:navigationBarColor">@color/primary_dark</item>
+        <item name="buttonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+        <item name="borderlessButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -100,17 +109,20 @@
     </style>
 
     <style name="TextAppearance.Minesweeper.Tab" parent="@style/TextAppearance.Design.Tab">
-        <item name="android:textColor">@color/mtrl_tabs_icon_color_selector</item>
+        <item name="android:textColor" tools:ignore="PrivateResource">@color/mtrl_tabs_icon_color_selector</item>
         <item name="android:textStyle">bold</item>
         <item name="textAllCaps">false</item>
     </style>
     <!-- BUTTONS -->
 
+    <style name="Widget.Minesweeper.TextButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
+    </style>
+
     <style name="Widget.Minesweeper.AboutButtons" parent="@style/Widget.MaterialComponents.Button.TextButton">
         <item name="android:textAppearance">@style/TextAppearance.Minesweeper.AboutButtons</item>
         <item name="android:gravity">start|center_vertical</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">@dimen/spacer</item>
+        <item name="android:paddingRight">@dimen/spacer</item>
     </style>
 
     <style name="TextAppearance.Minesweeper.AboutButtons" parent="@style/TextAppearance.MaterialComponents.Button">
@@ -126,5 +138,17 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:textColorSecondary</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+    <!-- DIALOG -->
+    <style name="Widget.Minesweeper.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:textColor">?attr/textColor</item>
+        <item name="android:editTextColor">?attr/textColor</item>
+        <item name="android:textColorHint">?attr/textColor</item>
+        <item name="backgroundTint">?attr/textColor</item>
+        <item name="android:windowBackground">?attr/appBarColor</item>
+        <item name="android:buttonBarStyle">@style/Widget.Minesweeper.TextButton</item>
+        <item name="android:borderlessButtonStyle">@style/Widget.Minesweeper.TextButton</item>
     </style>
 </resources>

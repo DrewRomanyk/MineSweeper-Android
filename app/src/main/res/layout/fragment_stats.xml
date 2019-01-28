@@ -16,16 +16,18 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
+            android:paddingStart="@dimen/spacer"
+            android:paddingEnd="@dimen/spacer"
         >
             <ImageView
                 android:id="@+id/achievements"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/google_game_button_size"
+                android:layout_height="@dimen/google_game_button_size"
                 android:layout_gravity="center_vertical|start"
-                android:padding="10dp"
+                android:padding="@dimen/google_game_button_spacer"
                 android:foreground="?selectableItemBackground"
                 android:src="@drawable/trophy_award"
+                tools:targetApi="m"
             />
             <TextView
                 android:id="@+id/title"
@@ -34,17 +36,18 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:minHeight="?actionBarSize"
-                android:text="Statistics"
+                android:text="@string/nav_stats"
                 android:textAppearance="@style/TextAppearance.Minesweeper.ToolbarTitle"
             />
             <ImageView
                 android:id="@+id/leaderboards"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/google_game_button_size"
+                android:layout_height="@dimen/google_game_button_size"
                 android:layout_gravity="center_vertical|end"
-                android:padding="10dp"
+                android:padding="@dimen/google_game_button_spacer"
                 android:foreground="?selectableItemBackground"
                 android:src="@drawable/trophy"
+                tools:targetApi="m"
             />
         </FrameLayout>
 

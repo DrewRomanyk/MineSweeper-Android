@@ -98,6 +98,10 @@ object UserPrefStorage {
         return getLastGameStatus(context) == GameStatus.PLAYING.ordinal && isCurrentSavedDataVersion(context)
     }
 
+    fun getGameDifficulty(context: Context): GameDifficulty {
+        return GameDifficulty.values()[getPrefs(context).getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal)]
+    }
+
     private fun getGameDuration(context: Context): Long {
         return getPrefs(context).getLong("TIME_MILLIS", 1)
     }
@@ -111,7 +115,7 @@ object UserPrefStorage {
         val columns = preferences.getInt("COLUMNS", 0)
 
         if (!((rows == 0) || (columns == 0))) {
-            val difficulty = GameDifficulty.values()[preferences.getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal)]
+            val difficulty = getGameDifficulty(context)
             val clickMode = ClickMode.values()[preferences.getInt("CLICK_MODE", ClickMode.REVEAL.ordinal)]
             val zoomCellScale = preferences.getFloat("GAME_CELL_SCALE", 1f).toDouble()
             val mineCount = preferences.getInt("MINE_COUNT", 0)

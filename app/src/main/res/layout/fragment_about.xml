@@ -1,65 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.AboutFragment"
-
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+>
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:orientation="vertical">
+       android:orientation="vertical"
+   >
        <TextView
            android:id="@+id/about_header"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_marginStart="16dp"
-           android:layout_marginTop="16dp"
-           android:text="@string/dialog_about_title"
+           android:layout_marginStart="@dimen/spacer"
+           android:layout_marginTop="@dimen/spacer"
+           android:text="@string/about_title"
            android:textAppearance="@style/TextAppearance.Minesweeper.Subhead" />
-
        <TextView
            android:id="@+id/about_label"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_marginStart="16dp"
-           android:layout_marginTop="16dp"
-           android:text="@string/dialog_about_message"
+           android:layout_marginStart="@dimen/spacer"
+           android:layout_marginTop="@dimen/spacer"
+           android:text="@string/about_label"
            android:textColor="?android:textColorPrimary" />
        <Button
            android:id="@+id/send_feedback_button"
            style="@style/Widget.Minesweeper.AboutButtons"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_marginTop="16dp"
-           android:text="Send feedback" />
+           android:layout_marginTop="@dimen/spacer"
+           android:text="@string/send_feedback" />
        <Button
            android:id="@+id/remove_ads"
            style="@style/Widget.Minesweeper.AboutButtons"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:text="Remove ads" />
+           android:text="@string/remove_ads" />
        <Button
            android:id="@+id/terms_of_service_button"
            style="@style/Widget.Minesweeper.AboutButtons"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:text="Terms of service" />
+           android:text="@string/terms_of_service" />
        <Button
            android:id="@+id/privacy_policy_button"
            style="@style/Widget.Minesweeper.AboutButtons"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:text="Privacy policy" />
+           android:text="@string/privacy_policy" />
        <Button
            android:id="@+id/open_source_licenses_button"
            style="@style/Widget.Minesweeper.AboutButtons"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:text="Open source licenses" />
+           android:text="@string/open_source_licenses" />
    </LinearLayout>
-
 </androidx.core.widget.NestedScrollView>

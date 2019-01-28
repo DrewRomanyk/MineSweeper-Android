@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- APP -->
-    <string name="app_name">扫雷</string>
 
     <!-- NAV DRAWER -->
-    <string name="nav_header_playername_empty">登录</string>
     <string name="nav_play">玩</string>
     <string name="nav_leaderboards">排行榜</string>
     <string name="nav_achievements">成就</string>
@@ -17,16 +15,16 @@
     <string name="menu_restart">新的游戏</string>
     <string name="menu_flag">标记模式</string>
     <string name="menu_wipe">清除统计</string>
-    <string name="menu_zoomin">放大</string>
-    <string name="menu_zoomout">缩小</string>
+    <string name="menu_zoom_in">放大</string>
+    <string name="menu_zoom_out">缩小</string>
 
     <!-- DIALOG -->
     <!-- CANCELRESUME -->
-    <string name="dialog_cancelresume_title">重新开始新游戏?</string>
-    <string name="dialog_cancelresume_message">当前游戏未完成, 如果重新开始, 当前数据会丢失, 你确定重新开始游戏?</string>
+    <string name="dialog_cancel_resume_title">重新开始新游戏?</string>
+    <string name="dialog_cancel_resume_message">当前游戏未完成, 如果重新开始, 当前数据会丢失, 你确定重新开始游戏?</string>
     <!-- HELP -->
-    <string name="dialog_help_title">帮助</string>
-    <string name="dialog_help_message">"怎么玩：
+    <string name="help_title">帮助</string>
+    <string name="help_label">"怎么玩：
     扫雷是一个益智游戏，玩家必须找出所有的地雷，并且标记地雷的单元格。单元格可以是地雷或是显示地雷周围相邻8单元格内地雷的量。玩家可以推断出单元格内是否有地雷。玩家可以在单元格上放置一个标志，表示这个单元格是地雷。
     \n控制:
 正常:
@@ -46,20 +44,16 @@
 如有任何疑问或反馈，请发送电子邮件到开发人员drew.romanyk@gmail.com。"
     </string>
     <!-- ABOUT -->
-    <string name="dialog_about_title">关于</string>
-    <string name="dialog_about_message">经典游戏排雷是在这里为Android。使用战略和批判性思维来赢。目标是揭示不是我所有的细胞。排雷也被称为我的。\n\版本: {amount}</string>
+    <string name="about_title">关于</string>
+    <string name="about_label">经典游戏排雷是在这里为Android。使用战略和批判性思维来赢。目标是揭示不是我所有的细胞。排雷也被称为我的。\n\版本: {amount}</string>
     <!-- CUSTOMGAMEERROR -->
-    <string name="dialog_customgameerror_title">自定义游戏设置错误</string>
-    <string name="dialog_customgameerror_message">您选择的炸弹数量不是游戏中有效的数量</string>
+    <string name="dialog_custom_game_error_title">自定义游戏设置错误</string>
+    <string name="dialog_custom_game_error_message">您选择的炸弹数量不是游戏中有效的数量</string>
     <!-- NEEDGOOGLE -->
-    <string name="dialog_needgoogle_title">登录到谷歌游戏?</string>
-    <string name="dialog_needgoogle_message">要使用此功能，您需要登录到谷歌游戏，你想登录?</string>
     <!-- TRASH STATS -->
-    <string name="dialog_trashstats_title">清除所有的统计数据?</string>
-    <string name="dialog_trashstats_message">您将无法恢复数据，你确定要继续吗?</string>
+    <string name="dialog_trash_stats_title">清除所有的统计数据?</string>
+    <string name="dialog_trash_stats_message">您将无法恢复数据，你确定要继续吗?</string>
     <!-- CUSTOM GAME SETTINGS-->
-    <string name="dialog_custom_settings_change_title">更改自定义游戏设置?</string>
-    <string name="dialog_custom_settings_change_message">您要更改自定义游戏设置吗?</string>
 
     <!-- GAME ACTIVITY-->
     <!-- GAME DIFFICULTY -->
@@ -95,7 +89,7 @@
     <string name="stats_title_current_streak">当前连胜: {amount}</string>
 
     <!-- GOOGLE GAMES -->
-    <string name="signin_other_error">登录问题。请稍后再试。</string>
+    <string name="sign_in_other_error">登录问题。请稍后再试。</string>
     <string name="sign_in_failed">无法登录，请检查您的网络连接，然后重试。</string>
     <string name="app_misconfigured">应用程序配置不正确。</string>
     <string name="license_failed">许可检查失败。</string>
@@ -103,8 +97,7 @@
     <string name="google_play_error">Google Play服务错误。</string>
 
     <!-- SETTINGS -->
-    <string name="settings_inapp">应用内购买</string>
-    <string name="settings_inapp_ads">移除广告</string>
+    <string name="settings_in_app">应用内购买</string>
 
     <string name="settings_cell">单元格按钮设置</string>
     <string name="settings_cell_size">单元格大小</string>
@@ -126,19 +119,24 @@
     <string name="settings_game_longclick_duration">长期点击时间</string>
 
     <string name="settings_support">支持</string>
-    <string name="settings_support_feedback">发送反馈</string>
     <string name="settings_feedback_subject">扫雷: 反馈</string>
     <string name="settings_feedback_chooser">发送反馈电子邮件…</string>
     <string name="settings_feedback_error">没有安装电子邮件客户端。</string>
 
     <!-- IN APP RATING -->
-    <string name="inapp_rating_enjoy">扫雷玩的开心吗?</string>
-    <string name="inapp_rating_enjoy_no">没有</string>
-    <string name="inapp_rating_enjoy_yes">是</string>
-    <string name="inapp_rating_feedback">你介意给我们一些反馈吗?</string>
-    <string name="inapp_rating_rating">那么，去Play商店给个评分怎么样？</string>
-    <string name="inapp_rating_secondary_no">不用了, 谢谢</string>
-    <string name="inapp_rating_secondary_yes">可以, 当然</string>
-    <string name="settings_support_privacy_policy">查看隐私政策</string>
-    <string name="settings_support_terms_conditions">查看条款和条件</string>
+    <string name="in_app_rating_enjoy">扫雷玩的开心吗?</string>
+    <string name="in_app_rating_enjoy_no">没有</string>
+    <string name="in_app_rating_enjoy_yes">是</string>
+    <string name="in_app_rating_feedback">你介意给我们一些反馈吗?</string>
+    <string name="in_app_rating_rating">那么，去Play商店给个评分怎么样？</string>
+    <string name="in_app_rating_secondary_no">不用了, 谢谢</string>
+    <string name="in_app_rating_secondary_yes">可以, 当然</string>
+    <string name="application_name">扫雷</string>
+    <string name="info">信息</string>
+    <string name="open_source_licenses">开源许可证</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="remove_ads">删除广告</string>
+    <string name="send_feedback">发送反馈</string>
+    <string name="sign_in">Sign in</string>
+    <string name="terms_of_service">服务条款</string>
 </resources>

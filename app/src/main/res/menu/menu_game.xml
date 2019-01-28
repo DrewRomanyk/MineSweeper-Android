@@ -6,11 +6,11 @@
         android:orderInCategory="80" app:showAsAction="always"
         android:icon="@drawable/ic_game_victory"/>
 
-    <item android:id="@+id/action_zoomin" android:title="@string/menu_zoomin"
+    <item android:id="@+id/action_zoomin" android:title="@string/menu_zoom_in"
         android:orderInCategory="81" app:showAsAction="always"
         android:icon="@drawable/ic_zoom_in"/>
 
-    <item android:id="@+id/action_zoomout" android:title="@string/menu_zoomout"
+    <item android:id="@+id/action_zoomout" android:title="@string/menu_zoom_out"
         android:orderInCategory="82" app:showAsAction="always"
         android:icon="@drawable/ic_zoom_out"/>
 

@@ -6,13 +6,10 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.*
 import android.widget.ScrollView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NavUtils
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.ClickMode
@@ -32,10 +29,11 @@ import kotlinx.android.synthetic.main.game_board_frame.*
 import kotlinx.android.synthetic.main.game_info_frame.*
 
 /**
- * A simple [Fragment] subclass.
+ * Fragment to allow users to play the game.
  */
 class GameFragment : Fragment(), UpdateAdViewHandler {
     private lateinit var minesweeperUI: MinesweeperUI
+
     // UI ELEMENTS
     private lateinit var vScroll: ScrollView
     private lateinit var boardInfoView: BoardInfoView
@@ -43,7 +41,6 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
     private var flagButton: MenuItem? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.v("MOO", "difficulty: " + savedInstanceState?.getString("gameDifficulty"))
         return inflater.inflate(R.layout.fragment_game, container, false)
     }
 
@@ -156,10 +153,15 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
         updateAdView()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
+    }
+
     private fun setupToolbar() {
         (requireActivity() as MainActivity).setSupportActionBar(toolbar)
         toolbar.inflateMenu(R.menu.menu_game)
-        //ic_ab_back_material
         toolbar.setNavigationIcon(R.drawable.ic_back_button)
         toolbar.setNavigationOnClickListener {
             (requireActivity() as MainActivity).onSupportNavigateUp()
@@ -176,7 +178,7 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
         }
 
         setupBiDirectionalScrolling()
-        setupGame(savedInstanceState == null)
+        setupGame(savedInstanceState)
     }
 
     private fun applySettings() {
@@ -194,20 +196,22 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
                 else -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
             }
         }
-
-        // Theme Changing Background
-//        val uiThemeMode = UserPrefStorage.getUiThemeMode(requireContext())
-//        boardBackground.setBackgroundColor(ContextCompat.getColor(requireContext(), uiThemeMode.color))
     }
 
     /*
      * SETUP BOARD
      */
 
-    private fun setupGame(savedStateIsEmpty: Boolean) {
-        val gameDifficulty = GameDifficulty.valueOf(arguments!!.getString("gameDifficulty", GameDifficulty.EASY.name))
+    private fun setupGame(savedInstanceState: Bundle?) {
+        val argsGameDifficulty = GameDifficulty.valueOf(arguments!!.getString("gameDifficulty", GameDifficulty.EASY.name))
+        var gameDifficulty = argsGameDifficulty
+        if (argsGameDifficulty == GameDifficulty.RESUME) {
+            gameDifficulty = UserPrefStorage.getGameDifficulty(requireContext())
+        }
 
-        minesweeperUI = MinesweeperUI(!savedStateIsEmpty, gameDifficulty, boardInfoView, requireContext(), object : MinesweeperUiHandler {
+        val shouldLoadGame = savedInstanceState != null || (argsGameDifficulty == GameDifficulty.RESUME)
+
+        minesweeperUI = MinesweeperUI(shouldLoadGame, gameDifficulty, boardInfoView, requireContext(), object : MinesweeperUiHandler {
             override fun onGameTimerTick(gameTime: Long, score: Double) {
                 requireActivity().runOnUiThread {
                     boardInfoView.setTimeKeeperText(gameTime)
@@ -222,7 +226,7 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
             }
 
             override fun onVictory(score: Long, time: Long) {
-                //updateLeaderboards(GameStatus.VICTORY, minesweeperUI.gameDifficulty, score, time)
+                (requireActivity() as MainActivity).updateLeaderboards(GameStatus.VICTORY, minesweeperUI.gameDifficulty, score, time)
             }
         })
 

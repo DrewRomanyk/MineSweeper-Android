@@ -21,18 +21,17 @@ import com.google.android.gms.common.images.ImageManager
 import com.google.android.gms.games.Player
 import kotlinx.android.synthetic.main.fragment_play.*
 import android.graphics.drawable.Drawable
+import android.os.Handler
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import app.drewromanyk.com.minesweeper.enums.ResultCodes
 import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
 import app.drewromanyk.com.minesweeper.models.Cell
 import app.drewromanyk.com.minesweeper.util.DialogInfoUtils
 import app.drewromanyk.com.minesweeper.views.CircularOutlineProvider
-import com.google.android.gms.common.images.ImageManager.OnImageLoadedListener
-
-
 
 /**
- * A simple [Fragment] subclass.
+ * Fragment to select a difficulty to play and to log into google games
  */
 class PlayFragment : Fragment(), PlayNavigator, ProfileUiHandler {
     private lateinit var adapter: PlayGameDifficultyAdapter
@@ -57,6 +56,14 @@ class PlayFragment : Fragment(), PlayNavigator, ProfileUiHandler {
         sign_in.outlineProvider = CircularOutlineProvider
         setSignInButtons(activity.currentPlayer)
         setupPlayButtons()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val handler = Handler()
+        handler.postDelayed({
+            updatePlaySelectButtons()
+        }, 1)
     }
 
     private fun setupPlayButtons() {
@@ -136,10 +143,8 @@ class PlayFragment : Fragment(), PlayNavigator, ProfileUiHandler {
     private fun setSignInButtons(player: Player?) {
         sign_in?.setImageResource(R.drawable.ic_account_circle)
         if (player != null) {
-            ImageManager.create(requireContext()).loadImage(object : OnImageLoadedListener {
-                override fun onImageLoaded(p0: Uri?, p1: Drawable?, p2: Boolean) {
-                    sign_in?.setImageDrawable(p1)
-                }
+            ImageManager.create(requireContext()).loadImage({ _: Uri?, p1: Drawable?, _: Boolean ->
+                sign_in?.setImageDrawable(p1)
             }, player.iconImageUri, R.drawable.ic_account_circle)
         }
     }

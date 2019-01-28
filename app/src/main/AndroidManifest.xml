@@ -22,7 +22,7 @@
         android:name=".application.MinesweeperApp"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:label="@string/app_name"
+        android:label="@string/application_name"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:theme="@style/AppTheme"
@@ -44,7 +44,7 @@
         <activity
             android:configChanges="keyboardHidden"
             android:name=".ui.MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/application_name"
             android:theme="@style/AppTheme.NoActionBar"
         >
             <intent-filter>

@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import app.drewromanyk.com.minesweeper.R
 
 /**
- * A simple [Fragment] subclass.
+ * Fragment to help teach what Minesweeper is
  */
 class HelpFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

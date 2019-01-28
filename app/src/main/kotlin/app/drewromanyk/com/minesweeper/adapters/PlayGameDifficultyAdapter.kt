@@ -1,6 +1,5 @@
 package app.drewromanyk.com.minesweeper.adapters
 
-import android.content.res.ColorStateList
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -15,7 +14,6 @@ import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
 import app.drewromanyk.com.minesweeper.interfaces.PlayNavigator
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
  * Created by Drew on 12/11/15.
@@ -96,14 +94,14 @@ class PlayGameDifficultyAdapter(private val navigator: PlayNavigator) : Recycler
         if (getItemViewType(position) == RATING_TYPE) {
             val fbAnalytics = FirebaseAnalytics.getInstance(holder.card.context)
             holder.ratingYes!!.setOnClickListener {
-                holder.ratingYes!!.setText(R.string.inapp_rating_secondary_yes)
-                holder.ratingNo!!.setText(R.string.inapp_rating_secondary_no)
+                holder.ratingYes!!.setText(R.string.in_app_rating_secondary_yes)
+                holder.ratingNo!!.setText(R.string.in_app_rating_secondary_no)
 
                 if (holder.dialogRatingPosition == RATING_FIRST) {
                     fbAnalytics.logEvent("REVIEW_CARD_YES_ENJOYED", null)
 
                     holder.dialogRatingPosition = RATING_YES
-                    holder.ratingDesc!!.setText(R.string.inapp_rating_rating)
+                    holder.ratingDesc!!.setText(R.string.in_app_rating_rating)
                 } else if (holder.dialogRatingPosition == RATING_YES) {
                     fbAnalytics.logEvent("REVIEW_CARD_RATE", null)
 
@@ -121,14 +119,14 @@ class PlayGameDifficultyAdapter(private val navigator: PlayNavigator) : Recycler
                 }
             }
             holder.ratingNo!!.setOnClickListener {
-                holder.ratingYes!!.setText(R.string.inapp_rating_secondary_yes)
-                holder.ratingNo!!.setText(R.string.inapp_rating_secondary_no)
+                holder.ratingYes!!.setText(R.string.in_app_rating_secondary_yes)
+                holder.ratingNo!!.setText(R.string.in_app_rating_secondary_no)
 
                 if (holder.dialogRatingPosition == RATING_FIRST) {
                     fbAnalytics.logEvent("REVIEW_CARD_NO_ENJOYED", null)
 
                     holder.dialogRatingPosition = RATING_NO
-                    holder.ratingDesc!!.setText(R.string.inapp_rating_feedback)
+                    holder.ratingDesc!!.setText(R.string.in_app_rating_feedback)
                 } else if (holder.dialogRatingPosition == RATING_YES) {
                     fbAnalytics.logEvent("REVIEW_CARD_NO_RATE", null)
 

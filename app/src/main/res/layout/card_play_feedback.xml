@@ -26,7 +26,7 @@
                 android:adjustViewBounds="true"
                 android:gravity="center"
                 android:padding="15dp"
-                android:text="@string/inapp_rating_enjoy"
+                android:text="@string/in_app_rating_enjoy"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
@@ -39,11 +39,13 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/rating_desc"
                 android:background="?android:attr/selectableItemBackground"
-                android:text="@string/inapp_rating_enjoy_yes"
+                android:text="@string/in_app_rating_enjoy_yes"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+            />
 
             <Button
                 android:id="@+id/rating_no"
@@ -53,11 +55,13 @@
                 android:layout_toLeftOf="@id/rating_yes"
                 android:layout_toStartOf="@id/rating_yes"
                 android:background="?android:attr/selectableItemBackground"
-                android:text="@string/inapp_rating_enjoy_no"
+                android:text="@string/in_app_rating_enjoy_no"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+            />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

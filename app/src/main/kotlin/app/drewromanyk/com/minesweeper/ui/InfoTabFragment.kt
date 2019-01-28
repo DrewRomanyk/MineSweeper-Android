@@ -11,7 +11,7 @@ import app.drewromanyk.com.minesweeper.adapters.InfoTabPagerAdapter
 import kotlinx.android.synthetic.main.fragment_info_tab_nav.*
 
 /**
- * A simple [Fragment] subclass.
+ * Fragment to handle navigation for the info tab layout screens
  */
 class InfoTabFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
