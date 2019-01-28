@@ -177,7 +177,6 @@ class MainActivity : AppCompatActivity() {
             // Offset is 2 for RESUME and CUSTOM
             val gameDiffIndex = gameDifficulty.ordinal - 2
             fba.logEvent("game_over_games_achievements", null)
-            achievementsClient
             achievementsClient!!.unlock(achievementWin[gameDiffIndex])
             if (millis < achievementSeconds[gameDiffIndex]) {
                 achievementsClient!!.unlock(achievementSpeed[gameDiffIndex])
