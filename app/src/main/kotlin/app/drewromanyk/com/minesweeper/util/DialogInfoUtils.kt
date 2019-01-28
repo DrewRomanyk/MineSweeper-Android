@@ -39,9 +39,6 @@ class DialogInfoUtils private constructor(context: Context) {
                         .format()
                         .toString()))
 
-        yesNoDialogMap.put(ResultCodes.HELP_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.help_title),
-                context.getString(R.string.help_label)))
-
         yesNoDialogMap.put(ResultCodes.RESUME_DIALOG.ordinal, YesNoDialogInfo(context.getString(R.string.dialog_cancel_resume_title),
                 context.getString(R.string.dialog_cancel_resume_message)))
 

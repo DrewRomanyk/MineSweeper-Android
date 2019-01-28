@@ -21,26 +21,25 @@
     <string name="dialog_cancel_resume_title">¿Empezar una nueva partida?</string>
     <string name="dialog_cancel_resume_message">Hay una partida sin terminar que podría contar como una derrota, aun así ¿quiere iniciar una nueva partida?</string>
     <!-- HELP -->
-    <string name="help_title">Ayuda</string>
-    <string name="help_label">"CÓMO JUGAR:
-    Dragaminas es un juego tipo acertijo en el que el jugador debe descubrir todas las celdas que no son minas sin destapar una celda con mina. Las celdas pueden ser minas o la cantidad de minas en las 8 celdas de su alrededor. El jugador puede diferenciar las celdas sin minas de las que si que podrian tener. Se pueden colocar banderas donde se crea que hay una mina.
-    \nCONTROLES:
-Normal:
+    <string name="how_to_play_title">Cómo jugar</string>
+    <string name="how_to_play_label">Dragaminas es un juego tipo acertijo en el que el jugador debe descubrir todas las celdas que no son minas sin destapar una celda con mina. Las celdas pueden ser minas o la cantidad de minas en las 8 celdas de su alrededor. El jugador puede diferenciar las celdas sin minas de las que si que podrian tener. Se pueden colocar banderas donde se crea que hay una mina.</string>
+    <string name="controls_title">Controles</string>
+    <string name="controls_label">"Normal:
  • Toca una celda para destaparla.
  • Toca y mantén una celda para ponerle bandera.
- • Toca una celda numerada que tenga varias banderas cerca suyo para despejar las celdas cercanas sin banderas (Swift Open).
- • Toca una celda vacía para cambiar el modo de control rápidamente (Swift Change).
+ • Toca una celda numerada que tenga varias banderas cerca suyo para despejar las celdas cercanas sin banderas (Apertura rápida).
+ • Toca una celda vacía para cambiar el modo de control rápidamente (Cambio rápido).
 
 Bandera:
  • Toca una celda para ponerle bandera.
  • Toca y mantén una celda para revelarla.
- • Toca una celda numerada que tenga varias banderas cerca para despejar las celdas cercanas sin bandera (Swift Open).
- • Toca una celda vacía para cambiar el modo de control rápidamente (Swift Change).
-    \nPUNTUACIÓN:
-    La puntuación está basada en 3BV por segundo, donde 3BV es una forma de medir la dificultad de un tablero de Dragaminas basandose en la cantidad de clicks que se necesite para resolver el tablero.
-    \nSOPORTE:
-    Por favor, envíe un correo electrónico al desarrollador usando la dirección drew.romanyk@gmail.com para cualquier comentario o sugerencia."
+ • Toca una celda numerada que tenga varias banderas cerca para despejar las celdas cercanas sin bandera (Apertura rápida).
+ • Toca una celda vacía para cambiar el modo de control rápidamente (Cambio rápido)."
     </string>
+    <string name="scores_title">Puntuaciones</string>
+    <string name="scores_label">La puntuación está basada en 3BV por segundo, donde 3BV es una forma de medir la dificultad de un tablero de Dragaminas basandose en la cantidad de clicks que se necesite para resolver el tablero.</string>
+    <string name="support_title">Soporte</string>
+    <string name="support_label">Por favor, envíe un correo electrónico al desarrollador usando la dirección drew.romanyk@gmail.com para cualquier comentario o sugerencia.</string>
     <!-- ABOUT -->
     <string name="about_title">Acerca De</string>
     <string name="about_label">El clásico juego de Dragaminas está aquí para Android. Usa la estrategia y pensamiento crítico para ganar. El objetivo es revelar todas las celdas que no son minas. Dragaminas también es conocido como Minas.\n\nVersión: {amount}</string>
@@ -110,8 +109,8 @@ Bandera:
     <string name="settings_game_screenon">Mantener la Pantalla Encendida</string>
     <string name="settings_game_rotate">Bloquear Rotación</string>
     <string name="settings_game_volumeflag">Botón de Volumen Modo Bandera</string>
-    <string name="settings_game_swiftchange">Cambio Rápido</string>
-    <string name="settings_game_swiftopen">Apertura Rápida</string>
+    <string name="settings_game_swiftchange">Cambio rápido</string>
+    <string name="settings_game_swiftopen">Apertura rápida</string>
     <string name="settings_game_longclick_duration">Duración del clic largo</string>
 
     <string name="settings_support">Soporte</string>

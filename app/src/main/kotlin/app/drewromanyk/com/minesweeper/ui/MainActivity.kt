@@ -2,6 +2,7 @@ package app.drewromanyk.com.minesweeper.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation.findNavController
@@ -9,6 +10,7 @@ import app.drewromanyk.com.minesweeper.BuildConfig
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
 import app.drewromanyk.com.minesweeper.enums.GameStatus
+import app.drewromanyk.com.minesweeper.interfaces.GameUiHandler
 import app.drewromanyk.com.minesweeper.interfaces.ProfileUiHandler
 import app.drewromanyk.com.minesweeper.util.PremiumUtils
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     var currentPlayer: Player? = null
 
     var profileUiHandler: ProfileUiHandler? = null
+    var gameUiHandler: GameUiHandler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(UserPrefStorage.getUiThemeMode(this).themeResourceId)
@@ -61,6 +64,29 @@ class MainActivity : AppCompatActivity() {
                 onDisconnected()
             }
         }
+    }
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        val action = event.action
+        val keyCode = event.keyCode
+        if (!isFinishing) {
+            if (gameUiHandler != null && UserPrefStorage.getVolumeButton(this)) {
+                when (keyCode) {
+                    KeyEvent.KEYCODE_VOLUME_UP -> {
+                        if (action == KeyEvent.ACTION_DOWN) {
+                            gameUiHandler!!.toggleClickMode()
+                        }
+                        return true
+                    }
+                    KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                        if (action == KeyEvent.ACTION_DOWN) {
+                            gameUiHandler!!.toggleClickMode()
+                        }
+                        return true
+                    }
+                }
+            }
+        }
+        return super.dispatchKeyEvent(event)
     }
 
     fun isSignedIn(): Boolean {

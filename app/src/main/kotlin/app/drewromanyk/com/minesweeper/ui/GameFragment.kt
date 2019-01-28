@@ -16,6 +16,7 @@ import app.drewromanyk.com.minesweeper.enums.ClickMode
 import app.drewromanyk.com.minesweeper.enums.GameDifficulty
 import app.drewromanyk.com.minesweeper.enums.GameStatus
 import app.drewromanyk.com.minesweeper.enums.ResultCodes
+import app.drewromanyk.com.minesweeper.interfaces.GameUiHandler
 import app.drewromanyk.com.minesweeper.interfaces.MinesweeperUiHandler
 import app.drewromanyk.com.minesweeper.interfaces.UpdateAdViewHandler
 import app.drewromanyk.com.minesweeper.util.DialogInfoUtils
@@ -31,7 +32,7 @@ import kotlinx.android.synthetic.main.game_info_frame.*
 /**
  * Fragment to allow users to play the game.
  */
-class GameFragment : Fragment(), UpdateAdViewHandler {
+class GameFragment : Fragment(), UpdateAdViewHandler, GameUiHandler {
     private lateinit var minesweeperUI: MinesweeperUI
 
     // UI ELEMENTS
@@ -45,6 +46,8 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (requireActivity() as MainActivity).gameUiHandler = this
 
         setupToolbar()
         boardInfoView = BoardInfoView(
@@ -101,6 +104,10 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun toggleClickMode() {
+        minesweeperUI.switchClickMode()
+    }
+
     override fun updateAdView() {
         if (PremiumUtils.instance.isPremiumUser) {
             adView?.pause()
@@ -113,6 +120,7 @@ class GameFragment : Fragment(), UpdateAdViewHandler {
 
     override fun onDestroy() {
         super.onDestroy()
+        (requireActivity() as MainActivity).gameUiHandler = null
         adView?.destroy()
         PremiumUtils.instance.releaseContext()
     }

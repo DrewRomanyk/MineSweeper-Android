@@ -4,8 +4,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.games.Player
 
 /**
- * Interface to enable activity to send the player info to the play fragment
+ * Interface to enable activity to pass action to game fragment
  */
-interface ProfileUiHandler {
-    fun onSignIn(player: Player?)
+interface GameUiHandler {
+    fun toggleClickMode()
 }

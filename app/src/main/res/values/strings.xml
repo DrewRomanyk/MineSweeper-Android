@@ -22,11 +22,10 @@
     <string name="dialog_cancel_resume_title">Create a new game?</string>
     <string name="dialog_cancel_resume_message">There is an unfinished game that could count as a loss, do you still wish to start a new game?</string>
     <!-- HELP -->
-    <string name="help_title">Help</string>
-    <string name="help_label">"HOW TO PLAY:
-    Minesweeper is a puzzle game in which the player must uncover all the cells that aren\'t mines without uncovering a mine cell. Cells can either be mines or the amount of mines in the 8 neighboring cells near them. The player can deduce from the non-mine cells where the mines could be at. Players can place a flag on a cell that they think is a mine.
-    \nCONTROLS:
-Normal:
+    <string name="how_to_play_title">How to play</string>
+    <string name="how_to_play_label">Minesweeper is a puzzle game in which the player must uncover all the cells that aren\'t mines without uncovering a mine cell. Cells can either be mines or the amount of mines in the 8 neighboring cells near them. The player can deduce from the non-mine cells where the mines could be at. Players can place a flag on a cell that they think is a mine.</string>
+    <string name="controls_title">Controls</string>
+    <string name="controls_label">"Normal:
  • Tap a cell to reveal it
  • Tap and hold a cell to flag it
  • Tap a numbered cell that has that many flags near it to clear near unflagged cells ( Swift Open )
@@ -36,12 +35,12 @@ Flag:
  • Tap a cell to flag it
  • Tap and hold a cell to reveal it
  • Tap a numbered cell that has that many flags near it to clear near unflagged cells ( Swift Open )
- • Tap a empty cell to change your control mode swiftly ( Swift Change )
-    \nSCORES:
-    The scores are based on 3BV per second, which 3BV is a way to measure the difficulty of a Minesweeper board based off of the amount of clicks it would take to solve the board.
-    \nSUPPORT:
-    Please email the developer at drew.romanyk@gmail.com for any concerns or feedback."
+ • Tap a empty cell to change your control mode swiftly ( Swift Change )"
     </string>
+    <string name="scores_title">Scores</string>
+    <string name="scores_label">The scores are based on 3BV per second, which 3BV is a way to measure the difficulty of a Minesweeper board based off of the amount of clicks it would take to solve the board.</string>
+    <string name="support_title">Support</string>
+    <string name="support_label">Please email the developer at drew.romanyk@gmail.com for any concerns or feedback.</string>
     <!-- ABOUT -->
     <string name="about_title">About</string>
     <string name="about_label">The classic game of Minesweeper is here for Android. Use strategy and critical thinking to win. The goal is to reveal all cells that aren\'t mines. Minesweeper is also known as Mines.\n\nVersion: {amount}</string>

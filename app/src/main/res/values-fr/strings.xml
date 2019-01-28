@@ -21,11 +21,10 @@
     <string name="dialog_cancel_resume_title">Créez un nouveau jeu?</string>
     <string name="dialog_cancel_resume_message">Il y a un jeu inachevé qui être compté comme une perte, souhaitez-vous toujours commencer un nouveau jeu?</string>
     <!-- HELP -->
-    <string name="help_title">Aidez-moi</string>
-    <string name="help_label">"COMMENT JOUER :
-     Du Démineur est un jeu de puzzle dans lequel le joueur doit découvrir toutes les cellules qui ne sont pas des mines sans découvrir une cellule de la mine. Les cellules peuvent être soit des mines ou la quantité de mines dans les 8 cellules voisines près d\'eux. Le joueur peut en déduire à partir des cellules non-mines où pourraient être les mines. Les joueurs peuvent placer un drapeau sur une cellule qu'ils pensent est une mine.
-    \nCONTRÔLES:
-Normal:
+    <string name="how_to_play_title">Comment jouer</string>
+    <string name="how_to_play_label">"Du Démineur est un jeu de puzzle dans lequel le joueur doit découvrir toutes les cellules qui ne sont pas des mines sans découvrir une cellule de la mine. Les cellules peuvent être soit des mines ou la quantité de mines dans les 8 cellules voisines près d\'eux. Le joueur peut en déduire à partir des cellules non-mines où pourraient être les mines. Les joueurs peuvent placer un drapeau sur une cellule qu'ils pensent est une mine."</string>
+    <string name="controls_title">Contrôles</string>
+    <string name="controls_label">"Normal:
  • Appuyez sur une cellule pour le révéler
  • Appuyez et maintenez une cellule pour le signaler
  • Touchez une cellule numérotée qui dispose d\'un grand nombre des drapeaux près pour effacer les cellules près de celles SANS DRAPEAU (ouverture rapide)
@@ -35,12 +34,13 @@ Drapeau:
  • Appuyez sur une cellule pour le révéler le drapeau
  • Appuyez et maintenez une cellule pour le révéler
  • Touchez une cellule numérotée qui dispose d\'un grand nombre des drapeaux près pour effacer les cellules près de celles SANS DRAPEAU (ouverture rapide)
- • Appuyez sur une cellule vide pour changer votre mode de commande rapide (changement rapide)
-    \nSCORES:
-     Les scores sont basés sur 3BV par seconde, 3BV a un moyen de mesurer la difficulté d\'un tableau du Démineur basé sur de la quantité de clics qu\'il faudrait pour résoudre le tableau.
-    \nSOUTIEN:
-S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com pour toute question ou commentaires."
+ • Appuyez sur une cellule vide pour changer votre mode de commande rapide (changement rapide)"
     </string>
+    <string name="scores_title">Scores</string>
+    <string name="scores_label">Les scores sont basés sur 3BV par seconde, 3BV a un moyen de mesurer la difficulté d\'un tableau du Démineur basé sur de la quantité de clics qu\'il faudrait pour résoudre le tableau.</string>
+    <string name="support_title">Soutien</string>
+    <string name="support_label">S\'il vous plaît envoyez un courriel au développeur à drew.romanyk@gmail.com pour toute question ou commentaires.</string>
+
     <!-- ABOUT -->
     <string name="about_title">À propos</string>
     <string name="about_label">Le classique jeu le Démineur est ici pour Android. Utilisez la stratégie et la pensée critique pour gagner. Le but est de révéler toutes les cellules qui ne sont pas des mines. Le Démineur est également connu comme Mines.\n\nVersion: {amount}</string>

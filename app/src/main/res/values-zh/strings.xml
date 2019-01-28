@@ -21,11 +21,10 @@
     <string name="dialog_cancel_resume_title">重新开始新游戏?</string>
     <string name="dialog_cancel_resume_message">当前游戏未完成, 如果重新开始, 当前数据会丢失, 你确定重新开始游戏?</string>
     <!-- HELP -->
-    <string name="help_title">帮助</string>
-    <string name="help_label">"怎么玩：
-    扫雷是一个益智游戏，玩家必须找出所有的地雷，并且标记地雷的单元格。单元格可以是地雷或是显示地雷周围相邻8单元格内地雷的量。玩家可以推断出单元格内是否有地雷。玩家可以在单元格上放置一个标志，表示这个单元格是地雷。
-    \n控制:
-正常:
+    <string name="how_to_play_title">怎么玩</string>
+    <string name="how_to_play_label">扫雷是一个益智游戏，玩家必须找出所有的地雷，并且标记地雷的单元格。单元格可以是地雷或是显示地雷周围相邻8单元格内地雷的量。玩家可以推断出单元格内是否有地雷。玩家可以在单元格上放置一个标志，表示这个单元格是地雷。</string>
+    <string name="controls_title">控制</string>
+    <string name="controls_label">"正常:
  • 点击一个单元格可显示它
  • 点击并按住一个单元格可标志它
  • 利用单元格标记的数字判断周围单元格内地雷（快速打开）
@@ -35,12 +34,12 @@
  • 点击一个单元格可标记他
  • 点击并按住单元格以显示它
  • 点击单元格也可清除附近未标记单元格 (快速打开)
- • 点击一个空单元格，可以快速改变你的控制模式 (快速变化)
-    \n成绩:
-     得分是基于3BV每秒，这3BV是一种测量方法取决于难度与扫雷板的点击量。
-    \n支持:
-如有任何疑问或反馈，请发送电子邮件到开发人员drew.romanyk@gmail.com。"
+ • 点击一个空单元格，可以快速改变你的控制模式 (快速变化)"
     </string>
+    <string name="scores_title">比分</string>
+    <string name="scores_label">得分是基于3BV每秒，这3BV是一种测量方法取决于难度与扫雷板的点击量。</string>
+    <string name="support_title">支持</string>
+    <string name="support_label">如有任何疑问或反馈，请发送电子邮件到开发人员drew.romanyk@gmail.com。</string>
     <!-- ABOUT -->
     <string name="about_title">关于</string>
     <string name="about_label">经典游戏排雷是在这里为Android。使用战略和批判性思维来赢。目标是揭示不是我所有的细胞。排雷也被称为我的。\n\版本: {amount}</string>

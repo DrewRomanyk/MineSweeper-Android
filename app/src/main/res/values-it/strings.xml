@@ -21,11 +21,10 @@
     <string name="dialog_cancel_resume_title">Creare una Nuova Partita?</string>
     <string name="dialog_cancel_resume_message">C’è una partita in sospeso che potrebbe essere calcolata come perdita, vuoi ancora cominciare una nuova partita?</string>
     <!-- HELP -->
-    <string name="help_title">Aiuto</string>
-    <string name="help_label">"COME GIOCARE:
-	Campo Minato è un gioco di logica nel quale il giocatore deve scoprire tutte le caselle che non hanno mine senza scoprire una casella con una mina. Le caselle possono avere mine o indicare quante mine hanno nelle 8 caselle che le circondano. Il giocatore può dedurre dalle caselle senza mine dove potrebbero trovarsi le mine. I giocatori possono mettere una bandiera su una casella che pensano possa contenere una mina.
-        \nCONTROLLI:
-Normale:
+    <string name="how_to_play_title">Come giocare</string>
+    <string name="how_to_play_label">Campo Minato è un gioco di logica nel quale il giocatore deve scoprire tutte le caselle che non hanno mine senza scoprire una casella con una mina. Le caselle possono avere mine o indicare quante mine hanno nelle 8 caselle che le circondano. Il giocatore può dedurre dalle caselle senza mine dove potrebbero trovarsi le mine. I giocatori possono mettere una bandiera su una casella che pensano possa contenere una mina.</string>
+    <string name="controls_title">Controlli</string>
+    <string name="controls_label">"Normale:
  • Tocca una casella per scoprirla
  • Tocca e tieni premuto su una casella per metterci una bandiera
  • Tocca una casella numerata con quel numero di bandiere intorno per liberare le caselle intorno senza bandiere (Apertura rapida)
@@ -35,12 +34,12 @@ Bandiera:
  • Tocca una casella per metterci una bandiera
  • Tocca e tieni premuto su una casella per scoprirla
  • Tocca una casella numerata con quel numero di bandiere intorno per liberare le caselle intorno senza bandiere (Apertura rapida)
- • Tocca una casella vuota per cambiare rapidamente la tua modalità di controllo (modifica rapida)
-    \nPUNTEGGI:
-	I punteggi si basano su 3BV al secondo, dove 3BV è un modo per valutare la difficoltà di un quadro di Campo Minato in base alla quantità di clic necessari per risolverlo.
-        \nASSISTENZA:
-Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per qualsiasi dubbio o feedback."
+ • Tocca una casella vuota per cambiare rapidamente la tua modalità di controllo (modifica rapida)"
     </string>
+    <string name="scores_title">Punteggi</string>
+    <string name="scores_label">I punteggi si basano su 3BV al secondo, dove 3BV è un modo per valutare la difficoltà di un quadro di Campo Minato in base alla quantità di clic necessari per risolverlo.</string>
+    <string name="support_title">Assistenza</string>
+    <string name="support_label">Ti preghiamo di inviare una email allo sviluppatore a drew.romanyk@gmail.com per qualsiasi dubbio o feedback.</string>
     <!-- ABOUT -->
     <string name="about_title">Informazioni</string>
     <string name="about_label">Campo Minato è un’applicazione gratuita offerta da Drew Romanyk. Non esitare a contattarlo a drew.romanyk@gmail.com per qualsiasi feedback.\n\nVersione: {amount}</string>

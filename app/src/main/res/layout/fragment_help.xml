@@ -14,24 +14,69 @@
        android:orientation="vertical"
    >
         <TextView
-            android:id="@+id/help_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacer"
             android:layout_marginTop="@dimen/spacer"
-            android:text="@string/help_title"
+            android:text="@string/how_to_play_title"
             android:textAppearance="@style/TextAppearance.Minesweeper.Subhead"
         />
-        <!-- TODO change help label to be more spread out -->
         <TextView
-            android:id="@+id/help_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacer"
             android:layout_marginTop="@dimen/spacer"
-            android:layout_marginBottom="@dimen/spacer"
-            android:text="@string/help_label"
+            android:text="@string/how_to_play_label"
             android:textColor="?android:textColorPrimary"
         />
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="@dimen/spacer"
+           android:layout_marginTop="@dimen/spacer"
+           android:text="@string/controls_title"
+           android:textAppearance="@style/TextAppearance.Minesweeper.Subhead"
+           />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="@dimen/spacer"
+           android:layout_marginTop="@dimen/spacer"
+           android:layout_marginBottom="@dimen/spacer"
+           android:text="@string/controls_label"
+           android:textColor="?android:textColorPrimary"
+           />
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="@dimen/spacer"
+           android:text="@string/scores_title"
+           android:textAppearance="@style/TextAppearance.Minesweeper.Subhead"
+           />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="@dimen/spacer"
+           android:layout_marginTop="@dimen/spacer"
+           android:layout_marginBottom="@dimen/spacer"
+           android:text="@string/scores_label"
+           android:textColor="?android:textColorPrimary"
+           />
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="@dimen/spacer"
+           android:text="@string/support_title"
+           android:textAppearance="@style/TextAppearance.Minesweeper.Subhead"
+           />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="@dimen/spacer"
+           android:layout_marginTop="@dimen/spacer"
+           android:layout_marginBottom="@dimen/spacer"
+           android:text="@string/support_label"
+           android:textColor="?android:textColorPrimary"
+           />
    </LinearLayout>
 </androidx.core.widget.NestedScrollView>
