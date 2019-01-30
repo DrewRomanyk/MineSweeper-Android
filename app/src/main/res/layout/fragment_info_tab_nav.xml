@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:minHeight="?actionBarSize"
-                android:text="@string/info"
+                android:text="@string/nav_info"
                 android:textAppearance="@style/TextAppearance.Minesweeper.ToolbarTitle"
             />
         </FrameLayout>

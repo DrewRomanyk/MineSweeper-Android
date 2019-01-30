@@ -125,12 +125,14 @@
     <string name="in_app_rating_secondary_no">Нет, спасибо</string>
     <string name="in_app_rating_secondary_yes">Ок, конечно</string>
     <string name="application_name">Сапёр</string>
-    <string name="info">Информация</string>
     <string name="open_source_licenses">Лицензии с открытым исходным кодом</string>
     <string name="privacy_policy">Политика конфиденциальности</string>
     <string name="remove_ads">Убрать рекламу</string>
     <string name="send_feedback">Отправить отзыв</string>
     <string name="sign_in">Войти в систему</string>
     <string name="terms_of_service">Условия обслуживания</string>
+    <string name="reset_statistics">Сбросить статистику</string>
+    <string name="nav_info">Информация</string>
+    <string name="enter_custom_value">Введите значение</string>
 
 </resources>

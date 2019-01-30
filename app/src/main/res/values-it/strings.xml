@@ -126,12 +126,14 @@ Bandiera:
     <string name="in_app_rating_secondary_no">No, grazie</string>
     <string name="in_app_rating_secondary_yes">Ok, certo</string>
     <string name="application_name">Campo Minato</string>
-    <string name="info">Informazioni</string>
     <string name="open_source_licenses">Licenze open source</string>
     <string name="privacy_policy">Politica sulla riservatezza</string>
     <string name="remove_ads">Rimuovere gli annunci</string>
     <string name="send_feedback">Invia feedback</string>
     <string name="sign_in">Accedi</string>
     <string name="terms_of_service">Termini di servizio</string>
+    <string name="reset_statistics">Ripristina statistiche</string>
+    <string name="nav_info">Informazioni</string>
+    <string name="enter_custom_value">Immettere il valore</string>
 
 </resources>

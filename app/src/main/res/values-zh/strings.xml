@@ -129,11 +129,13 @@
     <string name="in_app_rating_secondary_no">不用了, 谢谢</string>
     <string name="in_app_rating_secondary_yes">可以, 当然</string>
     <string name="application_name">扫雷</string>
-    <string name="info">信息</string>
     <string name="open_source_licenses">开源许可证</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="remove_ads">删除广告</string>
     <string name="send_feedback">发送反馈</string>
     <string name="sign_in">Sign in</string>
     <string name="terms_of_service">服务条款</string>
+    <string name="reset_statistics">重置统计信息</string>
+    <string name="nav_info">信息</string>
+    <string name="enter_custom_value">输入值</string>
 </resources>

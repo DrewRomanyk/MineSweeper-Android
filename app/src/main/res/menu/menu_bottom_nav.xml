@@ -3,16 +3,16 @@
     <item
         android:id="@+id/fragmentPlay"
         android:icon="@drawable/ic_play"
-        android:title="Play"
+        android:title="@string/nav_play"
     />
     <item
         android:id="@+id/fragmentStats"
         android:icon="@drawable/ic_stats"
-        android:title="Stats"
+        android:title="@string/nav_stats"
     />
     <item
         android:id="@+id/fragmentInfo"
         android:icon="@drawable/ic_info"
-        android:title="Info"
+        android:title="@string/nav_info"
     />
 </menu>

@@ -127,11 +127,13 @@ Bandera:
     <string name="in_app_rating_secondary_no">No, gracias</string>
     <string name="in_app_rating_secondary_yes">Si, seguro</string>
     <string name="application_name">Dragaminas</string>
-    <string name="info">Información</string>
     <string name="open_source_licenses">Licencias de código abierto</string>
     <string name="privacy_policy">Política de privacidad</string>
     <string name="remove_ads">Eliminar anuncios</string>
     <string name="send_feedback">Enviar comentarios</string>
     <string name="sign_in">Registrarse</string>
     <string name="terms_of_service">Términos de servicio</string>
+    <string name="reset_statistics">Reiniciar las estadísticas</string>
+    <string name="nav_info">Información</string>
+    <string name="enter_custom_value">Introducir valor</string>
 </resources>

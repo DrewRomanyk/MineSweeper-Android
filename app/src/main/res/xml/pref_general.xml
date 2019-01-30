@@ -83,7 +83,7 @@
     <PreferenceCategory android:title="Statistics">
         <Preference
             android:key="reset_stats"
-            android:title="Reset statistics"
+            android:title="@string/reset_statistics"
         />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

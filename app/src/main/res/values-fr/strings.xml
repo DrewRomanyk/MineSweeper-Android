@@ -130,11 +130,13 @@ Drapeau:
     <string name="in_app_rating_secondary_no">Non merci</string>
     <string name="in_app_rating_secondary_yes">Ok, bien sûr</string>
     <string name="application_name">Démineur</string>
-    <string name="info">Info</string>
     <string name="open_source_licenses">Licences Open Source</string>
     <string name="privacy_policy">Politique de confidentialité</string>
     <string name="remove_ads">Supprimer les annonces</string>
     <string name="send_feedback">Envoyer des commentaires</string>
     <string name="sign_in">Se connecter</string>
     <string name="terms_of_service">Conditions d\'utilisation</string>
+    <string name="reset_statistics">Réinitialiser les statistiques</string>
+    <string name="nav_info">Info</string>
+    <string name="enter_custom_value">Entrez la valeur</string>
 </resources>
