@@ -173,6 +173,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
         UserPrefStorage.updateStatsWithGame(layout.context, gameDifficulty, minesweeper)
         if (minesweeper.gameStatus == GameStatus.DEFEAT) {
             uiCells[cell.row][cell.column].updateImageClickedMine()
+            minesweeperUiHandler.onDefeat()
         } else {
             minesweeperUiHandler.onVictory((minesweeper.getScore() * 1000).toLong(), minesweeper.getTime())
         }

@@ -37,7 +37,7 @@ class GameFragment : Fragment(), UpdateAdViewHandler, GameUiHandler {
 
     // UI ELEMENTS
     private lateinit var boardInfoView: BoardInfoView
-    private lateinit var refreshButton: MenuItem
+    private var refreshButton: MenuItem? = null
     private var flagButton: MenuItem? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -82,12 +82,14 @@ class GameFragment : Fragment(), UpdateAdViewHandler, GameUiHandler {
                             .setTitle(dialogInfo.title)
                             .setMessage(dialogInfo.description)
                             .setPositiveButton(android.R.string.yes) { _, _ ->
+                                refreshButton?.setIcon(R.drawable.ic_game_pending)
                                 minesweeperUI.reset(requireContext())
                             }
                             .setNegativeButton(android.R.string.no) { _, _ -> }
                             .create()
                     dialog.show()
                 } else {
+                    refreshButton?.setIcon(R.drawable.ic_game_pending)
                     minesweeperUI.reset(requireContext())                }
                 return true
             }
@@ -205,11 +207,16 @@ class GameFragment : Fragment(), UpdateAdViewHandler, GameUiHandler {
 
             override fun onFlagChange(clickMode: ClickMode) {
                 val icon = if (clickMode == ClickMode.FLAG)
-                    R.drawable.ic_flag_black else R.drawable.ic_flag_black
+                    R.drawable.ic_flag_solid else R.drawable.ic_flag_outline
                 flagButton?.setIcon(icon)
             }
 
+            override fun onDefeat() {
+                refreshButton?.setIcon(R.drawable.ic_game_defeat)
+            }
+
             override fun onVictory(score: Long, time: Long) {
+                refreshButton?.setIcon(R.drawable.ic_game_victory)
                 (requireActivity() as MainActivity).updateLeaderboards(GameStatus.VICTORY, minesweeperUI.gameDifficulty, score, time)
             }
         })

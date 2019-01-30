@@ -8,5 +8,6 @@ import app.drewromanyk.com.minesweeper.enums.ClickMode
 interface MinesweeperUiHandler {
     fun onGameTimerTick(gameTime: Long, score: Double)
     fun onFlagChange(clickMode: ClickMode)
+    fun onDefeat()
     fun onVictory(score: Long, time: Long)
 }
