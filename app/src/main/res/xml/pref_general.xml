@@ -9,9 +9,9 @@
         <Preference
             android:key="purchase_remove_ads"
             android:title="@string/remove_ads" />
-        <Preference
-            android:key="purchase_clear"
-            android:title="Clear purchases" />
+        <!--<Preference-->
+            <!--android:key="purchase_clear"-->
+            <!--android:title="Clear purchases" />-->
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_game">
         <ListPreference

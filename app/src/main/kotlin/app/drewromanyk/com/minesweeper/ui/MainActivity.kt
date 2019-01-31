@@ -133,6 +133,11 @@ class MainActivity : AppCompatActivity() {
 
             if (requestCode == RC_SIGN_IN) {
                 handleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(data))
+            } else if (requestCode == RC_UNUSED && resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED) {
+                googleSignInClient?.signOut()
+                achievementsClient = null
+                leaderboardsClient = null
+                playersClient = null
             }
         }
     }

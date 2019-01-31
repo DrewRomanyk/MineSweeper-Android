@@ -21,11 +21,6 @@ import app.drewromanyk.com.minesweeper.R
  */
 object Helper {
 
-    fun isOnline(context: Context): Boolean {
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return cm.activeNetworkInfo?.isConnectedOrConnecting as Boolean
-    }
-
     fun sendFeedback(activity: Activity) {
         val i = Intent(Intent.ACTION_SEND)
         i.type = "message/rfc822"

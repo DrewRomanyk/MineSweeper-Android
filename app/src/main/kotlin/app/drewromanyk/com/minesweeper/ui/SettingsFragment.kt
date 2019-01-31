@@ -32,7 +32,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         (findPreference("column_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)
         (findPreference("mine_seek") as SeekBarPreferenceCompat).setDialogStyle(R.style.Widget_Minesweeper_Dialog)
 
-        setupClearPurchase()
+//        setupClearPurchase()
         setupPurchase()
 
         findPreference("reset_stats").setOnPreferenceClickListener {

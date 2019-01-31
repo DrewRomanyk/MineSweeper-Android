@@ -24,11 +24,7 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage
  * Glue for the Minesweeper model, it handles all UI interactions as it contains the visual cells
  *  for the game
  */
-class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private val boardInfoView: BoardInfoView, context: Context, private val minesweeperUiHandler: MinesweeperUiHandler) : MinesweeperHandler {
-    companion object {
-        private const val MIN_SCALE = .4
-        private const val MAX_SCALE = 2.0
-    }
+class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private val boardInfoView: BoardInfoView, context: Context, private val minesweeperUiHandler: MinesweeperUiHandler?) : MinesweeperHandler {
 
     val gameDifficulty: GameDifficulty
     private val minesweeper: Minesweeper
@@ -36,7 +32,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
         set(value) {
             field = value
             updateUiCellImage()
-            minesweeperUiHandler.onFlagChange(value)
+            minesweeperUiHandler?.onFlagChange(value)
         }
 
     val layout: GridLayout = GridLayout(context)
@@ -64,7 +60,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
         } else {
             minesweeper = results.minesweeper
             this.gameDifficulty = results.gameDifficulty
-            minesweeperUiHandler.onGameTimerTick(results.minesweeper.getTime(), results.minesweeper.getScore())
+            minesweeperUiHandler?.onGameTimerTick(results.minesweeper.getTime(), results.minesweeper.getScore())
         }
 
         uiCells = Array(this.gameDifficulty.getRows(context)) { Array(this.gameDifficulty.getColumns(context)) { UiCell(context) } }
@@ -173,14 +169,14 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
         UserPrefStorage.updateStatsWithGame(layout.context, gameDifficulty, minesweeper)
         if (minesweeper.gameStatus == GameStatus.DEFEAT) {
             uiCells[cell.row][cell.column].updateImageClickedMine()
-            minesweeperUiHandler.onDefeat()
+            minesweeperUiHandler?.onDefeat()
         } else {
-            minesweeperUiHandler.onVictory((minesweeper.getScore() * 1000).toLong(), minesweeper.getTime())
+            minesweeperUiHandler?.onVictory((minesweeper.getScore() * 1000).toLong(), minesweeper.getTime())
         }
     }
 
     override fun onTimerTick(gameTime: Long) {
-        minesweeperUiHandler.onGameTimerTick(gameTime, minesweeper.getScore())
+        minesweeperUiHandler?.onGameTimerTick(gameTime, minesweeper.getScore())
     }
 
     /***

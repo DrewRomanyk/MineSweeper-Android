@@ -10,8 +10,7 @@
         <item name="colorSurface">@color/white</item>
         <item name="textColor">?android:textColorPrimary</item>
         <item name="android:windowBackground">@color/white</item>
-        <item name="android:statusBarColor">@color/status_bar</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:statusBarColor">@color/amoled_background</item>
         <item name="android:navigationBarColor">@color/primary_dark</item>
         <item name="buttonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
         <item name="borderlessButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
