@@ -70,6 +70,6 @@ class Score {
     }
 
     private fun inbounds(row: Int, column: Int, rows: Int, columns: Int): Boolean {
-        return (row in 0..rows - 1) && (column in 0..columns - 1)
+        return (row in 0 until rows) && (column in 0 until columns)
     }
 }

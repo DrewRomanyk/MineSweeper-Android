@@ -8,11 +8,11 @@ import app.drewromanyk.com.minesweeper.R
  * Enum for UI Theme Mode Preference
  */
 
-enum class UiThemeMode constructor(val themeValue: String) {
-    LIGHT("LIGHT"),
-    DARK("DARK"),
-    AMOLED("AMOLED"),
-    CLASSICAL("CLASSICAL");
+enum class UiThemeMode {
+    LIGHT,
+    DARK,
+    AMOLED,
+    CLASSICAL;
 
     val themeResourceId: Int
         get() {

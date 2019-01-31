@@ -9,7 +9,7 @@ import app.drewromanyk.com.minesweeper.enums.CellStatus
 
 class Cell {
     companion object {
-        val MINE = -1
+        const val MINE = -1
     }
 
     private var cellStatus: CellStatus = CellStatus.UNKNOWN

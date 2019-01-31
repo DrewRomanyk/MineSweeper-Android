@@ -1,6 +1,5 @@
 package app.drewromanyk.com.minesweeper.models
 
-import android.util.Log
 import app.drewromanyk.com.minesweeper.enums.GameStatus
 import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
 import org.json.JSONArray

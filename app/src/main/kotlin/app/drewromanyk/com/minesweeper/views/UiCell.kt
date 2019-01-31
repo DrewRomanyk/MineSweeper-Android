@@ -14,7 +14,7 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage
  */
 class UiCell(context: Context) : AppCompatImageButton(context) {
     companion object {
-        private val PACKAGE_NAME = "app.drewromanyk.com.minesweeper"
+        private const val PACKAGE_NAME = "app.drewromanyk.com.minesweeper"
     }
 
     fun updateImage(cell: Cell, clickMode: ClickMode, gameStatus: GameStatus) {
@@ -47,14 +47,14 @@ class UiCell(context: Context) : AppCompatImageButton(context) {
             else
                 R.drawable.ic_cell_unknownflag_classical
         } else if (cell.isRevealed() && (cell.value >= 0)) {
-            if (!materialMode) {
-                id = context.resources.getIdentifier(
+            id = if (!materialMode) {
+                context.resources.getIdentifier(
                         "ic_cell_${cell.value}_classical", "drawable", PACKAGE_NAME)
             } else if (lightMode) {
-                id = context.resources.getIdentifier(
+                context.resources.getIdentifier(
                         "ic_cell_${cell.value}_light", "drawable", PACKAGE_NAME)
             } else {
-                id = context.resources.getIdentifier(
+                context.resources.getIdentifier(
                         "ic_cell_${cell.value}", "drawable", PACKAGE_NAME)
             }
             if (cell.isEmpty()) {

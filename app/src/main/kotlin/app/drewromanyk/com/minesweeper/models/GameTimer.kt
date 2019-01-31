@@ -9,7 +9,7 @@ import java.util.*
  */
 class GameTimer constructor(startTime: Long = GameTimer.DEFAULT_START_TIME, private val gameTimerHandler: GameTimerHandler) {
     companion object {
-        val DEFAULT_START_TIME: Long = 1
+        const val DEFAULT_START_TIME: Long = 1
     }
 
     var time: Long

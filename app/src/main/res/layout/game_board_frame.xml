@@ -8,7 +8,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:layout_above="@+id/info_frame"
-        android:layout_weight="1"
         android:scrollbars="horizontal|vertical"
         app:hasClickableChildren="true"
         app:horizontalPanEnabled="true"

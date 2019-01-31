@@ -1,5 +1,6 @@
 package app.drewromanyk.com.minesweeper.views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.MotionEvent
@@ -83,6 +84,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
         updateUiCellImage()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setUiCellListeners(cell: UiCell, row: Int, col: Int) {
         // Single tap
         cell.setOnClickListener { v ->
@@ -107,7 +109,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
         }
     }
 
-    fun onUiCellTap(view: View, row: Int, col: Int, shortTap: Boolean) {
+    private fun onUiCellTap(view: View, row: Int, col: Int, shortTap: Boolean) {
         if (shortTap) {
             soundPlayer.play(GameSoundType.TAP)
         } else {

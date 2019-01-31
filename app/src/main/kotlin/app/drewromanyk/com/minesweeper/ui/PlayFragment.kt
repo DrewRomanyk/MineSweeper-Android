@@ -22,7 +22,6 @@ import com.google.android.gms.games.Player
 import kotlinx.android.synthetic.main.fragment_play.*
 import android.graphics.drawable.Drawable
 import android.os.Handler
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import app.drewromanyk.com.minesweeper.enums.ResultCodes
 import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler

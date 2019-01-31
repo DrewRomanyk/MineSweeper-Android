@@ -1,6 +1,7 @@
 package app.drewromanyk.com.minesweeper.util
 
 import android.content.Context
+import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 
@@ -13,7 +14,7 @@ import app.drewromanyk.com.minesweeper.enums.GameSoundType
  */
 
 class SoundPlayer(private val context: Context) {
-    private val soundEffects: SoundPool = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
+    private val soundEffects: SoundPool = SoundPool.Builder().setMaxStreams(10).build()
     private val soundIDs: IntArray = IntArray(GameSoundType.values().size)
 
     init {

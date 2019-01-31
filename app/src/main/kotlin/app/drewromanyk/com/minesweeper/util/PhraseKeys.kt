@@ -7,5 +7,5 @@ package app.drewromanyk.com.minesweeper.util
  */
 
 object PhraseKeys {
-    val AMOUNT = "amount"
+    const val AMOUNT = "amount"
 }

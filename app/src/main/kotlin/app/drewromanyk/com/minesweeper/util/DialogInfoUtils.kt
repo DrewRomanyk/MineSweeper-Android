@@ -19,7 +19,7 @@ class DialogInfoUtils private constructor(context: Context) {
 
     companion object {
 
-        private val yesNoDialogMap: SparseArray<YesNoDialogInfo> = SparseArray<YesNoDialogInfo>()
+        private val yesNoDialogMap: SparseArray<YesNoDialogInfo> = SparseArray()
 
         private var instance: DialogInfoUtils? = null
 

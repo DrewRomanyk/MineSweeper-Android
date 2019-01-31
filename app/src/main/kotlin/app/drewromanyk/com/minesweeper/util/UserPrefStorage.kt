@@ -3,7 +3,6 @@ package app.drewromanyk.com.minesweeper.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import android.util.Log
 
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.ClickMode
@@ -14,7 +13,6 @@ import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
 import app.drewromanyk.com.minesweeper.models.Minesweeper
 import org.json.JSONArray
 import android.widget.Toast
-import com.crashlytics.android.Crashlytics
 import com.google.firebase.analytics.FirebaseAnalytics
 
 
@@ -83,14 +81,14 @@ object UserPrefStorage {
      */
 
     private fun getSavedDataVersion(context: Context): String {
-        return getPrefs(context).getString("SAVED_VERSION", "")
+        return getPrefs(context).getString("SAVED_VERSION", "")!!
     }
 
-    fun isCurrentSavedDataVersion(context: Context): Boolean {
+    private fun isCurrentSavedDataVersion(context: Context): Boolean {
         return getSavedDataVersion(context) == context.getString(R.string.preference_saved_current_version)
     }
 
-    fun getLastGameStatus(context: Context): Int {
+    private fun getLastGameStatus(context: Context): Int {
         return getPrefs(context).getInt("STATUS", GameStatus.DEFEAT.ordinal)
     }
 
@@ -201,7 +199,7 @@ object UserPrefStorage {
         var loses = getLosesForDifficulty(context, gameDifficulty)
         var bestTime = getBestTimeForDifficulty(context, gameDifficulty)
         var avgTime = getAvgTimeForDifficulty(context, gameDifficulty)
-        var explorPerct = getExplorPercentForDifficulty(context, gameDifficulty)
+        var explorePercent = getExplorPercentForDifficulty(context, gameDifficulty)
         var winStreak = getWinStreakForDifficulty(context, gameDifficulty)
         var losesStreak = getLoseStreakForDifficulty(context, gameDifficulty)
         var currentWinStreak = getCurWinStreakForDifficulty(context, gameDifficulty)
@@ -215,7 +213,7 @@ object UserPrefStorage {
         } else {
             loses++
         }
-        val total_games = wins + loses
+        val totalGames = wins + loses
 
         // Update best time and avg time
         val currentTime: Int = (minesweeper.getTime() / 1000).toInt()
@@ -229,8 +227,8 @@ object UserPrefStorage {
         }
 
         // Update exploration percentage
-        val currentExplorPerct = minesweeper.getExplorePercent()
-        explorPerct += (currentExplorPerct - explorPerct) / total_games
+        val curExplorePercent = minesweeper.getExplorePercent()
+        explorePercent += (curExplorePercent - explorePercent) / totalGames
 
         // Update streaks
         if (minesweeper.gameStatus == GameStatus.VICTORY) {
@@ -257,7 +255,7 @@ object UserPrefStorage {
         }
 
         updateStats(context, gameDifficulty, wins, loses, bestTime, avgTime,
-                explorPerct, winStreak, losesStreak, currentWinStreak, currentLosesStreak,
+                explorePercent, winStreak, losesStreak, currentWinStreak, currentLosesStreak,
                 bestScore, avgScore)
         invalidateSavedGame(context)
 
@@ -350,10 +348,6 @@ object UserPrefStorage {
     /*
      * SETTINGS
      */
-
-    fun getCellSize(context: Context): Int {
-        return getPrefs(context).getInt(context.getString(R.string.preference_cellsize), 100)
-    }
 
     fun getRowCount(context: Context): Int {
         return getPrefs(context).getInt(context.getString(R.string.preference_rowcount), 9)

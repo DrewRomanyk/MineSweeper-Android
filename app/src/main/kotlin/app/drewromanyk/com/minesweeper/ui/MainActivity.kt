@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity() {
             onDisconnected()
             profileUiHandler?.onSignIn(null)
         } else {
-            Games.getGamesClient(this, account).setViewForPopups(container as View)
+            Games.getGamesClient(this, account).setViewForPopups(findViewById(android.R.id.content))
             achievementsClient = Games.getAchievementsClient(this, account)
             leaderboardsClient = Games.getLeaderboardsClient(this, account)
             playersClient = Games.getPlayersClient(this, account)

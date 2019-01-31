@@ -25,8 +25,8 @@
                 android:layout_height="@dimen/google_game_button_size"
                 android:layout_gravity="center_vertical|start"
                 android:padding="@dimen/google_game_button_spacer"
-                android:foreground="?selectableItemBackground"
                 android:src="@drawable/trophy_award"
+                android:contentDescription="@string/nav_achievements"
                 tools:targetApi="m"
             />
             <TextView
@@ -45,8 +45,8 @@
                 android:layout_height="@dimen/google_game_button_size"
                 android:layout_gravity="center_vertical|end"
                 android:padding="@dimen/google_game_button_spacer"
-                android:foreground="?selectableItemBackground"
                 android:src="@drawable/trophy"
+                android:contentDescription="@string/nav_leaderboards"
                 tools:targetApi="m"
             />
         </FrameLayout>

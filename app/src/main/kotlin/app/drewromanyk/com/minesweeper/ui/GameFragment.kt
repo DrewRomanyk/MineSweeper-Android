@@ -1,13 +1,11 @@
 package app.drewromanyk.com.minesweeper.ui
 
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
-import android.widget.ScrollView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NavUtils
 import androidx.fragment.app.Fragment

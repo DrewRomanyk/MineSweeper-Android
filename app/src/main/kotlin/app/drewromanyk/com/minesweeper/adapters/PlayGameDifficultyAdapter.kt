@@ -24,12 +24,14 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage
 class PlayGameDifficultyAdapter(private val navigator: PlayNavigator) : RecyclerView.Adapter<PlayGameDifficultyAdapter.PlayViewHolder>() {
     companion object {
 
-        private val RATING_TYPE = 0
-        private val DIFFICULTY_TYPE = 1
+        private const val RATING_TYPE = 0
+        private const val DIFFICULTY_TYPE = 1
 
-        private val RATING_FIRST = 0
-        private val RATING_NO = 1
-        private val RATING_YES = 2
+        private const val RATING_FIRST = 0
+        private const val RATING_NO = 1
+        private const val RATING_YES = 2
+
+        private const val FIRST_ITEM = 0
     }
 
     private val gameDifficultyList: MutableList<GameDifficulty>
@@ -74,19 +76,18 @@ class PlayGameDifficultyAdapter(private val navigator: PlayNavigator) : Recycler
     }
 
     override fun getItemViewType(position: Int): Int {
-        val FIRST_ITEM = 0
-        if (canShowRating && (position == FIRST_ITEM)) {
-            return RATING_TYPE
+        return if (canShowRating && (position == FIRST_ITEM)) {
+            RATING_TYPE
         } else {
-            return DIFFICULTY_TYPE
+            DIFFICULTY_TYPE
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayViewHolder {
-        if (viewType == RATING_TYPE) {
-            return PlayViewHolder(View.inflate(parent.context, R.layout.card_play_feedback, null), viewType)
+        return if (viewType == RATING_TYPE) {
+            PlayViewHolder(View.inflate(parent.context, R.layout.card_play_feedback, null), viewType)
         } else {
-            return PlayViewHolder(View.inflate(parent.context, R.layout.card_play_difficulty, null), viewType)
+            PlayViewHolder(View.inflate(parent.context, R.layout.card_play_difficulty, null), viewType)
         }
     }
 
@@ -97,48 +98,56 @@ class PlayGameDifficultyAdapter(private val navigator: PlayNavigator) : Recycler
                 holder.ratingYes!!.setText(R.string.in_app_rating_secondary_yes)
                 holder.ratingNo!!.setText(R.string.in_app_rating_secondary_no)
 
-                if (holder.dialogRatingPosition == RATING_FIRST) {
-                    fbAnalytics.logEvent("REVIEW_CARD_YES_ENJOYED", null)
+                when {
+                    holder.dialogRatingPosition == RATING_FIRST -> {
+                        fbAnalytics.logEvent("REVIEW_CARD_YES_ENJOYED", null)
 
-                    holder.dialogRatingPosition = RATING_YES
-                    holder.ratingDesc!!.setText(R.string.in_app_rating_rating)
-                } else if (holder.dialogRatingPosition == RATING_YES) {
-                    fbAnalytics.logEvent("REVIEW_CARD_RATE", null)
+                        holder.dialogRatingPosition = RATING_YES
+                        holder.ratingDesc!!.setText(R.string.in_app_rating_rating)
+                    }
+                    holder.dialogRatingPosition == RATING_YES -> {
+                        fbAnalytics.logEvent("REVIEW_CARD_RATE", null)
 
-                    canShowRating = false
-                    notifyDataSetChanged()
-                    UserPrefStorage.setHasFinishedRatingDialog(holder.card.context)
-                    navigator.startPlayStore()
-                } else if (holder.dialogRatingPosition == RATING_NO) {
-                    fbAnalytics.logEvent("REVIEW_CARD_FEEDBACK", null)
+                        canShowRating = false
+                        notifyDataSetChanged()
+                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.context)
+                        navigator.startPlayStore()
+                    }
+                    holder.dialogRatingPosition == RATING_NO -> {
+                        fbAnalytics.logEvent("REVIEW_CARD_FEEDBACK", null)
 
-                    canShowRating = false
-                    notifyDataSetChanged()
-                    UserPrefStorage.setHasFinishedRatingDialog(holder.card.context)
-                    navigator.sendFeedback()
+                        canShowRating = false
+                        notifyDataSetChanged()
+                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.context)
+                        navigator.sendFeedback()
+                    }
                 }
             }
             holder.ratingNo!!.setOnClickListener {
                 holder.ratingYes!!.setText(R.string.in_app_rating_secondary_yes)
                 holder.ratingNo!!.setText(R.string.in_app_rating_secondary_no)
 
-                if (holder.dialogRatingPosition == RATING_FIRST) {
-                    fbAnalytics.logEvent("REVIEW_CARD_NO_ENJOYED", null)
+                when {
+                    holder.dialogRatingPosition == RATING_FIRST -> {
+                        fbAnalytics.logEvent("REVIEW_CARD_NO_ENJOYED", null)
 
-                    holder.dialogRatingPosition = RATING_NO
-                    holder.ratingDesc!!.setText(R.string.in_app_rating_feedback)
-                } else if (holder.dialogRatingPosition == RATING_YES) {
-                    fbAnalytics.logEvent("REVIEW_CARD_NO_RATE", null)
+                        holder.dialogRatingPosition = RATING_NO
+                        holder.ratingDesc!!.setText(R.string.in_app_rating_feedback)
+                    }
+                    holder.dialogRatingPosition == RATING_YES -> {
+                        fbAnalytics.logEvent("REVIEW_CARD_NO_RATE", null)
 
-                    canShowRating = false
-                    notifyDataSetChanged()
-                    UserPrefStorage.setHasFinishedRatingDialog(holder.card.context)
-                } else if (holder.dialogRatingPosition == RATING_NO) {
-                    fbAnalytics.logEvent("REVIEW_CARD_NO_FEEDBACK", null)
+                        canShowRating = false
+                        notifyDataSetChanged()
+                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.context)
+                    }
+                    holder.dialogRatingPosition == RATING_NO -> {
+                        fbAnalytics.logEvent("REVIEW_CARD_NO_FEEDBACK", null)
 
-                    canShowRating = false
-                    notifyDataSetChanged()
-                    UserPrefStorage.setHasFinishedRatingDialog(holder.card.context)
+                        canShowRating = false
+                        notifyDataSetChanged()
+                        UserPrefStorage.setHasFinishedRatingDialog(holder.card.context)
+                    }
                 }
             }
         } else {

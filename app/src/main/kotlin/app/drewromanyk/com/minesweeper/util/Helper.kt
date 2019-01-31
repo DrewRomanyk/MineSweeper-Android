@@ -3,8 +3,8 @@ package app.drewromanyk.com.minesweeper.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.os.Build
+import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.Html
 import android.text.Spanned
@@ -35,10 +35,15 @@ object Helper {
 
     }
 
+    @Suppress("DEPRECATION")
     fun vibrate(context: Context) {
         if (UserPrefStorage.getVibrate(context)) {
             val v = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            v.vibrate(100)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                v.vibrate(100)
+            }
         }
     }
 
@@ -46,20 +51,17 @@ object Helper {
     fun getLocale(context: Context): Locale {
         val resources = context.resources
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            resources.configuration.locales
-                    .getFirstMatch(resources.assets.locales)
+            resources.configuration.locales.getFirstMatch(resources.assets.locales)!!
         else
             resources.configuration.locale
     }
 
     @Suppress("DEPRECATION")
     fun fromHtml(html: String): Spanned {
-        val result: Spanned
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
         } else {
-            result = Html.fromHtml(html)
+            Html.fromHtml(html)
         }
-        return result
     }
 }

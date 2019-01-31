@@ -25,7 +25,6 @@
                 android:layout_height="@dimen/sign_in_button_size"
                 android:layout_gravity="center_vertical|start"
                 android:padding="@dimen/spacerD4"
-                android:foreground="?selectableItemBackground"
                 android:src="@drawable/ic_account_circle"
                 android:contentDescription="@string/sign_in"
                 tools:targetApi="m" />
