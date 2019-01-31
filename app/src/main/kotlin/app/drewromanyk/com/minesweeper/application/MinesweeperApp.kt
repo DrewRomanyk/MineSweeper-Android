@@ -15,7 +15,7 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage
 class MinesweeperApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        disableFirebaseDuringDebugBuilds()
+        //disableFirebaseDuringDebugBuilds()
 
         UserPrefStorage.increaseAppOpenCount(applicationContext)
         //fix crash for lower API devices
