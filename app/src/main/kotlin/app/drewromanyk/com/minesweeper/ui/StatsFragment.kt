@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.adapters.StatsGameDifficultyAdapter
 import app.drewromanyk.com.minesweeper.views.CircularOutlineProvider
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.fragment_stats.*
 
 /**
@@ -40,5 +41,11 @@ class StatsFragment : Fragment() {
         statsRecyclerView.layoutManager = LinearLayoutManager(context)
         adapter = StatsGameDifficultyAdapter()
         statsRecyclerView.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        firebaseAnalytics.setCurrentScreen(requireActivity(), AboutFragment::javaClass.javaClass.simpleName, AboutFragment::javaClass.javaClass.simpleName)
     }
 }

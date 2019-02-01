@@ -13,6 +13,7 @@ import app.drewromanyk.com.minesweeper.enums.ResultCodes
 import app.drewromanyk.com.minesweeper.util.DialogInfoUtils
 import app.drewromanyk.com.minesweeper.util.PremiumUtils
 import app.drewromanyk.com.minesweeper.util.UserPrefStorage
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
 
 
@@ -85,6 +86,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onResume() {
         super.onResume()
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        firebaseAnalytics.setCurrentScreen(requireActivity(), AboutFragment::javaClass.javaClass.simpleName, AboutFragment::javaClass.javaClass.simpleName)
         preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 

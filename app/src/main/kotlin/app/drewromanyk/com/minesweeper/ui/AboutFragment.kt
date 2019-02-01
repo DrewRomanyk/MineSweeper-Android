@@ -16,6 +16,7 @@ import com.franmontiel.attributionpresenter.AttributionPresenter
 import com.franmontiel.attributionpresenter.entities.Library
 import com.franmontiel.attributionpresenter.entities.License
 import com.franmontiel.attributionpresenter.entities.Attribution
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.squareup.phrase.Phrase
 import kotlinx.android.synthetic.main.fragment_about.*
 
@@ -86,5 +87,11 @@ class AboutFragment : Fragment() {
                     .build()
                     .showDialog(getString(R.string.open_source_licenses))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        firebaseAnalytics.setCurrentScreen(requireActivity(), AboutFragment::javaClass.javaClass.simpleName, AboutFragment::javaClass.javaClass.simpleName)
     }
 }

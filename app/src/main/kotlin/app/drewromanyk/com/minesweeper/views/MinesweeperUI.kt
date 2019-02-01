@@ -28,7 +28,7 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage
 class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private val boardInfoView: BoardInfoView, context: Context, private val minesweeperUiHandler: MinesweeperUiHandler?) : MinesweeperHandler {
 
     val gameDifficulty: GameDifficulty
-    private val minesweeper: Minesweeper
+    private val minesweeper: Minesweeper?
     private var clickMode: ClickMode = ClickMode.REVEAL
         set(value) {
             field = value
@@ -119,9 +119,9 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
             soundPlayer.play(GameSoundType.LONGPRESS)
         }
         if ((shortTap && (clickMode == ClickMode.REVEAL)) || (!shortTap && (clickMode != ClickMode.REVEAL))) {
-            minesweeper.revealCell(row, col)
+            minesweeper!!.revealCell(row, col)
         } else if ((shortTap && (clickMode == ClickMode.FLAG)) || (!shortTap && (clickMode == ClickMode.REVEAL))) {
-            minesweeper.flagCell(row, col)
+            minesweeper!!.flagCell(row, col)
         } else {
             throw IllegalStateException("Unsupported state with clickMode and shortTap")
         }
@@ -134,7 +134,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
     private fun updateUiCellImage() {
         for ((r, rowUiCells) in uiCells.withIndex()) {
             for ((c, _) in rowUiCells.withIndex()) {
-                onCellChange(minesweeper.cells[r][c], flagChange = false)
+                onCellChange(minesweeper!!.cells[r][c], flagChange = false)
             }
         }
     }
@@ -157,48 +157,50 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
 
     override fun onCellChange(cell: Cell, flagChange: Boolean) {
         if (flagChange) {
-            boardInfoView.setMineKeeperText(minesweeper.getMinesLeftNumber())
+            boardInfoView.setMineKeeperText(minesweeper!!.getMinesLeftNumber())
             uiCells[cell.row][cell.column].startAnimation(AnimationUtils.loadAnimation(layout.context, R.anim.puff_in))
         }
-        uiCells[cell.row][cell.column].updateImage(cell, clickMode, minesweeper.gameStatus)
+        uiCells[cell.row][cell.column].updateImage(cell, clickMode, minesweeper!!.gameStatus)
     }
 
     override fun onGameStatusChange(cell: Cell) {
-        soundPlayer.play(if (minesweeper.gameStatus == GameStatus.VICTORY) GameSoundType.WIN else GameSoundType.LOSE)
+        soundPlayer.play(if (minesweeper!!.gameStatus == GameStatus.VICTORY) GameSoundType.WIN else GameSoundType.LOSE)
         Helper.vibrate(layout.context)
 
         updateUiCellImage()
-        UserPrefStorage.updateStatsWithGame(layout.context, gameDifficulty, minesweeper)
-        if (minesweeper.gameStatus == GameStatus.DEFEAT) {
+        UserPrefStorage.updateStatsWithGame(layout.context, gameDifficulty, minesweeper!!)
+        if (minesweeper!!.gameStatus == GameStatus.DEFEAT) {
             uiCells[cell.row][cell.column].updateImageClickedMine()
             minesweeperUiHandler?.onDefeat()
         } else {
-            minesweeperUiHandler?.onVictory((minesweeper.getScore() * 1000).toLong(), minesweeper.getTime())
+            minesweeperUiHandler?.onVictory((minesweeper!!.getScore() * 1000).toLong(), minesweeper!!.getTime())
         }
     }
 
     override fun onTimerTick(gameTime: Long) {
-        minesweeperUiHandler?.onGameTimerTick(gameTime, minesweeper.getScore())
+        if (minesweeper != null) {
+            minesweeperUiHandler?.onGameTimerTick(gameTime, minesweeper.getScore())
+        }
     }
 
     /***
      * Minesweeper
      */
 
-    fun isPlaying(): Boolean = minesweeper.gameStatus == GameStatus.PLAYING
+    fun isPlaying(): Boolean = minesweeper!!.gameStatus == GameStatus.PLAYING
 
     fun reset(context: Context) {
         if (isPlaying()) {
-            UserPrefStorage.updateStatsWithGame(context, gameDifficulty, minesweeper)
+            UserPrefStorage.updateStatsWithGame(context, gameDifficulty, minesweeper!!)
         }
-        minesweeper.reset()
+        minesweeper!!.reset()
         clickMode = ClickMode.REVEAL
         boardInfoView.reset(gameDifficulty.getMineCount(layout.context))
         updateUiCellImage()
     }
 
     fun save(context: Context) {
-        UserPrefStorage.saveGame(context, UserPrefStorage.GameStorageData(minesweeper, gameDifficulty, clickMode))
+        UserPrefStorage.saveGame(context, UserPrefStorage.GameStorageData(minesweeper!!, gameDifficulty, clickMode))
     }
 
     @Throws(Throwable::class)
@@ -212,10 +214,10 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
      */
 
     fun resumeTimer() {
-        minesweeper.resumeTimer()
+        minesweeper!!.resumeTimer()
     }
 
     fun pauseTimer() {
-        minesweeper.pauseTimer()
+        minesweeper!!.pauseTimer()
     }
 }

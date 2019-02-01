@@ -28,8 +28,13 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
     private var adViewHandler: UpdateAdViewHandler? = null
 
     fun updateContext(context: Context, adViewHandler: UpdateAdViewHandler) {
-        bp = BillingProcessor(context, BuildConfig.LICENSE_KEY, this)
-        this.adViewHandler = adViewHandler
+        if (BillingProcessor.isIabServiceAvailable(context)) {
+            bp = BillingProcessor(context, BuildConfig.LICENSE_KEY, this)
+            this.adViewHandler = adViewHandler
+        } else {
+            bp = null
+            this.adViewHandler = null
+        }
     }
 
     fun releaseContext() {

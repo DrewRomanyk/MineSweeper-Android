@@ -23,6 +23,7 @@ import app.drewromanyk.com.minesweeper.util.UserPrefStorage
 import app.drewromanyk.com.minesweeper.views.BoardInfoView
 import app.drewromanyk.com.minesweeper.views.MinesweeperUI
 import com.google.android.gms.ads.AdRequest
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.android.synthetic.main.game_board_frame.*
 import kotlinx.android.synthetic.main.game_info_frame.*
@@ -134,6 +135,8 @@ class GameFragment : Fragment(), UpdateAdViewHandler, GameUiHandler {
 
     override fun onResume() {
         super.onResume()
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        firebaseAnalytics.setCurrentScreen(requireActivity(), AboutFragment::javaClass.javaClass.simpleName, AboutFragment::javaClass.javaClass.simpleName)
         minesweeperUI.resumeTimer()
         updateAdView()
     }

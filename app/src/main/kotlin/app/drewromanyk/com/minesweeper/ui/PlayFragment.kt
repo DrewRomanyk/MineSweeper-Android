@@ -28,6 +28,7 @@ import app.drewromanyk.com.minesweeper.interfaces.MinesweeperHandler
 import app.drewromanyk.com.minesweeper.models.Cell
 import app.drewromanyk.com.minesweeper.util.DialogInfoUtils
 import app.drewromanyk.com.minesweeper.views.CircularOutlineProvider
+import com.google.firebase.analytics.FirebaseAnalytics
 
 /**
  * Fragment to select a difficulty to play and to log into google games
@@ -59,6 +60,8 @@ class PlayFragment : Fragment(), PlayNavigator, ProfileUiHandler {
 
     override fun onResume() {
         super.onResume()
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        firebaseAnalytics.setCurrentScreen(requireActivity(), AboutFragment::javaClass.javaClass.simpleName, AboutFragment::javaClass.javaClass.simpleName)
         val handler = Handler()
         handler.postDelayed({
             updatePlaySelectButtons()
