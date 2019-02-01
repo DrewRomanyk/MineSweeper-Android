@@ -98,18 +98,24 @@ class PlayFragment : Fragment(), PlayNavigator, ProfileUiHandler {
                     .setTitle(title)
                     .setMessage(description)
                     .setPositiveButton(android.R.string.yes) { _, _ ->
-                        val data = UserPrefStorage.loadGame(requireContext(), object : MinesweeperHandler {
-                            override fun isSwiftOpenEnabled(): Boolean = false
+                        try {
+                            val data = UserPrefStorage.loadGame(requireContext(), object : MinesweeperHandler {
+                                override fun isSwiftOpenEnabled(): Boolean = false
 
-                            override fun onSwiftChange() {}
+                                override fun onSwiftChange() {}
 
-                            override fun onCellChange(cell: Cell, flagChange: Boolean) {}
+                                override fun onCellChange(cell: Cell, flagChange: Boolean) {}
 
-                            override fun onGameStatusChange(cell: Cell) {}
+                                override fun onGameStatusChange(cell: Cell) {}
 
-                            override fun onTimerTick(gameTime: Long) {}
-                        })
-                        UserPrefStorage.updateStatsWithGame(requireContext(), data.gameDifficulty, data.minesweeper)
+                                override fun onTimerTick(gameTime: Long) {}
+                            })
+                            UserPrefStorage.updateStatsWithGame(requireContext(), data.gameDifficulty, data.minesweeper)
+                        } catch (e: IllegalArgumentException) {
+                            UserPrefStorage.invalidateSavedGame(requireContext())
+                            val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+                            firebaseAnalytics.logEvent("cancel_resume_game_failed", null)
+                        }
                         (requireActivity() as MainActivity).navigateToGame(difficulty)
                     }
                     .setNegativeButton(android.R.string.no) { _, _ -> }

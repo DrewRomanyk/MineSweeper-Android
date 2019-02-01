@@ -174,10 +174,11 @@ object UserPrefStorage {
         editor.apply()
     }
 
-    private fun invalidateSavedGame(context: Context) {
+    fun invalidateSavedGame(context: Context) {
         val editor = getPrefs(context).edit()
         editor.putInt("ROWS", 0)
         editor.putInt("COLUMNS", 0)
+        editor.putInt("STATUS", GameStatus.DEFEAT.ordinal)
         editor.apply()
     }
 
