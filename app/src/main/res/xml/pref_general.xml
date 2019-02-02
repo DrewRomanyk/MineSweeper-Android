@@ -48,11 +48,27 @@
             android:defaultValue="true"
             android:key="swiftopen_check"
             android:title="@string/settings_game_swiftopen" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="animation_check"
+            android:title="@string/settings_game_animation" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="info_bar_visibility_check"
+            android:title="@string/settings_game_info_bar_visibility" />
         <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
             android:defaultValue="400"
             android:key="longclick_duration_seek"
             android:title="@string/settings_game_longclick_duration"
             app:msbp_minValue="100"
+            app:msbp_maxValue="1000"
+            app:msbp_measurementUnit="ms"
+            />
+        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+            android:defaultValue="100"
+            android:key="vibration_duration"
+            android:title="@string/settings_game_vibration_duration"
+            app:msbp_minValue="1"
             app:msbp_maxValue="1000"
             app:msbp_measurementUnit="ms"
             />

@@ -113,7 +113,7 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
         if (shortTap) {
             soundPlayer.play(GameSoundType.TAP)
         } else {
-            if (clickMode == ClickMode.FLAG) {
+            if (clickMode == ClickMode.FLAG && UserPrefStorage.getAnimationCheck(view.context)) {
                 view.startAnimation(AnimationUtils.loadAnimation(view.context, R.anim.puff_in))
             }
             soundPlayer.play(GameSoundType.LONGPRESS)
@@ -158,7 +158,9 @@ class MinesweeperUI(loadGame: Boolean, gameDifficulty: GameDifficulty, private v
     override fun onCellChange(cell: Cell, flagChange: Boolean) {
         if (flagChange) {
             boardInfoView.setMineKeeperText(minesweeper!!.getMinesLeftNumber())
-            uiCells[cell.row][cell.column].startAnimation(AnimationUtils.loadAnimation(layout.context, R.anim.puff_in))
+            if (UserPrefStorage.getAnimationCheck(uiCells[cell.row][cell.column].context)) {
+                uiCells[cell.row][cell.column].startAnimation(AnimationUtils.loadAnimation(layout.context, R.anim.puff_in))
+            }
         }
         uiCells[cell.row][cell.column].updateImage(cell, clickMode, minesweeper!!.gameStatus)
     }

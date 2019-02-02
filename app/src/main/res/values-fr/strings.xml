@@ -139,4 +139,7 @@ Drapeau:
     <string name="reset_statistics">Réinitialiser les statistiques</string>
     <string name="nav_info">Info</string>
     <string name="enter_custom_value">Entrez la valeur</string>
+    <string name="settings_game_vibration_duration">Durée de vibration</string>
+    <string name="settings_game_animation">Animation</string>
+    <string name="settings_game_info_bar_visibility">Barre d\'information visible</string>
 </resources>

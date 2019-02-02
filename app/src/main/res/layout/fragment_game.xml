@@ -27,7 +27,6 @@
         android:layout_below="@id/appbar"
         android:layout_above="@id/adView"
     >
-
         <include layout="@layout/game_board_frame" />
         <include layout="@layout/game_info_frame" />
     </RelativeLayout>

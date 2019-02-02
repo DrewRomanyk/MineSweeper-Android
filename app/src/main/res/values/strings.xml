@@ -99,6 +99,7 @@ Flag:
     <string name="preference_columncount" translatable="false">column_seek</string>
     <string name="preference_minecount" translatable="false">mine_seek</string>
     <string name="preference_vibration" translatable="false">vibration_check</string>
+    <string name="preference_vibration_duration" translatable="false">vibration_duration</string>
     <string name="preference_sound" translatable="false">sound_check</string>
     <string name="preference_swiftopen" translatable="false">swiftopen_check</string>
     <string name="preference_swiftchange" translatable="false">swiftchange_check</string>
@@ -107,6 +108,8 @@ Flag:
     <string name="preference_lockrotate" translatable="false">lockrotate_check</string>
     <string name="preference_ui_theme_mode" translatable="false">ui_theme_mode</string>
     <string name="preference_longclick_duration" translatable="false">longclick_duration_seek</string>
+    <string name="preference_animation" translatable="false">animation_check</string>
+    <string name="preference_info_bar_visibility" translatable="false">info_bar_visibility_check</string>
     <string name="preference_saved_current_version" translatable="false">1</string>
 
     <!-- SETTINGS -->
@@ -128,6 +131,9 @@ Flag:
     <string name="settings_game_swiftchange">Swift change</string>
     <string name="settings_game_swiftopen">Swift open</string>
     <string name="settings_game_longclick_duration">Long click duration</string>
+    <string name="settings_game_vibration_duration">Vibrate duration</string>
+    <string name="settings_game_animation">Animation</string>
+    <string name="settings_game_info_bar_visibility">Info bar visibility</string>
 
     <string name="settings_support">Support</string>
     <string name="settings_feedback_subject">Minesweeper: Feedback</string>

@@ -134,5 +134,8 @@
     <string name="reset_statistics">Сбросить статистику</string>
     <string name="nav_info">Информация</string>
     <string name="enter_custom_value">Введите значение</string>
+    <string name="settings_game_vibration_duration">Продолжительность вибрации</string>
+    <string name="settings_game_animation">Анимация</string>
+    <string name="settings_game_info_bar_visibility">Информационная панель видна</string>
 
 </resources>

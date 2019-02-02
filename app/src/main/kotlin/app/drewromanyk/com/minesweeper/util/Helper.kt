@@ -39,10 +39,11 @@ object Helper {
     fun vibrate(context: Context) {
         if (UserPrefStorage.getVibrate(context)) {
             val v = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            val duration = UserPrefStorage.getVibrationDuration(context)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                v.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
             } else {
-                v.vibrate(100)
+                v.vibrate(duration)
             }
         }
     }

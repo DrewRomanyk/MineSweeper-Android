@@ -138,4 +138,7 @@
     <string name="reset_statistics">重置统计信息</string>
     <string name="nav_info">信息</string>
     <string name="enter_custom_value">输入值</string>
+    <string name="settings_game_vibration_duration">振动持续时间</string>
+    <string name="settings_game_animation">动画</string>
+    <string name="settings_game_info_bar_visibility">信息栏可见</string>
 </resources>

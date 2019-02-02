@@ -135,5 +135,8 @@ Bandiera:
     <string name="reset_statistics">Ripristina statistiche</string>
     <string name="nav_info">Informazioni</string>
     <string name="enter_custom_value">Immettere il valore</string>
+    <string name="settings_game_vibration_duration">Vibrazione della durata</string>
+    <string name="settings_game_animation">Animazione</string>
+    <string name="settings_game_info_bar_visibility">Barra delle informazioni visibile</string>
 
 </resources>

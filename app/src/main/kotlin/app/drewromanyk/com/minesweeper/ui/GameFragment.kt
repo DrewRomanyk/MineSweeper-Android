@@ -47,7 +47,9 @@ class GameFragment : Fragment(), UpdateAdViewHandler, GameUiHandler {
         super.onViewCreated(view, savedInstanceState)
 
         (requireActivity() as MainActivity).gameUiHandler = this
-
+        if (!UserPrefStorage.getInfoBarVisibility(requireContext())) {
+            info_frame.visibility = View.GONE
+        }
         setupToolbar()
         boardInfoView = BoardInfoView(
                 timeKeeper,

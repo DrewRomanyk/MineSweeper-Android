@@ -49,7 +49,6 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
         return bp != null && bp!!.handleActivityResult(requestCode, resultCode, data)
     }
 
-
     val isPremiumUser: Boolean
         get() = premiumState === PremiumState.PREMIUM
 

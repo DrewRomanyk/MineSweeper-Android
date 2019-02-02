@@ -366,6 +366,18 @@ object UserPrefStorage {
         return getPrefs(context).getBoolean(context.getString(R.string.preference_vibration), true)
     }
 
+    fun getVibrationDuration(context: Context): Long {
+        return getPrefs(context).getInt(context.getString(R.string.preference_vibration_duration), 100).toLong()
+    }
+
+    fun getAnimationCheck(context: Context): Boolean {
+        return getPrefs(context).getBoolean(context.getString(R.string.preference_animation), true)
+    }
+
+    fun getInfoBarVisibility(context: Context): Boolean {
+        return getPrefs(context).getBoolean(context.getString(R.string.preference_info_bar_visibility), true)
+    }
+
     fun getSound(context: Context): Boolean {
         return getPrefs(context).getBoolean(context.getString(R.string.preference_sound), true)
     }
