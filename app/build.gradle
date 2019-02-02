@@ -57,8 +57,16 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            debuggable true
+            shrinkResources true
             minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -81,7 +89,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.firebase:firebase-ads:17.1.2'
-    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'com.google.android.material:material:1.1.0-alpha03'
 
     implementation 'com.anjlab.android.iab.v3:library:1.0.44'
     implementation 'com.github.franmontiel:AttributionPresenter:1.0.1'

@@ -20,6 +20,6 @@ class HelpFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
-        firebaseAnalytics.setCurrentScreen(requireActivity(), AboutFragment::javaClass.javaClass.simpleName, AboutFragment::javaClass.javaClass.simpleName)
+        firebaseAnalytics.setCurrentScreen(requireActivity(), "HelpFragment", "HelpFragment")
     }
 }

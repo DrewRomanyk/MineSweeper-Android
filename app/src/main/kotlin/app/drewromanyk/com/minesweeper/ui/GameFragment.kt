@@ -65,9 +65,9 @@ class GameFragment : Fragment(), UpdateAdViewHandler, GameUiHandler {
         }, 1000)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_game, menu)
-        flagButton = menu!!.findItem(R.id.action_flag)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_game, menu)
+        flagButton = menu.findItem(R.id.action_flag)
         refreshButton = menu.findItem(R.id.action_refresh)
     }
 
@@ -136,7 +136,7 @@ class GameFragment : Fragment(), UpdateAdViewHandler, GameUiHandler {
     override fun onResume() {
         super.onResume()
         val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
-        firebaseAnalytics.setCurrentScreen(requireActivity(), AboutFragment::javaClass.javaClass.simpleName, AboutFragment::javaClass.javaClass.simpleName)
+        firebaseAnalytics.setCurrentScreen(requireActivity(), "GameFragment", "GameFragment")
         minesweeperUI.resumeTimer()
         updateAdView()
     }

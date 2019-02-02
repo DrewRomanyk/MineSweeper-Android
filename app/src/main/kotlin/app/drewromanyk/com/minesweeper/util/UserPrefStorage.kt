@@ -92,10 +92,6 @@ object UserPrefStorage {
         return getPrefs(context).getInt("STATUS", GameStatus.DEFEAT.ordinal)
     }
 
-    fun hasResumeGame(context: Context): Boolean {
-        return getLastGameStatus(context) == GameStatus.PLAYING.ordinal && isCurrentSavedDataVersion(context)
-    }
-
     fun getGameDifficulty(context: Context): GameDifficulty {
         return GameDifficulty.values()[getPrefs(context).getInt("DIFFICULTY", GameDifficulty.CUSTOM.ordinal)]
     }
@@ -180,6 +176,10 @@ object UserPrefStorage {
         editor.putInt("COLUMNS", 0)
         editor.putInt("STATUS", GameStatus.DEFEAT.ordinal)
         editor.apply()
+    }
+
+    fun hasResumeGame(context: Context): Boolean {
+        return getLastGameStatus(context) == GameStatus.PLAYING.ordinal && getRowCount(context) > 0 && getColumnCount(context) > 0 && isCurrentSavedDataVersion(context)
     }
 
     /*

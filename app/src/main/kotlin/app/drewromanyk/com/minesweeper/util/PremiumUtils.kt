@@ -12,6 +12,7 @@ import app.drewromanyk.com.minesweeper.BuildConfig
 import app.drewromanyk.com.minesweeper.R
 import app.drewromanyk.com.minesweeper.enums.PremiumState
 import app.drewromanyk.com.minesweeper.interfaces.UpdateAdViewHandler
+import com.google.firebase.analytics.FirebaseAnalytics
 
 /**
  * Created by Drew Romanyk on 5/5/17.
@@ -29,7 +30,8 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
 
     fun updateContext(context: Context, adViewHandler: UpdateAdViewHandler) {
         if (BillingProcessor.isIabServiceAvailable(context)) {
-            bp = BillingProcessor(context, BuildConfig.LICENSE_KEY, this)
+            bp = BillingProcessor.newBillingProcessor(context, BuildConfig.LICENSE_KEY, this)
+            bp!!.initialize()
             this.adViewHandler = adViewHandler
         } else {
             bp = null
@@ -52,14 +54,19 @@ class PremiumUtils private constructor() : BillingProcessor.IBillingHandler {
         get() = premiumState === PremiumState.PREMIUM
 
     fun purchasePremium(activity: Activity) {
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(activity)
+        firebaseAnalytics.logEvent("purchase_premium_click", null)
         if (BillingProcessor.isIabServiceAvailable(activity) && (bp != null)) {
-            if (bp!!.isOneTimePurchaseSupported) {
+            if (bp!!.isInitialized && bp!!.isOneTimePurchaseSupported) {
                 bp!!.purchase(activity, BuildConfig.PREMIUM_SKU)
+                firebaseAnalytics.logEvent("purchase_premium_success", null)
             } else {
                 Toast.makeText(activity, R.string.google_play_error, Toast.LENGTH_SHORT).show()
+                firebaseAnalytics.logEvent("purchase_premium_err_init_1time", null)
             }
         } else {
             Toast.makeText(activity, R.string.google_play_error, Toast.LENGTH_SHORT).show()
+            firebaseAnalytics.logEvent("purchase_premium_err_avail_null", null)
         }
     }
 
